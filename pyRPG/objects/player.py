@@ -110,7 +110,7 @@ def heal(player):
 player_attributes =                     \
     { "type" : "player",                \
       "maxHP" : 100.0,                  \
-      "HP" : 100.0,                     \
+      "HP" : 10000.0,                     \
       "maxMP" : 50,                     \
       "MP" : 50,                        \
       "money" : 0,                      \
@@ -122,8 +122,20 @@ player_attributes =                     \
       "currspell" : (heal, " | ", "-+-", " | "), \
       "weapon" : item.item("Broken Sword"),      \
       "hat" : item.item("Cloth Hat"),            \
+      "shirt" : item.item("Cloth Shirt"),        \
       "pants" : item.item("Cloth Pants"),        \
       "shoes" : item.item("Tennis Shoes"),       \
       "ring" : item.item("Useless ring"),        \
-      "items" : []                      \
+      "consumable" : item.item("Nothing")        \
     }
+
+def set_active(type):
+    options = [] # All options to go in the menu.
+    pass # Effectively needs to give a menu of all items of that type (so probably multiple pages) and once one is chosen set it as the active.
+
+def inventory_menu():
+    while display.menu("Inventory", [[], ["consumable"], ["weapon"], ["hat"], ["shirt"], ["pants"], ["shoes"], ["ring"]], ["Back", lambda: 0], ["-Set Consumable", set_active], ["-Set Weapon", set_active], ["-Set Hat", set_active], ["-Set Shirt", set_active], ["-Set Pants", set_active], ["-Set Shoes", set_active], ["-Set Ring", set_active]):
+        pass
+
+def spell_menu():
+    pass

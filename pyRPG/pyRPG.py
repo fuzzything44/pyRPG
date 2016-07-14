@@ -42,6 +42,8 @@ while True: # Main game loop
     key = display.getch()
 
     delta_time = int((time.time() - start_time) * 1000)
+    if delta_time > 20:
+        delta_time = 5
     start_time = time.time()
     # Loop through all objects. Update and redraw all of them.
     for index in range(len(world.objects)):
@@ -76,5 +78,5 @@ while True: # Main game loop
             pass # Been put in list multiple times.
     world.to_del.clear()
     if key == 27:
-        while display.menu("Options:", [[], ["inventory params"], ["Spell Params"], []], ["Resume", lambda: 0], ["Inventory", lambda x: 0], ["Spells", lambda x: 0], ["Exit", display.end]):
+        while display.menu("Options:", [[], [], ["Spell Params"], []], ["Resume", lambda: 0], ["Inventory", player.inventory_menu], ["Spells", lambda x: 0], ["Exit", display.end]):
             pass
