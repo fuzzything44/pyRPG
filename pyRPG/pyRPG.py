@@ -78,5 +78,3 @@ while True: # Main game loop
     if key == 27:
         while display.menu("Options:", [[], ["inventory params"], ["Spell Params"], []], ["Resume", lambda: 0], ["Inventory", lambda x: 0], ["Spells", lambda x: 0], ["Exit", display.end]):
             pass
-
-display.end()

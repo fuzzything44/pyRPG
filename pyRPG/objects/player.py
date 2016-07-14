@@ -83,8 +83,7 @@ def collide(this, oth):
     if oth.attributes["type"] == "money":
         this.attributes["money"] += oth.attributes["value"];
         # Now to delete it
-        world.objects.remove(oth)
-        del oth
+        world.to_del.append(oth)
 
 def player_char(this):
     return 'P'
@@ -120,7 +119,7 @@ player_attributes =                     \
       "level" : 1,                      \
       "items" : [],                     \
       "spells" : {"heal" : (heal, "\\|/", "-+-", "/|\\")},\
-      "currspell" : (heal, " | ", "-+-", " | "),\
+      "currspell" : (heal, " | ", "-+-", " | "), \
       "weapon" : item.item("Broken Sword"),      \
       "hat" : item.item("Cloth Hat"),            \
       "pants" : item.item("Cloth Pants"),        \

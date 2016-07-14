@@ -19,11 +19,7 @@ def printc(x, y, ch, color = WHITE):
     mvaddstr(y, x, ch, COLOR_PAIR(color))
 
 stdscr = 0      # Entire screen
-worldscr = 0    # World screen. Shows what's going on.
-topscr = 0      # Top of the map. For HP, MP, money, level, EXP
-sidescr = 0     # Right side, holds items, stats.
 
-curscr = 0      # Current screen.
 def start():
     print("Starting init...")
     stdscr = initscr()
