@@ -117,7 +117,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
             if cursor_loc == menu_max:  # Can't get to max...
                 cursor_loc -= 1
             printc(50, cursor_loc, '>')
-        if key == 10:
+        if (key == 10) | (key == ord('e')):
             # Clear menu area
             for i in range(20): # Clear menu
                 printc(50, i + 5, ' ' * 29)

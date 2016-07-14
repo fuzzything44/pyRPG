@@ -12,7 +12,7 @@ def _chest_remove(chest):
         param_list.append([])
 
     # Menu
-    opt = display.menu("Remove Items", param_list, *item_list)
+    opt = display.menu("A Chest!", param_list, *item_list)
     # As long as they say not to finish.
     while opt:
         # Remove items

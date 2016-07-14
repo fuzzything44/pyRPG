@@ -70,13 +70,14 @@ def player_update(this, input, delta_time):
         del this.attributes["effects"][to_del]
     del eff_del_list
     if this.attributes["HP"] <= 0:
-        display.printc(33, 9, "+++++++++++++", display.RED)
+        display.printc(33, 9,  "+++++++++++++", display.RED)
         display.printc(33, 10, "+ You DIED! +", display.RED)
         display.printc(33, 11, "+++++++++++++", display.RED)
-        display.getch()
-        time.sleep(3)
-        exit(0)
+        key = -1
+        while key == -1:
+            key = display.getch()
 
+        display.end()
 
 def collide(this, oth):
     if oth.attributes["type"] == "money":
