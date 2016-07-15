@@ -1,11 +1,11 @@
 import time
 import sys
 
-import attack
+import objects.attack as attack
 import display
-import item
+import items.item as item
 import world
-import world_object
+import objects.world_object as world_object
 
 def player_update(this, delta_time):
     display.printc(8, 0, str(int(this.attributes["HP"])) + "/" + str(int(this.attributes["maxHP"])) + "  ")

@@ -1,6 +1,6 @@
 import world
 import display
-import item
+import items.item as item
 
 def _chest_remove(chest):
     item_list = [["Exit", lambda: 0]]
