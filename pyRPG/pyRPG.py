@@ -9,6 +9,7 @@ import chest
 import display
 
 
+display.start()
 
 world.player = world_object.world_object(player.player_update, player.collide, player.player_char, player.player_color, 10, 10, player.player_attributes)
 
