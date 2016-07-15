@@ -1,6 +1,10 @@
 from unicurses import *
 from sys import stdout
 
+import win32.win32api as win32api
+import win32con as CONST
+keyDown = win32api.GetAsyncKeyState
+
 # Color definitions
 WHITE = 0
 RED = 1
@@ -17,6 +21,8 @@ def printc(x, y, ch, color = WHITE):
     if ('\n' in ch) | ('\r' in ch):
         raise Exception("No newlines in strings")
     mvaddstr(y, x, ch, COLOR_PAIR(color))
+    
+    
 
 stdscr = 0      # Entire screen
 
@@ -43,9 +49,6 @@ def start():
     curs_set(0)
     
     
-    
-    getch()
-
 def end():
     nodelay(stdscr, False)
     endwin()
@@ -65,6 +68,9 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
     substrs = text.split('\n')
     substrs.append('')
     line = 5
+    while keyDown(ord('E')):
+        getch()
+    flushinp()
     for str in substrs:
         # Cut off strings if too long.
         str = str[:29]
@@ -100,26 +106,34 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
     printc(50, menu_min, '>')
     cursor_loc = menu_min
     while True:
-        key = getch()
-        # Get a valid key.
-        if key == ord('w'):
+        refresh()
+        can_W = True
+        can_S = True
+        if keyDown(ord('W')) & can_W:
             if cursor_loc > menu_min:
                 printc(50, cursor_loc, ' ')
                 cursor_loc -= 1
                 printc(50, cursor_loc, '>')
-        if key == ord('s'):
+            can_W = False
+        else:
+            can_W = True
+        if keyDown(ord('S')) & can_S:
             printc(50, cursor_loc, ' ')
             cursor_loc += 1
             if cursor_loc == menu_max:  # Can't get to max...
                 cursor_loc -= 1
             printc(50, cursor_loc, '>')
-        if (key == 10) | (key == ord('e')):
+            can_S = False
+        else:
+            can_S = True
+        if (keyDown(CONST.VK_RETURN)) | (keyDown(ord('E'))):
             # Clear menu area
             for i in range(20): # Clear menu
                 printc(50, i + 5, ' ' * 29)
             # Call function
             opt_list[cursor_loc - menu_min][1](*fn_params[cursor_loc - menu_min])
-
+            while keyDown(ord('E')):
+                pass
             return cursor_loc - menu_min
             
 

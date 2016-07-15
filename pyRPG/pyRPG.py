@@ -1,5 +1,5 @@
 import time
-from random import randrange
+
 
 import world
 import world_object
@@ -39,7 +39,8 @@ display.printc(25, 4, "+++++ +++++   Ring:")
 start_time = time.time()
 
 while True: # Main game loop
-    key = display.getch()
+    # Refresh screen
+    display.refresh()
 
     delta_time = int((time.time() - start_time) * 1000)
     if delta_time > 20:
@@ -52,7 +53,7 @@ while True: # Main game loop
         if obj.getChar() != '\0':
             display.printc(obj.getCoords()[0], obj.getCoords()[1] + 5, world.map[obj.getCoords()[0]][obj.getCoords()[1]][1], world.map[obj.getCoords()[0]][obj.getCoords()[1]][0])
         # Update it
-        obj.update(key, delta_time)
+        obj.update(delta_time)
         for coll in world.objects:    # Check for collision
             if (coll.getCoords() == obj.getCoords()) & (not coll is obj) :
                 obj.collide(coll)
@@ -77,6 +78,6 @@ while True: # Main game loop
         except ValueError:
             pass # Been put in list multiple times.
     world.to_del.clear()
-    if key == 27:
-        while display.menu("Options:", [[], [], ["Spell Params"], []], ["Resume", lambda: 0], ["Inventory", player.inventory_menu], ["Spells", lambda x: 0], ["Exit", display.end]):
+    if display.keyDown(display.CONST.VK_ESCAPE):
+        while display.menu("Options:", [[], [], ["spell"], []], ["Resume", lambda: 0], ["Inventory", player.inventory_menu], ["Spells", player.set_active], ["Exit", display.end]):
             pass

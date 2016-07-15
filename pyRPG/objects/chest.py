@@ -1,6 +1,7 @@
 import world
 import display
 import item
+
 def _chest_remove(chest):
     item_list = [["Exit", lambda: 0]]
     param_list = [[]]
@@ -34,8 +35,8 @@ def _chest_remove(chest):
         
         
 
-def chest_update(this, input, delta_time):
-    if (input == ord('e')) & (this.attributes["canopen"]):
+def chest_update(this, delta_time):
+    if (display.keyDown(ord('E'))) & (this.attributes["canopen"]):
         _chest_remove(this)
     this.attributes["canopen"] = False
 
@@ -54,6 +55,6 @@ def chest_col(this):
 chest_attributes = {\
     "type" : "container",   \
     "money" : 0,            \
-    "contents" : [item.item("Useless Sword", 1), item.item("Useless Sword", 1)],        \
+    "contents" : [item.item("Useless Sword", 1, {"type" : "weapon", "damage" : 1, "range": 10, "effects" : []}), item.item("Useless Sword", 1, {"type" : "weapon", "damage" : 1, "range": 10, "effects" : []})],        \
     "canopen" : False       \
     }

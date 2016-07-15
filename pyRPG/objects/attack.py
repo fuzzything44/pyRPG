@@ -1,7 +1,7 @@
 import display
 import world
 
-def attk_update(this, input, delta_time):
+def attk_update(this, delta_time):
     this.attributes["to_move"] += delta_time
     if this.attributes["to_move"] >= this.attributes["speed"]:
         this.attributes["to_move"] = 0

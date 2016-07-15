@@ -1,6 +1,6 @@
 import fire
 
-def invis_dmg_update(this, input, delta_time):
+def invis_dmg_update(this, delta_time):
     try:
         for index in this.attributes["timers"]:
             this.attributes["timers"][index] -= delta_time

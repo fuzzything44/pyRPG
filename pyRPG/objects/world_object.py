@@ -9,7 +9,7 @@ __init___(update_func, collide_func, char_func, color_func, posX, posY, attr): I
     color_func: This function should return the color (integer in range [0, 7), see main file for bindings) for the object to be displayed in.
     posX, posY: The X and Y positions the object should start at.
     attr: A dictionary with string keys determining attributes for the object. For example, there may be a "HP" attribute.
-update(input, delta_time): Update based on what key was pressed
+update(delta_time): Update based on what key was pressed
 getChar(): Return the character to draw
 getColor(): Return the color of the object
 collide(obj): Handles collision with another world_object
@@ -26,8 +26,8 @@ In all functions passed during init, another parameter "this" is required as a r
         self.Y = posY
         self.attributes = start_attributes
         return
-    def update(self, input, delta_time):
-        self.__update_fn(self, input, delta_time)
+    def update(self, delta_time):
+        self.__update_fn(self, delta_time)
     def collide(self, obj):
         self.__collide_fn(self, obj)
     def getChar(self):

@@ -7,7 +7,7 @@ WORLD_CHEST     = [6, '@', False]      # Phat Loot!
 
 WORLD_X = 50    # Max X size
 WORLD_Y = 20    # Max Y size
-map = [[WORLD_GRASS for x in range(WORLD_Y)] for y in range(WORLD_X)]     # Represents world map
+map = [[WORLD_GRASS for y in range(WORLD_Y)] for x in range(WORLD_X)]     # Represents world map
 player = 0
 
 map[5][5] = WORLD_WALL
