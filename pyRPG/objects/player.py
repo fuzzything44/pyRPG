@@ -110,7 +110,7 @@ def heal(player):
 player_attributes =                     \
     { "type" : "player",                \
       "maxHP" : 100.0,                  \
-      "HP" : 10000.0,                     \
+      "HP" : 100.0,                     \
       "maxMP" : 50,                     \
       "MP" : 50,                        \
       "money" : 0,                      \
