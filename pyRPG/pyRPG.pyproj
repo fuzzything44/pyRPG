@@ -6,7 +6,7 @@
     <ProjectGuid>aaf65346-0654-4417-a346-cc53f5dcb536</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>pyRPG.py</StartupFile>
-    <SearchPath>effects\;items\;objects\;spells\;menus\</SearchPath>
+    <SearchPath>effects\;items\;objects\;spells\</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>pyRPG</Name>
