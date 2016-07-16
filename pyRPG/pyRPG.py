@@ -1,10 +1,11 @@
 import time
 
 import world
-import objects.world_object as world_object
-import objects.invis_dmg as invis_dmg
-import objects.player as player
-import objects.chest as chest
+from objects import world_object
+from objects import invis_dmg
+from objects import player
+from objects import chest
+
 import display
 
 

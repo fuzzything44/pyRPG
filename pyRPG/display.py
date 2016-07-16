@@ -1,7 +1,7 @@
 from unicurses import *
 from sys import stdout
 
-import win32.win32api as win32api
+from win32 import win32api
 import win32con as CONST
 keyDown = win32api.GetAsyncKeyState
 

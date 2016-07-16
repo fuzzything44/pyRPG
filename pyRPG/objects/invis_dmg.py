@@ -1,4 +1,4 @@
-import effects.fire as fire
+from effects import fire
 
 def invis_dmg_update(this, delta_time):
     try:
