@@ -46,23 +46,23 @@ def player_update(this, delta_time):
             this.attributes["can_cast"] = True
         # Attacks!
         if (display.keyDown(ord('I'))) & (this.Y != 0) & (world.map[this.X][this.Y - 1][2]) & (not "del_atk" in this.attributes["effects"]):
-            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, this.X, this.Y - 1, \
-                {"movex" : 0, "movey": -1, "type" : "damage", "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
+            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X, this.Y - 1, \
+                {"movex" : 0, "movey": -1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
             this.attributes["effects"]["del_atk"] = [lambda a, b: 0,this.attributes["atk_spd"]]
         if (display.keyDown(ord('J'))) & (this.X != 0) & (world.map[this.X - 1][this.Y][2]) & (not "del_atk" in this.attributes["effects"]):
-            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, this.X - 1, this.Y, \
-                {"movex" : -1, "movey": 0, "type" : "damage", "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
+            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X - 1, this.Y, \
+                {"movex" : -1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
             this.attributes["effects"]["del_atk"] = [lambda a, b: 0,this.attributes["atk_spd"]]
         if (display.keyDown(ord('K'))) & (this.Y != 19) & (world.map[this.X][this.Y + 1][2]) & (not "del_atk" in this.attributes["effects"]):
-            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, this.X, this.Y + 1, \
-                {"movex" : 0, "movey": 1, "type" : "damage", "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
+            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X, this.Y + 1, \
+                {"movex" : 0, "movey": 1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
             this.attributes["effects"]["del_atk"] = [lambda a, b: 0,this.attributes["atk_spd"]]
         if (display.keyDown(ord('L'))) & (this.X != 49) & (world.map[this.X + 1][this.Y][2]) & (not "del_atk" in this.attributes["effects"]):
-            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, this.X + 1, this.Y, \
-                {"movex" : 1, "movey": 0, "type" : "damage", "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
+            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attk.attk_type, this.X + 1, this.Y, \
+                {"movex" : 1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
             this.attributes["effects"]["del_atk"] = [lambda a, b: 0,this.attributes["atk_spd"]]
 
@@ -93,7 +93,7 @@ def player_update(this, delta_time):
         display.end()
 
 def collide(this, oth):
-    if oth.attributes["type"] == "money":
+    if oth.type == "money":
         this.attributes["money"] += oth.attributes["value"];
         # Now to delete it
         world.to_del.append(oth)
@@ -117,12 +117,12 @@ def heal(player):
     if player.attributes["HP"] > player.attributes["maxHP"]:
         player.attributes["HP"] = player.attributes["maxHP"]
 
+player_type = "player"
 # effects is a dictionary of (string) effect name to [(func) tick(player, delta_time), time_left]
 # items is a dictionary of (string) item name to ITEM or to SPELL
 # TODO: change current spell to conform to basic spells. Also have basic equips in inventory.
 player_attributes =                     \
-    { "type" : "player",                \
-      "maxHP" : 100.0,                  \
+    { "maxHP" : 100.0,                  \
       "HP" : 100.0,                     \
       "maxMP" : 50,                     \
       "MP" : 50,                        \
@@ -132,13 +132,13 @@ player_attributes =                     \
       "level" : 1,                      \
       "items" : [],                     \
       "spell" : (heal, " | ", "-+-", " | "), \
-      "weapon" : item.item("Broken Sword"),      \
-      "hat" : item.item("Cloth Hat"),            \
-      "shirt" : item.item("Cloth Shirt"),        \
-      "pants" : item.item("Cloth Pants"),        \
-      "shoes" : item.item("Tennis Shoes"),       \
-      "ring" : item.item("Useless ring"),        \
-      "consumable" : item.item("Nothing"),       \
+      "weapon" : item.item("Broken Sword", "weapon"),    \
+      "hat" : item.item("Cloth Hat", "hat"),             \
+      "shirt" : item.item("Cloth Shirt", "shirt"),       \
+      "pants" : item.item("Cloth Pants", "pants"),       \
+      "shoes" : item.item("Tennis Shoes", "shoes"),      \
+      "ring" : item.item("Useless ring", "ring"),        \
+      "consumable" : item.item("Nothing", "consumable"), \
       "mov_spd" : 60,                           \
       "atk_spd" : 200,                            \
       "can_cast" : True                          \
@@ -148,7 +148,7 @@ player_attributes =                     \
 def set_active(type):
     options = [] # All options to go in the menu.
     for opt in world.player.attributes["items"]:
-        if opt.attributes["type"] == type:
+        if opt.type == type:
             options.append(opt)
 
     # Now break into pages.
@@ -188,5 +188,4 @@ def inventory_menu():
         display.printc(45, 2, world.player.attributes["pants"].name)
         display.printc(45, 3, world.player.attributes["shoes"].name)
         display.printc(44, 4, world.player.attributes["ring"].name)
-        # Update item space, but items aren't a thing yet...
-
+ 

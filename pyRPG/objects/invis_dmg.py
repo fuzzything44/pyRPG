@@ -24,3 +24,5 @@ def invis_dmg_char(this):
 
 def invis_dmg_color(this):
     return 0    # Invisible!
+
+invis_dmg_type = "damage"

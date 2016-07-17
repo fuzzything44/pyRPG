@@ -17,7 +17,7 @@ getCoords(): Returns the coordinates of the world_object
 
 In all functions passed during init, another parameter "this" is required as a replacement for self
 """
-    def __init__(self, update_func, collide_func, char_func, color_func, posX, posY, start_attributes):
+    def __init__(self, update_func, collide_func, char_func, color_func, type, posX, posY, start_attributes):
         self.__update_fn = update_func
         self.__collide_fn = collide_func
         self.__getChar_fn = char_func
@@ -25,6 +25,7 @@ In all functions passed during init, another parameter "this" is required as a r
         self.X = posX
         self.Y = posY
         self.attributes = start_attributes
+        self.type = type
         return
     def update(self, delta_time):
         self.__update_fn(self, delta_time)

@@ -41,7 +41,7 @@ def chest_update(this, delta_time):
     this.attributes["canopen"] = False
 
 def chest_collide(this, oth):
-    if oth.attributes["type"] == "player":
+    if oth.type == "player":
         this.attributes["canopen"] = True
 
 def chest_char(this):
@@ -52,9 +52,10 @@ def chest_char(this):
 def chest_col(this):
     return display.WHITE
 
+chest_type = "container"
+
 chest_attributes = {\
-    "type" : "container",   \
-    "money" : 0,            \
-    "contents" : [item.item("Useless Sword", 1, {"type" : "weapon", "damage" : 1, "range": 10, "effects" : []}), item.item("Useless Sword", 1, {"type" : "weapon", "damage" : 1, "range": 10, "effects" : []})],        \
+    "money" : 0,    \
+    "contents" : [item.item("Useless Sword", "weapon", 1, { "damage" : 1, "range": 10, "effects" : []}), item.item("Useless Sword", "weapon", 1, {"damage" : 1, "range": 10, "effects" : []})],        \
     "canopen" : False       \
     }

@@ -29,10 +29,11 @@ def attk_char(this):
 def attk_color(this):
     return display.MAGENTA
 
+attk_type = "damage"
+
 attk_attributes = {     \
     "movex" : 0,        \
     "movey" : 0,        \
-    "type"  : "damage", \
     "damage" : 1,       \
     "range" : 1,        \
     "speed" : 1,        \
