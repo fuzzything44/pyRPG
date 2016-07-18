@@ -50,6 +50,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="pyRPG.py" />
+    <Compile Include="res\test_world.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="res\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="spells\spell.py">
       <SubType>Code</SubType>
     </Compile>
@@ -63,6 +69,7 @@
   <ItemGroup>
     <Folder Include="items\" />
     <Folder Include="effects\" />
+    <Folder Include="res\" />
     <Folder Include="objects\" />
     <Folder Include="spells\" />
   </ItemGroup>

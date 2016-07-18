@@ -1,3 +1,5 @@
+import pickle
+
 # World tile. Form of [Color, display char, canwalk]. None of this should move, all is part of background world.
 WORLD_NOTHING   = [0, ' ', True]        # Nothing there
 WORLD_WALL      = [0, '#', False]       # Wall, can't be walked through
@@ -18,3 +20,6 @@ map[0][0] = WORLD_WALL
 map[WORLD_X - 1][WORLD_Y - 1] = WORLD_WALL
 objects = []    # World objects that can interacted with such as enemies, chests, etc...
 to_del = []     # Objects that should be deleted.
+
+def load(name):
+    

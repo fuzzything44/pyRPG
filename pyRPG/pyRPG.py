@@ -16,13 +16,13 @@ display.start()
 
 
 #TODO: Delete everything here once world loading works
-world.player = world_object.world_object(player.player_update, player.collide, player.player_char, player.player_color, player.player_type, 10, 10, player.player_attributes)
+#world.player = world_object.world_object(player.player_update, player.collide, player.player_char, player.player_color, player.player_type, 10, 10, player.player_attributes)
 
-world.objects.append(world.player)
-world.objects.append(world_object.world_object(invis_dmg.invis_dmg_update, invis_dmg.invis_fire_dmg_collide, invis_dmg.invis_dmg_char, invis_dmg.invis_dmg_color, invis_dmg.invis_dmg_type, 10, 15, {"type" : "damage", "name" : "lava"}))
-world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 16, 10, chest.chest_attributes))
+#world.objects.append(world.player)
+#world.objects.append(world_object.world_object(invis_dmg.invis_dmg_update, invis_dmg.invis_fire_dmg_collide, invis_dmg.invis_dmg_char, invis_dmg.invis_dmg_color, invis_dmg.invis_dmg_type, 10, 15, {"type" : "damage", "name" : "lava"}))
+#world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 16, 10, chest.chest_attributes))
 #TODO: End deletion section. Stuff past this should stay.
-
+world.load("test_world")
 
 # Print world out
 for x in range(world.WORLD_X):
@@ -41,6 +41,7 @@ display.printc(display.SPELL_BOX_START, 1, "+   + +   +   Hat:")
 display.printc(display.SPELL_BOX_START, 2, "+   + +   +   Shirt:")
 display.printc(display.SPELL_BOX_START, 3, "+   + +   +   Pants:")
 display.printc(display.SPELL_BOX_START, 4, "+++++ +++++   Ring:")
+
 
 start_time = time.time()
 
