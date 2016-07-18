@@ -137,8 +137,8 @@ player_attributes =                     \
       "pants" : item.item("Cloth Pants", "pants"),       \
       "ring" : item.item("Useless ring", "ring"),        \
       "consumable" : item.item("Nothing", "consumable"), \
-      "mov_spd" : 60,                           \
-      "atk_spd" : 200,                            \
+      "mov_spd" : 30,                           \
+      "atk_spd" : 150,                            \
       "can_cast" : True                          \
     }
 
