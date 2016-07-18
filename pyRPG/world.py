@@ -23,13 +23,12 @@ to_del = []     # Objects that should be deleted.
 
 #TODO: Don't save player here, save in another file instead!
 def load(name):
+    global map, player, objects
     try:
         with open("res/maps" + name + ".wrld", "rb") as handle:
-            global map, player, objects
             map = pickle.load(handle)
             objects = pickle.load(handle)
     except:
-        global map, objects
         map = [[ WORLD_NOTHING for y in range(WORLD_Y)] for x in range(WORLD_X)]
 
 
@@ -44,9 +43,9 @@ def save_player(name):
         pickle.dump(player, handle)
 
 def load_player(name):
+    global player
     try:
         with open("res/saves" + name + ".plr", "rb") as handle:
-            global player
             player = pickle.load(handle)
     except:
         player = world_object.world_object(play.player_update, play.collide, play.player_char, play.player_color, "player", 0, 0, play.player_attributes)

@@ -56,6 +56,6 @@ chest_type = "container"
 
 chest_attributes = {\
     "money" : 0,    \
-    "contents" : [item.item("Useless Sword", "weapon", 1, { "damage" : 1, "range": 10, "effects" : []}), item.item("Useless Sword", "weapon", 1, {"damage" : 1, "range": 10, "effects" : []})],        \
+    "contents" : [item.item("Useless Sword", "weapon", lambda x, y: 0, lambda x, y: 0, 1, { "damage" : 1, "range": 10, "effects" : []}), item.item("Useless Sword", "weapon", lambda x, y: 0, lambda x, y: 0, 1, {"damage" : 1, "range": 10, "effects" : []})],        \
     "canopen" : False       \
     }

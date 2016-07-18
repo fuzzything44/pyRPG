@@ -20,7 +20,7 @@ def load(name):
         player = world_object.world_object(play.player_update, play.collide, play.player_char, play.player_color, "player", 0, 0, play.player_attributes)
         objects.append(player)
 
-def collide: 
-player collides with WORLD_PORTAL:
-    draw map 
-    set player cords[0][25]
+def collide(this, oth):
+    pass 
+#    draw map 
+#    set player cords[0][25]
