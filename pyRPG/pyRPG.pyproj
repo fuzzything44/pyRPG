@@ -34,9 +34,20 @@
     <Compile Include="effects\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="items\clothhat.py" />
+    <Compile Include="items\clothPants.py" />
+    <Compile Include="items\clothShirt.py" />
     <Compile Include="items\item.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="items\magePants.py" />
+    <Compile Include="items\magerobe.py" />
+    <Compile Include="items\magicShoes.py" />
+    <Compile Include="items\okayRing.py" />
+    <Compile Include="items\okaySword.py" />
+    <Compile Include="items\tennisShoes.py" />
+    <Compile Include="items\UselessRingg.py" />
+    <Compile Include="items\wizardsHat.py" />
     <Compile Include="items\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -53,7 +64,6 @@
     <Compile Include="objects\fireball_obj.py" />
     <Compile Include="objects\invis_dmg.py" />
     <Compile Include="objects\player.py" />
-    <Compile Include="objects\portal.py" />
     <Compile Include="objects\world_object.py" />
     <Compile Include="objects\__init__.py">
       <SubType>Code</SubType>
