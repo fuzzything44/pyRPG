@@ -7,9 +7,13 @@ from items import item
 import world
 from objects import world_object
 from spells import spell
+#from rand import randrange
 
 def enemy_update(this, delta_time):
-  pass
+   # if this.attributes["HP"] < 0:
+        pass #delete it
+    #this.X = randrange(0, world.WORLD_X)
+    #this.Y = randrange(0, world.WORLD_Y)
 
 
 def enemy_collide(this, obj):
@@ -21,7 +25,7 @@ def enemyColor(this):
 def enemyChar(this):
   return 'Q'
 
-
+enemy_type = "enemy"
 
 enemy_attributes =                     \
     { "HP" : 100.0,                     \

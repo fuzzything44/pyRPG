@@ -5,6 +5,7 @@ from objects import world_object
 from objects import invis_dmg
 from objects import player
 from objects import chest
+from objects import enemy
 
 import display
 
@@ -16,6 +17,8 @@ display.start()
 
 
 world.load("test_world")
+world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 7, enemy.enemy_attributes))
+
 
 # Print world out
 for x in range(world.WORLD_X):
@@ -81,5 +84,9 @@ while True: # Main game loop
     if display.keyDown(display.CONST.VK_ESCAPE):
         while display.menu("Options:", [[], [], ["spell"], []], ["Resume", lambda: 0], ["Inventory", player.inventory_menu], ["Spells", player.set_active], ["Exit", display.end]):
             world.player.attributes["spell"].draw()
+            try:
+                world.player.attributes["consumable"].attributes["draw"]()
+            except:
+                pass
             display.refresh()
         
