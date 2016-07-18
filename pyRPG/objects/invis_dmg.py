@@ -15,7 +15,7 @@ def invis_fire_dmg_collide(this, oth):
         try:
             oth.attributes["HP"] -= 10              # Hurt it
             this.attributes["timers"][oth] = 100    # Give invincibility
-            oth.attributes["effects"]["fire"] = [fire.fire, 1000] # Start fire damage
+            oth.attributes["effects"]["fire"] = [fire.fire, lambda x: 0, 1000] # Start fire damage
         except:
             pass # Object did not have HP
 

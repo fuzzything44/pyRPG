@@ -20,26 +20,26 @@ def player_update(this, delta_time):
                 this.Y -= 1
             if this.Y < 0:
                 this.Y = 0
-            this.attributes["effects"]["del_up"] = [lambda a, b: 0,this.attributes["mov_spd"]]
+            this.attributes["effects"]["del_up"] = [lambda a, b: 0, lambda x: 0, this.attributes["mov_spd"]]
 
         if display.keyDown(ord('S')) & (not "del_down" in this.attributes["effects"]):
             if world.map[this.X][this.Y + 1][2]:
                 this.Y += 1
             if this.Y > 22:
                 this.Y = 22
-            this.attributes["effects"]["del_down"] = [lambda a, b: 0,this.attributes["mov_spd"]]
+            this.attributes["effects"]["del_down"] = [lambda a, b: 0, lambda x: 0, this.attributes["mov_spd"]]
         if display.keyDown(ord('A')) & (not "del_left" in this.attributes["effects"]):
             if world.map[this.X - 1][this.Y][2]:
                 this.X -= 1
             if this.X < 0:
                 this.X = 0
-            this.attributes["effects"]["del_left"] = [lambda a, b: 0,this.attributes["mov_spd"]]
+            this.attributes["effects"]["del_left"] = [lambda a, b: 0, lambda x: 0, this.attributes["mov_spd"]]
         if display.keyDown(ord('D')) & (not "del_right" in this.attributes["effects"]):
             if world.map[this.X + 1][this.Y][2]:
                 this.X += 1
             if this.X > 77:
                 this.X = 77
-            this.attributes["effects"]["del_right"] = [lambda a, b: 0,this.attributes["mov_spd"]]
+            this.attributes["effects"]["del_right"] = [lambda a, b: 0, lambda x: 0, this.attributes["mov_spd"]]
         if display.keyDown(ord(' ')) & this.attributes["can_cast"]:
             this.attributes["spell"].cast(this)
             this.attributes["can_cast"] = False
@@ -50,22 +50,22 @@ def player_update(this, delta_time):
             world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X, this.Y - 1, \
                 {"movex" : 0, "movey": -1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
-            this.attributes["effects"]["del_atk"] = [lambda a, b: 0,this.attributes["atk_spd"]]
+            this.attributes["effects"]["del_atk"] = [lambda a, b: 0, lambda x: 0, this.attributes["atk_spd"]]
         if (display.keyDown(ord('J'))) & (this.X != 0) & (world.map[this.X - 1][this.Y][2]) & (not "del_atk" in this.attributes["effects"]):
             world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X - 1, this.Y, \
                 {"movex" : -1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
-            this.attributes["effects"]["del_atk"] = [lambda a, b: 0,this.attributes["atk_spd"]]
+            this.attributes["effects"]["del_atk"] = [lambda a, b: 0, lambda x: 0, this.attributes["atk_spd"]]
         if (display.keyDown(ord('K'))) & (this.Y != 19) & (world.map[this.X][this.Y + 1][2]) & (not "del_atk" in this.attributes["effects"]):
             world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X, this.Y + 1, \
                 {"movex" : 0, "movey": 1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
-            this.attributes["effects"]["del_atk"] = [lambda a, b: 0, this.attributes["atk_spd"]]
+            this.attributes["effects"]["del_atk"] = [lambda a, b: 0, lambda x: 0, this.attributes["atk_spd"]]
         if (display.keyDown(ord('L'))) & (this.X != 49) & (world.map[this.X + 1][this.Y][2]) & (not "del_atk" in this.attributes["effects"]):
             world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X + 1, this.Y, \
                 {"movex" : 1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
-            this.attributes["effects"]["del_atk"] = [lambda a, b: 0, this.attributes["atk_spd"]]
+            this.attributes["effects"]["del_atk"] = [lambda a, b: 0, lambda x: 0, this.attributes["atk_spd"]]
 
         if display.keyDown(display.CONST.VK_LSHIFT):
             pass # Use item
@@ -77,10 +77,11 @@ def player_update(this, delta_time):
     # Update all effects.
     for eff in this.attributes["effects"]:
         this.attributes["effects"][eff][0](this, delta_time)       # Tick code
-        this.attributes["effects"][eff][1] -= delta_time           # Lower time
-        if this.attributes["effects"][eff][1] <= 0:                # Remove effect
+        this.attributes["effects"][eff][2] -= delta_time           # Lower time
+        if this.attributes["effects"][eff][2] <= 0:                # Remove effect
             eff_del_list.append(eff)
     for to_del in eff_del_list:
+        this.attributes["effects"][to_del][1](this)
         del this.attributes["effects"][to_del]
     del eff_del_list
     if this.attributes["HP"] <= 0:
@@ -117,7 +118,7 @@ def heal(player):
         player.attributes["HP"] = player.attributes["maxHP"]
 
 player_type = "player"
-# effects is a dictionary of (string) effect name to [(func) tick(player, delta_time), time_left]
+# effects is a dictionary of (string) effect name to [(func) tick(player, delta_time), (func) on_remove(player), time_left]
 # items is a dictionary of (string) item name to ITEM or to SPELL
 # TODO: change current spell to conform to basic spells. Also have basic equips in inventory.
 player_attributes =                     \

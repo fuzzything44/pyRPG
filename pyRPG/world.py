@@ -9,17 +9,24 @@ WORLD_CHEST     = [6, '@', False]      # Phat Loot!
 
 WORLD_X = 50    # Max X size
 WORLD_Y = 20    # Max Y size
-map = [[WORLD_GRASS for y in range(WORLD_Y)] for x in range(WORLD_X)]     # Represents world map
+
+map = 0
 player = 0
 
-map[5][5] = WORLD_WALL
-map[10][15] = WORLD_LAVA
-map[7][7] = WORLD_NOTHING
-map[15][10] = WORLD_CHEST
-map[0][0] = WORLD_WALL
-map[WORLD_X - 1][WORLD_Y - 1] = WORLD_WALL
 objects = []    # World objects that can interacted with such as enemies, chests, etc...
 to_del = []     # Objects that should be deleted.
 
 def load(name):
-    
+    with open("res/" + name + ".wrld", "rb") as handle:
+        global map, player, objects
+        map = pickle.load(handle)
+        player = pickle.load(handle)
+        objects = pickle.load(handle)
+    pass
+        
+
+def save(name):
+    with open("res/" + name + ".wrld", "wb") as handle:
+        pickle.dump(map, handle)
+        pickle.dump(player, handle)
+        pickle.dump(objects, handle)

@@ -26,7 +26,6 @@ def get_map():
 
 def get_objects():
     obj = []
-    obj.append(player)
     obj.append(world_object.world_object(invis_dmg.invis_dmg_update, invis_dmg.invis_fire_dmg_collide, invis_dmg.invis_dmg_char, invis_dmg.invis_dmg_color, invis_dmg.invis_dmg_type, 10, 15, {"type" : "damage", "name" : "lava"}))
     obj.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 16, 10, chest.chest_attributes))
     return obj
