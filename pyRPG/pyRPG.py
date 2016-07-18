@@ -8,15 +8,17 @@ from objects import chest
 from objects import enemy
 
 import display
-
+import main_menu
 
 display.start()
-
+main_menu.start()
 # Title menu!
 # Needs world selection menu. Probably try for a scrolling menu with basic graphics if possible.
 
 
 world.load("test_worlda")
+world.load_player("notasave")
+
 world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
 world.map[2][3] = world.WORLD_CHEST
 world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 7, enemy.enemy_attributes))

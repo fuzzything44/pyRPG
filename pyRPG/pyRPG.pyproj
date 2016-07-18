@@ -37,6 +37,9 @@
     <Compile Include="items\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="main_menu.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\attack.py">
       <SubType>Code</SubType>
     </Compile>

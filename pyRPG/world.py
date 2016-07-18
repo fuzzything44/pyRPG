@@ -20,24 +20,35 @@ player = 0
 objects = []    # World objects that can interacted with such as enemies, chests, etc...
 to_del = []     # Objects that should be deleted.
 
+
+#TODO: Don't save player here, save in another file instead!
 def load(name):
     try:
-        with open("res/" + name + ".wrld", "rb") as handle:
+        with open("res/maps" + name + ".wrld", "rb") as handle:
             global map, player, objects
             map = pickle.load(handle)
             objects = pickle.load(handle)
-            for obj in objects:
-                if obj.type == "player":
-                    global player
-                    player = obj
-                    break
     except:
-        global map, player, objects
+        global map, objects
         map = [[ WORLD_NOTHING for y in range(WORLD_Y)] for x in range(WORLD_X)]
-        player = world_object.world_object(play.player_update, play.collide, play.player_char, play.player_color, "player", 0, 0, play.player_attributes)
-        objects.append(player)
+
 
 def save(name):
-    with open("res/" + name + ".wrld", "wb") as handle:
+    with open("res/maps" + name + ".wrld", "wb") as handle:
         pickle.dump(map, handle)
-        pickle.dump(objects, handle)
+        # Don't save player...
+        pickle.dump(objects[1:], handle)
+
+def save_player(name):
+    with open("res/saves" + name + ".plr", "wb") as handle:
+        pickle.dump(player, handle)
+
+def load_player(name):
+    try:
+        with open("res/saves" + name + ".plr", "rb") as handle:
+            global player
+            player = pickle.load(handle)
+    except:
+        player = world_object.world_object(play.player_update, play.collide, play.player_char, play.player_color, "player", 0, 0, play.player_attributes)
+    global objects
+    objects = [player] + objects

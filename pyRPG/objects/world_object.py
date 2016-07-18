@@ -37,4 +37,3 @@ In all functions passed during init, another parameter "this" is required as a r
         return self.__getColor_fn(self)
     def getCoords(self):
         return (self.X, self.Y)
-

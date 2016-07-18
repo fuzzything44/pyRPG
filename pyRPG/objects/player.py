@@ -132,12 +132,12 @@ player_attributes =                     \
       "level" : 1,                      \
       "items" : [],                     \
       "spell" : spell.spell(10, heal, ["\\|/", "-+-", "/|\\"]), \
-      "weapon" : item.item("Broken Sword", "weapon"),    \
-      "hat" : item.item("Cloth Hat", "hat"),             \
-      "shirt" : item.item("Cloth Shirt", "shirt"),       \
-      "pants" : item.item("Cloth Pants", "pants"),       \
-      "ring" : item.item("Useless ring", "ring"),        \
-      "consumable" : item.item("Nothing", "consumable"), \
+      "weapon" : item.item("Broken Sword", "weapon", lambda x, y: 0, lambda x, y: 0),    \
+      "hat" : item.item("Cloth Hat", "hat", lambda x, y: 0, lambda x, y: 0),             \
+      "shirt" : item.item("Cloth Shirt", "shirt", lambda x, y: 0, lambda x, y: 0),       \
+      "pants" : item.item("Cloth Pants", "pants", lambda x, y: 0, lambda x, y: 0),       \
+      "ring" : item.item("Useless ring", "ring", lambda x, y: 0, lambda x, y: 0),        \
+      "consumable" : item.item("Nothing", "consumable", lambda x, y: 0, lambda x, y: 0), \
       "mov_spd" : 30,                           \
       "atk_spd" : 150,                            \
       "can_cast" : True                          \
