@@ -43,6 +43,7 @@
     <Compile Include="objects\chest.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="objects\enemy.py" />
     <Compile Include="objects\invis_dmg.py" />
     <Compile Include="objects\player.py" />
     <Compile Include="objects\world_object.py" />
