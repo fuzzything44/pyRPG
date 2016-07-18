@@ -5,6 +5,7 @@ from objects import world_object
 from objects import invis_dmg
 from objects import player
 from objects import chest
+from objects import enemy
 
 import display
 
@@ -16,6 +17,8 @@ display.start()
 
 
 world.load("test_world")
+world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 7, enemy.enemy_attributes))
+
 
 # Print world out
 for x in range(world.WORLD_X):
