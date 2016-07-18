@@ -2,6 +2,6 @@ name ="Tennis shoes"
 type = "shoes"
 attributes = {}
 def on_equip (this,player):
-    pass
+    player.attributes["maxHP"+2]
 def on_unequip (this, player):
-    pass
+    player.attributes["maxHP"-2]
