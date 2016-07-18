@@ -6,6 +6,7 @@ import display
 from items import item
 import world
 from objects import world_object
+from spells import spell
 
 def player_update(this, delta_time):
     display.printc(8, 0, str(int(this.attributes["HP"])) + "/" + str(int(this.attributes["maxHP"])) + "  ")
@@ -40,7 +41,7 @@ def player_update(this, delta_time):
                 this.X = 77
             this.attributes["effects"]["del_right"] = [lambda a, b: 0,this.attributes["mov_spd"]]
         if display.keyDown(ord(' ')) & this.attributes["can_cast"]:
-            this.attributes["spell"][0](this)
+            this.attributes["spell"].cast(this)
             this.attributes["can_cast"] = False
         else:
             this.attributes["can_cast"] = True
@@ -59,12 +60,12 @@ def player_update(this, delta_time):
             world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X, this.Y + 1, \
                 {"movex" : 0, "movey": 1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
-            this.attributes["effects"]["del_atk"] = [lambda a, b: 0,this.attributes["atk_spd"]]
+            this.attributes["effects"]["del_atk"] = [lambda a, b: 0, this.attributes["atk_spd"]]
         if (display.keyDown(ord('L'))) & (this.X != 49) & (world.map[this.X + 1][this.Y][2]) & (not "del_atk" in this.attributes["effects"]):
-            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attk.attk_type, this.X + 1, this.Y, \
+            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X + 1, this.Y, \
                 {"movex" : 1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["weapon"].attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
-            this.attributes["effects"]["del_atk"] = [lambda a, b: 0,this.attributes["atk_spd"]]
+            this.attributes["effects"]["del_atk"] = [lambda a, b: 0, this.attributes["atk_spd"]]
 
         if display.keyDown(display.CONST.VK_LSHIFT):
             pass # Use item
@@ -111,9 +112,7 @@ def player_color(this):
     return display.WHITE
 
 def heal(player):
-    if player.attributes["MP"] >= 10:
-        player.attributes["MP"] -= 10
-        player.attributes["HP"] += 25
+    player.attributes["HP"] += 25
     if player.attributes["HP"] > player.attributes["maxHP"]:
         player.attributes["HP"] = player.attributes["maxHP"]
 
@@ -131,12 +130,11 @@ player_attributes =                     \
       "EXP" : 0,                        \
       "level" : 1,                      \
       "items" : [],                     \
-      "spell" : (heal, " | ", "-+-", " | "), \
+      "spell" : spell.spell(10, heal, ["\\|/", "-+-", "/|\\"]), \
       "weapon" : item.item("Broken Sword", "weapon"),    \
       "hat" : item.item("Cloth Hat", "hat"),             \
       "shirt" : item.item("Cloth Shirt", "shirt"),       \
       "pants" : item.item("Cloth Pants", "pants"),       \
-      "shoes" : item.item("Tennis Shoes", "shoes"),      \
       "ring" : item.item("Useless ring", "ring"),        \
       "consumable" : item.item("Nothing", "consumable"), \
       "mov_spd" : 60,                           \
@@ -182,10 +180,16 @@ def set_active(type):
     world.player.attributes[type] = options[15 * curr_page + choice - 3]
     
 def inventory_menu():
-    while display.menu("Inventory", [[], ["consumable"], ["weapon"], ["hat"], ["shirt"], ["pants"], ["shoes"], ["ring"]], ["Back", lambda: 0], ["-Set Consumable", set_active], ["-Set Weapon", set_active], ["-Set Hat", set_active], ["-Set Shirt", set_active], ["-Set Pants", set_active], ["-Set Shoes", set_active], ["-Set Ring", set_active]):
-        display.printc(46, 0, world.player.attributes["weapon"].name)
-        display.printc(43, 1, world.player.attributes["hat"].name)
-        display.printc(45, 2, world.player.attributes["pants"].name)
-        display.printc(45, 3, world.player.attributes["shoes"].name)
-        display.printc(44, 4, world.player.attributes["ring"].name)
+    while display.menu("Inventory", [[], ["consumable"], ["weapon"], ["hat"], ["shirt"], ["pants"], ["ring"]], ["Back", lambda: 0], ["-Set Consumable", set_active], ["-Set Weapon", set_active], ["-Set Hat", set_active], ["-Set Shirt", set_active], ["-Set Pants", set_active], ["-Set Ring", set_active]):
+        # Redraw equip names.
+        display.printc(46, 0, ' ' * 33)
+        display.printc(46, 0, world.player.attributes["weapon"].name[:33])
+        display.printc(43, 1, ' ' * 36)
+        display.printc(43, 1, world.player.attributes["hat"].name[:36])
+        display.printc(45, 2, ' ' * 34)
+        display.printc(45, 2, world.player.attributes["shirt"].name[:34]) 
+        display.printc(45, 3, ' ' * 34)
+        display.printc(45, 3, world.player.attributes["pants"].name[:34])
+        display.printc(44, 4, ' ' * 35)
+        display.printc(44, 4, world.player.attributes["ring"].name[:35])
  

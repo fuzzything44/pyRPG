@@ -14,6 +14,8 @@ GREEN = 4
 MAGENTA = 5
 YELLOW = 6
 
+# Left side of the box where spell is drawn
+SPELL_BOX_START = 25
 def printc(x, y, ch, color = WHITE):
     "Prints a character at the given location with the given color.\n\nArguments:\nx: The x location to print the character\ny: The y location to print the character\nch: The character to print\ncolor: The color to print the character, default white\n\nBounds: String must end before reaching 79 along x-axis, must be before 24 on y-axis."
     if (x > 79 - len(ch)) | (y > 24) | (x < 0) | (y < 0):
@@ -99,7 +101,8 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
     # Finally can make menu
     menu_min = line # Can't go farther up than this.
     for opt in opt_list:
-        printc(51, line, opt[0])
+        # The [:28] is to slice the string as to not overflow the menu
+        printc(51, line, opt[0][:28])
         line += 1
     menu_max = line # Can't get to this or above
     # Draw cursor

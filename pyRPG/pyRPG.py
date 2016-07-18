@@ -11,12 +11,18 @@ import display
 
 display.start()
 
-world.player = world_object.world_object(player.player_update, player.collide, player.player_char, player.player_color, player.player_type, 10, 10, player.player_attributes)
+# Title menu!
+# Needs world selection menu. Probably try for a scrolling menu with basic graphics if possible.
 
+
+#TODO: Delete everything here once world loading works
+world.player = world_object.world_object(player.player_update, player.collide, player.player_char, player.player_color, player.player_type, 10, 10, player.player_attributes)
 
 world.objects.append(world.player)
 world.objects.append(world_object.world_object(invis_dmg.invis_dmg_update, invis_dmg.invis_fire_dmg_collide, invis_dmg.invis_dmg_char, invis_dmg.invis_dmg_color, invis_dmg.invis_dmg_type, 10, 15, {"type" : "damage", "name" : "lava"}))
 world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 16, 10, chest.chest_attributes))
+#TODO: End deletion section. Stuff past this should stay.
+
 
 # Print world out
 for x in range(world.WORLD_X):
@@ -30,11 +36,11 @@ display.printc(5, 2, "Gold:")
 display.printc(5, 3, "Level")
 
 # Current spell and item border
-display.printc(25, 0, "+++++ +++++   Weapon:")
-display.printc(25, 1, "+\|/+ +   +   Hat:")
-display.printc(25, 2, "+-+-+ +   +   Pants:")
-display.printc(25, 3, "+/|\+ +   +   Shoes:")
-display.printc(25, 4, "+++++ +++++   Ring:")
+display.printc(display.SPELL_BOX_START, 0, "+++++ +++++   Weapon:")
+display.printc(display.SPELL_BOX_START, 1, "+   + +   +   Hat:")
+display.printc(display.SPELL_BOX_START, 2, "+   + +   +   Shirt:")
+display.printc(display.SPELL_BOX_START, 3, "+   + +   +   Pants:")
+display.printc(display.SPELL_BOX_START, 4, "+++++ +++++   Ring:")
 
 start_time = time.time()
 
@@ -80,4 +86,6 @@ while True: # Main game loop
     world.to_del.clear()
     if display.keyDown(display.CONST.VK_ESCAPE):
         while display.menu("Options:", [[], [], ["spell"], []], ["Resume", lambda: 0], ["Inventory", player.inventory_menu], ["Spells", player.set_active], ["Exit", display.end]):
-            pass
+            world.player.attributes["spell"].draw()
+            display.refresh()
+        
