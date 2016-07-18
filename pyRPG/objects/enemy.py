@@ -7,13 +7,14 @@ from items import item
 import world
 from objects import world_object
 from spells import spell
-from random import *
+from random import randrange
 def enemy_update(this, delta_time):
     if this.attributes["HP"] < 0:
       world.to_del.append(this)
     else:        
+      #pos.X(this) += (randrange(1, -1))
+      #pos.Y(this) += (randrange(1, -1))
       pass
-
 
 def enemy_collide(this, obj):
   pass
