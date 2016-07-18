@@ -12,6 +12,8 @@ WORLD_CHEST     = [6, '@', False]      # Phat Loot!
 WORLD_X = 50    # Max X size
 WORLD_Y = 20    # Max Y size
 
+global player, map, objects
+
 map = 0
 player = 0
 
@@ -23,8 +25,12 @@ def load(name):
         with open("res/" + name + ".wrld", "rb") as handle:
             global map, player, objects
             map = pickle.load(handle)
-            player = pickle.load(handle)
             objects = pickle.load(handle)
+            for obj in objects:
+                if obj.type == "player":
+                    global player
+                    player = obj
+                    break
     except:
         global map, player, objects
         map = [[ WORLD_NOTHING for y in range(WORLD_Y)] for x in range(WORLD_X)]
@@ -34,5 +40,4 @@ def load(name):
 def save(name):
     with open("res/" + name + ".wrld", "wb") as handle:
         pickle.dump(map, handle)
-        pickle.dump(player, handle)
         pickle.dump(objects, handle)

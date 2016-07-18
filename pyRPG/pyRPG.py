@@ -16,9 +16,11 @@ display.start()
 # Needs world selection menu. Probably try for a scrolling menu with basic graphics if possible.
 
 
-world.load("test_world")
+world.load("test_worlda")
+world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
+world.map[2][3] = world.WORLD_CHEST
 world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 7, enemy.enemy_attributes))
-
+world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 3, 3, chest.chest_attributes))
 
 # Print world out
 for x in range(world.WORLD_X):
