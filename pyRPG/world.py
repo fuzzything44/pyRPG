@@ -1,4 +1,6 @@
 import pickle
+from objects import world_object
+import objects.player as play
 
 # World tile. Form of [Color, display char, canwalk]. None of this should move, all is part of background world.
 WORLD_NOTHING   = [0, ' ', True]        # Nothing there
@@ -17,13 +19,17 @@ objects = []    # World objects that can interacted with such as enemies, chests
 to_del = []     # Objects that should be deleted.
 
 def load(name):
-    with open("res/" + name + ".wrld", "rb") as handle:
+    try:
+        with open("res/" + name + ".wrld", "rb") as handle:
+            global map, player, objects
+            map = pickle.load(handle)
+            player = pickle.load(handle)
+            objects = pickle.load(handle)
+    except:
         global map, player, objects
-        map = pickle.load(handle)
-        player = pickle.load(handle)
-        objects = pickle.load(handle)
-    pass
-        
+        map = [[ WORLD_NOTHING for y in range(WORLD_Y)] for x in range(WORLD_X)]
+        player = world_object.world_object(play.player_update, play.collide, play.player_char, play.player_color, "player", 0, 0, play.player_attributes)
+        objects.append(player)
 
 def save(name):
     with open("res/" + name + ".wrld", "wb") as handle:

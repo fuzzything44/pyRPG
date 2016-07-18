@@ -81,5 +81,9 @@ while True: # Main game loop
     if display.keyDown(display.CONST.VK_ESCAPE):
         while display.menu("Options:", [[], [], ["spell"], []], ["Resume", lambda: 0], ["Inventory", player.inventory_menu], ["Spells", player.set_active], ["Exit", display.end]):
             world.player.attributes["spell"].draw()
+            try:
+                world.player.attributes["consumable"].attributes["draw"]()
+            except:
+                pass
             display.refresh()
         
