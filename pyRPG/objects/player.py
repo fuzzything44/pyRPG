@@ -7,6 +7,7 @@ from items import item
 import world
 from objects import world_object
 from spells import spell
+from spells import fireball
 
 def player_update(this, delta_time):
     display.printc(8, 0, str(int(this.attributes["HP"])) + "/" + str(int(this.attributes["maxHP"])) + "  ")
@@ -131,7 +132,7 @@ player_attributes =                     \
       "EXP" : 0,                        \
       "level" : 1,                      \
       "items" : [],                     \
-      "spell" : spell.spell(10, heal, ["\\|/", "-+-", "/|\\"]), \
+      "spell" : spell.spell(25, fireball.fireball, ["\\|/", "-0-", "/|\\"]), \
       "weapon" : item.item("Broken Sword", "weapon", lambda x, y: 0, lambda x, y: 0),    \
       "hat" : item.item("Cloth Hat", "hat", lambda x, y: 0, lambda x, y: 0),             \
       "shirt" : item.item("Cloth Shirt", "shirt", lambda x, y: 0, lambda x, y: 0),       \
@@ -140,7 +141,8 @@ player_attributes =                     \
       "consumable" : item.item("Nothing", "consumable", lambda x, y: 0, lambda x, y: 0), \
       "mov_spd" : 30,                           \
       "atk_spd" : 150,                            \
-      "can_cast" : True                          \
+      "can_cast" : True,                          \
+      "magic" : 5
     }
 
 
