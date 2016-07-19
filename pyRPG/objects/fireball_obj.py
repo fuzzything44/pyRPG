@@ -4,6 +4,8 @@ from effects import fire
 import display
 import world
 
+update = attack.attk_update
+
 def collide(this, other):
      if not (this.attributes["owner"] is other):
         try: # Deal damage

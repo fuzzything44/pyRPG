@@ -3,6 +3,8 @@ from sys import stdout
 
 from win32 import win32api
 import win32con as CONST
+
+
 keyDown = win32api.GetAsyncKeyState
 
 # Color definitions

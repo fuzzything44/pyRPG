@@ -52,5 +52,5 @@ def flame(obj, delta_time):
                "owner":   obj,\
                "damage":  1.25*obj.attributes['magic']}))
             obj.attributes["effects"]["fireball"][2] -= 1000000
-    except:
+    except Exception as ex:
         pass
