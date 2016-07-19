@@ -137,7 +137,7 @@ player_attributes =                     \
       "ring" : item.item("Useless ring", "ring", lambda x, y: 0, lambda x, y: 0),        \
       "consumable" : item.item("Nothing", "consumable", lambda x, y: 0, lambda x, y: 0), \
       "mov_spd" : 150,                           \
-      "atk_spd" : 300,                            \
+      "atk_spd" : 150,                            \
       "can_cast" : True,                          \
       "magic" : 5,                       \
       "strength" : 5
