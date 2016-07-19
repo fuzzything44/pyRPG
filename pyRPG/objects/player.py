@@ -44,7 +44,7 @@ def player_update(this, delta_time):
         if display.keyDown(ord(' ')) and this.attributes["can_cast"]:
             this.attributes["spell"].cast(this)
             this.attributes["can_cast"] = False
-        else:
+        if not display.keyDown(ord(' ')):
             this.attributes["can_cast"] = True
         # Attacks!
         if (display.keyDown(ord('I'))) and (this.Y != 0) and (world.map[this.X][this.Y - 1][2]) and (not "del_atk" in this.attributes["effects"]):
@@ -136,7 +136,7 @@ player_attributes =                     \
       "pants" : item.item("Cloth Pants", "pants", lambda x, y: 0, lambda x, y: 0),       \
       "ring" : item.item("Useless ring", "ring", lambda x, y: 0, lambda x, y: 0),        \
       "consumable" : item.item("Nothing", "consumable", lambda x, y: 0, lambda x, y: 0), \
-      "mov_spd" : 100,                           \
+      "mov_spd" : 10,                           \
       "atk_spd" : 300,                            \
       "can_cast" : True,                          \
       "magic" : 5,                       \
