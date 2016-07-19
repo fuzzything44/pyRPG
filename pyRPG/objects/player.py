@@ -115,11 +115,6 @@ def player_color(this):
         return display.YELLOW
     return display.WHITE
 
-def heal(player):
-    player.attributes["HP"] += 25
-    if player.attributes["HP"] > player.attributes["maxHP"]:
-        player.attributes["HP"] = player.attributes["maxHP"]
-
 player_type = "player"
 # effects is a dictionary of (string) effect name to [(func) tick(player, delta_time), (func) on_remove(player), time_left]
 # items is a dictionary of (string) item name to ITEM or to SPELL

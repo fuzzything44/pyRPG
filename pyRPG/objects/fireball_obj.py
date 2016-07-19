@@ -2,7 +2,8 @@
 from objects import attack
 from effects import fire
 import display
-   
+import world
+
 update = attack.attk_update
 
 def collide(this, other):
@@ -13,7 +14,6 @@ def collide(this, other):
             other.attributes["effects"]["fire"] = [fire.fire, lambda x: 0, 1000]
         except: # Or not...
             pass
-
 def color(this):
     return display.RED
 
