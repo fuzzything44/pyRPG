@@ -2,7 +2,7 @@ import world
 from objects import *
 
 def generate():
-    world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]  
+    world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
 
     for x in range(22,29):
         world.map[x][5] = world.WORLD_WALL
@@ -26,3 +26,4 @@ def generate():
     world.map[world.WORLD_X - 7][4] = [0, 'J', True]
     world.map[world.WORLD_X - 6][4] = [0, 'K', True]
     world.map[world.WORLD_X - 5][4] = [0, 'L', True]
+
