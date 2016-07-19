@@ -33,7 +33,7 @@ def enemy_update(this, delta_time):
 
 def enemy_collide(this, obj):
     if obj.type == player:
-        obj.attributes["HP"] -= 10
+        obj.attributes["HP"] -= this.attributes["damage"]
 
 def enemyColor(this):
   return display.CYAN
