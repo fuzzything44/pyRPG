@@ -1,6 +1,7 @@
 import pickle
 from objects import world_object
 import objects.player as play
+import display
 
 # World tile. Form of [Color, display char, canwalk]. None of this should move, all is part of background world.
 WORLD_NOTHING   = [0, ' ', True]        # Nothing there
@@ -26,27 +27,40 @@ to_del = []     # Objects that should be deleted.
 def load(name):
     global map, player, objects
     try:
-        with open("res/maps" + name + ".wrld", "rb") as handle:
+        with open("res/maps/" + name + ".wrld", "rb") as handle:
             map = pickle.load(handle)
             objects = pickle.load(handle)
     except:
         map = [[ WORLD_NOTHING for y in range(WORLD_Y)] for x in range(WORLD_X)]
+        objects = []
 
 
 def save(name):
-    with open("res/maps" + name + ".wrld", "wb") as handle:
-        pickle.dump(map, handle)
-        # Don't save player...
-        pickle.dump(objects[1:], handle)
+    try:
+        with open("res/maps/" + name + ".wrld", "wb") as handle:
+            pickle.dump(map, handle)
+            # Don't save player...
+            pickle.dump(objects[1:], handle)
+    except:
+        display.printc(20, 10, "Could not save. Press ESC to continue.")
+        display.refresh()
+        while not display.keyDown(display.CONST.VK_ESCAPE):
+            pass
 
 def save_player(name):
-    with open("res/saves" + name + ".plr", "wb") as handle:
-        pickle.dump(player, handle)
+    try:
+        with open("res/saves/" + name + ".plr", "wb") as handle:
+            pickle.dump(player, handle)
+    except:
+        display.printc(20, 10, "Could not save. Press ESC to continue.")
+        display.refresh()
+        while not display.keyDown(display.CONST.VK_ESCAPE):
+            pass
 
 def load_player(name):
     global player
     try:
-        with open("res/saves" + name + ".plr", "rb") as handle:
+        with open("res/saves/" + name + ".plr", "rb") as handle:
             player = pickle.load(handle)
     except:
         player = world_object.world_object(play.player_update, play.collide, play.player_char, play.player_color, "player", 0, 0, play.player_attributes)

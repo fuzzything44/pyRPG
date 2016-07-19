@@ -49,29 +49,29 @@ def player_update(this, delta_time):
         # Attacks!
         if (display.keyDown(ord('I'))) & (this.Y != 0) & (world.map[this.X][this.Y - 1][2]) & (not "del_atk" in this.attributes["effects"]):
             world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X, this.Y - 1, \
-                {"movex" : 0, "movey": -1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.atrributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
+                {"movex" : 0, "movey": -1, "range" : this.attributes["weapon"].attributes["range"], "damage" : (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
             this.attributes["effects"]["del_atk"] = [lambda a, b: 0, lambda x: 0, this.attributes["atk_spd"]]
         if (display.keyDown(ord('J'))) & (this.X != 0) & (world.map[this.X - 1][this.Y][2]) & (not "del_atk" in this.attributes["effects"]):
             world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X - 1, this.Y, \
-                {"movex" : -1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.atrributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
+                {"movex" : -1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
             this.attributes["effects"]["del_atk"] = [lambda a, b: 0, lambda x: 0, this.attributes["atk_spd"]]
         if (display.keyDown(ord('K'))) & (this.Y != 19) & (world.map[this.X][this.Y + 1][2]) & (not "del_atk" in this.attributes["effects"]):
             world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X, this.Y + 1, \
-                {"movex" : 0, "movey": 1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.atrributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
+                {"movex" : 0, "movey": 1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
             ))                                                                                                                                                                  
             this.attributes["effects"]["del_atk"] = [lambda a, b: 0, lambda x: 0, this.attributes["atk_spd"]]
         if (display.keyDown(ord('L'))) & (this.X != 49) & (world.map[this.X + 1][this.Y][2]) & (not "del_atk" in this.attributes["effects"]):
             world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X + 1, this.Y, \
-                {"movex" : 1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.atrributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
+                {"movex" : 1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
             this.attributes["effects"]["del_atk"] = [lambda a, b: 0, lambda x: 0, this.attributes["atk_spd"]]
 
         if display.keyDown(display.CONST.VK_LSHIFT):
             pass # Use item
 
-    except:
+    except Exception as ex:
         pass
     
     eff_del_list = []
