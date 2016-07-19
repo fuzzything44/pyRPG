@@ -1,6 +1,12 @@
 import display
 import world
 
+def load_game():
+    pass
+
+def new_game():
+    pass
+
 def start():
     """Gives the main menu option to load a file, create a new file, or exit"""
     display.printc(28, 10, "Welcome to pyRPG!")
@@ -34,9 +40,11 @@ def start():
         if display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_RETURN):
             # Option chosen.
             if opt == 0:
-                break
+                load_game()
+                return
             if opt == 1:
-                break
+                new_game()
+                return
             if opt == 2:
                 display.end() # They chose exit
 
