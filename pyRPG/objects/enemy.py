@@ -13,9 +13,9 @@ def enemy_update(this, delta_time):
     if this.attributes["HP"] < 0:
       world.to_del.append(this)
     else:        
-      #if randrange(delta_time, 1000) = 1000:  
-      #this.X += randrange(-1, 2)
-      #this.Y += randrange(-1, 2)
+      #if randrange(0, 1000) = 999:  
+       # this.X += randrange(-1, 2)
+       # this.Y += randrange(-1, 2)
       #else:
       pass
 

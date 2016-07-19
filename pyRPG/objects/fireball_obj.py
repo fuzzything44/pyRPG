@@ -2,6 +2,7 @@
 from objects import attack
 from effects import fire
 import display
+import world
    
 update = attack.attk_update
 
