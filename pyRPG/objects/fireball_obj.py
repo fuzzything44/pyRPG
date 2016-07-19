@@ -2,7 +2,7 @@
 from objects import attack
 from effects import fire
 import display
-
+   
 update = attack.attk_update
 
 def collide(this, other):
