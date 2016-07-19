@@ -18,7 +18,7 @@ def start():
             if opt < 0:
                 opt = 2
             can_up = False
-        else:
+        if not (display.keyDown(ord('W')) or display.keyDown(display.CONST.VK_UP)) :
             can_up = True
 
         if can_down and (display.keyDown(ord('S')) or display.keyDown(display.CONST.VK_DOWN)):
@@ -26,7 +26,7 @@ def start():
             if opt > 2:
                 opt = 0
             can_down = False
-        else:
+        if not (display.keyDown(ord('S')) or display.keyDown(display.CONST.VK_DOWN)):
             can_down = True
         display.printc(30, opt + 11, '>')
         display.refresh()      

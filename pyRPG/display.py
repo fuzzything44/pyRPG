@@ -110,18 +110,19 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
     # Draw cursor
     printc(50, menu_min, '>')
     cursor_loc = menu_min
+    can_W = True
+    can_S = True
     while True:
         refresh()
-        can_W = True
-        can_S = True
         if keyDown(ord('W')) and can_W:
             if cursor_loc > menu_min:
                 printc(50, cursor_loc, ' ')
                 cursor_loc -= 1
                 printc(50, cursor_loc, '>')
             can_W = False
-        else:
+        if not keyDown(ord('W')):
             can_W = True
+
         if keyDown(ord('S')) and can_S:
             printc(50, cursor_loc, ' ')
             cursor_loc += 1
@@ -129,7 +130,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
                 cursor_loc -= 1
             printc(50, cursor_loc, '>')
             can_S = False
-        else:
+        if not keyDown(ord('S')):
             can_S = True
         if (keyDown(CONST.VK_RETURN)) or (keyDown(ord('E'))):
             # Clear menu area
