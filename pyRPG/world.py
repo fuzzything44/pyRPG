@@ -5,9 +5,10 @@ import objects.player as play
 # World tile. Form of [Color, display char, canwalk]. None of this should move, all is part of background world.
 WORLD_NOTHING   = [0, ' ', True]        # Nothing there
 WORLD_WALL      = [0, '#', False]       # Wall, can't be walked through
-WORLD_LAVA      = [1, '#', True]          # Lava tile. Must add a damage tile over it.
+WORLD_LAVA      = [1, '#', True]        # Lava tile. Must add a damage tile over it.
 WORLD_GRASS     = [4, ';', True]        # Grass!
-WORLD_CHEST     = [6, '@', False]      # Phat Loot!
+WORLD_CHEST     = [6, '@', False]       # Phat Loot!
+WORLD_SMOG      = [0, 'z', False]       # Poison Gas, need a damage tile
 
 WORLD_X = 50    # Max X size
 WORLD_Y = 20    # Max Y size

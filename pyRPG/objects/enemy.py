@@ -13,11 +13,15 @@ def enemy_update(this, delta_time):
     if this.attributes["HP"] < 0:
       world.to_del.append(this)
     else:        
-      #if randrange(delta_time, 1000) = 1000:  
-      #this.X += randrange(-1, 2)
-      #this.Y += randrange(-1, 2)
-      #else:
-      pass
+      if randrange(0, 1000) < delta_time:  
+        this.X += randrange(-1, 2)
+        this.Y += randrange(-1, 2)
+        if this.X < 0:
+          this.X = 0
+        if this.Y < 0:
+          this.Y = 0
+      else:
+        pass
 
 def enemy_collide(this, obj):
   pass
@@ -31,7 +35,7 @@ def enemyChar(this):
 enemy_type = "enemy"
 
 enemy_attributes =                     \
-    { "HP" : 10.0,                     \
+    { "HP" : 100.0,                     \
       "MP" : 50,                        \
       "effects" : {},                   \
       "mov_spd" : 30,                    \
