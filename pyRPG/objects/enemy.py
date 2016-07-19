@@ -8,12 +8,15 @@ import world
 from objects import world_object
 from spells import spell
 from random import randrange
+
 def enemy_update(this, delta_time):
     if this.attributes["HP"] < 0:
       world.to_del.append(this)
     else:        
-      this.X += randrange(-1, 1)
-      this.Y += randrange(-1, 1)
+      #if randrange(delta_time, 1000) = 1000:  
+      #this.X += randrange(-1, 2)
+      #this.Y += randrange(-1, 2)
+      #else:
       pass
 
 def enemy_collide(this, obj):
@@ -33,4 +36,5 @@ enemy_attributes =                     \
       "effects" : {},                   \
       "mov_spd" : 30,                    \
       "atk_spd" : 150,                   \
+      "damage" : 5                      \
     }
