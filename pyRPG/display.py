@@ -20,9 +20,9 @@ YELLOW = 6
 SPELL_BOX_START = 25
 def printc(x, y, ch, color = WHITE):
     "Prints a character at the given location with the given color.\n\nArguments:\nx: The x location to print the character\ny: The y location to print the character\nch: The character to print\ncolor: The color to print the character, default white\n\nBounds: String must end before reaching 79 along x-axis, must be before 24 on y-axis."
-    if (x > 79 - len(ch)) | (y > 24) | (x < 0) | (y < 0):
+    if (x > 79 - len(ch)) or (y > 24) or (x < 0) or (y < 0):
         raise Exception("String out of bounds, shorten string or move left. Bounds are <= 79 on right, <= 23 on bottom, and >= 1 on top and left")
-    if ('\n' in ch) | ('\r' in ch):
+    if ('\n' in ch) or ('\r' in ch):
         raise Exception("No newlines in strings")
     mvaddstr(y, x, ch, COLOR_PAIR(color))
     
@@ -114,7 +114,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
         refresh()
         can_W = True
         can_S = True
-        if keyDown(ord('W')) & can_W:
+        if keyDown(ord('W')) and can_W:
             if cursor_loc > menu_min:
                 printc(50, cursor_loc, ' ')
                 cursor_loc -= 1
@@ -122,7 +122,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
             can_W = False
         else:
             can_W = True
-        if keyDown(ord('S')) & can_S:
+        if keyDown(ord('S')) and can_S:
             printc(50, cursor_loc, ' ')
             cursor_loc += 1
             if cursor_loc == menu_max:  # Can't get to max...
@@ -131,7 +131,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
             can_S = False
         else:
             can_S = True
-        if (keyDown(CONST.VK_RETURN)) | (keyDown(ord('E'))):
+        if (keyDown(CONST.VK_RETURN)) or (keyDown(ord('E'))):
             # Clear menu area
             for i in range(20): # Clear menu
                 printc(50, i + 5, ' ' * 29)

@@ -9,7 +9,7 @@ def attk_update(this, delta_time):
         this.Y += this.attributes["movey"]
         this.attributes["range"] -= 1
         try:
-            if (this.attributes["range"] < 0) | (not world.map[this.getCoords()[0]][this.getCoords()[1]][2]):
+            if (this.attributes["range"] < 0) or (not world.map[this.getCoords()[0]][this.getCoords()[1]][2]):
                 # Hit something or out of range.
                 world.to_del.append(this)
         except:

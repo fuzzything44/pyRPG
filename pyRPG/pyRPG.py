@@ -67,11 +67,11 @@ while True: # Main game loop
         # Update it
         obj.update(delta_time)
         for coll in world.objects:    # Check for collision
-            if (coll.getCoords() == obj.getCoords()) & (not coll is obj) :
+            if (coll.getCoords() == obj.getCoords()) and (not coll is obj) :
                 obj.collide(coll)
 
         #Check if out of bounds
-        if (obj.getCoords()[0] >= world.WORLD_X) | (obj.getCoords()[0] < 0) | (obj.getCoords()[1] >= world.WORLD_Y) | (obj.getCoords()[1] < 0):
+        if (obj.getCoords()[0] >= world.WORLD_X) or (obj.getCoords()[0] < 0) or (obj.getCoords()[1] >= world.WORLD_Y) or (obj.getCoords()[1] < 0):
             world.to_del.append(obj)
         else:
             # And now redraw it

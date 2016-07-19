@@ -36,7 +36,7 @@ def _chest_remove(chest):
         
 
 def chest_update(this, delta_time):
-    if (display.keyDown(ord('E'))) & (this.attributes["canopen"]):
+    if (display.keyDown(ord('E'))) and (this.attributes["canopen"]):
         _chest_remove(this)
     this.attributes["canopen"] = False
 
