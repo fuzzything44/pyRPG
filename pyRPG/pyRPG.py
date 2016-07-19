@@ -29,7 +29,7 @@ world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(w
 world.map[2][3] = world.WORLD_CHEST
 world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 7, enemy.enemy_attributes))
 world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 3, 3, chest.chest_attributes))
-world.objects.append(world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 0,10,{"newmap": "test_world", "locx": 25, "locy": 10}))
+world.objects.append(world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 0,10,{"newmap": "test_world", "locx": 25, "locy": 10, "used" : False}))
 # Print world out
 for x in range(world.WORLD_X):
     for y in range(world.WORLD_Y):

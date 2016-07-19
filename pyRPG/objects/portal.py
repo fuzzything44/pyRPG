@@ -11,6 +11,7 @@ def collide(this, other):
 
         world.player.X = this.attributes["locx"]
         world.player.Y = this.attributes["locy"]
+        this.attributes["used"] = True
         # Print world out
         for x in range(world.WORLD_X):
             for y in range(world.WORLD_Y):
