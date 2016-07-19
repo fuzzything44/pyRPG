@@ -31,7 +31,7 @@ def enemyChar(this):
 enemy_type = "enemy"
 
 enemy_attributes =                     \
-    { "HP" : 10.0,                     \
+    { "HP" : 100.0,                     \
       "MP" : 50,                        \
       "effects" : {},                   \
       "mov_spd" : 30,                    \
