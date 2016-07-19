@@ -19,9 +19,10 @@ main_menu.start()
 
 world.load("test_worlda")
 world.load_player("notasave")
-
-map2.generate()
-
+try:
+    map2.generate()
+except Exception as ex:
+    pass
 world.save("test_world")
 
 #world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]

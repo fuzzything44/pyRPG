@@ -136,7 +136,7 @@ player_attributes =                     \
       "pants" : item.item("Cloth Pants", "pants", lambda x, y: 0, lambda x, y: 0),       \
       "ring" : item.item("Useless ring", "ring", lambda x, y: 0, lambda x, y: 0),        \
       "consumable" : item.item("Nothing", "consumable", lambda x, y: 0, lambda x, y: 0), \
-      "mov_spd" : 150,                           \
+      "mov_spd" : 100,                           \
       "atk_spd" : 300,                            \
       "can_cast" : True,                          \
       "magic" : 5,                       \
