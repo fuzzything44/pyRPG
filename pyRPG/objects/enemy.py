@@ -15,9 +15,11 @@ def enemy_update(this, delta_time):
         this.attributes["effects"][eff][2] -= delta_time           # Lower time
         if this.attributes["effects"][eff][2] <= 0:                # Remove effect
             eff_del_list.append(eff)
+    eff_del_list = []
     for to_del in eff_del_list:
         this.attributes["effects"][to_del][1](this)
         del this.attributes["effects"][to_del]
+    del eff_del_list
     if this.attributes["HP"] < 0:
         world.to_del.append(this)
     else:        

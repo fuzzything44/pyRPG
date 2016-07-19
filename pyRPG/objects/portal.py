@@ -17,7 +17,9 @@ def collide(this, other):
                 display.printc(x, y + 5, world.map[x][y][1], world.map[x][y][0])
 
 def char(this):
-    return 'O'
+    if not this.attributes["used"]:
+        return 'O'
+    return '\0'
 
 def color(this):
     return display.CYAN
@@ -28,6 +30,7 @@ attributes = {      \
     "newmap" : "",  \
     "locx" : 0,     \
     "locy" : 10,    \
+    "used" : False  \
 }   
 
 
