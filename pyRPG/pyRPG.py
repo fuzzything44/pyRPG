@@ -82,6 +82,7 @@ while True: # Main game loop
     if delta_time > 100:
         delta_time = 100
         # TODO: Give a speed warning if this happens too often...
+    display.printc(0,0, str(delta_time))
     # Loop through all objects. Update and redraw all of them.
     for index in range(len(world.objects)):
         try:
