@@ -9,7 +9,7 @@ from objects import world_object
 from spells import spell
 from random import randrange
 
-def enemy_update(this, delta_time):
+def MiniBoss_update(this, delta_time):
     eff_del_list = []
     for eff in this.attributes["effects"]:
         this.attributes["effects"][eff][0](this, delta_time)       # Tick code
@@ -23,7 +23,7 @@ def enemy_update(this, delta_time):
     if this.attributes["HP"] <= 0:
         world.to_del.append(this)
     else:        
-        if randrange(0, 1000) < delta_time:  
+        if randrange(0, 500) < delta_time:  
             this.X += randrange(-1, 2)
             this.Y += randrange(-1, 2)
             if this.X < 0:
@@ -36,20 +36,20 @@ def enemy_collide(this, obj):
         pass #   Issue: Does massive damage, must add effect here to give player immunity   # obj.attributes["HP"] -= this.attributes["damage"]
 
 
-def enemyColor(this):
+def MiniBossColor(this):
   return display.CYAN
 
-def enemyChar(this):
-  return 'Q'
+def MiniBossChar(this):
+  return 'B'
 
-enemy_type = "enemy"
+MiniBoss_type = "enemy"
 
-enemy_attributes =                     \
-    { "HP" : 10.0,                     \
-      "MP" : 5.0,                        \
+MiniBoss_attributes =                     \
+    { "HP" : 100.0,                     \
+      "MP" : 50,                        \
       "effects" : {},                   \
       "mov_spd" : 30,                    \
       "atk_spd" : 150,                   \
-      "damage" : 5,                      \
-      "EXP" : 1
+      "damage" : 10,                      \
+      "EXP" : 5
     }
