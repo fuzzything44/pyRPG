@@ -4,6 +4,9 @@ from items import item
 from objects import world_object
 
 def _chest_remove(chest):
+    # Give player chest money
+    world.player.attributes["money"] += chest.attributes["money"]
+
     item_list = [["Exit", lambda: 0]]
     param_list = [[]]
     # Get items in proper format

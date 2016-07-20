@@ -1,14 +1,16 @@
 import time
 
-import world
-from objects import world_object
-from objects import invis_dmg
-from objects import player
-from objects import chest
-from objects import enemy
-from objects import portal
 import display
 import main_menu
+import world
+from objects import chest
+from objects import enemy
+from objects import invis_dmg
+from objects import player
+from objects import portal
+from objects import world_object
+
+# Temporary imports to refresh maps each time we run it.
 import start 
 import tut1
 import tutboss

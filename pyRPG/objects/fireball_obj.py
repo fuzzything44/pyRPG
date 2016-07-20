@@ -1,8 +1,9 @@
-#TODO make fireball object
-from objects import attack
-from effects import fire
 import display
 import world
+
+from effects import fire
+
+from objects import attack
 from objects import world_object
 update = attack.attk_update
 

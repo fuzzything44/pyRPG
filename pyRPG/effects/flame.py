@@ -1,10 +1,10 @@
 import display
 import world
-from objects import world_object
-from objects import fireball_obj
-import time
 
 from objects import attack
+from objects import fireball_obj
+from objects import world_object
+
 
 def flame(obj, delta_time):
     try:
