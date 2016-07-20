@@ -23,7 +23,7 @@ def MiniBoss_update(this, delta_time):
     if this.attributes["HP"] <= 0:
         world.to_del.append(this)
     else:        
-        if randrange(0, 1000) < delta_time:  
+        if randrange(0, 500) < delta_time:  
             this.X += randrange(-1, 2)
             this.Y += randrange(-1, 2)
             if this.X < 0:
@@ -50,5 +50,6 @@ MiniBoss_attributes =                     \
       "effects" : {},                   \
       "mov_spd" : 30,                    \
       "atk_spd" : 150,                   \
-      "damage" : 10                      \
+      "damage" : 10,                      \
+      "EXP" : 5
     }

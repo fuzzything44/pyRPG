@@ -11,7 +11,6 @@ def collide(this, other):
         try: # Deal damage
             other.attributes["HP"] -= this.attributes["damage"]
             world.to_del.append(this)
-            other.attributes["effects"]["fire"] = [fire.fire, lambda x: 0, 1000]
             if oth.attributes["HP"] <= 0:
                 this.attributes["owner"].attributes["EXP"] += 1
                 if this.attributes["owner"].attributes["EXP"] <= this.attributes["owner"].attributes["level"]**2:
@@ -23,6 +22,7 @@ def collide(this, other):
                     this.attributes["owner"].attributes["attk_spd"] -= 3
                     this.attributes["owner"].attributes["magic"] += 2
                     this.attributes["owner"].attributes["strength"] += 2
+            other.attributes["effects"]["fire"] = [fire.fire, lambda x: 0, 1000]
         except: # Or not...
             pass
 def color(this):

@@ -50,5 +50,6 @@ enemy_attributes =                     \
       "effects" : {},                   \
       "mov_spd" : 30,                    \
       "atk_spd" : 150,                   \
-      "damage" : 5                      \
+      "damage" : 5,                      \
+      "EXP" : 1
     }
