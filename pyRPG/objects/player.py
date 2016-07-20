@@ -70,8 +70,11 @@ def player_update(this, delta_time):
             ))
             this.attributes["effects"]["del_atk"] = [lambda a, b: 0, lambda x: 0, this.attributes["atk_spd"]]
 
-        if display.keyDown(display.CONST.VK_LSHIFT):
-            pass # Use item
+        if display.keyDown(display.CONST.VK_LSHIFT) and this.attributes["can_item"]:
+            this.attributes["consumable"].attributes["use"](this)
+            this.attributes["can_item"] = False
+        if not display.keyDown(display.CONST.VK_SHIFT):
+            this.attributes["can_item"] = True
 
     except Exception as ex:
         pass
@@ -133,15 +136,16 @@ player_attributes =                     \
       "level" : 1,                      \
       "items" : [],                     \
       "spell" : spell.spell(25, fireball.fireball, ["\\|/", "-0-", "/|\\"], display.RED), \
-      "weapon" : item.item("Broken Sword", "weapon", world_object.no_func, world_object.no_func),    \
-      "hat" : item.item("Cloth Hat", "hat", world_object.no_func, world_object.no_func),             \
-      "shirt" : item.item("Cloth Shirt", "shirt", world_object.no_func, world_object.no_func),       \
-      "pants" : item.item("Cloth Pants", "pants", world_object.no_func, world_object.no_func),       \
-      "ring" : item.item("Useless ring", "ring", world_object.no_func, world_object.no_func),        \
+      "weapon" : item.item("No Weapon", "weapon", world_object.no_func, world_object.no_func),    \
+      "hat" : item.item("No Hat", "hat", world_object.no_func, world_object.no_func),             \
+      "shirt" : item.item("No Shirt", "shirt", world_object.no_func, world_object.no_func),       \
+      "pants" : item.item("No Pants", "pants", world_object.no_func, world_object.no_func),       \
+      "ring" : item.item("No ring", "ring", world_object.no_func, world_object.no_func),        \
       "consumable" : item.item("Nothing", "consumable", world_object.no_func, world_object.no_func), \
       "mov_spd" : 50,                           \
       "atk_spd" : 300,                            \
       "can_cast" : True,                          \
+      "can_item" : True,                \
       "magic" : 5,                       \
       "strength" : 5
     }
@@ -181,7 +185,9 @@ def set_active(type):
     # Here we have to figure out what they chose.
     # So if they are on page n, then we must add 15 * n to the items index. So 0th page is items 0-15, 1st page is 15-29, etc...
     # Then, choice == 3 is the first item displayed, so add choice - 3 to that.
+    world.player.attributes[type].unequip(world.player.attributes[type], world.player) # Unequip the old item.
     world.player.attributes[type] = options[15 * curr_page + choice - 3]
+    world.player.attributes[type].equip(world.player.attributes[type], world.player) # Equip new item
     
 def inventory_menu():
     while display.menu("Inventory", [[], ["consumable"], ["weapon"], ["hat"], ["shirt"], ["pants"], ["ring"]], ["Back", lambda: 0], ["-Set Consumable", set_active], ["-Set Weapon", set_active], ["-Set Hat", set_active], ["-Set Shirt", set_active], ["-Set Pants", set_active], ["-Set Ring", set_active]):
