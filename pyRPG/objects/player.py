@@ -129,14 +129,14 @@ player_attributes =                     \
       "EXP" : 0,                        \
       "level" : 1,                      \
       "items" : [],                     \
-      "spell" : spell.spell(25, fireball.fireball, ["\\|/", "-0-", "/|\\"]), \
+      "spell" : spell.spell(25, fireball.fireball, ["\\|/", "-0-", "/|\\"], display.RED), \
       "weapon" : item.item("Broken Sword", "weapon", lambda x, y: 0, lambda x, y: 0),    \
       "hat" : item.item("Cloth Hat", "hat", lambda x, y: 0, lambda x, y: 0),             \
       "shirt" : item.item("Cloth Shirt", "shirt", lambda x, y: 0, lambda x, y: 0),       \
       "pants" : item.item("Cloth Pants", "pants", lambda x, y: 0, lambda x, y: 0),       \
       "ring" : item.item("Useless ring", "ring", lambda x, y: 0, lambda x, y: 0),        \
       "consumable" : item.item("Nothing", "consumable", lambda x, y: 0, lambda x, y: 0), \
-      "mov_spd" : 10,                           \
+      "mov_spd" : 150,                           \
       "atk_spd" : 300,                            \
       "can_cast" : True,                          \
       "magic" : 5,                       \

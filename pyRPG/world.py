@@ -22,6 +22,7 @@ player = 0
 objects = []    # World objects that can interacted with such as enemies, chests, etc...
 to_del = []     # Objects that should be deleted.
 
+world_name = "basic_world"
 
 #TODO: Don't save player here, save in another file instead!
 def load(name):
@@ -30,9 +31,11 @@ def load(name):
         with open("res/maps/" + name + ".wrld", "rb") as handle:
             map = pickle.load(handle)
             objects = pickle.load(handle)
+            world_name = name
     except:
         map = [[ WORLD_NOTHING for y in range(WORLD_Y)] for x in range(WORLD_X)]
         objects = []
+        world_name = "basic_world"
 
 
 def save(name):
@@ -51,6 +54,7 @@ def save_player(name):
     try:
         with open("res/saves/" + name + ".plr", "wb") as handle:
             pickle.dump(player, handle)
+            pickle.dump(world_name, handle)
     except:
         display.printc(20, 10, "Could not save. Press ESC to continue.")
         display.refresh()
@@ -62,6 +66,8 @@ def load_player(name):
     try:
         with open("res/saves/" + name + ".plr", "rb") as handle:
             player = pickle.load(handle)
+            # Next saved item should be the world they were in, so load that world
+            load(pickle.load(handle))
     except:
         player = world_object.world_object(play.player_update, play.collide, play.player_char, play.player_color, "player", 0, 0, play.player_attributes)
     global objects
