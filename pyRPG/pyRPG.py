@@ -9,7 +9,8 @@ from objects import enemy
 from objects import portal
 import display
 import main_menu
-import map2
+import start 
+import tut1
 
 display.start()
 main_menu.start()
@@ -17,22 +18,38 @@ main_menu.start()
 # Needs world selection menu. Probably try for a scrolling menu with basic graphics if possible.
 
 
-world.load("test_worlda")
-world.load_player("notasave")
+
 try:
-    map2.generate()
+    start.generate()
+    world.objects = [world.player] + world.objects
+    world.save("start")
 except Exception as ex:
     pass
-world.save("test_world")
+world.load("")
+try:
+    tut1.generate()
+    world.objects = [world.player] + world.objects
+    world.save("tut1")
+except Exception as ex:
+    pass
+try:
+    tutboss.generate()
+    world.objects = [world.player] + world.objects
+    world.save("tutboss")
+except Exception as ex:
+    pass
 
-world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-world.map[2][3] = world.WORLD_CHEST
+world.load("start")
+world.load_player("start")
 
+
+#world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
+#world.map[2][3] = world.WORLD_CHEST
 # Reset world objects from the creation and saving of the map previously
-world.objects = [world.player]
-world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 7, enemy.enemy_attributes))
-world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 3, 3, chest.chest_attributes))
-world.objects.append(world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 0,10,{"newmap": "test_world", "locx": 25, "locy": 10, "used" : False}))
+#world.objects = [world.player]
+#world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 7, enemy.enemy_attributes))
+#world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 3, 3, chest.chest_attributes))
+#world.objects.append(world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 0,10,{"newmap": "test_world", "locx": 25, "locy": 10, "used" : False}))
 # Print world out
 for x in range(world.WORLD_X):
     for y in range(world.WORLD_Y):

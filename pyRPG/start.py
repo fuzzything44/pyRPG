@@ -3,7 +3,7 @@ from objects import *
 
 def generate():
     world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    world.objects.append(world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 25,8,{"newmap": "test_world", "locx": 25, "locy": 10, "used" : False}))
+    world.objects = [world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 25,8,{"newmap": "tut1", "locx": 0, "locy": 10, "used" : False})]
 
     for x in range(22,29):
         world.map[x][5] = world.WORLD_WALL
