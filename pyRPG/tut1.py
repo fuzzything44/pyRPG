@@ -8,12 +8,12 @@ def generate():
     world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 7, dict(enemy.enemy_attributes)))
     world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 20, 6, dict(enemy.enemy_attributes)))
     world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 10, dict(enemy.enemy_attributes)))
-    world.map[4][4] = [0, 'K', True]
-    world.map[5][4] = [0, 'I', True]
-    world.map[6][4] = [0, 'L', True]
-    world.map[7][4] = [0, 'L', True]
-    world.map[8][4] = [0, ' ', True]
-    world.map[9][4] = [0, 'T', True]
-    world.map[10][4] = [0, 'H', True]
-    world.map[11][4] = [0, 'E', True]
-    world.map[12][4] = [0, 'M', True]
+    world.map[4][4] = [0, 'K', False]
+    world.map[5][4] = [0, 'I', False]
+    world.map[6][4] = [0, 'L', False]
+    world.map[7][4] = [0, 'L', False]
+    world.map[8][4] = [0, ' ', False]
+    world.map[9][4] = [0, 'T', False]
+    world.map[10][4] = [0, 'H', False]
+    world.map[11][4] = [0, 'E', False]
+    world.map[12][4] = [0, 'M', False]
