@@ -82,7 +82,7 @@ while True: # Main game loop
     if delta_time > 100:
         delta_time = 100
         # TODO: Give a speed warning if this happens too often...
-    display.printc(0,0, str(delta_time))
+    display.printc(0,0, str(delta_time) + ' ')
     # Loop through all objects. Update and redraw all of them.
     for index in range(len(world.objects)):
         try:
@@ -122,7 +122,7 @@ while True: # Main game loop
         while display.menu("Options:", [[], [], ["spell"], [], []], ["Resume", lambda: 0], ["Inventory", player.inventory_menu], ["Spells", player.set_active], ["Save", world.save_player], ["Exit", display.end]):
             world.player.attributes["spell"].draw()
             try:
-                world.player.attributes["consumable"].attributes["draw"]()
+                world.player.attributes["consumable"].draw()
             except:
                 pass
             display.refresh()

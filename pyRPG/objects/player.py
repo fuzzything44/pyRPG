@@ -11,6 +11,7 @@ from objects import world_object
 from spells import spell
 from spells import fireball
 
+from items import bread
 def player_update(this, delta_time):
     display.printc(8, 0, str(int(this.attributes["HP"])) + "/" + str(int(this.attributes["maxHP"])) + "  ")
     display.printc(8, 1, str(int(this.attributes["MP"])) + "/" + str(int(this.attributes["maxMP"])) + "  ")
@@ -73,6 +74,10 @@ def player_update(this, delta_time):
         if display.keyDown(display.CONST.VK_LSHIFT) and this.attributes["can_item"]:
             this.attributes["consumable"].attributes["use"](this)
             this.attributes["can_item"] = False
+            this.attributes["consumable"].amount -= 1
+            if this.attributes["consumable"].amount == 0:
+                this.attributes["consumable"] = item.item("Nothing", "consumable", world_object.no_func, world_object.no_func, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func})
+                this.attributes["consumable"].draw()
         if not display.keyDown(display.CONST.VK_SHIFT):
             this.attributes["can_item"] = True
 
@@ -134,14 +139,14 @@ player_attributes =                     \
       "effects" : {},                   \
       "EXP" : 0,                        \
       "level" : 1,                      \
-      "items" : [],                     \
+      "items" : [item.item(bread.name, "consumable", world_object.no_func, world_object.no_func, 100, {"icon" : ["0oO", "Oo0", "o0O"], "color": display.GREEN, "use" : bread.use})],                     \
       "spell" : spell.spell(25, fireball.fireball, ["\\|/", "-0-", "/|\\"], display.RED), \
       "weapon" : item.item("No Weapon", "weapon", world_object.no_func, world_object.no_func),    \
       "hat" : item.item("No Hat", "hat", world_object.no_func, world_object.no_func),             \
       "shirt" : item.item("No Shirt", "shirt", world_object.no_func, world_object.no_func),       \
       "pants" : item.item("No Pants", "pants", world_object.no_func, world_object.no_func),       \
       "ring" : item.item("No ring", "ring", world_object.no_func, world_object.no_func),        \
-      "consumable" : item.item("Nothing", "consumable", world_object.no_func, world_object.no_func), \
+      "consumable" : item.item("Nothing", "consumable", world_object.no_func, world_object.no_func, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
       "mov_spd" : 50,                           \
       "atk_spd" : 300,                            \
       "can_cast" : True,                          \
