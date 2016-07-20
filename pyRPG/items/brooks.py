@@ -7,3 +7,4 @@ def on_equip (this,player):
 def on_unequip (this, player):
     player.attributes["move_spd"] += 10
     player.attributes["maxHP"] -= 3
+

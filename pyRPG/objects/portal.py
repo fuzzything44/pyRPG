@@ -1,5 +1,5 @@
-import world
 import display
+import world
 
 def update(this, delta_time):
     pass

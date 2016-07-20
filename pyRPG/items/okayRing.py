@@ -1,4 +1,4 @@
-name ="okay ring"
+name ="Okay ring"
 type = "ring"
 attributes = {}
 def on_equip (this,player):

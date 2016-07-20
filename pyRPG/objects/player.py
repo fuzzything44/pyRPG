@@ -1,11 +1,13 @@
 import time
-import sys
+
+import display
+import world
+
+from items import item
 
 from objects import attack
-import display
-from items import item
-import world
 from objects import world_object
+
 from spells import spell
 from spells import fireball
 
@@ -137,7 +139,7 @@ player_attributes =                     \
       "pants" : item.item("Cloth Pants", "pants", world_object.no_func, world_object.no_func),       \
       "ring" : item.item("Useless ring", "ring", world_object.no_func, world_object.no_func),        \
       "consumable" : item.item("Nothing", "consumable", world_object.no_func, world_object.no_func), \
-      "mov_spd" : 20,                           \
+      "mov_spd" : 50,                           \
       "atk_spd" : 300,                            \
       "can_cast" : True,                          \
       "magic" : 5,                       \

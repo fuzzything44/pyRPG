@@ -1,16 +1,19 @@
 import time
 
-import world
-from objects import world_object
-from objects import invis_dmg
-from objects import player
-from objects import chest
-from objects import enemy
-from objects import portal
 import display
 import main_menu
+import world
+from objects import chest
+from objects import enemy
+from objects import invis_dmg
+from objects import player
+from objects import portal
+from objects import world_object
+
+# Temporary imports to refresh maps each time we run it.
 import start 
 import tut1
+import tutboss
 
 display.start()
 main_menu.start()
@@ -42,14 +45,6 @@ except Exception as ex:
 world.load("start")
 world.load_player("start")
 
-
-#world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-#world.map[2][3] = world.WORLD_CHEST
-# Reset world objects from the creation and saving of the map previously
-#world.objects = [world.player]
-#world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 7, enemy.enemy_attributes))
-#world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 3, 3, chest.chest_attributes))
-#world.objects.append(world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 0,10,{"newmap": "test_world", "locx": 25, "locy": 10, "used" : False}))
 # Print world out
 for x in range(world.WORLD_X):
     for y in range(world.WORLD_Y):

@@ -54,7 +54,6 @@
     <Compile Include="main_menu.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="map2.py" />
     <Compile Include="objects\attack.py">
       <SubType>Code</SubType>
     </Compile>
@@ -81,6 +80,8 @@
     <Compile Include="spells\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="tut1.py" />
+    <Compile Include="tutboss.py" />
     <Compile Include="world.py">
       <SubType>Code</SubType>
     </Compile>

@@ -22,7 +22,7 @@ def attk_coll(this, oth):
             world.to_del.append(this)
             if oth.attributes["HP"] <= 0:
                 this.attributes["owner"].attributes["EXP"] += 1
-                if this.attributes["owner"].attributes["EXP"] <= this.attributes["owner"].attributes["level"]**2:
+                if this.attributes["owner"].attributes["EXP"] >= this.attributes["owner"].attributes["level"]**2:
                     this.attributes["owner"].attributes["EXP"] -= this.attributes["owner"].attributes["level"]**2
                     this.attributes["owner"].attributes["level"] += 1
                     this.attributes["owner"].attributes["maxHP"] += 10
