@@ -76,7 +76,7 @@ def player_update(this, delta_time):
             this.attributes["can_item"] = False
             this.attributes["consumable"].amount -= 1
             if this.attributes["consumable"].amount == 0:
-                this.attributes["consumable"] = item.item("Nothing", "consumable", world_object.no_func, world_object.no_func, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func})
+                this.attributes["consumable"] = item.item("Nothing", "consumable", world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func})
                 this.attributes["consumable"].draw()
         if not display.keyDown(display.CONST.VK_SHIFT):
             this.attributes["can_item"] = True
