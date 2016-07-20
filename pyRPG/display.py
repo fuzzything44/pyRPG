@@ -1,6 +1,4 @@
 from unicurses import *
-from sys import stdout
-
 from win32 import win32api
 import win32con as CONST
 

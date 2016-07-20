@@ -1,11 +1,13 @@
 import time
-import sys
+
+import display
+import world
+
+from items import item
 
 from objects import attack
-import display
-from items import item
-import world
 from objects import world_object
+
 from spells import spell
 from spells import fireball
 
