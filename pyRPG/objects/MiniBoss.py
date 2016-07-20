@@ -31,7 +31,7 @@ def MiniBoss_update(this, delta_time):
             if this.Y < 0:
                 this.Y = 0
 
-def enemy_collide(this, obj):
+def MiniBosscollide(this, obj):
     if obj.type == "player":
         pass #   Issue: Does massive damage, must add effect here to give player immunity   # obj.attributes["HP"] -= this.attributes["damage"]
 

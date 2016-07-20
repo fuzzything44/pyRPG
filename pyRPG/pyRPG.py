@@ -14,6 +14,7 @@ from objects import world_object
 import start 
 import tut1
 import tutboss
+import town
 
 display.start()
 main_menu.start()
@@ -39,6 +40,12 @@ try:
     tutboss.generate()
     world.objects = [world.player] + world.objects
     world.save("tutboss")
+except Exception as ex:
+    pass
+try:
+    town.generate()
+    world.objects = [world.player] + world.objects
+    world.save("town")
 except Exception as ex:
     pass
 
