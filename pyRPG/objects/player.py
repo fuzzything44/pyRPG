@@ -147,7 +147,7 @@ player_attributes =                     \
       "can_cast" : True,                          \
       "can_item" : True,                \
       "magic" : 5,                       \
-      "strength" : 5
+      "strength" : 5000
     }
 
 

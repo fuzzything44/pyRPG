@@ -1,13 +1,12 @@
-import time
-import sys
+from random import randrange
 
-from objects import attack
 import display
-from items import item
 import world
+
+from items import item
+from objects import attack
 from objects import world_object
 from spells import spell
-from random import randrange
 
 def MiniBoss_update(this, delta_time):
     eff_del_list = []

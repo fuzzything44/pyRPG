@@ -22,7 +22,7 @@ main_menu.start()
 # Needs world selection menu. Probably try for a scrolling menu with basic graphics if possible.
 
 
-
+world.load_player("")
 try:
     start.generate()
     world.objects = [world.player] + world.objects
@@ -50,7 +50,7 @@ except Exception as ex:
     pass
 
 world.load("start")
-world.load_player("start")
+world.objects = [world.player] + world.objects
 
 # Print world out
 for x in range(world.WORLD_X):
@@ -72,15 +72,16 @@ display.printc(display.SPELL_BOX_START, 4, "+++++ +++++   Ring:")
 
 
 start_time = time.time()
-
+since_start = 0
 while True: # Main game loop
     # Refresh screen
     display.refresh()
 
-    delta_time = int((time.time() - start_time) * 1000)
-    if delta_time > 20:
-        delta_time = 5
-    start_time = time.time()
+    delta_time = int((time.time() - start_time) * 1000) - since_start
+    since_start += delta_time
+    if delta_time > 100:
+        delta_time = 100
+        # TODO: Give a speed warning if this happens too often...
     # Loop through all objects. Update and redraw all of them.
     for index in range(len(world.objects)):
         try:

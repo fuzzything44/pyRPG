@@ -63,6 +63,7 @@
     <Compile Include="objects\enemy.py" />
     <Compile Include="objects\fireball_obj.py" />
     <Compile Include="objects\invis_dmg.py" />
+    <Compile Include="objects\MiniBoss.py" />
     <Compile Include="objects\player.py" />
     <Compile Include="objects\portal.py" />
     <Compile Include="objects\world_object.py" />
@@ -80,6 +81,8 @@
     <Compile Include="spells\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="start.py" />
+    <Compile Include="town.py" />
     <Compile Include="tut1.py" />
     <Compile Include="tutboss.py" />
     <Compile Include="world.py">

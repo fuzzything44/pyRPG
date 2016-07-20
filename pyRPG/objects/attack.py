@@ -21,7 +21,7 @@ def attk_coll(this, oth):
             oth.attributes["HP"] -= this.attributes["damage"]
             world.to_del.append(this)
             if oth.attributes["HP"] <= 0:
-                this.attributes["owner"].attributes["EXP"] += 1
+                this.attributes["owner"].attributes["EXP"] += oth.attributes["EXP"]
                 if this.attributes["owner"].attributes["EXP"] >= this.attributes["owner"].attributes["level"]**2:
                     this.attributes["owner"].attributes["EXP"] -= this.attributes["owner"].attributes["level"]**2
                     this.attributes["owner"].attributes["level"] += 1

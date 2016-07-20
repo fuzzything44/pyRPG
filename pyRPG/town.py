@@ -10,7 +10,7 @@ def generate():
     
     for x in range(42,49):
         world.map[x][0] = world.WORLD_WALL
-        world.map[x][6] = world.WORLD_WALL
+        world.map[x][5] = world.WORLD_WALL
     for y in range(0,5):
         world.map[42][y] = world.WORLD_WALL
         world.map[48][y] = world.WORLD_WALL
