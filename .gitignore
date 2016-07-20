@@ -92,5 +92,5 @@ ENV/
 .ropeproject
 
 # Game save files
-.wrld
-.plr
+*.wrld
+*.plr
