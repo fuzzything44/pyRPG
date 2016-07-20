@@ -44,7 +44,7 @@ def save(name):
             pickle.dump(map, handle)
             # Don't save player...
             pickle.dump(objects[1:], handle)
-    except:
+    except Exception as ex:
         display.printc(20, 10, "Could not save. Press ESC to continue.")
         display.refresh()
         while not display.keyDown(display.CONST.VK_ESCAPE):
@@ -53,9 +53,9 @@ def save(name):
 def save_player():
     try:
         with open("res/saves/" + save_name + ".plr", "wb") as handle:
-            pickle.dump(player, handle)
-            pickle.dump(world_name, handle)
-    except:
+            pickle.dump(player, handle, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(world_name, handle, pickle.HIGHEST_PROTOCOL)
+    except Exception as ex:
         display.printc(20, 10, "Could not save. Press ESC to continue.")
         display.refresh()
         while not display.keyDown(display.CONST.VK_ESCAPE):

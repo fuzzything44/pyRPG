@@ -1,5 +1,7 @@
 import display
 import world
+from objects import player
+from objects import world_object
 
 def load_game():
     pass
@@ -7,7 +9,29 @@ def load_game():
    
 def new_game():
     # Get their save name
-    
+    display.clear()
+    display.flushinp()
+    inpt = display.getch()
+    curs_loc = 0
+    file_name = ""
+
+    display.printc(30, 9, "Enter your name:")
+    while inpt != 10: # Until ENTER pressed
+        if inpt == 8: # Backspace
+            if curs_loc != 0:
+                curs_loc -= 1
+                file_name = file_name[:-1] # Remove last character
+            display.printc(curs_loc + 30, 10, ' ')
+        elif inpt != -1:
+            display.printc(curs_loc + 30, 10, chr(inpt))
+            file_name += chr(inpt)
+            curs_loc += 1
+        display.refresh()
+        inpt = display.getch()
+    # Wait for release
+    while display.keyDown(display.CONST.VK_RETURN):
+        pass
+    world.save_name = file_name
     # Class select!
     # What color each class should be
     color_list = [display.RED, display.BLUE, display.YELLOW]
@@ -82,6 +106,18 @@ def new_game():
 
         # Check if they chose an option
         if display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_RETURN):
+            # Basic player. Choice will modify it's attributes.
+            world.player = world_object.world_object(player.player_update, player.collide, player.player_char, player.player_color, "player", 0, 0, player.player_attributes)
+            if not choice: # Choice was 0, so warrior
+                # Create player as warrior character
+                pass
+            if choice == 1: # Choice was Mage
+                # Create player as mage.
+                pass
+            if choice == 2: # Choice was Thief
+                pass
+            # Load starting world
+            world.load("start")
             return
 
 def start():

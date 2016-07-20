@@ -64,7 +64,10 @@ while True: # Main game loop
     start_time = time.time()
     # Loop through all objects. Update and redraw all of them.
     for index in range(len(world.objects)):
-        obj = world.objects[index]
+        try:
+            obj = world.objects[index]
+        except: # List size decreased because of a world load.
+            break
         # Redraw world tile, unless the object is invisible
         if obj.getChar() != '\0':
             display.printc(obj.getCoords()[0], obj.getCoords()[1] + 5, world.map[obj.getCoords()[0]][obj.getCoords()[1]][1], world.map[obj.getCoords()[0]][obj.getCoords()[1]][0])

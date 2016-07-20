@@ -116,6 +116,7 @@ def player_color(this):
     return display.WHITE
 
 player_type = "player"
+
 # effects is a dictionary of (string) effect name to [(func) tick(player, delta_time), (func) on_remove(player), time_left]
 # items is a dictionary of (string) item name to ITEM or to SPELL
 # TODO: change current spell to conform to basic spells. Also have basic equips in inventory.
@@ -130,12 +131,12 @@ player_attributes =                     \
       "level" : 1,                      \
       "items" : [],                     \
       "spell" : spell.spell(25, fireball.fireball, ["\\|/", "-0-", "/|\\"], display.RED), \
-      "weapon" : item.item("Broken Sword", "weapon", lambda x, y: 0, lambda x, y: 0),    \
-      "hat" : item.item("Cloth Hat", "hat", lambda x, y: 0, lambda x, y: 0),             \
-      "shirt" : item.item("Cloth Shirt", "shirt", lambda x, y: 0, lambda x, y: 0),       \
-      "pants" : item.item("Cloth Pants", "pants", lambda x, y: 0, lambda x, y: 0),       \
-      "ring" : item.item("Useless ring", "ring", lambda x, y: 0, lambda x, y: 0),        \
-      "consumable" : item.item("Nothing", "consumable", lambda x, y: 0, lambda x, y: 0), \
+      "weapon" : item.item("Broken Sword", "weapon", world_object.no_func, world_object.no_func),    \
+      "hat" : item.item("Cloth Hat", "hat", world_object.no_func, world_object.no_func),             \
+      "shirt" : item.item("Cloth Shirt", "shirt", world_object.no_func, world_object.no_func),       \
+      "pants" : item.item("Cloth Pants", "pants", world_object.no_func, world_object.no_func),       \
+      "ring" : item.item("Useless ring", "ring", world_object.no_func, world_object.no_func),        \
+      "consumable" : item.item("Nothing", "consumable", world_object.no_func, world_object.no_func), \
       "mov_spd" : 150,                           \
       "atk_spd" : 300,                            \
       "can_cast" : True,                          \
