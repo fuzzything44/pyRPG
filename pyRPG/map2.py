@@ -22,9 +22,14 @@ def generate():
     world.map[4][4] = [0, 'A', True]
     world.map[5][4] = [0, 'S', True]
     world.map[6][4] = [0, 'D', True]
+    world.map[4][6] = [0, 'M', True]
+    world.map[5][6] = [0, 'O', True]
+    world.map[6][6] = [0, 'V', True]
 
     world.map[world.WORLD_X - 6][3] = [0, 'I', True]
     world.map[world.WORLD_X - 7][4] = [0, 'J', True]
     world.map[world.WORLD_X - 6][4] = [0, 'K', True]
     world.map[world.WORLD_X - 5][4] = [0, 'L', True]
-
+    world.map[world.WORLD_X - 7][6] = [0, 'A', True]
+    world.map[world.WORLD_X - 6][6] = [0, 'T', True]
+    world.map[world.WORLD_X - 5][6] = [0, 'K', True]

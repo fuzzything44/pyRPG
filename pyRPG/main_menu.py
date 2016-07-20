@@ -6,6 +6,9 @@ def load_game():
 
    
 def new_game():
+    # Get their save name
+    
+    # Class select!
     # What color each class should be
     color_list = [display.RED, display.BLUE, display.YELLOW]
     # What the middle text is for each class
@@ -16,27 +19,24 @@ def new_game():
     # Number of rows each box takes up. 3 for the box + 2 for the space below
     box_size = 5
     # Where the boxes start display on y-axis
-    box_start = 5
+    box_start = 4
     # Left side of boxes
     box_left = 32
     # Clear screen and set up menu.
     display.clear()
+    for i in range(len(text_list)):
+        display.printc(box_left, box_start + i * box_size, box)
+        display.printc(box_left, box_start + i * box_size + 1, text_list[i])
+        display.printc(box_left, box_start + i * box_size + 2, box)
+
+    # Draw first box in color
     display.printc(box_left, box_start, box, color_list[0])
     display.printc(box_left, box_start + 1, text_list[0], color_list[0])
     display.printc(box_left, box_start + 2, box, color_list[0])
 
-
-    display.printc(box_left, box_start + box_size, box)
-    display.printc(box_left, box_start + box_size + 1, text_list[1])
-    display.printc(box_left, box_start + box_size + 2, box)
-
-    display.printc(box_left, box_start + 2 * box_size, box)
-    display.printc(box_left, box_start + 2 * box_size + 1, text_list[2])
-    display.printc(box_left, box_start + 2 * box_size + 2, box)
-    
-    
     choice = 0;
-
+    
+    
     display.refresh()
     while True:
         # Check for choice down/up
@@ -134,6 +134,7 @@ def start():
                 return
             if opt == 1:
                 new_game()
+                world.save_player()
                 display.clear()
                 return
             if opt == 2:

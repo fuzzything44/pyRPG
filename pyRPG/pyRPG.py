@@ -95,7 +95,7 @@ while True: # Main game loop
             pass # Been put in list multiple times.
     world.to_del.clear()
     if display.keyDown(display.CONST.VK_ESCAPE):
-        while display.menu("Options:", [[], [], ["spell"], []], ["Resume", lambda: 0], ["Inventory", player.inventory_menu], ["Spells", player.set_active], ["Exit", display.end]):
+        while display.menu("Options:", [[], [], ["spell"], [], []], ["Resume", lambda: 0], ["Inventory", player.inventory_menu], ["Spells", player.set_active], ["Save", world.save_player], ["Exit", display.end]):
             world.player.attributes["spell"].draw()
             try:
                 world.player.attributes["consumable"].attributes["draw"]()
