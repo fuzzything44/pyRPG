@@ -4,8 +4,8 @@ from sys import stdout
 from win32 import win32api
 import win32con as CONST
 
-
-keyDown = win32api.GetAsyncKeyState
+def keyDown(key):
+    return win32api.GetAsyncKeyState(key) & (1 << 15)
 
 # Color definitions
 WHITE = 0
