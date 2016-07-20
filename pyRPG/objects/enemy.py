@@ -33,7 +33,8 @@ def enemy_update(this, delta_time):
 
 def enemy_collide(this, obj):
     if obj.type == "player":
-        pass #   Issue: Does massive damage, must add effect here to give player immunity   # obj.attributes["HP"] -= 10
+        pass #   Issue: Does massive damage, must add effect here to give player immunity   # obj.attributes["HP"] -= this.attributes["damage"]
+
 
 def enemyColor(this):
   return display.CYAN
