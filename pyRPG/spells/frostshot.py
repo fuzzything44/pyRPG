@@ -7,3 +7,4 @@ def frostshot(player):
 manaCost = 15
 icon = ["\\|/", "-0-", "/|\\"]
 color = display.BLUE
+name = "Frostshot"

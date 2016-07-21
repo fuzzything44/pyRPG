@@ -22,6 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="credits.py" />
     <Compile Include="display.py">
       <SubType>Code</SubType>
     </Compile>
@@ -36,6 +37,7 @@
     <Compile Include="effects\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="end.py" />
     <Compile Include="items\bread.py">
       <SubType>Code</SubType>
     </Compile>
@@ -106,6 +108,7 @@
     </Compile>
     <Compile Include="spells\fireball.py" />
     <Compile Include="spells\frostshot.py" />
+    <Compile Include="spells\heal.py" />
     <Compile Include="spells\spell.py">
       <SubType>Code</SubType>
     </Compile>
@@ -113,6 +116,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="start.py" />
+    <Compile Include="stonstart.py" />
     <Compile Include="town.py" />
     <Compile Include="tut1.py" />
     <Compile Include="tutboss.py" />

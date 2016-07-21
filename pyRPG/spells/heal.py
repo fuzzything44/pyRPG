@@ -10,3 +10,4 @@ def heal(player):
 manaCost = 5
 icon = ["\\|/", "-+-", "/|\\"]
 color = display.WHITE
+name = "Heal"

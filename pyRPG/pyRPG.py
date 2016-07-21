@@ -19,20 +19,13 @@ import end
 import stonstart
 import credits
 
-display.start()
-main_menu.start()
-# Title menu!
-# Needs world selection menu. Probably try for a scrolling menu with basic graphics if possible.
-
-
-world.load_player("")
+# World generation
 try:
     start.generate()
     world.objects = [world.player] + world.objects
     world.save("start")
 except Exception as ex:
     pass
-world.load("")
 try:
     tut1.generate()
     world.objects = [world.player] + world.objects
@@ -70,7 +63,13 @@ try:
 except Exception as ex:
     pass
 
-world.load("start")
+
+display.start()
+main_menu.start()
+# Title menu!
+# Needs world selection menu. Probably try for a scrolling menu with basic graphics if possible.
+
+
 world.objects = [world.player] + world.objects
 
 # Print world out

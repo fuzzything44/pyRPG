@@ -7,3 +7,4 @@ def fireball(player):
 manaCost = 25
 icon = ["\\|/", "-0-", "/|\\"]
 color = display.RED
+name = "Fireball"

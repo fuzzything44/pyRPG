@@ -12,6 +12,10 @@ from items import UselessRingg
 
 from objects import player
 from objects import world_object
+
+from spells import heal
+from spells import spell
+
 def load_game():
     pass
 
@@ -118,7 +122,7 @@ def new_game():
             # Basic player. Choice will modify it's attributes.
             world.player = world_object.world_object(player.player_update, player.collide, player.player_char, player.player_color, "player", 0, 0, player.player_attributes)
             hat = shirt = pants = ring = weapon = None
-            spell = None
+            sp = spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon, heal.color)
             if not choice: # Choice was 0, so warrior
                 # Create player as warrior character
                 # Their equipment
@@ -133,7 +137,7 @@ def new_game():
             if choice == 2: # Choice was Thief
                 pass
 
-            world.player.attributes["items"] = [hat, shirt, pants, ring, weapon, spell] # Give them their equips
+            world.player.attributes["items"] = [hat, shirt, pants, ring, weapon, sp] # Give them their equips
             world.player.attributes["hat"] = hat                                        # Equip everything!
             hat.equip(hat, world.player)
             world.player.attributes["shirt"] = shirt
@@ -144,7 +148,7 @@ def new_game():
             ring.equip(ring, world.player)
             world.player.attributes["weapon"] = weapon
             weapon.equip(weapon, world.player)
-            world.player.attributes["spell"] = spell
+            world.player.attributes["spell"] = sp
                 
             # Load starting world
             world.load("start")
