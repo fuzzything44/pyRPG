@@ -22,7 +22,7 @@ def MiniBoss_update(this, delta_time):
     if this.attributes["HP"] <= 0:
         world.to_del.append(this)
     else:        
-        if randrange(0, 500) < delta_time:  
+        if randrange(0, this.attributes["mov_speed"]) < delta_time:  
             this.X += randrange(-1, 2)
             this.Y += randrange(-1, 2)
             if this.X < 0:
@@ -32,7 +32,8 @@ def MiniBoss_update(this, delta_time):
 
 def MiniBosscollide(this, obj):
     if obj.type == "player":
-        pass #   Issue: Does massive damage, must add effect here to give player immunity   # obj.attributes["HP"] -= this.attributes["damage"]
+        obj.attributes["HP"] -= this.attributes["damage"]
+        this.X += 1
 
 
 def MiniBossColor(this):
@@ -47,7 +48,7 @@ MiniBoss_attributes =                     \
     { "HP" : 100.0,                     \
       "MP" : 50,                        \
       "effects" : {},                   \
-      "mov_spd" : 30,                    \
+      "mov_spd" : 200,                    \
       "atk_spd" : 150,                   \
       "damage" : 10,                      \
       "EXP" : 5
