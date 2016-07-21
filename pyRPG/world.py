@@ -11,6 +11,7 @@ WORLD_LAVA      = [1, '#', True]        # Lava tile. Must add a damage tile over
 WORLD_GRASS     = [4, ';', True]        # Grass!
 WORLD_CHEST     = [6, '@', False]       # Phat Loot!
 WORLD_SMOG      = [0, 'z', False]       # Poison Gas, need a damage tile
+WORLD_STONE     = [0, ';'  True]        #extra floor tile
 
 WORLD_X = 50    # Max X size
 WORLD_Y = 20    # Max Y size

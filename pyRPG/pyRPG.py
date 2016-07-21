@@ -15,6 +15,8 @@ import start
 import tut1
 import tutboss
 import town
+import end
+import stonstart
 
 display.start()
 main_menu.start()
@@ -46,6 +48,18 @@ try:
     town.generate()
     world.objects = [world.player] + world.objects
     world.save("town")
+except Exception as ex:
+    pass
+try:
+    end.generate()
+    world.objects = [world.player] + world.objects
+    world.save("end")
+except Exception as ex:
+    pass
+try:
+    stonstart.generate()
+    world.objects = [world.player] + world.objects
+    world.save("stonstart")
 except Exception as ex:
     pass
 
