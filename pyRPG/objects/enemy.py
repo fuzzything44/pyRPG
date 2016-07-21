@@ -23,7 +23,7 @@ def enemy_update(this, delta_time):
     if this.attributes["HP"] <= 0:
         world.to_del.append(this)
     else:        
-        if randrange(0, this.attributes["mov_speed"]) < delta_time:  
+        if randrange(0, this.attributes["mov_spd"]) < delta_time:  
             this.X += randrange(-1, 2)
             this.Y += randrange(-1, 2)
             if this.X < 0:
