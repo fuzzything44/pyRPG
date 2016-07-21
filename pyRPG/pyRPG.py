@@ -17,6 +17,7 @@ import tutboss
 import town
 import end
 import stonstart
+import credits
 
 display.start()
 main_menu.start()
@@ -60,6 +61,12 @@ try:
     stonstart.generate()
     world.objects = [world.player] + world.objects
     world.save("stonstart")
+except Exception as ex:
+    pass
+try:
+    credits.generate()
+    world.objects = [world.player] + world.objects
+    world.save("credits")
 except Exception as ex:
     pass
 
