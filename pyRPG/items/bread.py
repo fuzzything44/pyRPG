@@ -1,3 +1,4 @@
+import display
 from objects import world_object
 
 type = "consumable"
@@ -12,7 +13,7 @@ def use(own):
     except:
         pass
 name = "Bread"
-attributes = {"icon" : ["0oO", "Oo0", "o0O"], "color": display.GREEN, "use" : use}
+attributes = {"icon" : ["   ", "(#)", "   "], "color": display.YELLOW, "use" : use}
 
 
 
