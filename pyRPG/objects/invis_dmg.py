@@ -1,6 +1,6 @@
 from effects import fire
 
-def invis_dmg_update(this, delta_time):
+def update(this, delta_time):
     try:
         for index in this.attributes["timers"]:
             this.attributes["timers"][index] -= delta_time
@@ -10,7 +10,7 @@ def invis_dmg_update(this, delta_time):
         this.attributes["timers"] = {}   # Give it timers
 
 # Since various sources of damage may do different effects, we need a new collide for each effect       
-def invis_fire_dmg_collide(this, oth):
+def fire_collide(this, oth):
     if not (oth in this.attributes["timers"]):
         try:
             oth.attributes["HP"] -= 10              # Hurt it
@@ -19,10 +19,10 @@ def invis_fire_dmg_collide(this, oth):
         except:
             pass # Object did not have HP
 
-def invis_dmg_char(this):
+def char(this):
     return '\0' # Invisible!
 
-def invis_dmg_color(this):
+def color(this):
     return 0    # Invisible!
 
-invis_dmg_type = "damage"
+type = "damage"

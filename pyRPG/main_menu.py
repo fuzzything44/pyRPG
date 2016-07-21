@@ -1,8 +1,17 @@
 import display
 import world
+from items import item
+
+# Warrior equipment
+from items import clothhat
+from items import clothPants
+from items import clothShirt
+from items import okaySword
+from items import UselessRingg
+# Mage equipment
+
 from objects import player
 from objects import world_object
-
 def load_game():
     pass
 
@@ -108,14 +117,35 @@ def new_game():
         if display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_RETURN):
             # Basic player. Choice will modify it's attributes.
             world.player = world_object.world_object(player.player_update, player.collide, player.player_char, player.player_color, "player", 0, 0, player.player_attributes)
+            hat = shirt = pants = ring = weapon = None
+            spell = None
             if not choice: # Choice was 0, so warrior
                 # Create player as warrior character
-                pass
+                # Their equipment
+                hat = item.item(clothhat.name, clothhat.type, clothhat.on_equip, clothhat.on_unequip, 1, clothhat.attributes)
+                shirt = item.item(clothShirt.name, clothShirt.type, clothShirt.on_equip, clothShirt.on_unequip, 1, clothShirt.attributes)
+                pants = item.item(clothPants.name, clothPants.type, clothPants.on_equip, clothPants.on_unequip, 1, clothPants.attributes)
+                ring = item.item(UselessRingg.name, UselessRingg.type, UselessRingg.on_equip, UselessRingg.on_unequip, 1, UselessRingg.attributes)
+                weapon = item.item(okaySword.name, okaySword.type, okaySword.on_equip, okaySword.on_unequip, 1, okaySword.attributes)
             if choice == 1: # Choice was Mage
                 # Create player as mage.
                 pass
             if choice == 2: # Choice was Thief
                 pass
+
+            world.player.attributes["items"] = [hat, shirt, pants, ring, weapon, spell] # Give them their equips
+            world.player.attributes["hat"] = hat                                        # Equip everything!
+            hat.equip(hat, world.player)
+            world.player.attributes["shirt"] = shirt
+            shirt.equip(shirt, world.player)
+            world.player.attributes["pants"] = pants
+            pants.equip(pants, world.player)
+            world.player.attributes["ring"] = ring
+            ring.equip(ring, world.player)
+            world.player.attributes["weapon"] = weapon
+            weapon.equip(weapon, world.player)
+            world.player.attributes["spell"] = spell
+                
             # Load starting world
             world.load("start")
             return
@@ -163,7 +193,6 @@ def start():
             # Wait for key release
             while display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_RETURN):
                 pass
-
             if opt == 0:
                 load_game()
                 display.clear()
