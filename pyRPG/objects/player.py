@@ -139,7 +139,7 @@ player_attributes =                     \
       "effects" : {},                   \
       "EXP" : 0,                        \
       "level" : 1,                      \
-      "items" : [item.item(bread.name, "consumable", world_object.no_func, world_object.no_func, 100, {"icon" : ["0oO", "Oo0", "o0O"], "color": display.GREEN, "use" : bread.use})],                     \
+      "items" : [item.item(bread.name, "consumable", bread.equip, bread.unequip, 100, bread.attributes)],                     \
       "spell" : spell.spell(heal.manaCost, heal.heal, heal.icon, heal.color), \
       "weapon" : item.item("No Weapon", "weapon", world_object.no_func, world_object.no_func),    \
       "hat" : item.item("No Hat", "hat", world_object.no_func, world_object.no_func),             \
@@ -147,12 +147,12 @@ player_attributes =                     \
       "pants" : item.item("No Pants", "pants", world_object.no_func, world_object.no_func),       \
       "ring" : item.item("No ring", "ring", world_object.no_func, world_object.no_func),        \
       "consumable" : item.item("Nothing", "consumable", world_object.no_func, world_object.no_func, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
-      "mov_spd" : 50,                           \
-      "atk_spd" : 300,                            \
-      "can_cast" : True,                          \
-      "can_item" : True,                \
+      "mov_spd" : 50,                    \
+      "atk_spd" : 300,                   \
+      "can_cast" : True,                 \
+      "can_item" : True,                 \
       "magic" : 5,                       \
-      "strength" : 5000
+      "strength" : 5                     \
     }
 
 
@@ -190,9 +190,13 @@ def set_active(type):
     # Here we have to figure out what they chose.
     # So if they are on page n, then we must add 15 * n to the items index. So 0th page is items 0-15, 1st page is 15-29, etc...
     # Then, choice == 3 is the first item displayed, so add choice - 3 to that.
-    world.player.attributes[type].unequip(world.player.attributes[type], world.player) # Unequip the old item.
-    world.player.attributes[type] = options[15 * curr_page + choice - 3]
-    world.player.attributes[type].equip(world.player.attributes[type], world.player) # Equip new item
+    if type != "spell": # Spells don't have equip and unequip functions.
+        world.player.attributes[type].unequip(world.player.attributes[type], world.player) # Unequip the old item.
+        world.player.attributes[type] = options[15 * curr_page + choice - 3]
+        world.player.attributes[type].equip(world.player.attributes[type], world.player) # Equip new item
+    else:
+        world.player.attributes[type] = options[15 * curr_page + choice - 3]
+
     
 def inventory_menu():
     while display.menu("Inventory", [[], ["consumable"], ["weapon"], ["hat"], ["shirt"], ["pants"], ["ring"]], ["Back", lambda: 0], ["-Set Consumable", set_active], ["-Set Weapon", set_active], ["-Set Hat", set_active], ["-Set Shirt", set_active], ["-Set Pants", set_active], ["-Set Ring", set_active]):
