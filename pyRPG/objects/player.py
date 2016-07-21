@@ -9,7 +9,7 @@ from objects import attack
 from objects import world_object
 
 from spells import spell
-from spells import fireball
+from spells import heal
 
 from items import bread
 def player_update(this, delta_time):
