@@ -140,7 +140,7 @@ player_attributes =                     \
       "EXP" : 0,                        \
       "level" : 1,                      \
       "items" : [item.item(bread.name, "consumable", world_object.no_func, world_object.no_func, 100, {"icon" : ["0oO", "Oo0", "o0O"], "color": display.GREEN, "use" : bread.use})],                     \
-      "spell" : spell.heal, \
+      "spell" : spell.spell(heal.manaCost, heal.heal, heal.icon, heal.color), \
       "weapon" : item.item("No Weapon", "weapon", world_object.no_func, world_object.no_func),    \
       "hat" : item.item("No Hat", "hat", world_object.no_func, world_object.no_func),             \
       "shirt" : item.item("No Shirt", "shirt", world_object.no_func, world_object.no_func),       \
