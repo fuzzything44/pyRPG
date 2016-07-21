@@ -3,4 +3,5 @@ from objects import *
 
 def generate():
     world.objects = []
-    world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
+    world.map = [[ world.WORLD_STONE for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
+    world.objects = [world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 49,10,{"newmap": "ston1", "locx": 0, "locy": 10, "used" : False})]
