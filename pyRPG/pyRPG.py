@@ -18,6 +18,9 @@ import town
 import end
 import stonstart
 import credits
+import ston1
+import ston2
+import stonboss
 
 # World generation
 try:
@@ -62,7 +65,24 @@ try:
     world.save("credits")
 except Exception as ex:
     pass
-
+try:
+    ston1.generate()
+    world.objects = [world.player] + world.objects
+    world.save("ston1")
+except Exception as ex:
+    pass
+try:
+    ston2.generate()
+    world.objects = [world.player] + world.objects
+    world.save("ston2")
+except Exception as ex:
+    pass
+try:
+    stonboss.generate()
+    world.objects = [world.player] + world.objects
+    world.save("stonboss")
+except Exception as ex:
+    pass
 
 display.start()
 main_menu.start()
