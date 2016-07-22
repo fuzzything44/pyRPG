@@ -5,7 +5,7 @@ def generate():
     world.objects = []
     world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
     
-    world.objects = [world_object.world_object(lockedportal.update, lockedportal.collide, lockedportal.char, lockedportal.color, lockedportal.type, 49,10,{"newmap": "tutboss", "locx": 0, "locy": 10, "used" : False})]
+    world.objects = [world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 49,10,{"newmap": "tutboss", "locx": 0, "locy": 10, "used" : False})]
      
     world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 7, dict(enemy.enemy_attributes)))
     world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 20, 6, dict(enemy.enemy_attributes)))

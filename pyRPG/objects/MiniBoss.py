@@ -40,7 +40,7 @@ def MiniBossColor(this):
   return display.RED
 
 def MiniBossChar(this):
-  return 'p'
+  return 'B'
 
 MiniBoss_type = "enemy"
 
