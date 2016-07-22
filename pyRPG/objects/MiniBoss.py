@@ -37,10 +37,10 @@ def MiniBosscollide(this, obj):
 
 
 def MiniBossColor(this):
-  return display.CYAN
+  return display.RED
 
 def MiniBossChar(this):
-  return 'B'
+  return 'p'
 
 MiniBoss_type = "enemy"
 
