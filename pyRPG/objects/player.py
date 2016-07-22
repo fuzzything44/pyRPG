@@ -127,6 +127,21 @@ def player_color(this):
 
 player_type = "player"
 
+def gain_exp(this, amount):
+    this.attributes["EXP"] += amount
+    while this.attributes["EXP"] >= this.attributes["level"]**2: # They levelled up!
+        this.attributes["EXP"] -= this.attributes["level"]**2 # Remove EXP required for level
+        this.attributes["level"] += 1 # Duh.
+
+        this.attributes["maxHP"] += 10 # Give stats. TODO: Give them based on class
+        this.attributes["maxMP"] += 5
+        this.attributes["mov_spd"] -= 2
+        this.attributes["atk_spd"] -= 3
+        this.attributes["magic"] += 2
+        this.attributes["strength"] += 2
+
+        this.attributes["HP"] = this.attributes["maxHP"] # HP restore on level
+        this.attributes["MP"] = this.attributes["maxMP"] # MP restore on level
 # effects is a dictionary of (string) effect name to [(func) tick(player, delta_time), (func) on_remove(player), time_left]
 # items is a dictionary of (string) item name to ITEM or to SPELL
 # TODO: change current spell to conform to basic spells. Also have basic equips in inventory.
@@ -139,20 +154,22 @@ player_attributes =                     \
       "effects" : {},                   \
       "EXP" : 0,                        \
       "level" : 1,                      \
-      "items" : [item.item(bread.name, "consumable", bread.equip, bread.unequip, 100, bread.attributes)],                     \
-      "spell" : spell.spell(heal.manaCost, heal.heal, heal.icon, heal.color), \
-      "weapon" : item.item("No Weapon", "weapon", world_object.no_func, world_object.no_func),    \
-      "hat" : item.item("No Hat", "hat", world_object.no_func, world_object.no_func),             \
-      "shirt" : item.item("No Shirt", "shirt", world_object.no_func, world_object.no_func),       \
-      "pants" : item.item("No Pants", "pants", world_object.no_func, world_object.no_func),       \
-      "ring" : item.item("No ring", "ring", world_object.no_func, world_object.no_func),        \
-      "consumable" : item.item("Nothing", "consumable", world_object.no_func, world_object.no_func, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
+      "items" : [],                     \
+      "class" : "newb",                 \
+      "spell" : spell.spell(0, world_object.no_func, ["   ", "   ", "   "], display.WHITE), \
+      "weapon" : item.item("", "weapon", world_object.no_func, world_object.no_func),       \
+      "hat" : item.item("", "hat", world_object.no_func, world_object.no_func),             \
+      "shirt" : item.item("", "shirt", world_object.no_func, world_object.no_func),         \
+      "pants" : item.item("", "pants", world_object.no_func, world_object.no_func),         \
+      "ring" : item.item("", "ring", world_object.no_func, world_object.no_func),           \
+      "consumable" : item.item("", "consumable", world_object.no_func, world_object.no_func, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
       "mov_spd" : 50,                    \
       "atk_spd" : 300,                   \
       "can_cast" : True,                 \
       "can_item" : True,                 \
       "magic" : 5,                       \
-      "strength" : 5                     \
+      "strength" : 5,                    \
+      "gainexp" : gain_exp               \
     }
 
 

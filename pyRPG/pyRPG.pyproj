@@ -49,7 +49,7 @@
     <Compile Include="items\drStangesBoots.py" />
     <Compile Include="items\dumbledoresPants.py" />
     <Compile Include="items\Excalibur.py" />
-    <Compile Include="items\fast pants.py" />
+    <Compile Include="items\fastPants.py" />
     <Compile Include="items\fastHat.py" />
     <Compile Include="items\fastShirt.py" />
     <Compile Include="items\gandolfRobe.py" />

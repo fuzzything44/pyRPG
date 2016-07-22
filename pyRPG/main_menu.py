@@ -9,6 +9,15 @@ from items import clothShirt
 from items import okaySword
 from items import UselessRingg
 # Mage equipment
+from items import wizardsHat
+from items import magePants
+from items import magerobe
+from items import t1wand
+# Thief equipment
+from items import dagger
+from items import fastHat
+from items import fastShirt
+from items import fastPants
 
 from objects import player
 from objects import world_object
@@ -121,7 +130,8 @@ def new_game():
         if display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_RETURN):
             # Basic player. Choice will modify it's attributes.
             world.player = world_object.world_object(player.player_update, player.collide, player.player_char, player.player_color, "player", 0, 0, player.player_attributes)
-            hat = shirt = pants = ring = weapon = None
+            hat = shirt = pants = weapon = None
+            ring = item.item(UselessRingg.name, UselessRingg.type, UselessRingg.on_equip, UselessRingg.on_unequip, 1, UselessRingg.attributes)
             sp = spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon, heal.color)
             if not choice: # Choice was 0, so warrior
                 # Create player as warrior character
@@ -129,16 +139,22 @@ def new_game():
                 hat = item.item(clothhat.name, clothhat.type, clothhat.on_equip, clothhat.on_unequip, 1, clothhat.attributes)
                 shirt = item.item(clothShirt.name, clothShirt.type, clothShirt.on_equip, clothShirt.on_unequip, 1, clothShirt.attributes)
                 pants = item.item(clothPants.name, clothPants.type, clothPants.on_equip, clothPants.on_unequip, 1, clothPants.attributes)
-                ring = item.item(UselessRingg.name, UselessRingg.type, UselessRingg.on_equip, UselessRingg.on_unequip, 1, UselessRingg.attributes)
                 weapon = item.item(okaySword.name, okaySword.type, okaySword.on_equip, okaySword.on_unequip, 1, okaySword.attributes)
             if choice == 1: # Choice was Mage
                 # Create player as mage.
-                pass
+                hat = item.item(wizardsHat.name, wizardsHat.type, wizardsHat.on_equip, wizardsHat.on_unequip, 1, wizardsHat.attributes)
+                shirt = item.item(magerobe.name, magerobe.type, magerobe.on_equip, magerobe.on_unequip, 1, magerobe.attributes)
+                pants = item.item(magePants.name, magePants.type, magePants.on_equip, magePants.on_unequip, 1, magePants.attributes)
+                weapon = item.item(t1wand.name, t1wand.type, t1wand.on_equip, t1wand.on_unequip, 1, t1wand.attributes)
             if choice == 2: # Choice was Thief
-                pass
-
+                hat = item.item(fastHat.name, fastHat.type, fastHat.on_equip, fastHat.on_unequip, 1, fastHat.attributes)
+                shirt = item.item(fastShirt.name, fastShirt.type, fastShirt.on_equip, fastShirt.on_unequip, 1, fastShirt.attributes)
+                pants = item.item(fastPants.name, fastPants.type, fastPants.on_equip, fastPants.on_unequip, 1, fastPants.attributes)
+                weapon = item.item(dagger.name, dagger.type, dagger.on_equip, dagger.on_unequip, 1, dagger.attributes)
+            
             world.player.attributes["items"] = [hat, shirt, pants, ring, weapon, sp] # Give them their equips
-            world.player.attributes["hat"] = hat                                        # Equip everything!
+            world.player.attributes["hat"] = hat
+
             hat.equip(hat, world.player)
             world.player.attributes["shirt"] = shirt
             shirt.equip(shirt, world.player)
