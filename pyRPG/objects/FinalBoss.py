@@ -8,8 +8,6 @@ from objects import attack
 from objects import world_object
 from spells import spell
 
-hella = 10000
-
 def FinalBoss_update(this, delta_time):
     eff_del_list = []
     for eff in this.attributes["effects"]:
@@ -44,6 +42,6 @@ FinalBoss_attributes = \
      "mov_spd": 40, \
      "attk_spd": 60, \
      "damage": 30, \
-     "EXP": hella, \
+     "EXP": 10000, \
      "range": 10, \
 }
