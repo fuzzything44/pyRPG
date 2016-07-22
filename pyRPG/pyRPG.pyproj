@@ -92,6 +92,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\enemy.py" />
+    <Compile Include="objects\FinalBoss.py" />
     <Compile Include="objects\fireball_obj.py" />
     <Compile Include="objects\frostshot_obj.py" />
     <Compile Include="objects\invis_dmg.py" />
