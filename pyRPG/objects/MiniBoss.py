@@ -4,7 +4,9 @@ import display
 import world
 
 from items import item
+from items import bread
 from objects import attack
+from objects import chest
 from objects import money
 from objects import world_object
 from spells import spell
@@ -22,20 +24,29 @@ def MiniBoss_update(this, delta_time):
     del eff_del_list
     if this.attributes["HP"] <= 0:
         world.to_del.append(this)
-        world.objects.append(world_object.world_object(money.money_update, money.money_collide, money.money_char, money.money_color, money.money_type, this.X, this.Y, {"value": 20}))
+        chest_attr = {"canopen" : False, "contents": [item.item(bread.name, bread.type, bread.equip, bread.unequip, 10, bread.attributes)]}
+        world.map[this.X][this.Y] = world.WORLD_CHEST
+        # Add actual chests
+        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, this.X - 1, this.Y, chest_attr))
+        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, this.X + 1, this.Y, chest_attr))
+        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, this.X, this.Y - 1, chest_attr))
+        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, this.X, this.Y + 1, chest_attr))
+
     else:        
         if randrange(0, this.attributes["mov_spd"]) < delta_time:  
-            this.X += randrange(-1, 2)
-            this.Y += randrange(-1, 2)
-            if this.X < 0:
-                this.X = 0
-            if this.Y < 0:
-                this.Y = 0
+            newX = this.X + randrange(-1, 2)
+            newY = this.Y + randrange(-1, 2)
+            # Don't walk out of bounds or on a wall...
+            if (newX >= 0) and (newX < world.WORLD_X) and (newY >= 0) and (newY < world.WORLD_Y) and (world.map[newX][newY][2]):
+                this.X = newX
+                this.Y = newY
 
 def MiniBosscollide(this, obj):
     if obj.type == "player":
         obj.attributes["HP"] -= this.attributes["damage"]
         this.X += 1
+        if this.X == world.WORLD_X:
+            this.X = 0
 
 
 def MiniBossColor(this):
