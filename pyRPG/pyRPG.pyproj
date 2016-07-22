@@ -100,6 +100,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\MiniBoss.py" />
+    <Compile Include="objects\money.py" />
     <Compile Include="objects\player.py" />
     <Compile Include="objects\portal.py" />
     <Compile Include="objects\world_object.py" />
