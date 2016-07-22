@@ -8,7 +8,7 @@ from items import item
 from objects import attack
 from objects import world_object
 
-from spells import *
+from spells import fireball
 from spells import spell
 
 from items import bread
@@ -135,14 +135,17 @@ def gain_exp(this, amount):
         this.attributes["level"] += 1 # Duh.
         if this.attributes["level"] == 2:
             if this.attributes["class"] == "mage":
-                player.items.append(spell.spell(fireball.manaCost, fireball.fireball, fireball.name, fireball.icon, fireball.color))
+                try:
+                    this.attributes["items"].append(spell.spell(fireball.manaCost, fireball.fireball, fireball.name, fireball.icon, fireball.color))
+                except Exception as ex:
+                    pass
             if this.attributes["class"] == "warrior":
                 pass
             if this.attributes["class"] == "thief":
                 pass
         if this.attributes["level"] == 4:
             if this.attributes["class"] == "mage":
-                player.items.append(spell.spell(frostshot.manaCost, frostshot.frostshot, frostshot.name, frostshot.icon, frostshot.color))
+                this.attributes["items"].append(spell.spell(frostshot.manaCost, frostshot.frostshot, frostshot.name, frostshot.icon, frostshot.color))
         if this.attributes["class"] == "warrior":
             this.attributes["maxHP"] += 15 # Give stats. TODO: Give them based on class
             this.attributes["maxMP"] += 5

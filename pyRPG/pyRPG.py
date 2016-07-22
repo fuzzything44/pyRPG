@@ -167,4 +167,3 @@ while True: # Main game loop
             except:
                 pass
             display.refresh()
-        
