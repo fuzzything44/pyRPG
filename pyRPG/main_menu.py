@@ -32,9 +32,77 @@ def load_game():
     saves = glob.glob("res/saves/*.plr")
     # Parse res/saves/FILE.plr to just FILE. Much better for display, don't want the res/ for pickling.
     saves = [file[10:-4] for file in saves]
-    new_game()
+    # Break saves into pages.
+    PAGE_SIZE = 25
+    pages = [[]]
+    for opt in saves:             # Add every object to the list.
+        if len(pages[-1]) == PAGE_SIZE:    # If list overflow, add a new page
+            pages.append([])
+        # Add option to last element in pages. Also should edits it to give amount held too.
+        pages[-1].append(opt)
 
-   
+    curr_page = 0
+    choice = 0
+    display.clear()
+    # Display first page
+    for index in range(len(pages[curr_page])):
+        display.printc(10, index, pages[curr_page][index]) # Print out the option
+
+    display.printc(9, 0, '>') # Cursor
+    display.refresh()
+    can_up = True
+    can_down = True
+    while True: # Now loop and wait for a choice
+        if (display.keyDown(ord('W')) or display.keyDown(display.CONST.VK_UP)) and can_up:
+            # Go up 1.
+            display.printc(9, choice, ' ') # Remove old arrow
+            if choice == 0: # Already at top of page. 
+                if curr_page == 0:
+                    curr_page = len(pages) - 1 # Go to last page
+                else:
+                    # Go up a page
+                    curr_page -= 1
+                choice = len(pages[-1]) # Go to bottom of page
+                display.clear() # Clear all the old stuff.
+                for index in range(len(pages[curr_page])): # Draw the new page
+                    display.printc(10, index, pages[curr_page][index]) # Print out the option
+
+            choice -= 1 # Go up 1.
+            display.printc(9, choice, '>') # Redraw arrow
+            display.refresh() # Refresh screen
+            can_up = False
+        if not (display.keyDown(ord('W')) or display.keyDown(display.CONST.VK_UP)):
+            can_up = True
+        if (display.keyDown(ord('S')) or display.keyDown(display.CONST.VK_DOWN)) and can_down:
+            # Go down 1.
+            display.printc(9, choice, ' ') # Remove old arrow
+            if choice == len(pages[curr_page]) - 1: # Already at bottom of page. 
+                if curr_page == len(pages) - 1:
+                    curr_page = 0 # Go to first page
+                else:
+                    # Go down a page
+                    curr_page += 1
+                choice = -1 # Go to top of page
+                display.clear() # Clear all the old stuff.
+                for index in range(len(pages[curr_page])): # Draw the new page
+                    display.printc(10, index, pages[curr_page][index]) # Print out the option
+
+            choice += 1 # Go down 1.
+            if choice == len(pages[curr_page]):
+                choice -= 1 # At bottom, can't go down
+            display.printc(9, choice, '>') # Redraw arrow
+            display.refresh() # Refresh screen
+            can_down = False
+        if not (display.keyDown(ord('S')) or display.keyDown(display.CONST.VK_DOWN)):
+            can_down = True
+
+        # TODO: Possibly let them easily skip through pages with AD and left/right arrow keys
+    
+        if display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_RETURN):
+            file = pages[curr_page][choice]
+            world.load_player(file)
+            return
+
 def new_game():
     # Get their save name
     display.clear()
@@ -139,6 +207,7 @@ def new_game():
             hat = shirt = pants = weapon = None
             ring = item.item(UselessRingg.name, UselessRingg.type, UselessRingg.on_equip, UselessRingg.on_unequip, 1, UselessRingg.attributes)
             sp = spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon, heal.color)
+            pclass = ""
             if not choice: # Choice was 0, so warrior
                 # Create player as warrior character
                 # Their equipment
@@ -146,21 +215,24 @@ def new_game():
                 shirt = item.item(clothShirt.name, clothShirt.type, clothShirt.on_equip, clothShirt.on_unequip, 1, clothShirt.attributes)
                 pants = item.item(clothPants.name, clothPants.type, clothPants.on_equip, clothPants.on_unequip, 1, clothPants.attributes)
                 weapon = item.item(okaySword.name, okaySword.type, okaySword.on_equip, okaySword.on_unequip, 1, okaySword.attributes)
+                pclass = "warrior"
             if choice == 1: # Choice was Mage
                 # Create player as mage.
                 hat = item.item(wizardsHat.name, wizardsHat.type, wizardsHat.on_equip, wizardsHat.on_unequip, 1, wizardsHat.attributes)
                 shirt = item.item(magerobe.name, magerobe.type, magerobe.on_equip, magerobe.on_unequip, 1, magerobe.attributes)
                 pants = item.item(magePants.name, magePants.type, magePants.on_equip, magePants.on_unequip, 1, magePants.attributes)
                 weapon = item.item(t1wand.name, t1wand.type, t1wand.on_equip, t1wand.on_unequip, 1, t1wand.attributes)
+                pclass = "mage"
             if choice == 2: # Choice was Thief
                 hat = item.item(fastHat.name, fastHat.type, fastHat.on_equip, fastHat.on_unequip, 1, fastHat.attributes)
                 shirt = item.item(fastShirt.name, fastShirt.type, fastShirt.on_equip, fastShirt.on_unequip, 1, fastShirt.attributes)
                 pants = item.item(fastPants.name, fastPants.type, fastPants.on_equip, fastPants.on_unequip, 1, fastPants.attributes)
                 weapon = item.item(dagger.name, dagger.type, dagger.on_equip, dagger.on_unequip, 1, dagger.attributes)
-            
+                pclass = "thief"
+
+            world.player.attributes["class"] = pclass
             world.player.attributes["items"] = [hat, shirt, pants, ring, weapon, sp] # Give them their equips
             world.player.attributes["hat"] = hat
-
             hat.equip(hat, world.player)
             world.player.attributes["shirt"] = shirt
             shirt.equip(shirt, world.player)
