@@ -305,6 +305,8 @@ def start():
                 return
             if opt == 1:
                 new_game()
+                world.player.attributes["HP"] = world.player.attributes["maxHP"]
+                world.player.attributes["MP"] = world.player.attributes["maxMP"]
                 world.save_player()
                 display.clear()
                 return
