@@ -4,8 +4,8 @@ from objects import *
 def generate():
     world.objects = []
     world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    world.objects = [world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 49,10,{"newmap": "end", "locx": 1, "locy": 10, "used" : False})]
-    world.objects.append(world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 45,19,{"newmap": "stonstart", "locx": 0, "locy": 10, "used" : False}))
+    #world.objects = [world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 49,10,{"newmap": "end", "locx": 1, "locy": 10, "used" : False})]
+    world.objects.append(world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 45,10,{"newmap": "stonstart", "locx": 0, "locy": 10, "used" : False}))
     world.map[45][1] = world.WORLD_CHEST
 
     

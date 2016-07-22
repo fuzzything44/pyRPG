@@ -20,17 +20,8 @@ def attk_coll(this, oth):
         try: # Deal damage
             oth.attributes["HP"] -= this.attributes["damage"]
             world.to_del.append(this)
-            if oth.attributes["HP"] <= 0:
-                this.attributes["owner"].attributes["EXP"] += oth.attributes["EXP"]
-                if this.attributes["owner"].attributes["EXP"] >= this.attributes["owner"].attributes["level"]**2:
-                    this.attributes["owner"].attributes["EXP"] -= this.attributes["owner"].attributes["level"]**2
-                    this.attributes["owner"].attributes["level"] += 1
-                    this.attributes["owner"].attributes["maxHP"] += 10
-                    this.attributes["owner"].attributes["maxMP"] += 5
-                    this.attributes["owner"].attributes["mov_spd"] -= 2
-                    this.attributes["owner"].attributes["attk_spd"] -= 3
-                    this.attributes["owner"].attributes["magic"] += 2
-                    this.attributes["owner"].attributes["strength"] += 2
+            if oth.attributes["HP"] <= 0: # Give EXP for kill
+                this.attributes["owner"].attributes["gainexp"](this.attributes["owner"], oth.attributes["EXP"])
         except: # Or not...
             pass
     

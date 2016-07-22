@@ -19,6 +19,14 @@ def FinalBoss_update(this, delta_time):
         this.attributes["effects"][to_del][1](this)
         del this.attributes["effects"][to_del]
     del eff_del_list
+    if this.attributes["HP"] < this.attributes["lastHP"]:
+        diff = this.attributes["lastHP"] - this.attributes["HP"] # Difference in HP between this frame and last frame
+        if diff > 10: # Soft damage cap
+            diff = diff ** .75
+        if diff > 50: # Hard damage cap
+            diff = 50
+        this.attributes["lastHP"] -= diff
+        this.attributes["HP"] = this.attributes["lastHP"]
     if this.attributes["HP"] <= 0:
         world.to_del.append(this)
     else:        
@@ -36,8 +44,9 @@ def FinalBossChar(this):
 FinalBoss_type = 'enemy'
 
 FinalBoss_attributes = \
-    {"HP": 1000.0, \
-     "MP": 1000.0, \
+    {"HP": 1000.0,  \
+     "lastHP" : 1000.0, \
+     "MP": 1000.0,  \
      "effects": {}, \
      "mov_spd": 40, \
      "attk_spd": 60, \

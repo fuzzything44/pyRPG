@@ -104,13 +104,14 @@ display.printc(5, 2, "Gold:")
 display.printc(5, 3, "Level")
 
 # Current spell and item border
-display.printc(display.SPELL_BOX_START, 0, "+++++ +++++   Weapon:")
-display.printc(display.SPELL_BOX_START, 1, "+   + +   +   Hat:")
-display.printc(display.SPELL_BOX_START, 2, "+   + +   +   Shirt:")
-display.printc(display.SPELL_BOX_START, 3, "+   + +   +   Pants:")
-display.printc(display.SPELL_BOX_START, 4, "+++++ +++++   Ring:")
+display.printc(display.SPELL_BOX_START, 0, "+++++ +++++   Weapon:" + world.player.attributes["weapon"].name)
+display.printc(display.SPELL_BOX_START, 1, "+   + +   +   Hat:" + world.player.attributes["hat"].name)
+display.printc(display.SPELL_BOX_START, 2, "+   + +   +   Shirt:" + world.player.attributes["shirt"].name)
+display.printc(display.SPELL_BOX_START, 3, "+   + +   +   Pants:" + world.player.attributes["pants"].name)
+display.printc(display.SPELL_BOX_START, 4, "+++++ +++++   Ring:" + world.player.attributes["ring"].name)
 
-
+world.player.attributes["spell"].draw()
+world.player.attributes["consumable"].draw()
 start_time = time.time()
 since_start = 0
 while True: # Main game loop

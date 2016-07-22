@@ -49,7 +49,7 @@
     <Compile Include="items\drStangesBoots.py" />
     <Compile Include="items\dumbledoresPants.py" />
     <Compile Include="items\Excalibur.py" />
-    <Compile Include="items\fast pants.py" />
+    <Compile Include="items\fastPants.py" />
     <Compile Include="items\fastHat.py" />
     <Compile Include="items\fastShirt.py" />
     <Compile Include="items\gandolfRobe.py" />
@@ -92,9 +92,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\enemy.py" />
+    <Compile Include="objects\FinalBoss.py" />
     <Compile Include="objects\fireball_obj.py" />
     <Compile Include="objects\frostshot_obj.py" />
     <Compile Include="objects\invis_dmg.py" />
+    <Compile Include="objects\lavaborder.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\MiniBoss.py" />
     <Compile Include="objects\player.py" />
     <Compile Include="objects\portal.py" />
@@ -116,6 +120,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="start.py" />
+    <Compile Include="ston1.py" />
+    <Compile Include="ston2.py" />
+    <Compile Include="stonboss.py" />
     <Compile Include="stonstart.py" />
     <Compile Include="town.py" />
     <Compile Include="tut1.py" />
