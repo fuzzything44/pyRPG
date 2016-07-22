@@ -8,8 +8,7 @@ from items import item
 from objects import attack
 from objects import world_object
 
-from spells import heal
-from spells import spell
+from spells import *
 
 from items import bread
 def player_update(this, delta_time):
@@ -133,6 +132,16 @@ def gain_exp(this, amount):
     while this.attributes["EXP"] >= this.attributes["level"]**2: # They levelled up!
         this.attributes["EXP"] -= this.attributes["level"]**2 # Remove EXP required for level
         this.attributes["level"] += 1 # Duh.
+        if this.attributes["level"] == 2:
+            if this.attributes["class"] == "mage":
+                player.items.append(spell.spell(fireball.manaCost, fireball.fireball, fireball.name, fireball.icon, fireball.color))
+            if this.attributes["class"] == "warrior":
+                pass
+            if this.attributes["class"] == "thief":
+                pass
+        if this.attributes["level"] == 4
+            if this.attributes["class"] == "mage"
+                player.items.append(spell.spell(frostshot.manaCost, frostshot.frostshot, frostshot.name, frostshot.icon, frostshot.color))
         if this.attributes["class"] == "warrior":
             this.attributes["maxHP"] += 15 # Give stats. TODO: Give them based on class
             this.attributes["maxMP"] += 5
