@@ -9,6 +9,7 @@ from objects import attack
 from objects import world_object
 
 from spells import *
+from spells import spell
 
 from items import bread
 def player_update(this, delta_time):
@@ -139,8 +140,8 @@ def gain_exp(this, amount):
                 pass
             if this.attributes["class"] == "thief":
                 pass
-        if this.attributes["level"] == 4
-            if this.attributes["class"] == "mage"
+        if this.attributes["level"] == 4:
+            if this.attributes["class"] == "mage":
                 player.items.append(spell.spell(frostshot.manaCost, frostshot.frostshot, frostshot.name, frostshot.icon, frostshot.color))
         if this.attributes["class"] == "warrior":
             this.attributes["maxHP"] += 15 # Give stats. TODO: Give them based on class

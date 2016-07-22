@@ -26,12 +26,12 @@ def enemy_update(this, delta_time):
         world.objects.append(world_object.world_object(money.money_update, money.money_collide, money.money_char, money.money_color, money.money_type, this.X, this.Y, {"value": 5}))
     else:        
         if randrange(0, this.attributes["mov_spd"]) < delta_time:  
-            this.X += randrange(-1, 2)
-            this.Y += randrange(-1, 2)
-            if this.X < 0:
-                this.X = 0
-            if this.Y < 0:
-                this.Y = 0
+            newX = this.X + randrange(-1, 2)
+            newY = this.Y + randrange(-1, 2)
+            # If the new tile is walkable on and not out of bounds
+            if (world.map[newX][newY][2]) and (newX >= 0) and (newX < world.WORLD_X) and (newY >= 0) and (newY < world.WORLD_Y):
+                this.X = newX
+                this.Y = newY
 
 def enemy_collide(this, obj):
     if obj.type == "player":
