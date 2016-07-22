@@ -133,13 +133,27 @@ def gain_exp(this, amount):
     while this.attributes["EXP"] >= this.attributes["level"]**2: # They levelled up!
         this.attributes["EXP"] -= this.attributes["level"]**2 # Remove EXP required for level
         this.attributes["level"] += 1 # Duh.
-
-        this.attributes["maxHP"] += 10 # Give stats. TODO: Give them based on class
-        this.attributes["maxMP"] += 5
-        this.attributes["mov_spd"] -= 2
-        this.attributes["atk_spd"] -= 3
-        this.attributes["magic"] += 2
-        this.attributes["strength"] += 2
+        if this.attributes["class"] == "warrior":
+            this.attributes["maxHP"] += 15 # Give stats. TODO: Give them based on class
+            this.attributes["maxMP"] += 5
+            this.attributes["mov_spd"] -= 1
+            this.attributes["atk_spd"] -= 2
+            this.attributes["magic"] += 1
+            this.attributes["strength"] += 4
+        if this.attributes["class"] == "mage":
+            this.attributes["maxHP"] += 5 # Give stats. TODO: Give them based on class
+            this.attributes["maxMP"] += 10
+            this.attributes["mov_spd"] -= 2
+            this.attributes["atk_spd"] -= 2
+            this.attributes["magic"] += 4
+            this.attributes["strength"] += 2
+        if this.attributes["class"] == "thief":
+            this.attributes["maxHP"] += 10  # Give stats. TODO: Give them based on class
+            this.attributes["maxMP"] += 10
+            this.attributes["mov_spd"] -= 4
+            this.attributes["atk_spd"] -= 3
+            this.attributes["magic"] += 2
+            this.attributes["strength"] += 3
 
         this.attributes["HP"] = this.attributes["maxHP"] # HP restore on level
         this.attributes["MP"] = this.attributes["maxMP"] # MP restore on level
