@@ -99,6 +99,7 @@ def player_update(this, delta_time):
         display.printc(33, 9,  "+++++++++++++", display.RED)
         display.printc(33, 10, "+ You DIED! +", display.RED)
         display.printc(33, 11, "+++++++++++++", display.RED)
+        display.flushinp()
         key = -1
         while key == -1:
             key = display.getch()

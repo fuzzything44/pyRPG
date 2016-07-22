@@ -1,3 +1,5 @@
+import glob
+
 import display
 import world
 from items import item
@@ -26,7 +28,11 @@ from spells import heal
 from spells import spell
 
 def load_game():
-    pass
+    # Get all save files
+    saves = glob.glob("res/saves/*.plr")
+    # Parse res/saves/FILE.plr to just FILE. Much better for display, don't want the res/ for pickling.
+    saves = [file[10:-4] for file in saves]
+    new_game()
 
    
 def new_game():
