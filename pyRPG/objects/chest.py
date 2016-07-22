@@ -4,9 +4,6 @@ from items import item
 from objects import world_object
 
 def _chest_remove(chest):
-    # Give player chest money
-    world.player.attributes["money"] += chest.attributes["money"]
-
     item_list = [["Exit", lambda: 0]]
     param_list = [[]]
     # Get items in proper format
@@ -59,7 +56,6 @@ def chest_col(this):
 chest_type = "container"
 
 chest_attributes = {\
-    "money" : 0,    \
     "contents" : [item.item("Useless Sword", "weapon", world_object.no_func, world_object.no_func, 1, { "damage" : 1, "range": 10, "effects" : []}), item.item("Useless Sword", "weapon", world_object.no_func, world_object.no_func, 1, {"damage" : 1, "range": 10, "effects" : []})],        \
     "canopen" : False       \
     }

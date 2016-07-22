@@ -61,5 +61,4 @@ def generate():
     world.map[44][14] = [0,".", True]
 
     world.map[45][1] = world.WORLD_CHEST
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 45, 2, chest.chest_attributes))
-    
+    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 45, 2, {"canopen" : False, "contents" : []}))    
