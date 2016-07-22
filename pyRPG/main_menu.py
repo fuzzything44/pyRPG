@@ -32,6 +32,12 @@ def load_game():
     saves = glob.glob("res/saves/*.plr")
     # Parse res/saves/FILE.plr to just FILE. Much better for display, don't want the res/ for pickling.
     saves = [file[10:-4] for file in saves]
+    if len(saves) == 0:
+        display.printc(30, 8, "No saves were found...")
+        display.flushinp()
+        while display.getch() == -1:
+            pass
+        display.end()
     # Break saves into pages.
     PAGE_SIZE = 25
     pages = [[]]
@@ -127,6 +133,8 @@ def new_game():
     # Wait for release
     while display.keyDown(display.CONST.VK_RETURN):
         pass
+    if file_name == "":
+        file_name = "default"
     world.save_name = file_name
     # Class select!
     # What color each class should be
