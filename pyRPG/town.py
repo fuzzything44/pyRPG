@@ -46,16 +46,16 @@ def generate():
 #house 4
     for x in range(40,49):
         world.map[x][14] = world.WORLD_WALL
-        world.map[x][20] = world.WORLD_WALL
+        world.map[x][19] = world.WORLD_WALL
     for y in range(14,20):
         world.map[40][y] = world.WORLD_WALL
         world.map[49][y] = world.WORLD_WALL
    
-    for x in range(41,48):w
+    for x in range(41,49):
         for y in range(15,19):
             world.map[x][y] = [0,".", True]
 
-    world.map[45][6] = [0,".", True]
+    world.map[45][5] = [0,".", True]
     world.map[20][16] = [0,".", True]
     world.map[15][5] = [0,".", True]
     world.map[44][14] = [0,".", True]
