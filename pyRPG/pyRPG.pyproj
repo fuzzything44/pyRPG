@@ -103,6 +103,9 @@
     <Compile Include="objects\money.py" />
     <Compile Include="objects\player.py" />
     <Compile Include="objects\portal.py" />
+    <Compile Include="objects\shoot_enemy.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\world_object.py" />
     <Compile Include="objects\__init__.py">
       <SubType>Code</SubType>
@@ -112,6 +115,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="spells\fireball.py" />
+    <Compile Include="spells\first_aid.py" />
     <Compile Include="spells\frostshot.py" />
     <Compile Include="spells\heal.py" />
     <Compile Include="spells\spell.py">

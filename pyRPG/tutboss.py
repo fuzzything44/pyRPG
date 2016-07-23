@@ -17,7 +17,7 @@ def generate():
     world.map[36][0] = [0, 't', True]
 
     world.map[30][1] = [1, '#', True]
-    world.objects.append(world_object.world_object(invis_dmg.update, invis_dmg.fire_collide, invis_dmg.char, invis_dmg.color, invis_dmg.type, 30, 15, {}))
+    world.objects.append(world_object.world_object(invis_dmg.update, invis_dmg.fire_collide, invis_dmg.char, invis_dmg.color, invis_dmg.type, 30, 1, {}))
     world.map[31][1] = [0, '=', True]
     world.map[32][1] = [0, 'L', True]
     world.map[33][1] = [0, 'a', True]

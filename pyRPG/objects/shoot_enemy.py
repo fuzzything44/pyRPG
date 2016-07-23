@@ -42,6 +42,12 @@ def update(this, delta_time):
         world.to_del.append(this)
         world.objects.append(world_object.world_object(money.money_update, money.money_collide, money.money_char, money.money_color, money.money_type, this.X, this.Y, {"value": this.attributes["money"]}))
 
+def collide(this, obj):
+    if obj.type == "player":
+        obj.attributes["HP"] -= this.attributes["damage"]
+        this.X += 1
+
+
 def color(this):
     return display.CYAN
 
