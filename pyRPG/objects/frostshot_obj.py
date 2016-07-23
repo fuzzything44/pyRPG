@@ -4,7 +4,7 @@ from objects import world_object
 update = attack.attk_update
 
 def collide(this, other):
-     if not (this.attributes["owner"] is other):
+     if this.attributes["owner"].type != other:
         try: # Deal damage
             other.attributes["HP"] -= this.attributes["damage"]
             world.to_del.append(this)

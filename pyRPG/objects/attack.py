@@ -16,7 +16,7 @@ def attk_update(this, delta_time):
             pass # Out of map, will be automatically deleted
 
 def attk_coll(this, oth):
-    if not (this.attributes["owner"] is oth):
+    if this.attributes["owner"].type != oth.type:
         try: # Deal damage
             oth.attributes["HP"] -= this.attributes["damage"]
             world.to_del.append(this)
