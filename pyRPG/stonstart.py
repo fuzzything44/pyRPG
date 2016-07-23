@@ -1,6 +1,7 @@
 import world
 from objects import *
 from objects import lock_portal
+from objects import shoot_enemy 
 
 def generate():
     world.objects = []
@@ -13,3 +14,4 @@ def generate():
     world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 40, 7, dict(enemy.enemy_attributes)))
     world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 30, 6, dict(enemy.enemy_attributes)))
     world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 25, 10, dict(enemy.enemy_attributes)))
+    world.objects.append(world_object.world_object(shoot_enemy.update, shoot_enemy.collide, shoot_enemy.char, shoot_enemy.color, shoot_enemy.type, 45, 10, dict(shoot_enemy.attributes)))
