@@ -6,9 +6,58 @@ import world
 from items import item
 from objects import attack
 from objects import world_object
-from spells import spell
 
 def FinalBoss_update(this, delta_time):
+    # Movement code
+    if not ("mov_del" in this.attributes["effects"]):
+        diffX = this.X - world.player.X # How much it needs to move left to hit player
+        diffY = this.Y - world.player.Y # How much it needs to move down to hit player
+        if diffX < 0:
+            this.X -= 1
+        else:
+            this.X += 1
+        if diffY < 0:
+            this.Y -= 1
+        else:
+            this.Y += 1
+
+        # Add boundary checking
+        if this.X == 0: # Left side
+            this.X += 1
+        if this.X == world.WORLD_X - 1: # Right side
+            this.X -= 1
+        if this.Y == 0: # Top
+            this.Y += 1
+        if this.Y == world.WORLD_Y - 1: # Bottom
+            this.Y -= 1
+        this.attributes["effects"]["mov_del"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
+    if not ("atk_del" in this.attributes["effects"]):
+        # Attack!
+        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        this.X + 1, this.Y, {"movex" : 1, "movey": 0, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
+        ))
+        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        this.X - 1, this.Y, {"movex" : -1, "movey": 0, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
+        ))
+        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        this.X, this.Y + 1, {"movex" : 0, "movey": 1, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
+        ))
+        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        this.X, this.Y - 1, {"movex" : 0, "movey": -1, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
+        ))
+        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        this.X + 1, this.Y + 1, {"movex" : 1, "movey": 1, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
+        ))
+        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        this.X + 1, this.Y - 1, {"movex" : 1, "movey": -1, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
+        ))
+        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        this.X - 1, this.Y + 1, {"movex" : -1, "movey": 1, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
+        ))
+        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        this.X - 1, this.Y - 1, {"movex" : -1, "movey": -1, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
+        ))
+        this.attributes["effects"]["atk_del"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
     eff_del_list = []
     for eff in this.attributes["effects"]:
         this.attributes["effects"][eff][0](this, delta_time)       # Tick code
@@ -48,9 +97,9 @@ FinalBoss_attributes = \
      "lastHP" : 1000.0, \
      "MP": 1000.0,  \
      "effects": {}, \
-     "mov_spd": 40, \
-     "attk_spd": 60, \
+     "mov_spd": 400, \
+     "atk_spd": 600, \
      "damage": 30, \
-     "EXP": 10000, \
+     "EXP": 300, \
      "range": 10, \
 }
