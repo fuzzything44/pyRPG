@@ -7,19 +7,19 @@ from items import item
 from objects import attack
 from objects import world_object
 
-def FinalBoss_update(this, delta_time):
+def update(this, delta_time):
     # Movement code
     if not ("mov_del" in this.attributes["effects"]):
         diffX = this.X - world.player.X # How much it needs to move left to hit player
         diffY = this.Y - world.player.Y # How much it needs to move down to hit player
         if diffX < 0:
-            this.X -= 1
-        else:
             this.X += 1
-        if diffY < 0:
-            this.Y -= 1
         else:
+            this.X -= 1
+        if diffY < 0:
             this.Y += 1
+        else:
+            this.Y -= 1
 
         # Add boundary checking
         if this.X == 0: # Left side
@@ -81,18 +81,18 @@ def FinalBoss_update(this, delta_time):
     else:        
         pass
 
-def FinalBoss_collide(this, obj):
+def collide(this, obj):
     pass
 
-def FinalBossColor(this):
+def color(this):
     return display.RED
 
-def FinalBossChar(this):
+def char(this):
     return 'P'
 
-FinalBoss_type = 'enemy'
+type = 'enemy'
 
-FinalBoss_attributes = \
+attributes = \
     {"HP": 1000.0,  \
      "lastHP" : 1000.0, \
      "MP": 1000.0,  \

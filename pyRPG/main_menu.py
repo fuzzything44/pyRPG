@@ -251,7 +251,10 @@ def new_game():
             world.player.attributes["weapon"] = weapon
             weapon.equip(weapon, world.player)
             world.player.attributes["spell"] = sp
-                
+            
+            # Set starting coords
+            world.player.X = world.WORLD_X // 2
+            world.player.Y = world.WORLD_Y - 3
             # Load starting world
             world.load("start")
             return

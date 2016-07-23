@@ -2,6 +2,7 @@ import world
 from objects import *
 from objects import lavaborder
 from objects import lock_portal
+from objects import FinalBoss
 
 def generate():
     world.objects = []
@@ -9,7 +10,7 @@ def generate():
     world.objects.append(world_object.world_object(lock_portal.update, lock_portal.collide, lock_portal.char, lock_portal.color, lock_portal.type, 1,9,{"newmap": "town", "locx": 0, "locy": 10, "used" : False}))
     world.objects.append(world_object.world_object(lock_portal.update, lock_portal.collide, lock_portal.char, lock_portal.color, lock_portal.type, 48,10,{"newmap": "credits", "locx": 0, "locy": 10, "used" : False}))
 
-    world.objects.append(world_object.world_object(MiniBoss.MiniBoss_update, MiniBoss.MiniBosscollide, MiniBoss.MiniBossChar, MiniBoss.MiniBossColor, MiniBoss.MiniBoss_type, 25, 10, dict(MiniBoss.MiniBoss_attributes)))
+    world.objects.append(world_object.world_object(FinalBoss.update, FinalBoss.collide, FinalBoss.char, FinalBoss.color, FinalBoss.type, 25, 10, dict(FinalBoss.attributes)))
     world.objects.append(world_object.world_object(lavaborder.update, lavaborder.collide, lavaborder.char, lavaborder.color, lavaborder.type, 0, 0, {}))
     for x in range(0,49):
         world.map[x][0] = world.WORLD_LAVA
