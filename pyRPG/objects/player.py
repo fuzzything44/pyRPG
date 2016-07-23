@@ -9,6 +9,8 @@ from objects import attack
 from objects import world_object
 
 from spells import fireball
+from spells import first_aid
+from spells import frostshot
 from spells import spell
 
 from items import bread
@@ -140,7 +142,10 @@ def gain_exp(this, amount):
                 except Exception as ex:
                     pass
             if this.attributes["class"] == "warrior":
-                pass
+                try:
+                    this.attributes["items"].append(spell.spell(first_aid.manaCost, first_aid.FirstAid, first_aid.name, first_aid.icon, first_aid.color))
+                except:
+                    pass
             if this.attributes["class"] == "thief":
                 pass
         if this.attributes["level"] == 4:
