@@ -22,7 +22,7 @@ def FinalBoss_update(this, delta_time):
     if this.attributes["HP"] < this.attributes["lastHP"]:
         diff = this.attributes["lastHP"] - this.attributes["HP"] # Difference in HP between this frame and last frame
         if diff > 10: # Soft damage cap
-            diff = diff ** .75
+            diff = 10 + ((diff - 10) ** .75)
         if diff > 50: # Hard damage cap
             diff = 50
         this.attributes["lastHP"] -= diff
