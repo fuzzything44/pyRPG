@@ -4,6 +4,7 @@ import display
 import world
 
 from objects import attack
+from objects import money
 from objects import world_object
 
 def update(this, delta_time):
@@ -17,10 +18,10 @@ def update(this, delta_time):
             this.Y = newY
     # Attack
     if randrange(0, this.attributes["atk_spd"]) < delta_time:
-        newX = randrange(0, 1) * 2 - 1 # This makes it so that it has an X velocity
-        newY = randrange(0, 1) * 2 - 1 # Also a Y velocity guarenteed
-        if randrange(0, 1): # Possibly zero a velocity
-            if randrange(0, 1): # Zero X
+        newX = randrange(0, 2) * 2 - 1 # This makes it so that it has an X velocity
+        newY = randrange(0, 2) * 2 - 1 # Also a Y velocity guarenteed
+        if randrange(0, 2): # Possibly zero a velocity
+            if randrange(0, 2): # Zero X
                 newX = 0
             else:
                 newY = 0
