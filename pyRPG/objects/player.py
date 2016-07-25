@@ -11,6 +11,7 @@ from objects import world_object
 from spells import fireball
 from spells import first_aid
 from spells import frostshot
+from spells import lifesteal
 from spells import spell
 
 from items import bread
@@ -148,7 +149,10 @@ def gain_exp(this, amount):
                 except:
                     pass
             if this.attributes["class"] == "thief":
-                pass
+                try:
+                    this.attributes["items"].append(spell.spell(lifesteal.manaCost, lifesteal.lifesteal, lifesteal.name, lifesteal.icon, lifesteal.color))
+                except:
+                    pass
         if this.attributes["level"] == 4:
             if this.attributes["class"] == "mage":
                 this.attributes["items"].append(spell.spell(frostshot.manaCost, frostshot.frostshot, frostshot.name, frostshot.icon, frostshot.color))

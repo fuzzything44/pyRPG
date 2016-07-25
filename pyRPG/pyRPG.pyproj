@@ -124,6 +124,9 @@
     <Compile Include="spells\first_aid.py" />
     <Compile Include="spells\frostshot.py" />
     <Compile Include="spells\heal.py" />
+    <Compile Include="spells\lifesteal.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="spells\spell.py">
       <SubType>Code</SubType>
     </Compile>

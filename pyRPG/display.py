@@ -3,7 +3,7 @@ from win32 import win32api
 import win32con as CONST
 
 def keyDown(key):
-    return win32api.GetAsyncKeyState(key) & (1 << 15)
+    return (win32api.GetAsyncKeyState(key) & (1 << 15)) >> 15
 
 # Color definitions
 WHITE = 0
