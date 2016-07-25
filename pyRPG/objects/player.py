@@ -195,7 +195,7 @@ player_attributes =                     \
       "pants" : item.item("", "pants", world_object.no_func, world_object.no_func),         \
       "ring" : item.item("", "ring", world_object.no_func, world_object.no_func),           \
       "consumable" : item.item("", "consumable", world_object.no_func, world_object.no_func, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
-      "mov_spd" : 50,                    \
+      "mov_spd" : 150,                    \
       "atk_spd" : 300,                   \
       "can_cast" : True,                 \
       "can_item" : True,                 \
