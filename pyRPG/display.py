@@ -136,7 +136,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
                 printc(50, i + 5, ' ' * 29)
             # Call function
             opt_list[cursor_loc - menu_min][1](*fn_params[cursor_loc - menu_min])
-            while keyDown(ord('E')):
+            while keyDown(ord('E')) or keyDown(CONST.VK_RETURN):
                 pass
             return cursor_loc - menu_min
             
