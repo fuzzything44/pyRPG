@@ -32,7 +32,7 @@ def MiniBoss_update(this, delta_time):
         world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 26, 10, chest_attr))
         world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 25, 9, chest_attr))
         world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 25, 11, chest_attr))
-
+        world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give experience
     else:        
         if randrange(0, this.attributes["mov_spd"]) < delta_time:  
             newX = this.X + randrange(-1, 2)

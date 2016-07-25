@@ -10,7 +10,7 @@ def pcolor(this):
 def generate():
     world.objects = []
     world.map = [[ world.WORLD_NOTHING for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    port = world_object.world_object(portal.update, portal.collide, pchar, pcolor, portal.type, 33,12,{"newmap": "start", "locx": 0, "locy": 0, "used" : False})
+    port = world_object.world_object(portal.update, portal.collide, pchar, pcolor, portal.type, 33,12,{"newmap": "town", "locx": 0, "locy": 0, "used" : False})
     world.objects.append(port)
     world.map[5][4] = [6, 'p', False]
     world.map[6][4] = [6, 'y', False]

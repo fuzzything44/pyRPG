@@ -58,6 +58,8 @@
     <Compile Include="items\item.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="items\LargeHealthPotion.py" />
+    <Compile Include="items\LargeManaPotioin.py" />
     <Compile Include="items\legendKnightChest.py" />
     <Compile Include="items\legendKnightHel.py" />
     <Compile Include="items\legendknightlegs.py" />
@@ -65,11 +67,15 @@
     <Compile Include="items\magePants.py" />
     <Compile Include="items\magerobe.py" />
     <Compile Include="items\magicShoes.py" />
+    <Compile Include="items\MediumHealthPotion.py" />
+    <Compile Include="items\MediumManaPotion.py" />
     <Compile Include="items\merlinsHat.py" />
     <Compile Include="items\okayRing.py" />
     <Compile Include="items\okaySword.py" />
     <Compile Include="items\runningShoes.py" />
     <Compile Include="items\sleekChest.py" />
+    <Compile Include="items\SmallHealthPotion.py" />
+    <Compile Include="items\SmallManaPOtion.py" />
     <Compile Include="items\superFastHelm.py" />
     <Compile Include="items\SuperGoodDagger.py" />
     <Compile Include="items\t1wand.py" />
