@@ -37,11 +37,16 @@ def generate():
     world.map[40][4] = [0, 'T', True]
     world.map[41][4] = [0, 'o', True]
     world.map[42][4] = [0, ' ', True]
-    world.map[43][4] = [0, 'H', True]
-    world.map[44][4] = [0, 'e', True]
-    world.map[45][4] = [0, 'a', True]
-    world.map[46][4] = [0, 'l', True]
-
+    world.map[43][4] = [0, 'C', True]
+    world.map[44][4] = [0, 'a', True]
+    world.map[45][4] = [0, 's', True]
+    world.map[46][4] = [0, 't', True]
+    world.map[47][4] = [0, ' ', True]
+    world.map[48][4] = [0, 'S', True]
+    world.map[49][4] = [0, 'p', True]
+    world.map[50][4] = [0, 'e', True]
+    world.map[51][4] = [0, 'l', True]
+    world.map[52][4] = [0, 'l', True]
 
 
     world.map[42][15] = world.WORLD_LAVA
