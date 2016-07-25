@@ -3,8 +3,10 @@ from random import randrange
 import display
 import world
 
+from items import LargeHealthPotion
 from items import item
 from objects import attack
+from objects import chest
 from objects import world_object
 
 def update(this, delta_time):
@@ -15,12 +17,11 @@ def update(this, delta_time):
         if diffX < 0:
             this.X += 1
         else:
-            this.X -= 1
+            this.X -= (not not diffX) # Should give either 1 or 0.
         if diffY < 0:
             this.Y += 1
         else:
-            this.Y -= 1
-
+            this.Y -= (not not diffY)
         # Add boundary checking
         if this.X == 0: # Left side
             this.X += 1
@@ -78,6 +79,15 @@ def update(this, delta_time):
         this.attributes["HP"] = this.attributes["lastHP"]
     if this.attributes["HP"] <= 0:
         world.to_del.append(this)
+        chest_attr = {"canopen" : False, "contents": [item.item(LargeHealthPotion.name, LargeHealthPotion.type, LargeHealthPotion.equip, LargeHealthPotion.unequip, 10, dict(LargeHealthPotion.attributes))]}
+        world.map[25][10] = world.WORLD_CHEST
+        display.printc(25, 15, '@', display.YELLOW)
+        # Add actual chests
+        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 24, 10, chest_attr))
+        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 26, 10, chest_attr))
+        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 25, 9, chest_attr))
+        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 25, 11, chest_attr))
+        world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give experience
     else:        
         pass
 
@@ -98,7 +108,7 @@ attributes = \
      "MP": 1000.0,  \
      "effects": {}, \
      "mov_spd": 400, \
-     "atk_spd": 600, \
+     "atk_spd": 1000, \
      "damage": 30, \
      "EXP": 300, \
      "range": 10, \

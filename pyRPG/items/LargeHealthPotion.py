@@ -13,7 +13,7 @@ def use(own):
     except:
         pass
 name = "Large Health Potion"
-attributes = {"icon" : ["   ", "db", "   "], "color": display.RED, "use" : use}
+attributes = {"icon" : ["   ", "db ", "   "], "color": display.RED, "use" : use}
 
 
 

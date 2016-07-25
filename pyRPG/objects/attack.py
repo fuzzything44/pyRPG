@@ -20,8 +20,6 @@ def attk_coll(this, oth):
         try: # Deal damage
             oth.attributes["HP"] -= this.attributes["damage"]
             world.to_del.append(this)
-            if oth.attributes["HP"] <= 0: # Give EXP for kill
-                this.attributes["owner"].attributes["gainexp"](this.attributes["owner"], oth.attributes["EXP"])
         except: # Or not...
             pass
     
