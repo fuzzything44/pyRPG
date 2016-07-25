@@ -23,8 +23,28 @@ def generate():
     world.map[33][1] = [0, 'a', True]
     world.map[34][1] = [0, 'v', True]
     world.map[35][1] = [0, 'a', True]
-   
-    world.map[12][15] = world.WORLD_LAVA
+
+    world.map[30][4] = [0, 'U', True]
+    world.map[31][4] = [0, 's', True]
+    world.map[32][4] = [0, 'e', True]
+    world.map[33][4] = [0, ' ', True]
+    world.map[34][4] = [0, 'S', True]
+    world.map[35][4] = [0, 'p', True]
+    world.map[36][4] = [0, 'a', True]
+    world.map[37][4] = [0, 'c', True]
+    world.map[38][4] = [0, 'e', True]
+    world.map[39][4] = [0, ' ', True]
+    world.map[40][4] = [0, 'T', True]
+    world.map[41][4] = [0, 'o', True]
+    world.map[42][4] = [0, ' ', True]
+    world.map[43][4] = [0, 'H', True]
+    world.map[44][4] = [0, 'e', True]
+    world.map[45][4] = [0, 'a', True]
+    world.map[46][4] = [0, 'l', True]
+
+
+
+    world.map[42][15] = world.WORLD_LAVA
     world.objects.append(world_object.world_object(invis_dmg.update, invis_dmg.fire_collide, invis_dmg.char, invis_dmg.color, invis_dmg.type, 12, 15, {}))
     world.map[43][5] = world.WORLD_LAVA
     world.objects.append(world_object.world_object(invis_dmg.update, invis_dmg.fire_collide, invis_dmg.char, invis_dmg.color, invis_dmg.type, 43, 5, {}))
