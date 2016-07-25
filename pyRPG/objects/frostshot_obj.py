@@ -1,10 +1,12 @@
+import display
+import world
 from effects import frozen
 from objects import attack
 from objects import world_object
 update = attack.attk_update
 
 def collide(this, other):
-     if this.attributes["owner"].type != other:
+     if this.attributes["owner"].type != other.type:
         try: # Deal damage
             other.attributes["HP"] -= this.attributes["damage"]
             world.to_del.append(this)
@@ -12,7 +14,7 @@ def collide(this, other):
             other.attributes["stuckX"] = other.X
             other.attributes["stuckY"] = other.Y
 
-        except: # Or not...
+        except Exception as ex: # Or not...
             pass
 def color(this):
     return display.CYAN
