@@ -1,4 +1,6 @@
 import world
+from items import item
+from items import goodDagger, t2wand, goodSword
 from objects import *
 
 def generate():
@@ -61,4 +63,5 @@ def generate():
     world.map[44][14] = [0,".", True]
 
     world.map[45][1] = world.WORLD_CHEST
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 45, 2, {"canopen" : False, "contents" : []}))    
+    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 45, 2, {"canopen" : False, "contents" : \
+        [item.item(goodDagger.name, goodDagger.type, goodDagger.on_equip, goodDagger.on_unequip, 1, goodDagger.attributes), item.item(goodSword.name, goodSword.type, goodSword.on_equip, goodSword.on_unequip, 1, goodSword.attributes), item.item(t2wand.name, t2wand.type, t2wand.on_equip, t2wand.on_unequip, 1, t2wand.attributes)]}))    
