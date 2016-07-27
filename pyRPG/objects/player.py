@@ -126,9 +126,7 @@ def player_color(this):
         return display.RED
     if "regen" in this.attributes["effects"]:
         return display.BLUE
-    if this.attributes["money"] > 50:
-        return display.YELLOW
-    return display.WHITE
+    return display.YELLOW
 
 player_type = "player"
 
