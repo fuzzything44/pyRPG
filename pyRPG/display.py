@@ -70,7 +70,8 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
     substrs = text.split('\n')
     substrs.append('')
     line = 5
-    while keyDown(ord('E')):
+    flushinp()
+    while keyDown(ord('E')) or keyDown(CONST.VK_RETURN):
         getch()
     flushinp()
     for str in substrs:
@@ -112,23 +113,23 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
     can_S = True
     while True:
         refresh()
-        if keyDown(ord('W')) and can_W:
+        if (keyDown(ord('W')) or keyDown(CONST.VK_UP)) and can_W:
             if cursor_loc > menu_min:
                 printc(50, cursor_loc, ' ')
                 cursor_loc -= 1
                 printc(50, cursor_loc, '>')
             can_W = False
-        if not keyDown(ord('W')):
+        if not (keyDown(ord('W')) or keyDown(CONST.VK_UP)):
             can_W = True
 
-        if keyDown(ord('S')) and can_S:
+        if (keyDown(ord('S')) or keyDown(CONST.VK_DOWN)) and can_S:
             printc(50, cursor_loc, ' ')
             cursor_loc += 1
             if cursor_loc == menu_max:  # Can't get to max...
                 cursor_loc -= 1
             printc(50, cursor_loc, '>')
             can_S = False
-        if not keyDown(ord('S')):
+        if not (keyDown(ord('S')) or keyDown(CONST.VK_DOWN)):
             can_S = True
         if (keyDown(CONST.VK_RETURN)) or (keyDown(ord('E'))):
             # Clear menu area
@@ -136,11 +137,6 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
                 printc(50, i + 5, ' ' * 29)
             # Call function
             opt_list[cursor_loc - menu_min][1](*fn_params[cursor_loc - menu_min])
-            while keyDown(ord('E')) or keyDown(CONST.VK_RETURN):
+            while (keyDown(ord('E')) or keyDown(CONST.VK_RETURN)):
                 pass
             return cursor_loc - menu_min
-            
-
-
-        
-    
