@@ -51,7 +51,7 @@ def collide(this, obj):
 
 
 def color(this):
-  return display.MAGENTA
+  return display.CYAN
 
 def char(this):
   return 'B'
