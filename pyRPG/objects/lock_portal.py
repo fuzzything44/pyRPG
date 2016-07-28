@@ -17,6 +17,6 @@ def color(this):
     for obj in world.objects:
         if obj.type == "enemy":
             return display.RED
-    return display.CYAN
+    return display.BLUE
 type = portal.type
 attributes = portal.attributes

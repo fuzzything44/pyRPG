@@ -115,6 +115,9 @@
     <Compile Include="objects\shoot_enemy.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="objects\tutorial_enemy.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\world_object.py" />
     <Compile Include="objects\__init__.py">
       <SubType>Code</SubType>

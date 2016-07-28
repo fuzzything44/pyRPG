@@ -24,7 +24,7 @@ def char(this):
     return '\0'
 
 def color(this):
-    return display.CYAN
+    return display.BLUE
 type = "portal"
 
 # \ contiunes the line

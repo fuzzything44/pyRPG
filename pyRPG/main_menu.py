@@ -259,12 +259,32 @@ def new_game():
             world.load("start")
             return
 
+def help_menu():
+    display.clear()
+    display.printc(0, 0,  "pyRPG is a real-time terminal based RPG")
+    display.printc(0, 4,  "In a menu, use either the UP ARROW key or the W key to move your cursor up")
+    display.printc(0, 5,  "Use either the DOWN ARROW key or the S key to move your cursor down")
+    display.printc(0, 6,  "Use either the ENTER key or the E key to select the current option")
+    display.printc(0, 9,  "In game controls:")
+    display.printc(0, 10, "Use WASD to move and IJKL to attack directionally")
+    display.printc(0, 11, "Press SPACE to cast your current spell, set in the Spell menu")
+    display.printc(0, 12, "Press LEFT SHIFT to use your item, set in the Consumable menu of your inventory")
+    display.printc(0, 13, "Press ESC to open the main menu to save, access inventory, set spell, or exit")
+    display.printc(0, 15, "Press ENTER to continue...")
+    display.refresh()
+    while not display.keyDown(display.CONST.VK_RETURN):
+        pass # Wait for rpress
+    while display.keyDown(display.CONST.VK_RETURN):
+        pass # Wait for release
+    return
+
 def start():
     """Gives the main menu option to load a file, create a new file, or exit"""
     display.printc(28, 10, "Welcome to pyRPG!")
     display.printc(30, 11, ">Load a file")
     display.printc(31, 12, "New game")
     display.printc(31, 13, "Exit game")
+    display.printc(28, 15, "Press H for help")
     display.refresh()
     opt = 0
     while True:
@@ -315,4 +335,18 @@ def start():
                 return
             if opt == 2:
                 display.end() # They chose exit
+
+        # They need help!
+        if display.keyDown(ord('H')):
+            help_menu()
+            display.clear()
+            display.printc(28, 10, "Welcome to pyRPG!")
+            display.printc(31, 11, "Load a file")
+            display.printc(31, 12, "New game")
+            display.printc(31, 13, "Exit game")
+            display.printc(28, 15, "Press H for help")
+            display.printc(30, opt + 11, '>')
+            display.refresh()
+
+
 

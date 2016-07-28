@@ -1,3 +1,4 @@
+import display
 import world
 from objects import *
 
@@ -19,27 +20,34 @@ def generate():
         
     world.map[25][10] = [0,".", True]
     
-    world.map[5][3] = [0, 'W', True]
-    world.map[4][4] = [0, 'A', True]
-    world.map[5][4] = [0, 'S', True]
-    world.map[6][4] = [0, 'D', True]
-    world.map[4][6] = [0, 'M', True]
-    world.map[5][6] = [0, 'O', True]
-    world.map[6][6] = [0, 'V', True]
+    world.map[25][12] = [0, 'W', True]
+    world.map[24][13] = [0, 'A', True]
+    world.map[25][13] = [0, 'S', True]
+    world.map[26][13] = [0, 'D', True]
 
-    world.map[30][15] = [3, 'O', True]
-    world.map[31][15] = [0, '=', True]
-    world.map[32][15] = [0, 'P', True]
-    world.map[33][15] = [0, 'o', True]
-    world.map[34][15] = [0, 'r', True]
-    world.map[35][15] = [0, 't', True]
-    world.map[36][15] = [0, 'a', True]
-    world.map[37][15] = [0, 'l', True]
+    world.map[22][14] = [0, 'T', True]
+    world.map[23][14] = [0, 'O', True]
+                   
+    world.map[25][14] = [0, 'M', True]
+    world.map[26][14] = [0, 'O', True]
+    world.map[27][14] = [0, 'V', True]
+    world.map[28][14] = [0, 'E', True]
 
-    world.map[world.WORLD_X - 6][3] = [0, 'I', True]
-    world.map[world.WORLD_X - 7][4] = [0, 'J', True]
-    world.map[world.WORLD_X - 6][4] = [0, 'K', True]
-    world.map[world.WORLD_X - 5][4] = [0, 'L', True]
-    world.map[world.WORLD_X - 7][6] = [0, 'A', True]
-    world.map[world.WORLD_X - 6][6] = [0, 'T', True]
-    world.map[world.WORLD_X - 5][6] = [0, 'K', True]
+    world.map[19][17] = [0, 'Y', True]
+    world.map[20][17] = [0, 'O', True]
+    world.map[21][17] = [0, 'U', True]
+    world.map[23][17] = [0, '>', True]
+
+    world.map[27][17] = [0, '<', True]
+    world.map[29][17] = [0, 'Y', True]
+    world.map[30][17] = [0, 'O', True]
+    world.map[31][17] = [0, 'U', True]
+
+    world.map[22][16] = [display.BLUE, 'O', True]
+    world.map[23][16] = [0, '=', True]
+    world.map[24][16] = [0, 'P', True]
+    world.map[25][16] = [0, 'o', True]
+    world.map[26][16] = [0, 'r', True]
+    world.map[27][16] = [0, 't', True]
+    world.map[28][16] = [0, 'a', True]
+    world.map[29][16] = [0, 'l', True]
