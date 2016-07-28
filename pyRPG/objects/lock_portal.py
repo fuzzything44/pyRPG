@@ -9,7 +9,7 @@ def collide(this, other):
     for obj in world.objects: # Check if there are any enemies left in the map
         if obj.type == "enemy":
             return # An enemy was found. ABORT!
-    portal.collide(this, other)
+    return portal.collide(this, other)
 
 char = portal.char
 

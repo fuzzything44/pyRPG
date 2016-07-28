@@ -26,9 +26,10 @@ def printc(x, y, ch, color = WHITE):
     
     
 
-stdscr = 0      # Entire screen
+stdscr = None      # Entire screen
 
 def start():
+    global stdscr
     print("Starting init...")
     stdscr = initscr()
     noecho()
@@ -40,13 +41,14 @@ def start():
         exit(1)
     
     start_color()
-    init_pair(0, COLOR_WHITE, COLOR_BLACK)
-    init_pair(1, COLOR_RED, COLOR_BLACK)
-    init_pair(2, COLOR_BLUE, COLOR_BLACK)
-    init_pair(3, COLOR_CYAN, COLOR_BLACK)
-    init_pair(4, COLOR_GREEN, COLOR_BLACK)
-    init_pair(5, COLOR_MAGENTA, COLOR_BLACK)
-    init_pair(6, COLOR_YELLOW, COLOR_BLACK)
+    #         name,    foreground,    background
+    init_pair(WHITE,   COLOR_WHITE,   COLOR_BLACK)
+    init_pair(RED,     COLOR_RED,     COLOR_BLACK)
+    init_pair(BLUE,    COLOR_BLUE,    COLOR_BLACK)
+    init_pair(CYAN,    COLOR_CYAN,    COLOR_BLACK)
+    init_pair(GREEN,   COLOR_GREEN,   COLOR_BLACK)
+    init_pair(MAGENTA, COLOR_MAGENTA, COLOR_BLACK)
+    init_pair(YELLOW,  COLOR_YELLOW,  COLOR_BLACK)
     
     curs_set(0)
     
@@ -70,9 +72,8 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
     substrs = text.split('\n')
     substrs.append('')
     line = 5
-    flushinp()
     while keyDown(ord('E')) or keyDown(CONST.VK_RETURN):
-        getch()
+        pass
     flushinp()
     for str in substrs:
         # Cut off strings if too long.

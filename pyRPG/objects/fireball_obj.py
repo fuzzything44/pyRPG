@@ -9,14 +9,14 @@ update = attack.attk_update
 
 def collide(this, other):
      if this.attributes["owner"].type != other.type:
-        try: # Deal damage
+        if "HP" in other.attributes: # Deal damage
             other.attributes["HP"] -= this.attributes["damage"]
             world.to_del.append(this)
-            other.attributes["effects"]["fire"] = [fire.fire, world_object.no_func, 1000]
-            if this.attributes["owner"].attributes["magic"] >= 25:
+            if "effects" in other.attributes:
+                other.attributes["effects"]["fire"] = [fire.fire, world_object.no_func, 1000]
+            if "magic" in this.attributes["owner"] and this.attributes["owner"].attributes["magic"] >= 25:
                 other.attributes["effects"]["fire"] = [fire.bigfire, world_object.no_func, 1500]
-        except: # Or not...
-            pass
+
 def color(this):
     return display.RED
 

@@ -11,7 +11,7 @@ from objects import money
 from objects import world_object
 from spells import spell
 
-def MiniBoss_update(this, delta_time):
+def update(this, delta_time):
     eff_del_list = []
     for eff in this.attributes["effects"]:
         this.attributes["effects"][eff][0](this, delta_time)       # Tick code
@@ -42,7 +42,7 @@ def MiniBoss_update(this, delta_time):
                 this.X = newX
                 this.Y = newY
 
-def MiniBosscollide(this, obj):
+def collide(this, obj):
     if obj.type == "player":
         obj.attributes["HP"] -= this.attributes["damage"]
         this.X += 1
@@ -50,15 +50,15 @@ def MiniBosscollide(this, obj):
             this.X = 0
 
 
-def MiniBossColor(this):
-  return display.RED
+def color(this):
+  return display.MAGENTA
 
-def MiniBossChar(this):
+def char(this):
   return 'B'
 
-MiniBoss_type = "enemy"
+type = "enemy"
 
-MiniBoss_attributes =                     \
+attributes =                     \
     { "HP" : 100.0,                     \
       "MP" : 50,                        \
       "effects" : {},                   \

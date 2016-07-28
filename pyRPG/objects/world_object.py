@@ -30,7 +30,7 @@ In all functions passed during init, another parameter "this" is required as a r
     def update(self, delta_time):
         self.__update_fn(self, delta_time)
     def collide(self, obj):
-        self.__collide_fn(self, obj)
+        return self.__collide_fn(self, obj)
     def getChar(self):
         return self.__getChar_fn(self)
     def getColor(self):

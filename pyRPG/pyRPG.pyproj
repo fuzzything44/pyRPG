@@ -22,7 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="credits.py" />
+    <Compile Include="maps\credits.py" />
     <Compile Include="display.py">
       <SubType>Code</SubType>
     </Compile>
@@ -37,7 +37,6 @@
     <Compile Include="effects\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="end.py" />
     <Compile Include="items\bread.py">
       <SubType>Code</SubType>
     </Compile>
@@ -91,6 +90,9 @@
     <Compile Include="main_menu.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="maps\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\attack.py">
       <SubType>Code</SubType>
     </Compile>
@@ -98,14 +100,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\enemy.py" />
-    <Compile Include="objects\FinalBoss.py" />
+    <Compile Include="objects\stone_boss.py" />
     <Compile Include="objects\fireball_obj.py" />
     <Compile Include="objects\frostshot_obj.py" />
     <Compile Include="objects\invis_dmg.py" />
     <Compile Include="objects\lavaborder.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="objects\MiniBoss.py" />
+    <Compile Include="objects\lock_portal.py" />
+    <Compile Include="objects\tutorial_boss.py" />
     <Compile Include="objects\money.py" />
     <Compile Include="objects\player.py" />
     <Compile Include="objects\portal.py" />
@@ -133,14 +136,14 @@
     <Compile Include="spells\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="start.py" />
-    <Compile Include="ston1.py" />
-    <Compile Include="ston2.py" />
-    <Compile Include="stonboss.py" />
-    <Compile Include="stonstart.py" />
-    <Compile Include="town.py" />
-    <Compile Include="tut1.py" />
-    <Compile Include="tutboss.py" />
+    <Compile Include="maps\start.py" />
+    <Compile Include="maps\ston1.py" />
+    <Compile Include="maps\ston2.py" />
+    <Compile Include="maps\stonboss.py" />
+    <Compile Include="maps\stonstart.py" />
+    <Compile Include="maps\town.py" />
+    <Compile Include="maps\tut1.py" />
+    <Compile Include="maps\tutboss.py" />
     <Compile Include="world.py">
       <SubType>Code</SubType>
     </Compile>
@@ -148,6 +151,7 @@
   <ItemGroup>
     <Folder Include="items\" />
     <Folder Include="effects\" />
+    <Folder Include="maps\" />
     <Folder Include="res\" />
     <Folder Include="objects\" />
     <Folder Include="spells\" />

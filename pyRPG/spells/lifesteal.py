@@ -14,10 +14,11 @@ def lifesteal(player):
             dist = ((locX - obj.X)**2 + (locY - obj.Y)**2) ** .5
 
     # Now that we have the closest enemy, damage it.
-    closest_enemy.attributes["HP"] -= player.attributes["magic"] * (player.attributes["maxHP"] / player.attributes["HP"]) * 0.5
-    player.attributes["HP"] += player.attributes["magic"] * (player.attributes["maxHP"] / player.attributes["HP"]) * 0.5
-    if player.attributes["HP"] > player.attributes["maxHP"]:
-        player.attributes["HP"] = player.attributes["maxHP"]
+    if closest_enemy is not None:
+        closest_enemy.attributes["HP"] -= player.attributes["magic"] * (player.attributes["maxHP"] / player.attributes["HP"]) * 0.5
+        player.attributes["HP"] += player.attributes["magic"] * (player.attributes["maxHP"] / player.attributes["HP"]) * 0.5
+        if player.attributes["HP"] > player.attributes["maxHP"]:
+            player.attributes["HP"] = player.attributes["maxHP"]
 manaCost = 20
 icon = [" ! ", "(X)", " ! "]
 color = display.GREEN

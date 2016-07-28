@@ -15,76 +15,70 @@ from spells import lifesteal
 from spells import spell
 
 from items import bread
+
+def play_attk_color(this):
+    return display.BLUE
+
 def player_update(this, delta_time):
     display.printc(8, 0, str(int(this.attributes["HP"])) + "/" + str(int(this.attributes["maxHP"])) + "  ")
     display.printc(8, 1, str(int(this.attributes["MP"])) + "/" + str(int(this.attributes["maxMP"])) + "  ")
     display.printc(10, 2, str(this.attributes["money"]) + "     ")
     display.printc(12, 3, str(this.attributes["level"]))
     display.printc(5, 4, str(this.attributes["level"] ** 2 - this.attributes["EXP"]) + " to level        ")
-    try:
-        if display.keyDown(ord('W')) and (not "del_up" in this.attributes["effects"]):
-            if world.map[this.X][this.Y - 1][2]:
-                this.Y -= 1
-            if this.Y < 0:
-                this.Y = 0
-            this.attributes["effects"]["del_up"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
-        if display.keyDown(ord('S')) and (not "del_down" in this.attributes["effects"]):
-            if world.map[this.X][this.Y + 1][2]:
-                this.Y += 1
-            if this.Y > 22:
-                this.Y = 22
-            this.attributes["effects"]["del_down"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
-        if display.keyDown(ord('A')) and (not "del_left" in this.attributes["effects"]):
-            if world.map[this.X - 1][this.Y][2]:
-                this.X -= 1
-            if this.X < 0:
-                this.X = 0
-            this.attributes["effects"]["del_left"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
-        if display.keyDown(ord('D')) and (not "del_right" in this.attributes["effects"]):
-            if world.map[this.X + 1][this.Y][2]:
-                this.X += 1
-            if this.X > 77:
-                this.X = 77
-            this.attributes["effects"]["del_right"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
-        if display.keyDown(ord(' ')) and this.attributes["can_cast"]:
-            this.attributes["spell"].cast(this)
-            this.attributes["can_cast"] = False
-        if not display.keyDown(ord(' ')):
-            this.attributes["can_cast"] = True
-        # Attacks!
-        if (display.keyDown(ord('I'))) and (this.Y != 0) and (world.map[this.X][this.Y - 1][2]) and (not "del_atk" in this.attributes["effects"]):
-            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X, this.Y - 1, \
-                {"movex" : 0, "movey": -1, "range" : this.attributes["weapon"].attributes["range"], "damage" : (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), "speed" : 100, "to_move" : 0, "owner" : this}\
-            ))
-            this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
-        if (display.keyDown(ord('J'))) and (this.X != 0) and (world.map[this.X - 1][this.Y][2]) and (not "del_atk" in this.attributes["effects"]):
-            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X - 1, this.Y, \
-                {"movex" : -1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
-            ))
-            this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
-        if (display.keyDown(ord('K'))) and (this.Y != 19) and (world.map[this.X][this.Y + 1][2]) and (not "del_atk" in this.attributes["effects"]):
-            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X, this.Y + 1, \
-                {"movex" : 0, "movey": 1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
-            ))                                                                                                                                                                  
-            this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
-        if (display.keyDown(ord('L'))) and (this.X != 49) and (world.map[this.X + 1][this.Y][2]) and (not "del_atk" in this.attributes["effects"]):
-            world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X + 1, this.Y, \
-                {"movex" : 1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
-            ))
-            this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
+    
+    if display.keyDown(ord('W')) and (not "del_up" in this.attributes["effects"]):
+        if (this.Y > 0) and world.map[this.X][this.Y - 1][2]:
+            this.Y -= 1
+        this.attributes["effects"]["del_up"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
+    if display.keyDown(ord('S')) and (not "del_down" in this.attributes["effects"]):
+        if (this.Y < world.WORLD_Y - 1) and world.map[this.X][this.Y + 1][2]:
+            this.Y += 1
+        this.attributes["effects"]["del_down"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
+    if display.keyDown(ord('A')) and (not "del_left" in this.attributes["effects"]):
+        if (this.X > 0) and world.map[this.X - 1][this.Y][2]:
+            this.X -= 1
+        this.attributes["effects"]["del_left"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
+    if display.keyDown(ord('D')) and (not "del_right" in this.attributes["effects"]):
+        if (this.X < world.WORLD_X - 1) and world.map[this.X + 1][this.Y][2]:
+            this.X += 1
+        this.attributes["effects"]["del_right"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
+    if display.keyDown(ord(' ')) and this.attributes["can_cast"]:
+        this.attributes["spell"].cast(this)
+        this.attributes["can_cast"] = False
+    if not display.keyDown(ord(' ')):
+        this.attributes["can_cast"] = True
+    # Attacks!
+    if (display.keyDown(ord('I'))) and (this.Y != 0) and (world.map[this.X][this.Y - 1][2]) and (not "del_atk" in this.attributes["effects"]):
+        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, play_attk_color, attack.attk_type, this.X, this.Y - 1, \
+            {"movex" : 0, "movey": -1, "range" : this.attributes["weapon"].attributes["range"], "damage" : (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), "speed" : 100, "to_move" : 0, "owner" : this}\
+        ))
+        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
+    if (display.keyDown(ord('J'))) and (this.X != 0) and (world.map[this.X - 1][this.Y][2]) and (not "del_atk" in this.attributes["effects"]):
+        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, play_attk_color, attack.attk_type, this.X - 1, this.Y, \
+            {"movex" : -1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
+        ))
+        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
+    if (display.keyDown(ord('K'))) and (this.Y != 19) and (world.map[this.X][this.Y + 1][2]) and (not "del_atk" in this.attributes["effects"]):
+        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, play_attk_color, attack.attk_type, this.X, this.Y + 1, \
+            {"movex" : 0, "movey": 1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
+        ))                                                                                                                                                                  
+        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
+    if (display.keyDown(ord('L'))) and (this.X != 49) and (world.map[this.X + 1][this.Y][2]) and (not "del_atk" in this.attributes["effects"]):
+        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, play_attk_color, attack.attk_type, this.X + 1, this.Y, \
+            {"movex" : 1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
+        ))
+        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
 
-        if display.keyDown(display.CONST.VK_LSHIFT) and this.attributes["can_item"]:
-            this.attributes["consumable"].attributes["use"](this)
-            this.attributes["can_item"] = False
-            this.attributes["consumable"].amount -= 1
-            if this.attributes["consumable"].amount == 0:
-                this.attributes["consumable"] = item.item("Nothing", "consumable", world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func})
-                this.attributes["consumable"].draw()
-        if not display.keyDown(display.CONST.VK_SHIFT):
-            this.attributes["can_item"] = True
+    if display.keyDown(display.CONST.VK_LSHIFT) and this.attributes["can_item"]:
+        this.attributes["consumable"].attributes["use"](this)
+        this.attributes["can_item"] = False
+        this.attributes["consumable"].amount -= 1
+        if this.attributes["consumable"].amount == 0:
+            this.attributes["consumable"] = item.item("Nothing", "consumable", world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func})
+            this.attributes["consumable"].draw()
+    if not display.keyDown(display.CONST.VK_SHIFT):
+        this.attributes["can_item"] = True
 
-    except Exception as ex:
-        pass
     
     eff_del_list = []
     # Update all effects.
@@ -120,13 +114,7 @@ def player_char(this):
     return 'P'
 
 def player_color(this):
-    if "poison" in this.attributes["effects"]:
-        return display.GREEN
-    if "fire" in this.attributes["effects"]:
-        return display.RED
-    if "regen" in this.attributes["effects"]:
-        return display.BLUE
-    return display.YELLOW
+    return display.WHITE
 
 player_type = "player"
 
@@ -137,20 +125,11 @@ def gain_exp(this, amount):
         this.attributes["level"] += 1 # Duh.
         if this.attributes["level"] == 2:
             if this.attributes["class"] == "mage":
-                try:
-                    this.attributes["items"].append(spell.spell(fireball.manaCost, fireball.fireball, fireball.name, fireball.icon, fireball.color))
-                except Exception as ex:
-                    pass
+                this.attributes["items"].append(spell.spell(fireball.manaCost, fireball.fireball, fireball.name, fireball.icon, fireball.color))
             if this.attributes["class"] == "warrior":
-                try:
-                    this.attributes["items"].append(spell.spell(first_aid.manaCost, first_aid.FirstAid, first_aid.name, first_aid.icon, first_aid.color))
-                except:
-                    pass
+                this.attributes["items"].append(spell.spell(first_aid.manaCost, first_aid.FirstAid, first_aid.name, first_aid.icon, first_aid.color))
             if this.attributes["class"] == "thief":
-                try:
-                    this.attributes["items"].append(spell.spell(lifesteal.manaCost, lifesteal.lifesteal, lifesteal.name, lifesteal.icon, lifesteal.color))
-                except:
-                    pass
+                this.attributes["items"].append(spell.spell(lifesteal.manaCost, lifesteal.lifesteal, lifesteal.name, lifesteal.icon, lifesteal.color))
         if this.attributes["level"] == 4:
             if this.attributes["class"] == "mage":
                 this.attributes["items"].append(spell.spell(frostshot.manaCost, frostshot.frostshot, frostshot.name, frostshot.icon, frostshot.color))
@@ -179,8 +158,7 @@ def gain_exp(this, amount):
         this.attributes["HP"] = this.attributes["maxHP"] # HP restore on level
         this.attributes["MP"] = this.attributes["maxMP"] # MP restore on level
 # effects is a dictionary of (string) effect name to [(func) tick(player, delta_time), (func) on_remove(player), time_left]
-# items is a dictionary of (string) item name to ITEM or to SPELL
-# TODO: change current spell to conform to basic spells. Also have basic equips in inventory.
+# items is a list of ITEMs or to SPELLs
 player_attributes =                     \
     { "maxHP" : 100.0,                  \
       "HP" : 100.0,                     \
@@ -198,7 +176,7 @@ player_attributes =                     \
       "shirt" : item.item("", "shirt", world_object.no_func, world_object.no_func),         \
       "pants" : item.item("", "pants", world_object.no_func, world_object.no_func),         \
       "ring" : item.item("", "ring", world_object.no_func, world_object.no_func),           \
-      "consumable" : item.item("", "consumable", world_object.no_func, world_object.no_func, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
+      "consumable" : item.item("", "consumable", world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
       "mov_spd" : 200,                    \
       "atk_spd" : 500,                   \
       "can_cast" : True,                 \
@@ -223,14 +201,14 @@ def set_active(type):
         if len(pages[-1]) == PAGE_SIZE:    # If list overflow, add a new page
             pages.append([])
         # Add option to last element in pages. Also should edits it to give amount held too.
-        pages[-1].append([opt.name + "(" + str(opt.amount) + ")", lambda: 0])
+        pages[-1].append([opt.name + "(" + str(opt.amount) + ")", world_object.no_func])
 
     curr_page = 0
     choice = 1
     # So if they choose 1 (prev. page) or 2 (next) page, menu is re-displayed.
     while (choice == 1) or (choice == 2):
         empty_lists = [[] for x in range(len(pages[curr_page]) + 3)]
-        choice = display.menu("Set to what?", empty_lists, ["Back", lambda: 0], ["Next Page", lambda: 0], ["Previous Page", lambda: 0], *pages[curr_page])
+        choice = display.menu("Set to what?", empty_lists, ["Back", world_object.no_func], ["Next Page", world_object.no_func], ["Previous Page", world_object.no_func], *pages[curr_page])
         if choice == 1:
             curr_page = max(curr_page - 1, 0)
         if choice == 2:
@@ -252,7 +230,7 @@ def set_active(type):
 
     
 def inventory_menu():
-    while display.menu("Inventory", [[], ["consumable"], ["weapon"], ["hat"], ["shirt"], ["pants"], ["ring"]], ["Back", lambda: 0], ["-Set Consumable", set_active], ["-Set Weapon", set_active], ["-Set Hat", set_active], ["-Set Shirt", set_active], ["-Set Pants", set_active], ["-Set Ring", set_active]):
+    while display.menu("Inventory", [[], ["consumable"], ["weapon"], ["hat"], ["shirt"], ["pants"], ["ring"]], ["Back", world_object.no_func], ["-Set Consumable", set_active], ["-Set Weapon", set_active], ["-Set Hat", set_active], ["-Set Shirt", set_active], ["-Set Pants", set_active], ["-Set Ring", set_active]):
         # Redraw equip names.
         display.printc(46, 0, ' ' * 33)
         display.printc(46, 0, world.player.attributes["weapon"].name[:33])

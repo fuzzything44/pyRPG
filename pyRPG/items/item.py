@@ -28,9 +28,6 @@ item(name, quanitity, attributes = default)"""
     def __ge__(self, other):
         return self.name >= other
     def draw(this):
-        try:
-            display.printc(display.SPELL_BOX_START + 7, 1, this.attributes["icon"][0], this.attributes["color"])
-            display.printc(display.SPELL_BOX_START + 7, 2, this.attributes["icon"][1], this.attributes["color"])
-            display.printc(display.SPELL_BOX_START + 7, 3, this.attributes["icon"][2], this.attributes["color"])
-        except Exception as ex:
-            pass
+        display.printc(display.SPELL_BOX_START + 7, 1, this.attributes["icon"][0], this.attributes["color"])
+        display.printc(display.SPELL_BOX_START + 7, 2, this.attributes["icon"][1], this.attributes["color"])
+        display.printc(display.SPELL_BOX_START + 7, 3, this.attributes["icon"][2], this.attributes["color"])

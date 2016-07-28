@@ -8,20 +8,16 @@ def attk_update(this, delta_time):
         this.X += this.attributes["movex"]
         this.Y += this.attributes["movey"]
         this.attributes["range"] -= 1
-        try:
-            if (this.attributes["range"] < 0) or (not world.map[this.getCoords()[0]][this.getCoords()[1]][2]):
-                # Hit something or out of range.
+        if (this.attributes["range"] <= 0) or world.out_of_bounds(this.X, this.Y) or (not world.map[this.X][this.Y][2]):
+                # Hit something, outside map, or out of range.
                 world.to_del.append(this)
-        except:
-            pass # Out of map, will be automatically deleted
+
 
 def attk_coll(this, oth):
-    if this.attributes["owner"].type != oth.type:
-        try: # Deal damage
-            oth.attributes["HP"] -= this.attributes["damage"]
-            world.to_del.append(this)
-        except: # Or not...
-            pass
+    if (this.attributes["owner"].type != oth.type) and ("HP" in oth.attributes):
+        oth.attributes["HP"] -= this.attributes["damage"]
+        world.to_del.append(this)
+
     
 def attk_char(this):
     return '!'

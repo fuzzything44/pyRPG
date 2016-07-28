@@ -18,11 +18,14 @@ WORLD_Y = 20    # Max Y size
 
 global player, map, objects
 
-map = 0
-player = 0
+map = [[]]
+player = None
 
 objects = []    # World objects that can interacted with such as enemies, chests, etc...
 to_del = []     # Objects that should be deleted.
+
+def out_of_bounds(x, y):
+    return (y < 0) or (y >= WORLD_Y) or (x < 0) or (x >= WORLD_X)
 
 world_name = "default"
 save_name = "default"
@@ -44,8 +47,7 @@ def save(name):
     try:
         with open("res/maps/" + name + ".wrld", "wb") as handle:
             pickle.dump(map, handle)
-            # Don't save player...
-            pickle.dump(objects[1:], handle)
+            pickle.dump(objects, handle)
     except Exception as ex:
         display.printc(20, 10, "Could not save. Press ESC to continue.")
         display.refresh()
