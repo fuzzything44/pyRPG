@@ -10,21 +10,8 @@ def generate():
     world.objects.append(world_object.world_object(lock_portal.update, lock_portal.collide, lock_portal.char, lock_portal.color, lock_portal.type, 49,10,{"newmap": "town", "locx": 0, "locy": 10, "used" : False}))
     world.objects.append(world_object.world_object(tutorial_boss.update, tutorial_boss.collide, tutorial_boss.char, tutorial_boss.color, tutorial_boss.type, 25, 10, copy.deepcopy(tutorial_boss.attributes)))
 
-    world.map[30][0] = [6, '@', True]
-    world.map[31][0] = [0, '=', True]
-    world.map[32][0] = [0, 'C', True]
-    world.map[33][0] = [0, 'h', True]
-    world.map[34][0] = [0, 'e', True]
-    world.map[35][0] = [0, 's', True]
-    world.map[36][0] = [0, 't', True]
 
-    world.map[30][1] = [1, '#', True]
     world.objects.append(world_object.world_object(invis_dmg.update, invis_dmg.fire_collide, invis_dmg.char, invis_dmg.color, invis_dmg.type, 30, 1, copy.deepcopy(invis_dmg.attributes)))
-    world.map[31][1] = [0, '=', True]
-    world.map[32][1] = [0, 'L', True]
-    world.map[33][1] = [0, 'a', True]
-    world.map[34][1] = [0, 'v', True]
-    world.map[35][1] = [0, 'a', True]
 
     world.map[42][15] = world.WORLD_LAVA
     world.objects.append(world_object.world_object(invis_dmg.update, invis_dmg.fire_collide, invis_dmg.char, invis_dmg.color, invis_dmg.type, 42, 15, copy.deepcopy(invis_dmg.attributes)))

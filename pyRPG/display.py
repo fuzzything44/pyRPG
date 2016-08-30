@@ -7,22 +7,23 @@ def keyDown(key):
 
 # Color definitions
 WHITE = 0
-RED = 1
-BLUE = 2
-CYAN = 3
-GREEN = 4
-MAGENTA = 5
-YELLOW = 6
+BLACK = 1
+RED = 2
+BLUE = 3
+CYAN = 4
+GREEN = 5
+MAGENTA = 6
+YELLOW = 7
 
 # Left side of the box where spell is drawn
 SPELL_BOX_START = 25
-def printc(x, y, ch, color = WHITE):
+def printc(x, y, ch, color = WHITE, bgcolor = BLACK):
     "Prints a character at the given location with the given color.\n\nArguments:\nx: The x location to print the character\ny: The y location to print the character\nch: The character to print\ncolor: The color to print the character, default white\n\nBounds: String must end before reaching 79 along x-axis, must be before 24 on y-axis."
     if (x > 79 - len(ch)) or (y > 24) or (x < 0) or (y < 0):
         raise Exception("String out of bounds, shorten string or move left. Bounds are <= 79 on right, <= 23 on bottom, and >= 1 on top and left")
     if ('\n' in ch) or ('\r' in ch):
         raise Exception("No newlines in strings")
-    mvaddstr(y, x, ch, COLOR_PAIR(color))
+    mvaddstr(y, x, ch, COLOR_PAIR(color + bgcolor * 8))
     
     
 
@@ -39,16 +40,16 @@ def start():
         endwin()
         print("Your terminal does not support color!")
         exit(1)
-    
+        
     start_color()
-    #         name,    foreground,    background
-    init_pair(WHITE,   COLOR_WHITE,   COLOR_BLACK)
-    init_pair(RED,     COLOR_RED,     COLOR_BLACK)
-    init_pair(BLUE,    COLOR_BLUE,    COLOR_BLACK)
-    init_pair(CYAN,    COLOR_CYAN,    COLOR_BLACK)
-    init_pair(GREEN,   COLOR_GREEN,   COLOR_BLACK)
-    init_pair(MAGENTA, COLOR_MAGENTA, COLOR_BLACK)
-    init_pair(YELLOW,  COLOR_YELLOW,  COLOR_BLACK)
+	# Init all foreground/background pairs
+	# List of all colors
+    color_list = [COLOR_WHITE, COLOR_BLACK, COLOR_RED, COLOR_BLUE, COLOR_CYAN, COLOR_GREEN, COLOR_MAGENTA, COLOR_YELLOW]
+    # Loop through background colors
+    for bgc in range(len(color_list)):
+        # Loop through foreground colors
+        for fgc in range(len(color_list)):
+            init_pair(fgc + 8 * bgc, color_list[fgc], color_list[bgc])
     
     curs_set(0)
     

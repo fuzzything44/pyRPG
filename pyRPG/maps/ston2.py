@@ -6,9 +6,18 @@ from objects import lock_portal
 
 def generate():
     world.objects = []
-    world.map = [[ world.WORLD_STONE for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    world.objects.append(world_object.world_object(lock_portal.update, lock_portal.collide, lock_portal.char, lock_portal.color, lock_portal.type, 49,10,{"newmap": "stoneboss", "locx": 2, "locy": 10, "used" : False}))
-    world.objects.append(world_object.world_object(lock_portal.update, lock_portal.collide, lock_portal.char, lock_portal.color, lock_portal.type, 0,10,{"newmap": "stone1", "locx": 0, "locy": 10, "used" : False}))
+    world.map = [[ world.WORLD_NOTHING for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
+    for x in range(world.WORLD_X):
+        world.map[x][0] = world.WORLD_WALL
+        world.map[x][world.WORLD_Y - 1] = world.WORLD_WALL
+    for y in range(world.WORLD_Y):
+        world.map[0][y] = world.WORLD_WALL
+        world.map[world.WORLD_X - 1][y] = world.WORLD_WALL
+
+    world.objects.append(world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 0, 10,{"newmap": "stone1", "locx": world.WORLD_X - 2, "locy": 10, "used" : False}))
+    world.map[49][10] = world.WORLD_NOTHING
+    world.objects.append(world_object.world_object(lock_portal.update, lock_portal.collide, lock_portal.char, lock_portal.color, lock_portal.type, world.WORLD_X - 1, 10,{"newmap": "stoneboss", "locx": 2, "locy": 10, "used" : False}))
+    world.map[0][10] = world.WORLD_NOTHING
     world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 7, copy.deepcopy(enemy.enemy_attributes)))
     world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 20, 6, copy.deepcopy(enemy.enemy_attributes)))
     world.objects.append(world_object.world_object(enemy.enemy_update, enemy.enemy_collide, enemy.enemyChar, enemy.enemyColor, enemy.enemy_type, 7, 10, copy.deepcopy(enemy.enemy_attributes)))

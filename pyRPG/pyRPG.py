@@ -38,16 +38,16 @@ stonboss.generate()
 world.save("stoneboss")
 
 stonstart.generate()
-world.save("stonstart")
+world.save("stonestart")
 
 credits.generate()
 world.save("credits")
 
 ston1.generate()
-world.save("ston1")
+world.save("stone1")
 
 ston2.generate()
-world.save("ston2")
+world.save("stone2")
 
 
 display.start()
@@ -59,9 +59,7 @@ main_menu.start()
 world.objects = [world.player] + world.objects
 
 # Print world out
-for x in range(world.WORLD_X):
-    for y in range(world.WORLD_Y):
-        display.printc(x, y + 5, world.map[x][y][1], world.map[x][y][0])
+world.dispworld()
 
 # Print top pane
 display.printc(5, 0, "HP:")
@@ -103,7 +101,7 @@ while True: # Main game loop
 
             # Redraw world tile, unless the object is invisible
             if obj.getChar() != '\0':
-                display.printc(obj.X, obj.Y + 5, world.map[obj.X][obj.Y][1], world.map[obj.X][obj.Y][0])
+                display.printc(obj.X, obj.Y + 5, world.map[obj.X][obj.Y][2], world.map[obj.X][obj.Y][0])
             # Update it
             obj.update(delta_time)
             for coll in world.objects:    # Check for collision
@@ -118,14 +116,14 @@ while True: # Main game loop
                 world.to_del.append(obj)
             else:
                 # And now redraw it
-                display.printc(obj.X, obj.Y + 5, obj.getChar(), obj.getColor())
+                display.printc(obj.X, obj.Y + 5, obj.getChar(), obj.getColor(), world.map[obj.X][obj.Y][1])
         if new_map_loaded:
             continue
         # Delete objects that need to be deleted.
         for obj in set(world.to_del): # Set to remove duplicates
             # Only print if in bounds
             if not world.out_of_bounds(obj.X, obj.Y):
-                display.printc(obj.X, obj.Y + 5, world.map[obj.X][obj.Y][1], world.map[obj.X][obj.Y][0])
+                display.printc(obj.X, obj.Y + 5, world.map[obj.X][obj.Y][2], world.map[obj.X][obj.Y][0])
             world.objects.remove(obj)
         if display.keyDown(display.CONST.VK_ESCAPE):
             while display.menu("Options:", [[], [], ["spell"], [], []], ["Resume", lambda: 0], ["Inventory", player.inventory_menu], ["Spells", player.set_active], ["Save", world.save_player], ["Exit", display.end]):

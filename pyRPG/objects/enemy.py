@@ -14,7 +14,7 @@ def enemy_update(this, delta_time):
         newX = this.X + randrange(-1, 2)
         newY = this.Y + randrange(-1, 2)
         # If the new tile is walkable on and not out of bounds
-        if (newX >= 0) and (newX < world.WORLD_X) and (newY >= 0) and (newY < world.WORLD_Y) and (world.map[newX][newY][2]):
+        if (newX >= 0) and (newX < world.WORLD_X) and (newY >= 0) and (newY < world.WORLD_Y) and (world.map[newX][newY][3]):
             this.X = newX
             this.Y = newY
     eff_del_list = []

@@ -8,7 +8,7 @@ def attk_update(this, delta_time):
         this.X += this.attributes["movex"]
         this.Y += this.attributes["movey"]
         this.attributes["range"] -= 1
-        if (this.attributes["range"] <= 0) or world.out_of_bounds(this.X, this.Y) or (not world.map[this.X][this.Y][2]):
+        if (this.attributes["range"] <= 0) or world.out_of_bounds(this.X, this.Y) or (not world.map[this.X][this.Y][3]):
                 # Hit something, outside map, or out of range.
                 world.to_del.append(this)
 

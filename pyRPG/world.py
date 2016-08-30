@@ -4,14 +4,13 @@ import display
 from objects import world_object
 import objects.player as play
 
-# World tile. Form of [Color, display char, canwalk]. None of this should move, all is part of background world.
-WORLD_NOTHING   = [0, ' ', True]        # Nothing there
-WORLD_WALL      = [0, '#', False]       # Wall, can't be walked through
-WORLD_LAVA      = [1, '#', True]        # Lava tile. Must add a damage tile over it.
-WORLD_GRASS     = [4, ';', True]        # Grass!
-WORLD_CHEST     = [6, '@', False]       # Phat Loot!
-WORLD_SMOG      = [0, 'z', False]       # Poison Gas, need a damage tile
-WORLD_STONE     = [0, ';', True]        # Extra floor tile
+# World tile. Form of [foreground color, background color, display char, canwalk]. None of this should move, all is part of background world.
+WORLD_NOTHING   = [display.BLACK, display.BLACK, ' ', True]     # Nothing there
+WORLD_WALL      = [display.WHITE, display.WHITE, '#', False]    # Wall, can't be walked through
+WORLD_LAVA      = [display.RED, display.RED, '#', True]        # Lava tile. Must add a damage tile over it.
+WORLD_GRASS     = [display.GREEN, display.BLACK, ';', True]        # Grass!
+WORLD_CHEST     = [display.YELLOW, display.BLACK, '@', False]       # Phat Loot!
+
 
 WORLD_X = 50    # Max X size
 WORLD_Y = 20    # Max Y size
@@ -27,9 +26,14 @@ to_del = []     # Objects that should be deleted.
 def out_of_bounds(x, y):
     return (y < 0) or (y >= WORLD_Y) or (x < 0) or (x >= WORLD_X)
 
+def dispworld():
+    for x in range(WORLD_X):
+        for y in range(WORLD_Y):
+            display.printc(x, y + 5, map[x][y][2], map[x][y][0]) # Print normal char with black bgc
+
+
 world_name = "default"
 save_name = "default"
-#TODO: Don't save player here, save in another file instead!
 def load(name):
     global map, objects, world_name
     try:

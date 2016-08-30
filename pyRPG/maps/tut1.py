@@ -1,5 +1,6 @@
 import copy
 
+import display
 import world
 from objects import lock_portal
 from objects import tutorial_enemy
@@ -16,14 +17,14 @@ def generate():
     message2 = "Use IJKL to attack"
     for index in range(len(message)):
         # The index + 5 centers the message. The 9 is the line right above the enemy.
-        world.map[index + 5][9] = [0, message[index], True]
+        world.map[index + 5][9] = [display.WHITE, display.BLACK, message[index], True]
     for index in range(len(message2)):
         # A shorter message needs to have a larger number added to center
-        world.map[index + 16][11] = [0, message2[index], True]
+        world.map[index + 16][11] = [display.WHITE, display.BLACK, message2[index], True]
     for index in range(world.WORLD_X):
         world.map[index][7] = world.WORLD_WALL
     # Draw arrows pointing to the enemy. Locations are next to the enemy
-    world.map[23][10] = [0, '>', True]
-    world.map[27][10] = [0, '<', True]
+    world.map[23][10] = [display.WHITE, display.BLACK, '>', True]
+    world.map[27][10] = [display.WHITE, display.BLACK, '<', True]
        
     

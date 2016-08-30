@@ -13,10 +13,8 @@ def collide(this, other):
         world.player.Y = this.attributes["locy"]
         this.attributes["used"] = True
         # Print world out
-        for x in range(world.WORLD_X):
-            for y in range(world.WORLD_Y):
-                display.printc(x, y + 5, world.map[x][y][1], world.map[x][y][0])
-    return True
+        world.dispworld()
+        return True
 
 def char(this):
     if not this.attributes["used"]:
@@ -25,6 +23,7 @@ def char(this):
 
 def color(this):
     return display.BLUE
+
 type = "portal"
 
 # \ contiunes the line

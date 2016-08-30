@@ -14,7 +14,7 @@ def update(this, delta_time):
         newY = this.Y + randrange(-1, 2)
         # If the new tile is in bounds and walkable on... Note: Can't walk on the very edge of the world
         
-        if (newX > 0) and (newX < world.WORLD_X - 1) and (newY > 0) and (newY < world.WORLD_Y - 1) and (world.map[newX][newY][2]):
+        if (newX > 0) and (newX < world.WORLD_X - 1) and (newY > 0) and (newY < world.WORLD_Y - 1) and (world.map[newX][newY][3]):
             this.X = newX
             this.Y = newY
     # Attack
