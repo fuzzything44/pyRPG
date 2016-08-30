@@ -11,3 +11,6 @@ Run pyRPG.py
 
 # Bugs:
 If you find a bug or want to give feedback, email me at slimesftw@gmail.com
+
+# Trello:
+https://trello.com/b/EhSnoZf9/pyrpg
