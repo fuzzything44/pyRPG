@@ -25,7 +25,11 @@ def player_update(this, delta_time):
     display.printc(10, 2, str(this.attributes["money"]) + "     ")
     display.printc(12, 3, str(this.attributes["level"]))
     display.printc(5, 4, str(this.attributes["level"] ** 2 - this.attributes["EXP"]) + " to level        ")
-    
+    if this.attributes["HP"] < this.attributes["lastHP"]:
+        this.attributes["sincehit"] = 0
+    else:
+        this.attributes["sincehit"] += delta_time
+
     if display.keyDown(ord('W')) and (not "del_up" in this.attributes["effects"]):
         if (this.Y > 0) and world.map[this.X][this.Y - 1][3]:
             this.Y -= 1
@@ -103,6 +107,8 @@ def player_update(this, delta_time):
             key = display.getch()
 
         display.end()
+    # Finally, update lastHP. Done after effects because we don't want effects to make you constantly red
+    this.attributes["lastHP"] = this.attributes["HP"]
 
 def collide(this, oth):
     if oth.type == "money":
@@ -114,6 +120,12 @@ def player_char(this):
     return 'P'
 
 def player_color(this):
+    if this.attributes["sincehit"] < 75:
+        return display.RED
+    elif this.attributes["sincehit"] < 150:
+        return display.WHITE
+    elif this.attributes["sincehit"] < 225:
+        return display.RED
     return display.WHITE
 
 player_type = "player"
@@ -177,13 +189,15 @@ player_attributes =                     \
       "pants" : item.item("", "pants", world_object.no_func, world_object.no_func),         \
       "ring" : item.item("", "ring", world_object.no_func, world_object.no_func),           \
       "consumable" : item.item("", "consumable", world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
-      "mov_spd" : 200,                    \
+      "mov_spd" : 200,                   \
       "atk_spd" : 500,                   \
       "can_cast" : True,                 \
       "can_item" : True,                 \
       "magic" : 5,                       \
       "strength" : 5,                    \
-      "gainexp" : gain_exp               \
+      "gainexp" : gain_exp,              \
+      "lastHP" : 100.0,                 # What was their HP last frame?\
+      "sincehit" : 300                  # How long since they were hit\
     }
 
 
