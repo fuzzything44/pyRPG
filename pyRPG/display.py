@@ -147,7 +147,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
         
 
     # Turn strings in opt_list to options
-    PAGE_SIZE = 23 - line # Max options in a page
+    PAGE_SIZE = 26 - line # Max options in a page
     pages = [[]] # List of pages, contains list of options.
     linecount = 0 # How many lines all our options take up.
     for opt in opt_list: 
@@ -164,7 +164,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
 
     # Display first page
     # Start by clearing area.
-    for index in range(menu_min, 24):
+    for index in range(menu_min, 25):
         display.printc(50, index, ' ' * 29)
     for optn in pages[curr_page]: # Display everything
         optn.disp(line)
@@ -186,13 +186,13 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
             elif curr_page > 0: # They can go to a lesser page
                 curr_page -= 1 # Go to prev page
                 cursor_loc = menu_min
-                for index in range(menu_min, 24): # Clear menu area
+                for index in range(menu_min, 25): # Clear menu area
                     display.printc(50, index, ' ' * 29)
                 for optn in pages[curr_page]: # Display everything
                     optn.disp(cursor_loc)
                     cursor_loc += optn.lines
                 choice = len(pages[curr_page]) - 1
-                cursor_loc -= 1
+                cursor_loc -= pages[curr_page][-1].lines
                 display.printc(50, cursor_loc, '>')
 
             can_W = False
@@ -208,7 +208,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
             elif len(pages) - 1 > curr_page:
                 curr_page += 1 # Go to prev page
                 cursor_loc = menu_min
-                for index in range(menu_min, 24): # Clear menu area
+                for index in range(menu_min, 25): # Clear menu area
                     display.printc(50, index, ' ' * 29)
                 for optn in pages[curr_page]: # Display everything
                     optn.disp(cursor_loc)
