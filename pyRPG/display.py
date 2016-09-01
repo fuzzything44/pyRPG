@@ -114,7 +114,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
                 else:
                     if chr != '\n':
                         curr_str += chr # Add the character to the string.
-                    curr_index += 1
+                        curr_index += 1
                     if (curr_index == 28) or (chr == '\n'): # Max size or they wanted a new line
                         this.disps.append([curr_index - len(curr_str), curr_line, curr_str, curr_color])
                         curr_index = 1 # Add small indent
@@ -147,7 +147,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
         
 
     # Turn strings in opt_list to options
-    PAGE_SIZE = 24 - line # Max options in a page
+    PAGE_SIZE = 23 - line # Max options in a page
     pages = [[]] # List of pages, contains list of options.
     linecount = 0 # How many lines all our options take up.
     for opt in opt_list: 
@@ -156,6 +156,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
             pages.append([]) # New page
             linecount = 0 # Haven't used any of it.
         pages[-1].append(optn) # Add option
+        linecount += optn.lines
         
     curr_page = 0
     choice = 0
@@ -163,8 +164,8 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
 
     # Display first page
     # Start by clearing area.
-    for index in range(5, 24):
-        display.printc(50, index, ' ' * 28)
+    for index in range(menu_min, 24):
+        display.printc(50, index, ' ' * 29)
     for optn in pages[curr_page]: # Display everything
         optn.disp(line)
         line += optn.lines
@@ -182,16 +183,40 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
                 choice -= 1
                 cursor_loc -= pages[curr_page][choice].lines
                 printc(50, cursor_loc, '>')
+            elif curr_page > 0: # They can go to a lesser page
+                curr_page -= 1 # Go to prev page
+                cursor_loc = menu_min
+                for index in range(menu_min, 24): # Clear menu area
+                    display.printc(50, index, ' ' * 29)
+                for optn in pages[curr_page]: # Display everything
+                    optn.disp(cursor_loc)
+                    cursor_loc += optn.lines
+                choice = len(pages[curr_page]) - 1
+                cursor_loc -= 1
+                display.printc(50, cursor_loc, '>')
+
             can_W = False
         if not (keyDown(ord('W')) or keyDown(CONST.VK_UP)):
             can_W = True
 
         if (keyDown(ord('S')) or keyDown(CONST.VK_DOWN)) and can_S:
-            printc(50, cursor_loc, ' ')
             if choice < len(pages[curr_page]) - 1:
+                printc(50, cursor_loc, ' ')
                 cursor_loc += pages[curr_page][choice].lines
                 choice += 1
-            printc(50, cursor_loc, '>')
+                printc(50, cursor_loc, '>')
+            elif len(pages) - 1 > curr_page:
+                curr_page += 1 # Go to prev page
+                cursor_loc = menu_min
+                for index in range(menu_min, 24): # Clear menu area
+                    display.printc(50, index, ' ' * 29)
+                for optn in pages[curr_page]: # Display everything
+                    optn.disp(cursor_loc)
+                    cursor_loc += optn.lines
+                choice = 0
+                cursor_loc = menu_min
+                display.printc(50, cursor_loc, '>')
+
             can_S = False
         if not (keyDown(ord('S')) or keyDown(CONST.VK_DOWN)):
             can_S = True
@@ -203,4 +228,8 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
             pages[curr_page][choice].function(*fn_params[choice])
             while (keyDown(ord('E')) or keyDown(CONST.VK_RETURN)):
                 pass
-            return cursor_loc - menu_min
+            # Since non-uniform page length, must add all page sizes to get what they chose
+            opt_chosen = 0
+            for index in range(curr_page):
+                opt_chosen += len(pages[index]) # Add length of page
+            return opt_chosen + choice
