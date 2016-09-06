@@ -3,7 +3,6 @@ from random import randrange
 import display
 import world
 
-from items import LargeHealthPotion
 from items import item
 from objects import attack
 from objects import chest

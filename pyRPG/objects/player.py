@@ -183,18 +183,19 @@ player_attributes =                     \
       "items" : [],                     \
       "class" : "newb",                 \
       "spell" : spell.spell(0, world_object.no_func, ["   ", "   ", "   "], display.WHITE), \
-      "weapon" : item.item("", "weapon", world_object.no_func, world_object.no_func),       \
+      "weapon" : item.item("", "weapon", world_object.no_func, world_object.no_func, 1, {"damage" : 1, "range" : 1}),       \
       "hat" : item.item("", "hat", world_object.no_func, world_object.no_func),             \
       "shirt" : item.item("", "shirt", world_object.no_func, world_object.no_func),         \
       "pants" : item.item("", "pants", world_object.no_func, world_object.no_func),         \
       "ring" : item.item("", "ring", world_object.no_func, world_object.no_func),           \
       "consumable" : item.item("", "consumable", world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
-      "mov_spd" : 200,                   \
-      "atk_spd" : 500,                   \
+      "mov_spd" : 200,                  # How quickly they move, algorithm will be changed later. \
+      "atk_spd" : 500,                  # How quickly they attack, algorithm will be changed later. \
       "can_cast" : True,                 \
       "can_item" : True,                 \
-      "magic" : 5,                       \
-      "strength" : 5,                    \
+      "magic" : 5,                      # How good spells are \
+      "strength" : 5,                   # How much damage regular attacks do. \
+      "luck" : 0,                       # Luck will change item and money drops\
       "gainexp" : gain_exp,              \
       "lastHP" : 100.0,                 # What was their HP last frame?\
       "sincehit" : 300                  # How long since they were hit\
@@ -205,33 +206,12 @@ def set_active(type):
     options = [] # All options to go in the menu.
     for opt in world.player.attributes["items"]:
         if opt.type == type:
-            options.append(opt)
+            options.append([opt.name +"(" + str(opt.amount) + ")" + opt.attributes["disp_data"], world_object.no_func])
 
-    # Now break into pages.
-    #Page size is 20 max - 2 for title - 3 for forward/back/exit options = 15 options/page
-    PAGE_SIZE = 15
-    pages = [[]]
-    for opt in options:             # Add every object to the list.
-        if len(pages[-1]) == PAGE_SIZE:    # If list overflow, add a new page
-            pages.append([])
-        # Add option to last element in pages. Also should edits it to give amount held too.
-        pages[-1].append([opt.name + "(" + str(opt.amount) + ")", world_object.no_func])
-
-    curr_page = 0
-    choice = 1
-    # So if they choose 1 (prev. page) or 2 (next) page, menu is re-displayed.
-    while (choice == 1) or (choice == 2):
-        empty_lists = [[] for x in range(len(pages[curr_page]) + 3)]
-        choice = display.menu("Set to what?", empty_lists, ["Back", world_object.no_func], ["Next Page", world_object.no_func], ["Previous Page", world_object.no_func], *pages[curr_page])
-        if choice == 1:
-            curr_page = max(curr_page - 1, 0)
-        if choice == 2:
-            curr_page += 1
-            if curr_page == len(pages):
-                curr_page -= 1
-    # They chose back
-    if not choice:
-        return
+    
+    empty_lists = [[] for x in range(len(options) + 1)]
+    display.menu("Set to what?", empty_lists, ["Back", world_object.no_func],  *options)
+    return
     # Here we have to figure out what they chose.
     # So if they are on page n, then we must add 15 * n to the items index. So 0th page is items 0-15, 1st page is 15-29, etc...
     # Then, choice == 3 is the first item displayed, so add choice - 3 to that.
@@ -244,7 +224,7 @@ def set_active(type):
 
     
 def inventory_menu():
-    while display.menu("Inventory", [[], ["consumable"], ["weapon"], ["hat"], ["shirt"], ["pants"], ["ring"]], ["Back", world_object.no_func], ["-Set Consumable", set_active], ["-Set Weapon", set_active], ["-Set Hat", set_active], ["-Set Shirt", set_active], ["-Set Pants", set_active], ["-Set Ring", set_active]):
+    while display.menu("Inventory\nMax HP: Red\nMax MP: Blue\nMovement Speed: Green\nAttack Speed: White\nMagic Power: Cyan\nStrength: Magenta\nLuck: Yellow", [[], ["consumable"], ["weapon"], ["hat"], ["shirt"], ["pants"], ["ring"]], ["Back", world_object.no_func], ["Set Consumable", set_active], ["Set Weapon", set_active], ["Set Hat", set_active], ["Set Shirt", set_active], ["Set Pants", set_active], ["Set Ring", set_active]):
         # Redraw equip names.
         display.printc(46, 0, ' ' * 33)
         display.printc(46, 0, world.player.attributes["weapon"].name[:33])

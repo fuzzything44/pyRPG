@@ -22,6 +22,21 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="items\start_hat.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="items\start_pants.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="items\start_ring.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="items\start_shirt.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="items\start_weapon.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="maps\credits.py" />
     <Compile Include="display.py">
       <SubType>Code</SubType>
@@ -40,50 +55,9 @@
     <Compile Include="items\bread.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="items\brooks.py" />
-    <Compile Include="items\clothhat.py" />
-    <Compile Include="items\clothPants.py" />
-    <Compile Include="items\clothShirt.py" />
-    <Compile Include="items\dagger.py" />
-    <Compile Include="items\drStangesBoots.py" />
-    <Compile Include="items\dumbledoresPants.py" />
-    <Compile Include="items\Excalibur.py" />
-    <Compile Include="items\fastPants.py" />
-    <Compile Include="items\fastHat.py" />
-    <Compile Include="items\fastShirt.py" />
-    <Compile Include="items\gandolfRobe.py" />
-    <Compile Include="items\goodDagger.py" />
-    <Compile Include="items\goodSword.py" />
     <Compile Include="items\item.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="items\LargeHealthPotion.py" />
-    <Compile Include="items\LargeManaPotioin.py" />
-    <Compile Include="items\legendKnightChest.py" />
-    <Compile Include="items\legendKnightHel.py" />
-    <Compile Include="items\legendknightlegs.py" />
-    <Compile Include="items\legendKnightShoes.py" />
-    <Compile Include="items\magePants.py" />
-    <Compile Include="items\magerobe.py" />
-    <Compile Include="items\magicShoes.py" />
-    <Compile Include="items\MediumHealthPotion.py" />
-    <Compile Include="items\MediumManaPotion.py" />
-    <Compile Include="items\merlinsHat.py" />
-    <Compile Include="items\okayRing.py" />
-    <Compile Include="items\okaySword.py" />
-    <Compile Include="items\runningShoes.py" />
-    <Compile Include="items\sleekChest.py" />
-    <Compile Include="items\SmallHealthPotion.py" />
-    <Compile Include="items\SmallManaPOtion.py" />
-    <Compile Include="items\superFastHelm.py" />
-    <Compile Include="items\SuperGoodDagger.py" />
-    <Compile Include="items\t1wand.py" />
-    <Compile Include="items\t2wand.py" />
-    <Compile Include="items\t3wand.py" />
-    <Compile Include="items\tennisShoes.py" />
-    <Compile Include="items\trackShorts.py" />
-    <Compile Include="items\UselessRingg.py" />
-    <Compile Include="items\wizardsHat.py" />
     <Compile Include="items\__init__.py">
       <SubType>Code</SubType>
     </Compile>
