@@ -207,7 +207,10 @@ def set_active(type):
     items = [] # The item corresponding to the option
     for opt in world.player.attributes["items"]:
         if opt.type == type:
-            options.append([opt.name +"(" + str(opt.amount) + ")" + opt.attributes["disp_data"], world_object.no_func])
+            if opt.type == "spell":
+                options.append([opt.name + "(" + str(opt.amount) + ")", world_object.no_func])
+            else:
+                options.append([opt.name +"(" + str(opt.amount) + ")" + opt.attributes["disp_data"], world_object.no_func])
             items.append(opt)
 
     empty_lists = [[] for x in range(len(options) + 1)]

@@ -109,7 +109,7 @@ def new_game():
                 curs_loc -= 1
                 file_name = file_name[:-1] # Remove last character
             display.printc(curs_loc + 30, 10, ' ')
-        elif (inpt != -1) and (curs_loc < 45) and (): # Also don't let them get too long. 45 chosen arbitrarily because yeah.
+        elif (inpt != -1) and (curs_loc < 45): # Also don't let them get too long. 45 chosen arbitrarily because yeah.
             display.printc(curs_loc + 30, 10, chr(inpt))
             file_name += chr(inpt)
             curs_loc += 1
