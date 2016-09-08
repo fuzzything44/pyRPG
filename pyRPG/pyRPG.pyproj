@@ -22,19 +22,19 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="items\start_hat.py">
+    <Compile Include="items\start.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="items\start_pants.py">
+    <Compile Include="items\t1_mage.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="items\start_ring.py">
+    <Compile Include="items\t1_thief.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="items\start_shirt.py">
+    <Compile Include="items\t1_warrior.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="items\start_weapon.py">
+    <Compile Include="makemaps.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="maps\credits.py" />
@@ -68,6 +68,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\attack.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\bg_changer.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\chest.py">

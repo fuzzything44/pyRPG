@@ -1,9 +1,11 @@
 import copy
 
 import world
-from objects import *
+from objects import invis_dmg
 from objects import tutorial_boss
 from objects import lock_portal
+from objects import world_object
+
 def generate():
     world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]  
     world.objects = []

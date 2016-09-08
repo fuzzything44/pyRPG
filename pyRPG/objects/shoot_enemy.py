@@ -21,11 +21,11 @@ def update(this, delta_time):
     if randrange(0, this.attributes["atk_spd"]) < delta_time:
         newX = randrange(0, 2) * 2 - 1 # This makes it so that it has an X velocity
         newY = randrange(0, 2) * 2 - 1 # Also a Y velocity guarenteed
-        if randrange(0, 2): # Possibly zero a velocity
-            if randrange(0, 2): # Zero X
+        if randrange(0, 2): # Possibly give a zero velocity
+            if randrange(0, 2): # Zero X velocity
                 newX = 0
             else:
-                newY = 0
+                newY = 0 # Zero Y.
         # Add the projectile
         world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X + newX, this.Y + newY, \
                 {"movex" : newX, "movey": newY, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\

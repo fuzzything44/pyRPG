@@ -1,7 +1,8 @@
 import display
 import world
-from objects import *
 
+from objects import portal
+from objects import world_object
 def generate():
     world.objects = []
     world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]

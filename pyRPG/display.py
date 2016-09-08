@@ -89,7 +89,9 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
         str = str + ' ' * (29 - len(str))
         printc(50,  line, str)
         line += 1
-    
+    # Finished intro text
+
+
     # Format their options to be better.
     # Option class: can print itself, knows how many lines it is
     class option:
@@ -105,10 +107,14 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
             for chr in str:
                 if setting_color:
                     setting_color = False
-                    # Add the string. curr_index - len(curr_string) to get the start of the string, not the end.
-                    this.disps.append([curr_index - len(curr_str), curr_line, curr_str, curr_color])
-                    curr_str = "" # Reset string
-                    curr_color = this.get_color(chr) # Set color to what they chose.
+                    if chr != '\\': # let them use \\ to just put a regular \
+                        # Add the string. curr_index - len(curr_string) to get the start of the string, not the end.
+                        this.disps.append([curr_index - len(curr_str), curr_line, curr_str, curr_color])
+                        curr_str = "" # Reset string
+                        curr_color = this.get_color(chr) # Set color to what they chose.
+                    else:
+                        curr_str += chr # Add the character to the string
+                        curr_index += 1
                 elif chr == '\\':
                     setting_color = True
                 else:
@@ -122,7 +128,7 @@ Returns an int corresponding to the option chosen. Min of 0, max of (Num_options
                         curr_line += 1
             this.disps.append([curr_index - len(curr_str), curr_line, curr_str, curr_color])
             this.lines = curr_line + 1 # Amount of lines it takes up.
-            if this.lines > 7:
+            if this.lines > 7: # 7 chosen arbitrarily. It should be enough.
                 raise Exception("Menu Error: Wayyy too long of an option. Really, over 7 lines?!")
         def disp(this, start_line):
             for elem in this.disps:

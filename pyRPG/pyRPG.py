@@ -2,6 +2,7 @@ import time
 
 import display
 import main_menu
+import makemaps
 import world
 from objects import chest
 from objects import enemy
@@ -10,45 +11,7 @@ from objects import player
 from objects import portal
 from objects import world_object
 
-# Temporary imports to refresh maps each time we run it.
-from maps import start 
-from maps import tut1
-from maps import tutboss
-from maps import town
-from maps import stonstart
-from maps import credits
-from maps import ston1
-from maps import ston2
-from maps import stonboss
-
-# World generation
-start.generate()
-world.save("start")
-
-tut1.generate()
-world.save("tut1")
-
-tutboss.generate()
-world.save("tutboss")
-
-town.generate()
-world.save("town")
-
-stonboss.generate()
-world.save("stoneboss")
-
-stonstart.generate()
-world.save("stonestart")
-
-credits.generate()
-world.save("credits")
-
-ston1.generate()
-world.save("stone1")
-
-ston2.generate()
-world.save("stone2")
-
+makemaps.make("all")
 
 display.start()
 main_menu.start()
@@ -82,6 +45,7 @@ while True: # Main game loop
     try:
         new_map_loaded = False
         # Refresh screen
+
         display.refresh()
     
         delta_time = int((time.time() - start_time) * 1000) - since_start
@@ -89,8 +53,8 @@ while True: # Main game loop
         if delta_time > 100:
             delta_time = 100
             # TODO: Give a speed warning if this happens too often...
-       #display.printc(0, 0, str(delta_time) + ' ')
-       #display.printc(0, 1, str(len(world.objects)) + ' ')
+        display.printc(0, 0, str(delta_time) + ' ')
+        display.printc(0, 1, str(len(world.objects)) + ' ')
 
         # Clear out deletion list for next update
         world.to_del.clear()

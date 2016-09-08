@@ -204,23 +204,23 @@ player_attributes =                     \
 
 def set_active(type):
     options = [] # All options to go in the menu.
+    items = [] # The item corresponding to the option
     for opt in world.player.attributes["items"]:
         if opt.type == type:
             options.append([opt.name +"(" + str(opt.amount) + ")" + opt.attributes["disp_data"], world_object.no_func])
+            items.append(opt)
 
-    
     empty_lists = [[] for x in range(len(options) + 1)]
-    display.menu("Set to what?", empty_lists, ["Back", world_object.no_func],  *options)
-    return
-    # Here we have to figure out what they chose.
-    # So if they are on page n, then we must add 15 * n to the items index. So 0th page is items 0-15, 1st page is 15-29, etc...
-    # Then, choice == 3 is the first item displayed, so add choice - 3 to that.
+    choice = display.menu("Set to what?", empty_lists, ["Back", world_object.no_func],  *options)
+    if choice == 0: # They chose back
+        return
+
     if type != "spell": # Spells don't have equip and unequip functions.
         world.player.attributes[type].unequip(world.player.attributes[type], world.player) # Unequip the old item.
-        world.player.attributes[type] = options[15 * curr_page + choice - 3]
+        world.player.attributes[type] = items[choice - 1] # Find the new item
         world.player.attributes[type].equip(world.player.attributes[type], world.player) # Equip new item
     else:
-        world.player.attributes[type] = options[15 * curr_page + choice - 3]
+        world.player.attributes[type] = items[choice - 1]
 
     
 def inventory_menu():

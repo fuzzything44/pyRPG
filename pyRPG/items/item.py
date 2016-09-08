@@ -98,7 +98,7 @@ def reg_equip(this, player):
     if "magic_mod" in this.attributes:
         player.attributes["magic"] += this.attributes["magic_mod"]
     if "str_mod" in this.attributes:
-        player.attributes["str"] += this.attributes["str_mod"]
+        player.attributes["strength"] += this.attributes["str_mod"]
     if "luck_mod" in this.attributes:
         player.attributes["luck"] += this.attributes["luck_mod"]
 def reg_unequip(this, player):
@@ -115,6 +115,6 @@ def reg_unequip(this, player):
     if "magic_mod" in this.attributes:
         player.attributes["magic"] -= this.attributes["magic_mod"]
     if "str_mod" in this.attributes:
-        player.attributes["str"] -= this.attributes["str_mod"]
+        player.attributes["strength"] -= this.attributes["str_mod"]
     if "luck_mod" in this.attributes:
         player.attributes["luck"] -= this.attributes["luck_mod"]

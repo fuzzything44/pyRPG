@@ -4,7 +4,7 @@ import glob
 import display
 import world
 from items import item
-from items import start_hat, start_weapon, start_shirt, start_pants, start_ring
+from items import start as start_eq
 
 from objects import player
 from objects import world_object
@@ -198,11 +198,11 @@ def new_game():
             # Basic player. Choice will modify it's attributes.
             world.player = world_object.world_object(player.player_update, player.collide, player.player_char, player.player_color, "player", 0, 0, player.player_attributes)
             
-            hat =    item.item(start_hat.name   , start_hat.type   , start_hat.on_equip   , start_hat.on_unequip   , 1, copy.deepcopy(start_hat.attributes   ))
-            shirt =  item.item(start_shirt.name , start_shirt.type , start_shirt.on_equip , start_shirt.on_unequip , 1, copy.deepcopy(start_shirt.attributes ))
-            pants =  item.item(start_pants.name , start_pants.type , start_pants.on_equip , start_pants.on_unequip , 1, copy.deepcopy(start_pants.attributes ))
-            weapon = item.item(start_weapon.name, start_weapon.type, start_weapon.on_equip, start_weapon.on_unequip, 1, copy.deepcopy(start_weapon.attributes))
-            ring =   item.item(start_ring.name  , start_ring.type  , start_ring.on_equip  , start_ring.on_unequip  , 1, copy.deepcopy(start_ring.attributes  ))
+            hat =    item.item(start_eq.hat_name   , start_eq.hat_type   , start_eq.hat_on_equip   , start_eq.hat_on_unequip   , 1, copy.deepcopy(start_eq.hat_attributes   ))
+            shirt =  item.item(start_eq.shirt_name , start_eq.shirt_type , start_eq.shirt_on_equip , start_eq.shirt_on_unequip , 1, copy.deepcopy(start_eq.shirt_attributes ))
+            pants =  item.item(start_eq.pants_name , start_eq.pants_type , start_eq.pants_on_equip , start_eq.pants_on_unequip , 1, copy.deepcopy(start_eq.pants_attributes ))
+            weapon = item.item(start_eq.weapon_name, start_eq.weapon_type, start_eq.weapon_on_equip, start_eq.weapon_on_unequip, 1, copy.deepcopy(start_eq.weapon_attributes))
+            ring =   item.item(start_eq.ring_name  , start_eq.ring_type  , start_eq.ring_on_equip  , start_eq.ring_on_unequip  , 1, copy.deepcopy(start_eq.ring_attributes  ))
             sp = spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon, heal.color)
             pclass = ""
             if not choice: # Choice was 0, so warrior
