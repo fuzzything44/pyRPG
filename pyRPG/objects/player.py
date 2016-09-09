@@ -33,19 +33,19 @@ def player_update(this, delta_time):
     if display.keyDown(ord('W')) and (not "del_up" in this.attributes["effects"]):
         if (this.Y > 0) and world.map[this.X][this.Y - 1][3]:
             this.Y -= 1
-        this.attributes["effects"]["del_up"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
+        this.attributes["effects"]["del_up"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["mov_spd"]))]
     if display.keyDown(ord('S')) and (not "del_down" in this.attributes["effects"]):
         if (this.Y < world.WORLD_Y - 1) and world.map[this.X][this.Y + 1][3]:
             this.Y += 1
-        this.attributes["effects"]["del_down"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
+        this.attributes["effects"]["del_down"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["mov_spd"]))]
     if display.keyDown(ord('A')) and (not "del_left" in this.attributes["effects"]):
         if (this.X > 0) and world.map[this.X - 1][this.Y][3]:
             this.X -= 1
-        this.attributes["effects"]["del_left"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
+        this.attributes["effects"]["del_left"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["mov_spd"]))]
     if display.keyDown(ord('D')) and (not "del_right" in this.attributes["effects"]):
         if (this.X < world.WORLD_X - 1) and world.map[this.X + 1][this.Y][3]:
             this.X += 1
-        this.attributes["effects"]["del_right"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
+        this.attributes["effects"]["del_right"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["mov_spd"]))]
     if display.keyDown(ord(' ')) and this.attributes["can_cast"]:
         this.attributes["spell"].cast(this)
         this.attributes["can_cast"] = False
@@ -56,23 +56,23 @@ def player_update(this, delta_time):
         world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, play_attk_color, attack.attk_type, this.X, this.Y - 1, \
             {"movex" : 0, "movey": -1, "range" : this.attributes["weapon"].attributes["range"], "damage" : (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), "speed" : 100, "to_move" : 0, "owner" : this}\
         ))
-        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
+        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
     if (display.keyDown(ord('J'))) and (this.X != 0) and (world.map[this.X - 1][this.Y][3]) and (not "del_atk" in this.attributes["effects"]):
         world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, play_attk_color, attack.attk_type, this.X - 1, this.Y, \
             {"movex" : -1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
         ))
-        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
+        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
     if (display.keyDown(ord('K'))) and (this.Y != 19) and (world.map[this.X][this.Y + 1][3]) and (not "del_atk" in this.attributes["effects"]):
         world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, play_attk_color, attack.attk_type, this.X, this.Y + 1, \
             {"movex" : 0, "movey": 1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
         ))                                                                                                                                                                  
-        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
+        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
     if (display.keyDown(ord('L'))) and (this.X != 49) and (world.map[this.X + 1][this.Y][3]) and (not "del_atk" in this.attributes["effects"]):
         world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, play_attk_color, attack.attk_type, this.X + 1, this.Y, \
             {"movex" : 1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
         ))
-        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
-
+        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
+        # Or with our constants in python, time = 500/(1+2.718^(.01x)), which is a nice logistic formula.
     if display.keyDown(display.CONST.VK_LSHIFT) and this.attributes["can_item"]:
         this.attributes["consumable"].attributes["use"](this)
         this.attributes["can_item"] = False
@@ -189,8 +189,8 @@ player_attributes =                     \
       "pants" : item.item("", "pants", world_object.no_func, world_object.no_func),         \
       "ring" : item.item("", "ring", world_object.no_func, world_object.no_func),           \
       "consumable" : item.item("", "consumable", world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
-      "mov_spd" : 200,                  # How quickly they move, algorithm will be changed later. \
-      "atk_spd" : 500,                  # How quickly they attack, algorithm will be changed later. \
+      "mov_spd" : 0,                    # How quickly they move\
+      "atk_spd" : 0,                    # How quickly they attack\
       "can_cast" : True,                 \
       "can_item" : True,                 \
       "magic" : 5,                      # How good spells are \
