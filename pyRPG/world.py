@@ -2,7 +2,7 @@ import pickle
 
 import display
 from objects import world_object
-import objects.player as play
+from objects import Player as play
 
 # World tile. Form of [foreground color, background color, display char, canwalk]. None of this should move, all is part of background world.
 WORLD_NOTHING   = [display.BLACK, display.BLACK, ' ', True]     # Nothing there

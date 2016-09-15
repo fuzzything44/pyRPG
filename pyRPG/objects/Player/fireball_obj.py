@@ -1,7 +1,9 @@
 import display
 import world
-from effects import frozen
-from objects import attack
+
+from effects import fire
+
+from objects.Player import attack
 from objects import world_object
 update = attack.attk_update
 
@@ -11,12 +13,12 @@ def collide(this, other):
             other.attributes["HP"] -= this.attributes["damage"]
             world.to_del.append(this)
             if "effects" in other.attributes:
-                other.attributes["effects"]["frozen"] = [frozen.frozen, frozen.unfreeze, 1000]
-                other.attributes["stuckX"] = other.X
-                other.attributes["stuckY"] = other.Y
+                other.attributes["effects"]["fire"] = [fire.fire, world_object.no_func, 1000]
+            if "magic" in this.attributes["owner"] and this.attributes["owner"].attributes["magic"] >= 25:
+                other.attributes["effects"]["fire"] = [fire.bigfire, world_object.no_func, 1500]
 
 def color(this):
-    return display.CYAN
+    return display.RED
 
 def char(this):
     return 'o'

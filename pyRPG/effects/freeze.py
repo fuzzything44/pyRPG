@@ -1,8 +1,8 @@
 import display
 import world
 
-from objects import attack
-from objects import frostshot_obj
+from objects.Player import attack
+from objects.Player import frostshot_obj
 from objects import world_object
 
 

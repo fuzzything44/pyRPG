@@ -4,12 +4,9 @@ import display
 import main_menu
 import makemaps
 import world
-from objects import chest
-from objects import enemy
-from objects import invis_dmg
-from objects import player
-from objects import portal
-from objects import world_object
+from objects import Player
+
+#makemaps.make_from_file('maps/Tutorial/tut2.txt', 'maps/Tutorial/tut2.py')
 
 makemaps.make("all")
 
@@ -90,7 +87,7 @@ while True: # Main game loop
                 display.printc(obj.X, obj.Y + 5, world.map[obj.X][obj.Y][2], world.map[obj.X][obj.Y][0])
             world.objects.remove(obj)
         if display.keyDown(display.CONST.VK_ESCAPE):
-            while display.menu("Options:", [[], [], ["spell"], [], []], ["Resume", lambda: 0], ["Inventory", player.inventory_menu], ["Spells", player.set_active], ["Save", world.save_player], ["Exit", display.end]):
+            while display.menu("Options:", [[], [], ["spell"], [], []], ["Resume", lambda: 0], ["Inventory", Player.player.inventory_menu], ["Spells", Player.player.set_active], ["Save", world.save_player], ["Exit", display.end]):
                 world.player.attributes["spell"].draw()
                 world.player.attributes["consumable"].draw()
                 display.refresh()

@@ -6,9 +6,9 @@ from items import t1_warrior
 from items import t1_mage
 from items import t1_thief
 
-from objects import bg_changer
-from objects import chest
-from objects import portal
+from objects.General import bg_changer
+from objects.Loot import chest
+from objects.General import portal
 from objects import world_object
 
 def generate():

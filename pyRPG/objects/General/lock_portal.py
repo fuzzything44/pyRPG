@@ -1,6 +1,6 @@
 import display
 import world
-from objects import portal
+from objects.General import portal
 from objects import world_object
 
 update = world_object.no_func

@@ -5,7 +5,7 @@ import world
 
 from items import item
 
-from objects import attack
+from objects.Player import attack
 from objects import world_object
 
 from spells import fireball
@@ -24,7 +24,7 @@ def player_update(this, delta_time):
     display.printc(8, 1, str(int(this.attributes["MP"])) + "/" + str(int(this.attributes["maxMP"])) + "  ")
     display.printc(10, 2, str(this.attributes["money"]) + "     ")
     display.printc(12, 3, str(this.attributes["level"]))
-    display.printc(5, 4, str(this.attributes["level"] ** 2 - this.attributes["EXP"]) + " to level        ")
+    display.printc(5, 4, str(int(0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4 - this.attributes["EXP"])) + " to level        ")
     if this.attributes["HP"] < this.attributes["lastHP"]:
         this.attributes["sincehit"] = 0
     else:
@@ -132,8 +132,9 @@ player_type = "player"
 
 def gain_exp(this, amount):
     this.attributes["EXP"] += amount
-    while this.attributes["EXP"] >= this.attributes["level"]**2: # They levelled up!
-        this.attributes["EXP"] -= this.attributes["level"]**2 # Remove EXP required for level
+    # Takes 0.5L^2 + .5L + 4
+    while this.attributes["EXP"] >= (0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4): # They levelled up!
+        this.attributes["EXP"] -= (0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4) # Remove EXP required for level
         this.attributes["level"] += 1 # Duh.
         if this.attributes["level"] == 2:
             if this.attributes["class"] == "mage":

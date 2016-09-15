@@ -1,8 +1,8 @@
 import world
 from objects import *
-from objects import lavaborder
-from objects import lock_portal
-from objects import stone_boss
+from objects.StoneDungeon import lavaborder
+from objects.General import lock_portal
+from objects.StoneDungeon import stone_boss
 
 def generate():
     world.objects = []

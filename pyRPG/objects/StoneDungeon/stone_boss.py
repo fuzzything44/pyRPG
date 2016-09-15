@@ -4,8 +4,8 @@ import display
 import world
 
 from items import item
-from objects import attack
-from objects import chest
+from objects.Player import attack
+from objects.Loot import chest
 from objects import world_object
 
 def update(this, delta_time):

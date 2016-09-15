@@ -4,8 +4,8 @@ import display
 import world
 
 from items import item
-from objects import attack
-from objects import money
+from objects.Player import attack
+from objects.Loot import money
 from objects import world_object
 from spells import spell
 

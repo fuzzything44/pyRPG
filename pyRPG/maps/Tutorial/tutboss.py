@@ -1,9 +1,9 @@
 import copy
 
 import world
-from objects import invis_dmg
-from objects import tutorial_boss
-from objects import lock_portal
+from objects.General import invis_dmg
+from objects.Tutorial import tutorial_boss
+from objects.General import lock_portal
 from objects import world_object
 
 def generate():

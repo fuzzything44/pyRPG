@@ -5,9 +5,9 @@ import world
 
 from items import item
 from items import bread
-from objects import attack
-from objects import chest
-from objects import money
+from objects.Player import attack
+from objects.Loot import chest
+from objects.Loot import money
 from objects import world_object
 from spells import spell
 

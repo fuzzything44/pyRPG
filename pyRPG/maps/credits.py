@@ -1,6 +1,9 @@
 import display
 import world
-from objects import *
+
+from objects.General import portal
+from objects import world_object
+
 def pchar(this):
     if this.attributes["used"]:
         return '\0'

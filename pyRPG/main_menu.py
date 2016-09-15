@@ -6,7 +6,7 @@ import world
 from items import item
 from items import start as start_eq
 
-from objects import player
+from objects.Player import player
 from objects import world_object
 
 from spells import heal

@@ -64,35 +64,66 @@
     <Compile Include="main_menu.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="maps\StoneDungeon\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="maps\Tutorial\tut2.py" />
+    <Compile Include="maps\Tutorial\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="maps\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="objects\attack.py">
+    <Compile Include="objects\Loot\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="objects\bg_changer.py">
+    <Compile Include="objects\obj_maker.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="objects\chest.py">
+    <Compile Include="objects\Player\attack.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="objects\enemy.py" />
-    <Compile Include="objects\stone_boss.py" />
-    <Compile Include="objects\fireball_obj.py" />
-    <Compile Include="objects\frostshot_obj.py" />
-    <Compile Include="objects\invis_dmg.py" />
-    <Compile Include="objects\lavaborder.py">
+    <Compile Include="objects\General\bg_changer.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="objects\lock_portal.py" />
-    <Compile Include="objects\tutorial_boss.py" />
-    <Compile Include="objects\money.py" />
-    <Compile Include="objects\player.py" />
-    <Compile Include="objects\portal.py" />
-    <Compile Include="objects\shoot_enemy.py">
+    <Compile Include="objects\Loot\chest.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="objects\tutorial_enemy.py">
+    <Compile Include="objects\StoneDungeon\enemy.py" />
+    <Compile Include="objects\General\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\Player\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\StoneDungeon\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\StoneDungeon\stone_boss.py" />
+    <Compile Include="objects\Player\fireball_obj.py" />
+    <Compile Include="objects\Player\frostshot_obj.py" />
+    <Compile Include="objects\General\invis_dmg.py" />
+    <Compile Include="objects\StoneDungeon\lavaborder.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\General\lock_portal.py" />
+    <Compile Include="objects\Tutorial\level_up_enemy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\Tutorial\tutorial_move_enemy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\Tutorial\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\Tutorial\tutorial_boss.py" />
+    <Compile Include="objects\Loot\money.py" />
+    <Compile Include="objects\Player\player.py" />
+    <Compile Include="objects\General\portal.py" />
+    <Compile Include="objects\StoneDungeon\shoot_enemy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\Tutorial\tutorial_enemy.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\world_object.py" />
@@ -116,14 +147,14 @@
     <Compile Include="spells\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="maps\start.py" />
-    <Compile Include="maps\ston1.py" />
-    <Compile Include="maps\ston2.py" />
-    <Compile Include="maps\stonboss.py" />
-    <Compile Include="maps\stonstart.py" />
+    <Compile Include="maps\Tutorial\start.py" />
+    <Compile Include="maps\StoneDungeon\ston1.py" />
+    <Compile Include="maps\StoneDungeon\ston2.py" />
+    <Compile Include="maps\StoneDungeon\stonboss.py" />
+    <Compile Include="maps\StoneDungeon\stonstart.py" />
     <Compile Include="maps\town.py" />
-    <Compile Include="maps\tut1.py" />
-    <Compile Include="maps\tutboss.py" />
+    <Compile Include="maps\Tutorial\tut1.py" />
+    <Compile Include="maps\Tutorial\tutboss.py" />
     <Compile Include="world.py">
       <SubType>Code</SubType>
     </Compile>
@@ -132,9 +163,22 @@
     <Folder Include="items\" />
     <Folder Include="effects\" />
     <Folder Include="maps\" />
+    <Folder Include="maps\StoneDungeon\" />
+    <Folder Include="maps\Tutorial\" />
+    <Folder Include="objects\General\" />
+    <Folder Include="objects\Loot\" />
+    <Folder Include="objects\Player\" />
+    <Folder Include="objects\StoneDungeon\" />
+    <Folder Include="objects\Tutorial\" />
     <Folder Include="res\" />
     <Folder Include="objects\" />
     <Folder Include="spells\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="maps\Tutorial\start.txt" />
+    <Content Include="maps\Tutorial\tut1.txt" />
+    <Content Include="maps\Tutorial\tut2.txt" />
+    <Content Include="maps\Tutorial\tutboss.txt" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

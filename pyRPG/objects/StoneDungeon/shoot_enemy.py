@@ -3,8 +3,8 @@ from random import randrange
 import display
 import world
 
-from objects import attack
-from objects import money
+from objects.Player import attack
+from objects.Loot import money
 from objects import world_object
 
 def update(this, delta_time):

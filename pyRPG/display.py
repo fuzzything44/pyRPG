@@ -44,7 +44,8 @@ def start():
         exit(1)
         
     start_color()
-	# Init all foreground/background pairs
+
+  	# Init all foreground/background pairs
 	# List of all colors
     color_list = [COLOR_WHITE, COLOR_BLACK, COLOR_RED, COLOR_BLUE, COLOR_CYAN, COLOR_GREEN, COLOR_MAGENTA, COLOR_YELLOW]
     # Loop through background colors
