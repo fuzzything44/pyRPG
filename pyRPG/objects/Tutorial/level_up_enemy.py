@@ -18,9 +18,18 @@ def update(this, delta_time):
         if this.attributes["pattern_loc"] >= len(this.attributes["pattern"]):
             this.attributes["pattern_loc"] = 0
     if this.attributes["HP"] <= 0:
-        world.to_del.append(this) # Delete
         world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give exp
-        # DO SPECIAL STUFF!
+        if world.player.attributes["level"] == 2: # If they're level 2, they leveled up and need to be notified.
+            world.load("tut2killed")
+            world.objects = [world.player] + world.objects
+            if world.player.X == world.WORLD_X - 1: # If they're on the portal
+                world.player.X -= 1 # Push them back a bit
+            world.dispworld()
+            return True
+        world.to_del.append(this) # Delete
+
+
+            
 
 collide = tutorial_move_enemy.collide
 def char(this):

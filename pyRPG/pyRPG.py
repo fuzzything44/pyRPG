@@ -6,7 +6,7 @@ import makemaps
 import world
 from objects import Player
 
-#makemaps.make_from_file('maps/Tutorial/tut2.txt', 'maps/Tutorial/tut2.py')
+#makemaps.make_from_file('maps/Tutorial/tut2killed.txt', 'maps/Tutorial/tut2killed.py')
 
 makemaps.make("all")
 

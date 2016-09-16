@@ -64,6 +64,9 @@ def make(make_what):
         Tutorial.tut2.generate()
         world.save("tut2")
 
+        Tutorial.tut2killed.generate()
+        world.save("tut2killed")
+
         Tutorial.tutboss.generate()
         world.save("tutboss")
         
