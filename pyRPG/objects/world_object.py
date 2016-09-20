@@ -28,7 +28,7 @@ In all functions passed during init, another parameter "this" is required as a r
         self.type = type
         return
     def update(self, delta_time):
-        self.__update_fn(self, delta_time)
+        return self.__update_fn(self, delta_time)
     def collide(self, obj):
         return self.__collide_fn(self, obj)
     def getChar(self):

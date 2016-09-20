@@ -231,6 +231,7 @@ def new_game():
             world.player.Y = world.WORLD_Y - 3
             # Load starting world
             world.load("start")
+            world.objects = [world.player] + world.objects
             return
 
 def help_menu():

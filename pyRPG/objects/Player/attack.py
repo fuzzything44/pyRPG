@@ -1,7 +1,7 @@
 import display
 import world
 
-def attk_update(this, delta_time):
+def update(this, delta_time):
     this.attributes["to_move"] += delta_time
     if this.attributes["to_move"] >= this.attributes["speed"]:
         this.attributes["to_move"] = 0
@@ -13,21 +13,21 @@ def attk_update(this, delta_time):
                 world.to_del.append(this)
 
 
-def attk_coll(this, oth):
+def collide(this, oth):
     if (this.attributes["owner"].type != oth.type) and ("HP" in oth.attributes):
         oth.attributes["HP"] -= this.attributes["damage"]
         world.to_del.append(this)
 
     
-def attk_char(this):
+def char(this):
     return '!'
 
-def attk_color(this):
+def color(this):
     return display.MAGENTA
 
-attk_type = "damage"
+type = "damage"
 
-attk_attributes = {     \
+attributes = {     \
     "movex" : 0,        \
     "movey" : 0,        \
     "damage" : 1,       \

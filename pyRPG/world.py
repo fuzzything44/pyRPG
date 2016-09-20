@@ -61,8 +61,8 @@ def save(name):
 def save_player():
     try:
         with open("res/saves/" + save_name + ".plr", "wb") as handle:
-            pickle.dump(player, handle, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(world_name, handle, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(player, handle)
+            pickle.dump(world_name, handle)
     except Exception as ex:
         display.printc(20, 10, "Could not save. Press ESC to continue.")
         display.refresh()
@@ -75,7 +75,8 @@ def load_player(name):
         with open("res/saves/" + name + ".plr", "rb") as handle:
             player = pickle.load(handle)
             # Next saved item should be the world they were in, so load that world
-            load(pickle.load(handle))
+            in_world = pickle.load(handle)
+            load(in_world)
             save_name = name
     except:
         player = world_object.world_object(play.player_update, play.collide, play.player_char, play.player_color, "player", 0, 0, play.player_attributes)

@@ -6,6 +6,7 @@ import world
 from objects.Player import attack
 from objects.Loot import money
 from objects import world_object
+from objects import obj_maker
 
 def update(this, delta_time):
     # Move
@@ -27,7 +28,7 @@ def update(this, delta_time):
             else:
                 newY = 0 # Zero Y.
         # Add the projectile
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, this.X + newX, this.Y + newY, \
+        world.objects.append(obj_maker.make(attack, this.X + newX, this.Y + newY, \
                 {"movex" : newX, "movey": newY, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 100, "to_move" : 0, "owner" : this}\
             ))
     eff_del_list = []

@@ -16,8 +16,6 @@ main_menu.start()
 # Needs world selection menu. Probably try for a scrolling menu with basic graphics if possible.
 
 
-world.objects = [world.player] + world.objects
-
 # Print world out
 world.dispworld()
 
@@ -64,7 +62,8 @@ while True: # Main game loop
             if obj.getChar() != '\0':
                 display.printc(obj.X, obj.Y + 5, world.map[obj.X][obj.Y][2], world.map[obj.X][obj.Y][0])
             # Update it
-            obj.update(delta_time)
+            if obj.update(delta_time) is not None:
+                new_map_loaded = True
             for coll in world.objects:    # Check for collision
                 if (coll.getCoords() == obj.getCoords()) and (not coll is obj) :
                     if obj.collide(coll) is not None:

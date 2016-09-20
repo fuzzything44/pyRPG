@@ -7,6 +7,7 @@ from items import item
 from objects.Player import attack
 from objects.Loot import chest
 from objects import world_object
+from objects import obj_maker
 
 def update(this, delta_time):
     # Movement code
@@ -33,28 +34,28 @@ def update(this, delta_time):
         this.attributes["effects"]["mov_del"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
     if not ("atk_del" in this.attributes["effects"]):
         # Attack!
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        world.objects.append(obj_maker.make(attack, \
         this.X + 1, this.Y, {"movex" : 1, "movey": 0, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
         ))
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        world.objects.append(obj_maker.make(attack, \
         this.X - 1, this.Y, {"movex" : -1, "movey": 0, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
         ))
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        world.objects.append(obj_maker.make(attack, \
         this.X, this.Y + 1, {"movex" : 0, "movey": 1, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
         ))
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        world.objects.append(obj_maker.make(attack, \
         this.X, this.Y - 1, {"movex" : 0, "movey": -1, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
         ))
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        world.objects.append(obj_maker.make(attack, \
         this.X + 1, this.Y + 1, {"movex" : 1, "movey": 1, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
         ))
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        world.objects.append(obj_maker.make(attack, \
         this.X + 1, this.Y - 1, {"movex" : 1, "movey": -1, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
         ))
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        world.objects.append(obj_maker.make(attack, \
         this.X - 1, this.Y + 1, {"movex" : -1, "movey": 1, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
         ))
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, attack.attk_color, attack.attk_type, \
+        world.objects.append(obj_maker.make(attack, \
         this.X - 1, this.Y - 1, {"movex" : -1, "movey": -1, "range" : this.attributes["range"], "damage" : this.attributes["damage"], "speed" : 300, "to_move" : 0, "owner" : this}\
         ))
         this.attributes["effects"]["atk_del"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
@@ -87,8 +88,7 @@ def update(this, delta_time):
         world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 25, 9, chest_attr))
         world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 25, 11, chest_attr))
         world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give experience
-    else:        
-        pass
+
 
 def collide(this, obj):
     pass

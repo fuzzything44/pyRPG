@@ -2,9 +2,17 @@
 import display
 import world
 
+from objects import obj_maker
+from objects.General import lock_portal
+from objects import Tutorial
+
 def generate():
     world.objects.clear()
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
+    world.objects.append(obj_maker.make(lock_portal, 49, 10,{"newmap": "town", "locx": 25, "locy": 10, "used" : False}))     
+    world.objects.append(obj_maker.make(Tutorial.lava, 0, 0))
+    world.objects.append(obj_maker.make(Tutorial.tutorial_boss, 25, 10))
+
     world.map[2][2] =  [display.RED, display.RED, '#', True]
     world.map[3][2] =  [display.RED, display.RED, '#', True]
     world.map[46][2] =  [display.RED, display.RED, '#', True]

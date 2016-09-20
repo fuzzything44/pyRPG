@@ -53,26 +53,30 @@ def player_update(this, delta_time):
         this.attributes["can_cast"] = True
     # Attacks!
     if (display.keyDown(ord('I'))) and (this.Y != 0) and (world.map[this.X][this.Y - 1][3]) and (not "del_atk" in this.attributes["effects"]):
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, play_attk_color, attack.attk_type, this.X, this.Y - 1, \
+        world.objects.append(world_object.world_object(attack.update, attack.collide, attack.char, play_attk_color, attack.type, this.X, this.Y - 1, \
             {"movex" : 0, "movey": -1, "range" : this.attributes["weapon"].attributes["range"], "damage" : (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), "speed" : 100, "to_move" : 0, "owner" : this}\
         ))
         this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
+
     if (display.keyDown(ord('J'))) and (this.X != 0) and (world.map[this.X - 1][this.Y][3]) and (not "del_atk" in this.attributes["effects"]):
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, play_attk_color, attack.attk_type, this.X - 1, this.Y, \
+        world.objects.append(world_object.world_object(attack.update, attack.collide, attack.char, play_attk_color, attack.type, this.X - 1, this.Y, \
             {"movex" : -1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
         ))
         this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
+
     if (display.keyDown(ord('K'))) and (this.Y != 19) and (world.map[this.X][this.Y + 1][3]) and (not "del_atk" in this.attributes["effects"]):
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, play_attk_color, attack.attk_type, this.X, this.Y + 1, \
+        world.objects.append(world_object.world_object(attack.update, attack.collide, attack.char, play_attk_color, attack.type, this.X, this.Y + 1, \
             {"movex" : 0, "movey": 1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
         ))                                                                                                                                                                  
         this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
+
     if (display.keyDown(ord('L'))) and (this.X != 49) and (world.map[this.X + 1][this.Y][3]) and (not "del_atk" in this.attributes["effects"]):
-        world.objects.append(world_object.world_object(attack.attk_update, attack.attk_coll, attack.attk_char, play_attk_color, attack.attk_type, this.X + 1, this.Y, \
+        world.objects.append(world_object.world_object(attack.update, attack.collide, attack.char, play_attk_color, attack.type, this.X + 1, this.Y, \
             {"movex" : 1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
         ))
         this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
         # Or with our constants in python, time = 500/(1+2.718^(.01x)), which is a nice logistic formula.
+
     if display.keyDown(display.CONST.VK_LSHIFT) and this.attributes["can_item"]:
         this.attributes["consumable"].attributes["use"](this)
         this.attributes["can_item"] = False

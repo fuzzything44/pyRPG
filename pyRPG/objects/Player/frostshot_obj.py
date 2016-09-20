@@ -3,7 +3,7 @@ import world
 from effects import frozen
 from objects.Player import attack
 from objects import world_object
-update = attack.attk_update
+update = attack.update
 
 def collide(this, other):
      if this.attributes["owner"].type != other.type:
