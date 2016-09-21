@@ -10,7 +10,7 @@ from objects.General import bg_changer
 from objects.Loot import chest
 from objects.General import portal
 from objects import world_object
-
+from objects import obj_maker
 def generate():
     world.objects = []
     world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
@@ -38,12 +38,9 @@ def generate():
         item.item(t1_warrior.pants_name , t1_warrior.pants_type , t1_warrior.pants_on_equip , t1_warrior.pants_on_unequip , 1, t1_warrior.pants_attributes )\
       ]}
 
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col,\
-      chest.chest_type, 15, 2, war_chest_attr)) # This chest contains stuff for warriors.
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col,\
-      chest.chest_type, 14, 1, war_chest_attr)) # This chest contains stuff for warriors.
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col,\
-      chest.chest_type, 16, 1, war_chest_attr)) # This chest contains stuff for warriors.
+    world.objects.append(obj_maker.make(chest, 15, 2, war_chest_attr)) # This chest contains stuff for warriors.
+    world.objects.append(obj_maker.make(chest, 14, 1, war_chest_attr)) # This chest contains stuff for warriors.
+    world.objects.append(obj_maker.make(chest, 16, 1, war_chest_attr)) # This chest contains stuff for warriors.
 
 
     # Lower left. This is the MAGE house
@@ -67,10 +64,8 @@ def generate():
         item.item(t1_mage.ring_name  , t1_mage.ring_type  , t1_mage.ring_on_equip  , t1_mage.ring_on_unequip  , 1, t1_mage.ring_attributes  ),\
         item.item(t1_mage.pants_name , t1_mage.pants_type , t1_mage.pants_on_equip , t1_mage.pants_on_unequip , 1, t1_mage.pants_attributes )\
       ]}
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col,\
-      chest.chest_type, 24, 17, mage_chest_attr)) # This chest contains stuff for mages.
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col,\
-      chest.chest_type, 23, 18, war_chest_attr))
+    world.objects.append(obj_maker.make(chest, 24, 17, mage_chest_attr)) # This chest contains stuff for mages.
+    world.objects.append(obj_maker.make(chest, 23, 18, war_chest_attr))
 
 
     # Top right house. This is the EVERYONE house
@@ -88,12 +83,9 @@ def generate():
 
     world.map[45][1] = world.WORLD_CHEST # Chest in house
     all_chest_attr = {"canopen" : False, "contents" : []}
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col,\
-      chest.chest_type, 45, 2, all_chest_attr)) # This chest contains stuff for everyone.
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col,\
-      chest.chest_type, 44, 1, all_chest_attr)) # And the interaction on the left...
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col,\
-      chest.chest_type, 46, 1, all_chest_attr)) # And on the right
+    world.objects.append(obj_maker.make(chest, 45, 2, all_chest_attr)) # This chest contains stuff for everyone.
+    world.objects.append(obj_maker.make(chest, 44, 1, all_chest_attr)) # And the interaction on the left...
+    world.objects.append(obj_maker.make(chest, 46, 1, all_chest_attr)) # And on the right
 
     # Lower right. This is the THIEF house
     for x in range(40,49):
@@ -118,12 +110,9 @@ def generate():
       ]}
 
     # TODO: Add chest interaction at (43, 18), (45, 18), and (44, 17)
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col,\
-      chest.chest_type, 43, 18, thief_chest_attr)) # This chest contains stuff for thiefs.
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col,\
-      chest.chest_type, 45, 18, thief_chest_attr)) 
-    world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col,\
-      chest.chest_type, 44, 17, thief_chest_attr)) 
+    world.objects.append(obj_maker.make(chest, 43, 18, thief_chest_attr)) # This chest contains stuff for thiefs.
+    world.objects.append(obj_maker.make(chest, 45, 18, thief_chest_attr)) 
+    world.objects.append(obj_maker.make(chest, 44, 17, thief_chest_attr)) 
 
 
  

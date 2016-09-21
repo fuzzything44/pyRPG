@@ -36,26 +36,26 @@ def _chest_remove(chest):
         
         
 
-def chest_update(this, delta_time):
+def update(this, delta_time):
     if (display.keyDown(ord('E'))) and (this.attributes["canopen"]):
         _chest_remove(this)
     this.attributes["canopen"] = False
 
-def chest_collide(this, oth):
+def collide(this, oth):
     if oth.type == "player":
         this.attributes["canopen"] = True
 
-def chest_char(this):
+def char(this):
     if this.attributes["canopen"]:
         return 'E'
     return '\0'
 
-def chest_col(this):
+def color(this):
     return display.WHITE
 
-chest_type = "container"
+type = "container"
 
-chest_attributes = {\
+attributes = {\
     "contents" : [item.item("Useless Sword", "weapon", world_object.no_func, world_object.no_func, 1, { "damage" : 1, "range": 10, "effects" : []}), item.item("Useless Sword", "weapon", world_object.no_func, world_object.no_func, 1, {"damage" : 1, "range": 10, "effects" : []})],        \
     "canopen" : False       \
     }

@@ -19,6 +19,8 @@ YELLOW = 7
 
 # Left side of the box where spell is drawn
 SPELL_BOX_START = 25
+ITEM_BOX_START = 31
+
 def printc(x, y, ch, color = WHITE, bgcolor = BLACK):
     "Prints a character at the given location with the given color.\n\nArguments:\nx: The x location to print the character\ny: The y location to print the character\nch: The character to print\ncolor: The color to print the character, default white\n\nBounds: String must end before reaching 79 along x-axis, must be before 24 on y-axis."
     if (x > 79 - len(ch)) or (y > 24) or (x < 0) or (y < 0):

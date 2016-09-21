@@ -62,16 +62,13 @@ def update(this, delta_time):
         del this.attributes["effects"][to_del]
     del eff_del_list
     if this.attributes["HP"] <= 0:
-        world.to_del.append(this)
-        chest_attr = {"canopen" : False, "contents": []}
-        world.map[25][10] = world.WORLD_CHEST
-        display.printc(25, 15, '@', display.YELLOW)
-        # Add actual chests
-        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 24, 10, chest_attr))
-        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 26, 10, chest_attr))
-        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 25, 9, chest_attr))
-        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 25, 11, chest_attr))
         world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give experience
+        world.load("tutbosskilled")
+        world.objects = [world.player] + world.objects
+        world.player.X = 10
+        world.player.Y = 10
+        world.dispworld()
+        return True
 
 def collide(this, obj):
     if obj.type == "player":
@@ -90,12 +87,12 @@ def char(this):
 type = 'enemy'
 
 attributes =        \
-    {"HP": 200.0,   \
+    {"HP": 150.0,   \
      "effects": {}, \
      "to_atk" : 500,\
      "mov_spd": 500,\
-     "atk_spd": 800,\
-     "damage": 10,  \
+     "atk_spd": 900,\
+     "damage": 7,  \
      "EXP": 10,     \
      "range": 5,    \
 }
