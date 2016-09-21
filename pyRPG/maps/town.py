@@ -5,6 +5,7 @@ from items import item
 from items import t1_warrior
 from items import t1_mage
 from items import t1_thief
+from items import enemy_info
 
 from objects.General import bg_changer
 from objects.Loot import chest
@@ -82,7 +83,7 @@ def generate():
     world.map[45][5] = [0, 1, ".", True] # Doorway
 
     world.map[45][1] = world.WORLD_CHEST # Chest in house
-    all_chest_attr = {"canopen" : False, "contents" : []}
+    all_chest_attr = {"canopen" : False, "contents" : [item.item(enemy_info.ring_name, enemy_info.ring_type, enemy_info.ring_on_equip, enemy_info.ring_on_unequip, 1, enemy_info.ring_attributes)]}
     world.objects.append(obj_maker.make(chest, 45, 2, all_chest_attr)) # This chest contains stuff for everyone.
     world.objects.append(obj_maker.make(chest, 44, 1, all_chest_attr)) # And the interaction on the left...
     world.objects.append(obj_maker.make(chest, 46, 1, all_chest_attr)) # And on the right
