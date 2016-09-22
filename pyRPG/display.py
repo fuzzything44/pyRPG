@@ -20,6 +20,17 @@ YELLOW = 7
 # Left side of the box where spell is drawn
 SPELL_BOX_START = 25
 ITEM_BOX_START = 31
+#Equip locations
+WEAPON_X = 39 + len("Weapon:")
+WEAPON_Y = 0
+HAT_X = 39 + len("Hat:")
+HAT_Y = 1
+SHIRT_X = 39 + len("Shirt:")
+SHIRT_Y = 2
+PANTS_X = 39 + len("Pants:")
+PANTS_Y = 3
+RING_X = 39 + len("Ring:")
+RING_Y = 4
 
 def printc(x, y, ch, color = WHITE, bgcolor = BLACK):
     "Prints a character at the given location with the given color.\n\nArguments:\nx: The x location to print the character\ny: The y location to print the character\nch: The character to print\ncolor: The color to print the character, default white\n\nBounds: String must end before reaching 79 along x-axis, must be before 24 on y-axis."

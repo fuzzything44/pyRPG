@@ -8,7 +8,7 @@ from objects.General import portal
 def generate():
     world.objects.clear()
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    world.objects.append(world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 25,8,{"newmap": "town", "locx": 0, "locy": 10, "used" : False}))
+    world.objects.append(world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 25,8,{"newmap": "tut1", "locx": 0, "locy": 10, "used" : False}))
 
     world.map[22][5] =  [display.WHITE, display.BLACK, '#', False]
     world.map[23][5] =  [display.WHITE, display.BLACK, '#', False]

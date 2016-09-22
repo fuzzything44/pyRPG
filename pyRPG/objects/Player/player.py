@@ -234,14 +234,14 @@ def set_active(type):
 def inventory_menu():
     while display.menu("Inventory\nMax HP: Red\nMax MP: Blue\nMovement Speed: Green\nAttack Speed: White\nMagic Power: Cyan\nStrength: Magenta\nLuck: Yellow", [[], ["consumable"], ["weapon"], ["hat"], ["shirt"], ["pants"], ["ring"]], ["Back", world_object.no_func], ["Set Consumable", set_active], ["Set Weapon", set_active], ["Set Hat", set_active], ["Set Shirt", set_active], ["Set Pants", set_active], ["Set Ring", set_active]):
         # Redraw equip names.
-        display.printc(46, 0, ' ' * 33)
-        display.printc(46, 0, world.player.attributes["weapon"].name[:33])
-        display.printc(43, 1, ' ' * 36)
-        display.printc(43, 1, world.player.attributes["hat"].name[:36])
-        display.printc(45, 2, ' ' * 34)
-        display.printc(45, 2, world.player.attributes["shirt"].name[:34]) 
-        display.printc(45, 3, ' ' * 34)
-        display.printc(45, 3, world.player.attributes["pants"].name[:34])
-        display.printc(44, 4, ' ' * 35)
-        display.printc(44, 4, world.player.attributes["ring"].name[:35])
+        display.printc(display.WEAPON_X, display.WEAPON_Y, ' ' * 33)
+        display.printc(display.WEAPON_X, display.WEAPON_Y, world.player.attributes["weapon"].name[:33])
+        display.printc(display.HAT_X, display.HAT_Y, ' ' * 36)
+        display.printc(display.HAT_X, display.HAT_Y, world.player.attributes["hat"].name[:36])
+        display.printc(display.SHIRT_X, display.SHIRT_Y, ' ' * 34)
+        display.printc(display.SHIRT_X, display.SHIRT_Y, world.player.attributes["shirt"].name[:34]) 
+        display.printc(display.PANTS_X, display.PANTS_Y, ' ' * 34)
+        display.printc(display.PANTS_X, display.PANTS_Y, world.player.attributes["pants"].name[:34])
+        display.printc(display.RING_X, display.RING_Y, ' ' * 35)
+        display.printc(display.RING_X, display.RING_Y, world.player.attributes["ring"].name[:35])
  
