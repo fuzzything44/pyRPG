@@ -76,6 +76,7 @@
     <Compile Include="maps\Tutorial\tut2.py" />
     <Compile Include="maps\Tutorial\tut2killed.py" />
     <Compile Include="maps\Tutorial\tutbosskilled.py" />
+    <Compile Include="maps\Tutorial\tutfinal.py" />
     <Compile Include="maps\Tutorial\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -192,6 +193,7 @@
     <Content Include="maps\Tutorial\tutbosskilled.txt" />
     <Content Include="maps\Tutorial\tut2killed.txt" />
     <Content Include="maps\Tutorial\tutboss.txt" />
+    <Content Include="maps\Tutorial\tutfinal.txt" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

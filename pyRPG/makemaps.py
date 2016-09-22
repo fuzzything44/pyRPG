@@ -79,6 +79,9 @@ def make(make_what):
         Tutorial.tutbosskilled.generate()
         world.save("tutbosskilled")
         
+        Tutorial.tutfinal.generate()
+        world.save("tutfinal")
+
     if ("+town" in make_what) or (("all" in make_what) and ("-town" not in make_what)):
         town.generate()
         world.save("town")

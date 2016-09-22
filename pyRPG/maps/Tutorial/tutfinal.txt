@@ -1,0 +1,22 @@
+; = [display.GREEN, display.BLACK, ';', True]
+end;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Finally, before you go, a few more helpful tips:;
+;First, save often. You can save your game;;;;;;;;
+;through the menu (opened with ESC);;;;;;;;;;;;;;;
+;Note that Exit does NOT save on exit.;;;;;;;;;;;;
+;If you die or your game exits, you go back to ;;;
+;your last save, so the more you save the less;;;;
+;you stand to lose when you die!;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;O
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Second, if you ever forget controls, just go to;;
+;the help menu (press H when you first start the;;
+;program.) It contains information on all controls
+;and a guide to what colors tend to mean!;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Third, if you have questions, comments, or;;;;;;;
+;concerns please contact fuzzything44;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
