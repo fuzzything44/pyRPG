@@ -13,6 +13,7 @@ from spells import heal
 from spells import spell
 
 def load_game():
+    display.clear()
     # Get all save files
     saves = glob.glob("res/saves/*.plr")
     # Parse res/saves/FILE.plr to just FILE. Much better for display, don't want the res/ for pickling.
@@ -34,7 +35,6 @@ def load_game():
 
     curr_page = 0
     choice = 0
-    display.clear()
     # Display first page
     for index in range(len(pages[curr_page])):
         display.printc(10, index, pages[curr_page][index]) # Print out the option
@@ -109,7 +109,7 @@ def new_game():
                 curs_loc -= 1
                 file_name = file_name[:-1] # Remove last character
             display.printc(curs_loc + 30, 10, ' ')
-        elif (inpt != -1) and (curs_loc < 45): # Also don't let them get too long. 45 chosen arbitrarily because yeah.
+        elif (inpt != -1) and (curs_loc < 45) and (chr(inpt) in "abcdefghijklmnopqrtsuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-1234567890 "): # Also don't let them get too long. 45 chosen arbitrarily because yeah.
             display.printc(curs_loc + 30, 10, chr(inpt))
             file_name += chr(inpt)
             curs_loc += 1
@@ -118,7 +118,7 @@ def new_game():
     # Wait for release
     while display.keyDown(display.CONST.VK_RETURN):
         pass
-    if file_name == "":
+    if file_name == len(file_name) * ' ':
         file_name = "default"
     world.save_name = file_name
     # Class select!
@@ -245,12 +245,73 @@ def help_menu():
     display.printc(0, 11, "Press SPACE to cast your current spell, set in the Spell menu")
     display.printc(0, 12, "Press LEFT SHIFT to use your item, set in the Consumable menu of your inventory")
     display.printc(0, 13, "Press ESC to open the main menu to save, access inventory, set spell, or exit")
-    display.printc(0, 15, "Press ENTER to continue...")
+    display.printc(0, 15, "Press ENTER to go to page two or press ESC to exit to the main menu")
     display.refresh()
-    while not display.keyDown(display.CONST.VK_RETURN):
-        pass # Wait for rpress
+    while (not display.keyDown(display.CONST.VK_ESCAPE)) and (not display.keyDown(display.CONST.VK_RETURN)):
+        pass # Wait for press of ESC or ENTER
+    if display.keyDown(display.CONST.VK_ESCAPE):
+        while display.keyDown(display.CONST.VK_ESCAPE):
+            pass # Wait for release
+        return
     while display.keyDown(display.CONST.VK_RETURN):
         pass # Wait for release
+    # Now give page 2 of the menu.
+    display.clear()
+    display.printc(0, 0, "Colors and symbols guide:")
+    display.printc(0, 2, "Colors:")
+
+    display.printc(0, 3, "Red", display.RED)
+    display.printc(4, 3, "is either a locked portal ( ) or an obstacle. Often,     objects hurt.")
+    display.printc(31, 3, "O", display.RED)
+    display.printc(57, 3, "red", display.RED)
+
+    display.printc(0, 4, "White objects tend to be neutral. Walls (#) and floors (.) tend to be white.")
+    
+    display.printc(0, 5, "Blue", display.BLUE)
+    display.printc(5, 5, "objects are often portals ( ). Also, player attacks ( ) are blue.")
+    display.printc(32, 5, "O", display.BLUE)
+    display.printc(58, 5, "!", display.BLUE)
+
+    display.printc(0, 6, "Cyan", display.CYAN)
+    display.printc(5, 6, "objects are enemies. All enemies are      and all      things are enemies.")
+    display.printc(42, 6, "cyan", display.CYAN)
+    display.printc(55, 6, "cyan", display.CYAN)
+
+    display.printc(0, 7, "Green", display.GREEN)
+    display.printc(6, 7, "tends not to be used. Grass ( ) is       but it is not otherwise used.")
+    display.printc(35, 7, ';', display.GREEN)
+    display.printc(41, 7, "green", display.GREEN)
+
+    display.printc(0, 8, "Magenta", display.MAGENTA)
+    display.printc(8, 8, "tends not to be used. Enemy attacks ( ) are        .")
+    display.printc(45, 8, "!", display.MAGENTA)
+    display.printc(52, 8, "magenta", display.MAGENTA)
+
+    display.printc(0, 9, "Yellow", display.YELLOW)
+    display.printc(7, 9, "is loot! Money ( ) and chests ( ) are       .        things are good.")
+    display.printc(23, 9, "$", display.YELLOW)
+    display.printc(38, 9, "@", display.YELLOW)
+    display.printc(45, 9, "yellow", display.YELLOW)
+    display.printc(53, 9, "Yellow", display.YELLOW)
+
+    display.printc(0, 11, "Common Symbols:")
+    display.printc(0, 13, "# is a wall. Walls block movement of the player, attacks, and enemies.")
+    display.printc(0, 14, ". is a common ground tile. It does nothing special.")
+    display.printc(0, 15, "#", display.RED)
+    display.printc(2, 15, "is lava. Stepping on it hurts!")
+    display.printc(0, 16, ';', display.GREEN)
+    display.printc(2, 16, "is a common ground tile. It does nothing special.")
+
+    display.printc(0, 20, "These are common trends and there are objects that break these trends.")
+    display.printc(0, 21, "However, they hold true for most objects that you will encounter.")
+    display.printc(0, 22, "Also, the rule about cyan objects ALWAYS holds.")
+    display.printc(21, 22, "cyan", display.CYAN)
+
+    display.refresh()
+    while not display.keyDown(display.CONST.VK_RETURN):
+        pass
+    while display.keyDown(display.CONST.VK_RETURN):
+        pass
     return
 
 def start():
