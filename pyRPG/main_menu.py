@@ -294,7 +294,7 @@ def help_menu():
     display.printc(45, 9, "yellow", display.YELLOW)
     display.printc(53, 9, "Yellow", display.YELLOW)
 
-    display.printc(0, 11, "Common Symbols:")
+    display.printc(0, 12, "Common Symbols:")
     display.printc(0, 13, "# is a wall. Walls block movement of the player, attacks, and enemies.")
     display.printc(0, 14, ". is a common ground tile. It does nothing special.")
     display.printc(0, 15, "#", display.RED)
@@ -307,6 +307,7 @@ def help_menu():
     display.printc(0, 22, "Also, the rule about cyan objects ALWAYS holds.")
     display.printc(21, 22, "cyan", display.CYAN)
 
+    display.printc(0, 24, "Press ENTER to continue...")
     display.refresh()
     while not display.keyDown(display.CONST.VK_RETURN):
         pass
