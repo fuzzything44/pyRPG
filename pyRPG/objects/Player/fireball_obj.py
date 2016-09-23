@@ -14,8 +14,6 @@ def collide(this, other):
             world.to_del.append(this)
             if "effects" in other.attributes:
                 other.attributes["effects"]["fire"] = [fire.fire, world_object.no_func, 1000]
-            if "magic" in this.attributes["owner"] and this.attributes["owner"].attributes["magic"] >= 25:
-                other.attributes["effects"]["fire"] = [fire.bigfire, world_object.no_func, 1500]
 
 def color(this):
     return display.RED

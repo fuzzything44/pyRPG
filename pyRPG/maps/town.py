@@ -66,7 +66,7 @@ def generate():
         item.item(t1_mage.pants_name , t1_mage.pants_type , t1_mage.pants_on_equip , t1_mage.pants_on_unequip , 1, t1_mage.pants_attributes )\
       ]}
     world.objects.append(obj_maker.make(chest, 24, 17, mage_chest_attr)) # This chest contains stuff for mages.
-    world.objects.append(obj_maker.make(chest, 23, 18, war_chest_attr))
+    world.objects.append(obj_maker.make(chest, 23, 18, mage_chest_attr))
 
 
     # Top right house. This is the EVERYONE house
