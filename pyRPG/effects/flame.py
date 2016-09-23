@@ -1,7 +1,7 @@
 import display
 import world
 
-#from objects import Player
+from objects.Player import fireball_obj
 from objects import obj_maker
 from objects import world_object
 
