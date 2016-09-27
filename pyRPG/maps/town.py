@@ -10,12 +10,17 @@ from items import enemy_info
 from objects.General import bg_changer
 from objects.Loot import chest
 from objects.General import portal
+from objects import General
 from objects import world_object
 from objects import obj_maker
+
 def generate():
     world.objects = []
     world.map = [[ world.WORLD_GRASS for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    world.objects.append(world_object.world_object(portal.update, portal.collide, portal.char, portal.color, portal.type, 49,10,{"newmap": "stonestart", "locx": 2, "locy": 10, "used" : False}))
+    world.objects.append(obj_maker.make(portal, 49, 10,{"newmap": "stonestart", "locx": 2, "locy": 10, "used" : False}))
+    world.objects.append(obj_maker.make(General.level_portal, 25, 0, {"newmap": "lavadungeon.start", "locx" : 2, "locy" : 10, "used" : False, "level" : 5}))
+    world.objects.append(obj_maker.make(General.npc, 43, 4))
+    world.objects[-1].attributes["text"] = "Hello! Welcome to pyRPG!\nI would suggest entering the\n portal to the right.\nIt leads to the\n Forgotten Catacombs."
 
     # Upper left. This is the WARRIOR house
     for x in range(10,20): # Make walls

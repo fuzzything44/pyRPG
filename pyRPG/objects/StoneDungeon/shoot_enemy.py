@@ -43,7 +43,7 @@ def update(this, delta_time):
     del eff_del_list
     if this.attributes["HP"] <= 0:
         world.to_del.append(this)
-        world.objects.append(world_object.world_object(money.money_update, money.money_collide, money.money_char, money.money_color, money.money_type, this.X, this.Y, {"value": this.attributes["money"]}))
+        world.objects.append(world_object.world_object(money.money_update, money.money_collide, money.money_char, money.money_color, money.money_type, this.X, this.Y, {"value": this.attributes["money"], "taken" : False}))
         world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give experience
 
 def collide(this, obj):

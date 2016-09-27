@@ -9,7 +9,7 @@ from objects import Tutorial
 def generate():
     world.objects.clear()
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    world.objects.append(obj_maker.make(portal, world.WORLD_X - 1, 10, {"newmap": "tutboss", "locx": 0, "locy": 10, "used" : False}))
+    world.objects.append(obj_maker.make(portal, world.WORLD_X - 1, 10, {"newmap": "tutorial.boss", "locx": 0, "locy": 10, "used" : False}))
     world.objects.append(obj_maker.make(Tutorial.lava, 0, 0))
 
     world.map[5][0] = [0, 1, '^', True]

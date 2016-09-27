@@ -63,7 +63,7 @@ def update(this, delta_time):
     del eff_del_list
     if this.attributes["HP"] <= 0:
         world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give experience
-        world.load("tutbosskilled")
+        world.load("tutorial.boss-killed")
         world.objects = [world.player] + world.objects
         world.player.X = 10
         world.player.Y = 10

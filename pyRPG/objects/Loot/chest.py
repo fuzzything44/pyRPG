@@ -19,7 +19,6 @@ def _chest_remove(chest):
     while opt:
         # Remove items
 
-        # Give player item. TODO: Actually give it instead of set to 1.
         #  So add to their stock or create new one.
         if item_list[opt][0] in world.player.attributes["items"]:
             # Get their item location
@@ -56,6 +55,6 @@ def color(this):
 type = "container"
 
 attributes = {\
-    "contents" : [item.item("Useless Sword", "weapon", world_object.no_func, world_object.no_func, 1, { "damage" : 1, "range": 10, "effects" : []}), item.item("Useless Sword", "weapon", world_object.no_func, world_object.no_func, 1, {"damage" : 1, "range": 10, "effects" : []})],        \
+    "contents" : [item.item("Bugged Sword", "weapon", world_object.no_func, world_object.no_func, 1, { "damage" : 1, "range": 10, "disp_data" : "Please contact fuzzything44 on how you got this."})],        \
     "canopen" : False       \
     }

@@ -83,10 +83,10 @@ def update(this, delta_time):
         world.map[25][10] = world.WORLD_CHEST
         display.printc(25, 15, '@', display.YELLOW)
         # Add actual chests
-        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 24, 10, chest_attr))
-        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 26, 10, chest_attr))
-        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 25, 9, chest_attr))
-        world.objects.append(world_object.world_object(chest.chest_update, chest.chest_collide, chest.chest_char, chest.chest_col, chest.chest_type, 25, 11, chest_attr))
+        world.objects.append(obj_maker.make(chest, 24, 10, chest_attr))
+        world.objects.append(obj_maker.make(chest, 26, 10, chest_attr))
+        world.objects.append(obj_maker.make(chest, 25, 9, chest_attr))
+        world.objects.append(obj_maker.make(chest, 25, 11, chest_attr))
         world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give experience
 
 

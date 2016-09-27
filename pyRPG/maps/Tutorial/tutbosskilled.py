@@ -14,7 +14,7 @@ def generate():
     world.objects.clear()
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
     
-    world.objects.append(obj_maker.make(portal, 49, 10, {"newmap": "tutfinal", "locx": 25, "locy": 10, "used" : False}))
+    world.objects.append(obj_maker.make(portal, 49, 10, {"newmap": "tutorial.final", "locx": 25, "locy": 9, "used" : False}))
     chest_attr = {"canopen" : False, "contents": [\
         item.item(bread.name, bread.type, bread.equip, bread.unequip, 5, bread.attributes) \
       ]}

@@ -278,9 +278,9 @@ def help_menu():
     display.printc(55, 6, "cyan", display.CYAN)
 
     display.printc(0, 7, "Green", display.GREEN)
-    display.printc(6, 7, "tends not to be used. Grass ( ) is       but it is not otherwise used.")
-    display.printc(35, 7, ';', display.GREEN)
-    display.printc(41, 7, "green", display.GREEN)
+    display.printc(6, 7, "objects are grass( ) and NPCs. Talk to things that are      .")
+    display.printc(24, 7, ';', display.GREEN)
+    display.printc(61, 7, "green", display.GREEN)
 
     display.printc(0, 8, "Magenta", display.MAGENTA)
     display.printc(8, 8, "tends not to be used. Enemy attacks ( ) are        .")
@@ -294,13 +294,17 @@ def help_menu():
     display.printc(45, 9, "yellow", display.YELLOW)
     display.printc(53, 9, "Yellow", display.YELLOW)
 
-    display.printc(0, 12, "Common Symbols:")
+    display.printc(0, 11, "Common Symbols:")
+    display.printc(0, 12, "@", display.YELLOW)
+    display.printc(2, 12, "is a chest. Stand next to it and press E to open!")
     display.printc(0, 13, "# is a wall. Walls block movement of the player, attacks, and enemies.")
     display.printc(0, 14, ". is a common ground tile. It does nothing special.")
     display.printc(0, 15, "#", display.RED)
     display.printc(2, 15, "is lava. Stepping on it hurts!")
     display.printc(0, 16, ';', display.GREEN)
     display.printc(2, 16, "is a common ground tile. It does nothing special.")
+    display.printc(0, 17, "| \ /", display.YELLOW)
+    display.printc(6, 17, "are levers. Stand next to it and press E to pull it. What does it do?")
 
     display.printc(0, 20, "These are common trends and there are objects that break these trends.")
     display.printc(0, 21, "However, they hold true for most objects that you will encounter.")

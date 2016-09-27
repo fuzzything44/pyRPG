@@ -6,6 +6,7 @@ from maps import Tutorial
 from maps import town
 from maps import credits
 from maps import StoneDungeon
+from maps import LavaDungeon
 
 def make_from_file(file_in, file_out):
     data = []
@@ -62,25 +63,25 @@ def make(make_what):
     # World generation
     if ("+tutorial" in make_what) or (("all" in make_what) and ("-tutorial" not in make_what)):
         Tutorial.start.generate()
-        world.save("start")
+        world.save("tutorial.start")
 
         Tutorial.tut1.generate()
-        world.save("tut1")
+        world.save("tutorial.1")
         
         Tutorial.tut2.generate()
-        world.save("tut2")
+        world.save("tutorial.2")
 
         Tutorial.tut2killed.generate()
-        world.save("tut2killed")
+        world.save("tutorial.2-killed")
 
         Tutorial.tutboss.generate()
-        world.save("tutboss")
+        world.save("tutorial.boss")
 
         Tutorial.tutbosskilled.generate()
-        world.save("tutbosskilled")
+        world.save("tutorial.boss-killed")
         
         Tutorial.tutfinal.generate()
-        world.save("tutfinal")
+        world.save("tutorial.final")
 
     if ("+town" in make_what) or (("all" in make_what) and ("-town" not in make_what)):
         town.generate()
@@ -98,6 +99,10 @@ def make(make_what):
         
         StoneDungeon.ston2.generate()
         world.save("stone2")
+
+    if ("+lavadungeon" in make_what) or (("all" in make_what) and ("-stonedungeon" not in make_what)):
+        LavaDungeon.start.generate()
+        world.save("lavadungeon.start")
 
     if ("+credits" in make_what) or (("all" in make_what) and ("-credits" not in make_what)):
         credits.generate()

@@ -8,7 +8,7 @@ from objects import obj_maker
 def generate():
     world.objects.clear()
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    world.objects.append(obj_maker.make(lock_portal, 49, 10,{"newmap": "tut2killed", "locx": 45, "locy": 10, "used" : False}))     
+    world.objects.append(obj_maker.make(lock_portal, 49, 10,{"newmap": "tutorial.2-killed", "locx": 45, "locy": 10, "used" : False}))     
     enemy1 = obj_maker.make(Tutorial.level_up_enemy, 10, 13)
     enemy2 = obj_maker.make(Tutorial.level_up_enemy, 25, 10)
     enemy3 = obj_maker.make(Tutorial.level_up_enemy, 40, 10)

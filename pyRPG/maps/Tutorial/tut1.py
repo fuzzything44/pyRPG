@@ -9,7 +9,7 @@ from objects import Tutorial
 def generate():
     world.objects.clear()
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    world.objects.append(obj_maker.make(lock_portal, 49, 10,{"newmap": "tut2", "locx": 0, "locy": 10, "used" : False}))     
+    world.objects.append(obj_maker.make(lock_portal, 49, 10,{"newmap": "tutorial.2", "locx": 0, "locy": 10, "used" : False}))     
     world.objects.append(obj_maker.make(Tutorial.tutorial_enemy, 10, 10))
     world.objects.append(obj_maker.make(Tutorial.tutorial_move_enemy, 35, 10))
 

@@ -115,10 +115,7 @@ def player_update(this, delta_time):
     this.attributes["lastHP"] = this.attributes["HP"]
 
 def collide(this, oth):
-    if oth.type == "money":
-        this.attributes["money"] += oth.attributes["value"];
-        # Now to delete it
-        world.to_del.append(oth)
+    pass
 
 def player_char(this):
     return 'P'

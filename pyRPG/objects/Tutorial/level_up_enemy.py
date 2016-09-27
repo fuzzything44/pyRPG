@@ -20,7 +20,7 @@ def update(this, delta_time):
     if this.attributes["HP"] <= 0:
         world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give exp
         if world.player.attributes["level"] == 2: # If they're level 2, they leveled up and need to be notified.
-            world.load("tut2killed")
+            world.load("tutorial.2-killed")
             world.objects = [world.player] + world.objects
             if world.player.X == world.WORLD_X - 1: # If they're on the portal
                 world.player.X -= 1 # Push them back a bit

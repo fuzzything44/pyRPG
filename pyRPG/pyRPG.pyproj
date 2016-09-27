@@ -70,6 +70,10 @@
     <Compile Include="main_menu.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="maps\LavaDungeon\start.py" />
+    <Compile Include="maps\LavaDungeon\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="maps\StoneDungeon\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -81,6 +85,24 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="maps\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\General\level_portal.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\General\lever.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\General\npc.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\General\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\LavaDungeon\lava.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\LavaDungeon\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\Loot\__init__.py">
@@ -99,9 +121,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\StoneDungeon\enemy.py" />
-    <Compile Include="objects\General\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="objects\Player\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -175,10 +194,12 @@
     <Folder Include="items\" />
     <Folder Include="effects\" />
     <Folder Include="maps\" />
+    <Folder Include="maps\LavaDungeon\" />
     <Folder Include="maps\StoneDungeon\" />
     <Folder Include="maps\Tutorial\" />
     <Folder Include="objects\General\" />
     <Folder Include="objects\Loot\" />
+    <Folder Include="objects\LavaDungeon\" />
     <Folder Include="objects\Player\" />
     <Folder Include="objects\StoneDungeon\" />
     <Folder Include="objects\Tutorial\" />
@@ -187,6 +208,7 @@
     <Folder Include="spells\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="maps\LavaDungeon\start.txt" />
     <Content Include="maps\Tutorial\start.txt" />
     <Content Include="maps\Tutorial\tut1.txt" />
     <Content Include="maps\Tutorial\tut2.txt" />

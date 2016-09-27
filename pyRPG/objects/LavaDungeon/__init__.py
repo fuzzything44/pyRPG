@@ -1,0 +1,1 @@
+from objects.LavaDungeon import lava
