@@ -70,6 +70,7 @@
     <Compile Include="main_menu.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="maps\LavaDungeon\map1.py" />
     <Compile Include="maps\LavaDungeon\start.py" />
     <Compile Include="maps\LavaDungeon\__init__.py">
       <SubType>Code</SubType>
@@ -99,6 +100,9 @@
     <Compile Include="objects\General\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="objects\LavaDungeon\enemy.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\LavaDungeon\lava.py">
       <SubType>Code</SubType>
     </Compile>
@@ -118,6 +122,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\Loot\chest.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\LavaDungeon\attack.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\StoneDungeon\enemy.py" />
@@ -208,6 +215,7 @@
     <Folder Include="spells\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="maps\LavaDungeon\1.txt" />
     <Content Include="maps\LavaDungeon\start.txt" />
     <Content Include="maps\Tutorial\start.txt" />
     <Content Include="maps\Tutorial\tut1.txt" />

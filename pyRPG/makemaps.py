@@ -104,6 +104,9 @@ def make(make_what):
         LavaDungeon.start.generate()
         world.save("lavadungeon.start")
 
+        LavaDungeon.map1.generate()
+        world.save("lavadungeon.1")
+
     if ("+credits" in make_what) or (("all" in make_what) and ("-credits" not in make_what)):
         credits.generate()
         world.save("credits")

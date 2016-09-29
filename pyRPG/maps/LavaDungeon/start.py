@@ -1,10 +1,13 @@
 # This file automatically generated from a template. That's why it defines the world one at a time instead of using loops
+import copy
+
 import display
 import world
 
 from objects import LavaDungeon
 from objects import obj_maker
 from objects.General import portal
+from objects.General import npc
 
 def generate():
     world.objects.clear()
@@ -12,8 +15,13 @@ def generate():
 
     world.objects.append(obj_maker.make(LavaDungeon.lava, 0, 0))
     world.objects.append(obj_maker.make(portal, 0, 10, {"newmap" : "town", "locx" : 25, "locy": 10, "used": False}))
-    world.objects.append(obj_maker.make(portal, 25, 10, {"newmap" : "lavadungeon.2", "locx" : 25, "locy" : 10, "used" : False}))
-
+    world.objects.append(obj_maker.make(portal, 25, 10, {"newmap" : "lavadungeon.1", "locx" : 25, "locy" : 10, "used" : False}))
+    world.objects.append(obj_maker.make(LavaDungeon.enemy, 15, 7))
+    world.objects.append(obj_maker.make(LavaDungeon.enemy, 43, 5))
+    world.objects.append(obj_maker.make(LavaDungeon.enemy, 35, 15))
+    npc_attrs = copy.deepcopy(npc.attributes)
+    npc_attrs["text"] = "Hello, adventurer.\nA warning before you enter\n the volcano:\nIt contains an\n ancient deadly beast.\nThere is no escape\n from the volcano before\n the beast is slain."
+    world.objects.append(obj_maker.make(npc, 23, 9, npc_attrs))
 
     world.map[0][0] =  [display.WHITE, display.BLACK, '#', False]
     world.map[1][0] =  [display.WHITE, display.BLACK, '#', False]

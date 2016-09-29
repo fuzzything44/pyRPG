@@ -7,6 +7,7 @@ from items import item
 from objects.Player import attack
 from objects.Loot import money
 from objects import world_object
+from objects import obj_maker
 from spells import spell
 
 def enemy_update(this, delta_time):
@@ -29,7 +30,10 @@ def enemy_update(this, delta_time):
     del eff_del_list
     if this.attributes["HP"] <= 0:
         world.to_del.append(this)
-        world.objects.append(world_object.world_object(money.money_update, money.money_collide, money.money_char, money.money_color, money.money_type, this.X, this.Y, {"value": this.attributes["money"], "taken" : False}))
+        moneydrop = this.attributes["money"] + randrange(0, this.attributes["money"])
+        moneydrop += moneydrop*world.player.attributes["luck"]*.01
+        moneydrop = max(1, int(moneydrop))
+        world.objects.append(obj_maker.make(money, this.X, this.Y, {"value": moneydrop, "taken" : False}))
         world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give experience
 
 def enemy_collide(this, obj):
@@ -52,5 +56,5 @@ enemy_attributes =      \
       "mov_spd" : 350,  \
       "damage" : 5,     \
       "EXP" : 1,        \
-      "money" : 5       \
+      "money" : 3       \
     }
