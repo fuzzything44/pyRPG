@@ -62,52 +62,89 @@ def make_from_file(file_in, file_out):
 def make(make_what):
     # World generation
     if ("+tutorial" in make_what) or (("all" in make_what) and ("-tutorial" not in make_what)):
+        print("Making tutorial maps...")
+        print("[       ]", end="\r")
+        
         Tutorial.start.generate()
         world.save("tutorial.start")
+        print("[>      ]", end="\r")
 
         Tutorial.tut1.generate()
         world.save("tutorial.1")
+        print("[=>     ]", end="\r")
         
         Tutorial.tut2.generate()
         world.save("tutorial.2")
+        print("[==>    ]", end="\r")
 
         Tutorial.tut2killed.generate()
         world.save("tutorial.2-killed")
+        print("[===>   ]", end="\r")
 
         Tutorial.tutboss.generate()
         world.save("tutorial.boss")
+        print("[====>  ]", end="\r")
 
         Tutorial.tutbosskilled.generate()
         world.save("tutorial.boss-killed")
+        print("[=====> ]", end="\r")
         
         Tutorial.tutfinal.generate()
         world.save("tutorial.final")
+        print("[======>]", end="\r")
 
     if ("+town" in make_what) or (("all" in make_what) and ("-town" not in make_what)):
+        print("Making town...")
+        print("[ ]", end="\r")
+
         town.generate()
         world.save("town")
-        
+        print("[>]", end="\r")
+
     if ("+stonedungeon" in make_what) or (("all" in make_what) and ("-stonedungeon" not in make_what)):
+        print("Making Stone Dungeon...")
+        print("[    ]", end="\r")
+
         StoneDungeon.stonboss.generate()
         world.save("stoneboss")
+        print("[>   ]", end="\r")
         
+
         StoneDungeon.stonstart.generate()
         world.save("stonestart")
+        print("[=>  ]", end="\r")
         
         StoneDungeon.ston1.generate()
         world.save("stone1")
+        print("[==> ]", end="\r")
         
         StoneDungeon.ston2.generate()
         world.save("stone2")
+        print("[===>]", end="\r")
 
     if ("+lavadungeon" in make_what) or (("all" in make_what) and ("-stonedungeon" not in make_what)):
+        print("Making LavaDungeon")
+        print("[   ]", end="\r")
+
         LavaDungeon.start.generate()
         world.save("lavadungeon.start")
+        print("[>  ]", end="\r")
 
         LavaDungeon.map1.generate()
         world.save("lavadungeon.1")
+        print("[=> ]", end="\r")
+
+        LavaDungeon.map2.generate()
+        world.save("lavadungeon.2")
+        print("[==>]", end="\r")
 
     if ("+credits" in make_what) or (("all" in make_what) and ("-credits" not in make_what)):
+        print("Making credits")
+        print("[ ]", end="\r")
+
         credits.generate()
         world.save("credits")
+        print("[>]", end="\r")
+
+        
  

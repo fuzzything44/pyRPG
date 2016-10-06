@@ -1,4 +1,6 @@
 from unicurses import *
+import locale
+
 from win32 import win32api
 import win32con as CONST
 
@@ -47,6 +49,7 @@ stdscr = None      # Entire screen
 def start():
     global stdscr
     print("Starting init...")
+
     stdscr = initscr()
     noecho()
     nodelay(stdscr, True)

@@ -82,6 +82,8 @@ def player_update(this, delta_time):
         this.attributes["can_item"] = False
         this.attributes["consumable"].amount -= 1
         if this.attributes["consumable"].amount == 0:
+            if this.attributes["consumable"].name != "Nothing":
+                del this.attributes["items"][this.attributes["items"].index(this.attributes["consumable"])]
             this.attributes["consumable"] = item.item("Nothing", "consumable", world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func})
             this.attributes["consumable"].draw()
     if not display.keyDown(display.CONST.VK_SHIFT):
@@ -191,16 +193,17 @@ player_attributes =                     \
       "pants" : item.item("", "pants", world_object.no_func, world_object.no_func),         \
       "ring" : item.item("", "ring", world_object.no_func, world_object.no_func),           \
       "consumable" : item.item("", "consumable", world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
-      "mov_spd" : 0,                    # How quickly they move\
-      "atk_spd" : 0,                    # How quickly they attack\
+      "mov_spd" : 0,                    # How quickly they move
+      "atk_spd" : 0,                    # How quickly they attack
       "can_cast" : True,                 \
       "can_item" : True,                 \
-      "magic" : 5,                      # How good spells are \
-      "strength" : 5,                   # How much damage regular attacks do. \
-      "luck" : 0,                       # Luck will change item and money drops\
+      "magic" : 5,                      # How good spells are 
+      "strength" : 5,                   # How much damage regular attacks do. 
+      "luck" : 0,                       # Luck will change item and money drops
       "gainexp" : gain_exp,              \
-      "lastHP" : 100.0,                 # What was their HP last frame?\
-      "sincehit" : 300                  # How long since they were hit\
+      "lastHP" : 100.0,                 # What was their HP last frame?
+      "sincehit" : 300,                 # How long since they were hit
+      "flags" : []                      # A very general list. For tracking progress through dungeons.
     }
 
 

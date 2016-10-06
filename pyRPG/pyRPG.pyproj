@@ -71,6 +71,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="maps\LavaDungeon\map1.py" />
+    <Compile Include="maps\LavaDungeon\map2.py" />
     <Compile Include="maps\LavaDungeon\start.py" />
     <Compile Include="maps\LavaDungeon\__init__.py">
       <SubType>Code</SubType>
@@ -106,7 +107,16 @@
     <Compile Include="objects\LavaDungeon\lava.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="objects\LavaDungeon\lava_enemy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\LavaDungeon\reset_lever.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\LavaDungeon\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\Loot\lootbag.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\Loot\__init__.py">
@@ -215,7 +225,8 @@
     <Folder Include="spells\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="maps\LavaDungeon\1.txt" />
+    <Content Include="maps\LavaDungeon\map1.txt" />
+    <Content Include="maps\LavaDungeon\map2.txt" />
     <Content Include="maps\LavaDungeon\start.txt" />
     <Content Include="maps\Tutorial\start.txt" />
     <Content Include="maps\Tutorial\tut1.txt" />
@@ -224,6 +235,7 @@
     <Content Include="maps\Tutorial\tut2killed.txt" />
     <Content Include="maps\Tutorial\tutboss.txt" />
     <Content Include="maps\Tutorial\tutfinal.txt" />
+    <Content Include="objects\LavaDungeon\lever.py" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

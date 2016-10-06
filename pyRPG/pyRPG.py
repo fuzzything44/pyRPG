@@ -6,7 +6,7 @@ import makemaps
 import world
 from objects import Player
 
-#makemaps.make_from_file('maps/LavaDungeon/1.txt', 'maps/LavaDungeon/map1.py')
+#makemaps.make_from_file('maps/LavaDungeon/map2.txt', 'maps/LavaDungeon/map2.py')
 
 makemaps.make("all")
 

@@ -1,21 +1,32 @@
 import display
+import world
+
 from objects import world_object
 
 def update(this, delta_time):
     if display.keyDown(ord('E')) and (this.attributes["can_pull"]): # If they pulled the lever...
-        this.attributes["can_pull"] = False
-        if (player.X == this.X - 1) and (this.attributes["mode"] != 0): # They're to the left, not already max left
+        if (world.player.X == this.X - 1) and (this.attributes["mode"] != 0): # They're to the left, not already max left
+            this.attributes["can_pull"] = False
             this.attributes["mode"] -= 1
             if this.attributes["mode"] == 0: # It was pulled to the left
                 this.attributes["on_left"](this) # Call on_left with this as a parameter.
             else: # It was pulled to the mid
-                this.attributes["on_mid"](this)
-        if (player.X == this.X + 1) and (this.attributes["mode"] != 2): # They're to the right, not already max right.
+                if "2pos" in this.attributes:
+                    this.attributes["mode"] -= 1
+                    this.attributes["on_left"](this)
+                else:
+                    this.attributes["on_mid"](this)
+        if (world.player.X == this.X + 1) and (this.attributes["mode"] != 2): # They're to the right, not already max right.
+            this.attributes["can_pull"] = False
             this.attributes["mode"] += 1
             if this.attributes["mode"] == 2:
                 this.attributes["on_right"](this) # It was pulled to the right
             else:
-                this.attributes["on_mid"](this) # It was pulled to the mid.
+                if "2pos" in this.attributes:
+                    this.attributes["mode"] += 1
+                    this.attributes["on_right"](this)
+                else:
+                    this.attributes["on_mid"](this) # It was pulled to the mid.
     if not display.keyDown(ord('E')):
         this.attributes["can_pull"] = True
 

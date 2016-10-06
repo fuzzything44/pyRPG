@@ -4,8 +4,10 @@ import display
 import world
 
 from items import item
+from items import bread
 
 from objects.Loot import money
+from objects.Loot import lootbag
 from objects import world_object
 from objects import obj_maker
 from spells import spell
@@ -36,11 +38,6 @@ def update(this, delta_time):
             if this.Y == world.WORLD_Y - 1: # Bottom
                 this.Y -= 1
             this.attributes["effects"]["mov_del"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
-        if (this.attributes["attack"] is None) and ("del_atk" not in this.attributes["effects"]): # Must make a new attack
-            this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
-            atk = obj_maker.make(attack, 0, 0, {"damage" : this.attributes["damage"], "owner" : this, "theta" : randrange(0, 360), "radius" : randrange(this.attributes["range_min"], this.attributes["range_max"] + 1)})
-            world.objects.append(atk)
-            this.attributes["attack"] = atk
 
     # Loop effects
     eff_del_list = []
@@ -56,10 +53,14 @@ def update(this, delta_time):
     # Possibly die.
     if this.attributes["HP"] <= 0:
         world.to_del.append(this)
-        moneydrop = this.attributes["money"] + randrange(0, this.attributes["money"])
-        moneydrop += moneydrop*world.player.attributes["luck"]*.01
-        moneydrop = max(1, int(moneydrop))
-        world.objects.append(obj_maker.make(money, this.X, this.Y, {"value": moneydrop, "taken" : False}))
+        # Drop items
+        dropped_items = []
+        for drop in this.attributes["items"]:
+            # Roll die, see if it drops
+            if randrange(0, 100) < (drop[1] * (1.0 + world.player.attributes["luck"] / 100)):
+                dropped_items.append(drop[0]) # They got the item!
+        if len(dropped_items) > 0:
+            world.objects.append(obj_maker.make(lootbag, this.X, this.Y, {"items" : dropped_items}))
         world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give experience
 
 def collide(this, obj):
@@ -72,20 +73,18 @@ def color(this):
   return display.CYAN
 
 def char(this):
-  return 'Y'
+  return 'S'
 
 type = "enemy"
 
 attributes =      \
-    { "HP" : 30.0,      \
+    { "HP" : 150.0,      \
       "effects" : {},   \
-      "mov_spd" : 500,  \
-      "atk_spd" : 150,  \
-      "damage" : 7,     \
-      "range_min" : 1,  \
-      "range_max" : 5,  \
+      "mov_spd" : 800,  \
+      "atk_spd" : 300,  \
+      "damage" : 25,     \
       "aggro_range" : 100,\
-      "EXP" : 10,       \
-      "money" : 5,      \
-      "attack" : None   \
-    }
+      "EXP" : 17,       \
+      "items" : [       \
+        [item.item(bread.name, bread.type, bread.equip, bread.unequip, 1, bread.attributes), 100], 
+     ]}

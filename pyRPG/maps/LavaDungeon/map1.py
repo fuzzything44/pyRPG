@@ -4,7 +4,7 @@ import world
 
 from objects import LavaDungeon
 from objects import obj_maker
-from objects.General import lock_portal
+from objects.General import portal
 
 def generate():
     world.objects.clear()
@@ -16,6 +16,7 @@ def generate():
     world.objects.append(obj_maker.make(LavaDungeon.enemy, 27, 16, {"HP" : 1000000, "effects" : {}, "mov_spd" : 0, "atk_spd" : 100, "damage" : 10, "range_min" : 2, "range_max" : 5, "aggro_range" : 10000, "EXP" : 0, "money" : 0, "attack" : None}))
     world.objects.append(obj_maker.make(LavaDungeon.enemy, 35, 16, {"HP" : 1000000, "effects" : {}, "mov_spd" : 0, "atk_spd" : 100, "damage" : 10, "range_min" : 5, "range_max" : 7, "aggro_range" : 10000, "EXP" : 0, "money" : 0, "attack" : None}))
     world.objects.append(obj_maker.make(LavaDungeon.enemy, 43, 16, {"HP" : 1000000, "effects" : {}, "mov_spd" : 0, "atk_spd" : 100, "damage" : 10, "range_min" : 5, "range_max" : 6, "aggro_range" : 10000, "EXP" : 0, "money" : 0, "attack" : None}))
+    world.objects.append(obj_maker.make(portal, 16, 19, {"newmap" : "lavadungeon.2", "locx" : 16, "locy" : 1, "used" : False}))
 
     world.map[0][0] =  [display.WHITE, display.BLACK, '#', False]
     world.map[1][0] =  [display.WHITE, display.BLACK, '#', False]
@@ -546,7 +547,6 @@ def generate():
     world.map[13][19] =  [display.WHITE, display.BLACK, '#', False]
     world.map[14][19] =  [display.WHITE, display.BLACK, '#', False]
     world.map[15][19] =  [display.WHITE, display.BLACK, '#', False]
-    world.map[16][19] =  [display.WHITE, display.BLACK, '#', False]
     world.map[17][19] =  [display.WHITE, display.BLACK, '#', False]
     world.map[18][19] =  [display.WHITE, display.BLACK, '#', False]
     world.map[19][19] =  [display.WHITE, display.BLACK, '#', False]
