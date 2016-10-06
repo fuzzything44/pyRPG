@@ -25,6 +25,6 @@ def char(this):
 def color(this):
     return 0
 
-type = "timer"
+type = "timer-lever"
 
 attributes = { "to_reset" : 1000, "lever" : None, "pos" : 0}

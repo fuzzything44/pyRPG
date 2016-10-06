@@ -4,6 +4,7 @@ from objects import world_object
 type = "consumable"
 equip = world_object.no_func
 unequip = world_object.no_func
+value = 0
 
 def use(own):
     try:

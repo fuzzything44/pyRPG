@@ -16,7 +16,7 @@ def generate():
     
     world.objects.append(obj_maker.make(portal, 49, 10, {"newmap": "tutorial.final", "locx": 25, "locy": 9, "used" : False}))
     chest_attr = {"canopen" : False, "contents": [\
-        item.item(bread.name, bread.type, bread.equip, bread.unequip, 5, bread.attributes) \
+        item.item(bread.name, bread.type, bread.value, bread.equip, bread.unequip, 5, bread.attributes) \
       ]}
     world.objects.append(obj_maker.make(chest, 24, 10, chest_attr))
     world.objects.append(obj_maker.make(chest, 26, 10, chest_attr))

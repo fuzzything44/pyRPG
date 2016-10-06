@@ -60,7 +60,7 @@ def update(this, delta_time):
             if randrange(0, 100) < (drop[1] * (1.0 + world.player.attributes["luck"] / 100)):
                 dropped_items.append(drop[0]) # They got the item!
         if len(dropped_items) > 0:
-            world.objects.append(obj_maker.make(lootbag, this.X, this.Y, {"items" : dropped_items}))
+            world.objects.append(obj_maker.make(lootbag, this.X, this.Y, {"contents" : dropped_items}))
         world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give experience
 
 def collide(this, obj):
@@ -86,5 +86,5 @@ attributes =      \
       "aggro_range" : 100,\
       "EXP" : 17,       \
       "items" : [       \
-        [item.item(bread.name, bread.type, bread.equip, bread.unequip, 1, bread.attributes), 100], 
+        [item.item(bread.name, bread.type, bread.value, bread.equip, bread.unequip, 1, bread.attributes), 100], 
      ]}

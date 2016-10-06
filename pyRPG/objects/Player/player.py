@@ -84,7 +84,7 @@ def player_update(this, delta_time):
         if this.attributes["consumable"].amount == 0:
             if this.attributes["consumable"].name != "Nothing":
                 del this.attributes["items"][this.attributes["items"].index(this.attributes["consumable"])]
-            this.attributes["consumable"] = item.item("Nothing", "consumable", world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func})
+            this.attributes["consumable"] = item.item("Nothing", "consumable", 0, world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func})
             this.attributes["consumable"].draw()
     if not display.keyDown(display.CONST.VK_SHIFT):
         this.attributes["can_item"] = True
@@ -187,12 +187,12 @@ player_attributes =                     \
       "items" : [],                     \
       "class" : "newb",                 \
       "spell" : spell.spell(0, world_object.no_func, ["   ", "   ", "   "], display.WHITE), \
-      "weapon" : item.item("", "weapon", world_object.no_func, world_object.no_func, 1, {"damage" : 1, "range" : 1}),       \
-      "hat" : item.item("", "hat", world_object.no_func, world_object.no_func),             \
-      "shirt" : item.item("", "shirt", world_object.no_func, world_object.no_func),         \
-      "pants" : item.item("", "pants", world_object.no_func, world_object.no_func),         \
-      "ring" : item.item("", "ring", world_object.no_func, world_object.no_func),           \
-      "consumable" : item.item("", "consumable", world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
+      "weapon" : item.item("", "weapon", 0, world_object.no_func, world_object.no_func, 1, {"damage" : 1, "range" : 1}),       \
+      "hat" : item.item("", "hat", 0, world_object.no_func, world_object.no_func),             \
+      "shirt" : item.item("", "shirt", 0, world_object.no_func, world_object.no_func),         \
+      "pants" : item.item("", "pants", 0, world_object.no_func, world_object.no_func),         \
+      "ring" : item.item("", "ring", 0, world_object.no_func, world_object.no_func),           \
+      "consumable" : item.item("", "consumable", 0, world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
       "mov_spd" : 0,                    # How quickly they move
       "atk_spd" : 0,                    # How quickly they attack
       "can_cast" : True,                 \

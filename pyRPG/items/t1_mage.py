@@ -12,6 +12,12 @@ ring_type = "ring"
 shirt_type = "shirt"
 weapon_type = "weapon"
 
+hat_value = 0
+pants_value = 0
+ring_value = 0
+shirt_value = 0
+weapon_value = 0
+
 hat_attributes = {\
     "maxMP_mod" : 10    \
   }

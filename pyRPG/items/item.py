@@ -11,9 +11,10 @@ import display
 class item:
     """Item class, all items in the game are part of this.
 item(name, quanitity, attributes = default)"""
-    def __init__(this, item_name, type, on_equip, on_unequip, quantity = 1, attr = {}):
+    def __init__(this, item_name, type, sell_value, on_equip, on_unequip, quantity = 1, attr = {}):
         this.name = item_name
         this.amount = quantity
+        this.value = sell_value
         this.equip = on_equip
         this.unequip = on_unequip
         this.attributes = attr

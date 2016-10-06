@@ -36,17 +36,13 @@ def _chest_remove(chest):
         
 
 def update(this, delta_time):
-    if (display.keyDown(ord('E'))) and (this.attributes["canopen"]):
-        _chest_remove(this)
-    this.attributes["canopen"] = False
+    pass
 
 def collide(this, oth):
-    if oth.type == "player":
-        this.attributes["canopen"] = True
+    if (oth.type == "player") and display.keyDown(ord('E')):
+        _chest_remove(this)
 
 def char(this):
-    if this.attributes["canopen"]:
-        return 'E'
     return '\0'
 
 def color(this):
@@ -55,6 +51,5 @@ def color(this):
 type = "container"
 
 attributes = {\
-    "contents" : [item.item("Bugged Sword", "weapon", world_object.no_func, world_object.no_func, 1, { "damage" : 1, "range": 10, "disp_data" : "Please contact fuzzything44 on how you got this."})],        \
-    "canopen" : False       \
-    }
+    "contents" : [item.item("Bugged Sword", "weapon", 100, world_object.no_func, world_object.no_func, 1, { "damage" : 1, "range": 10, "disp_data" : "Please contact fuzzything44 on how you got this."})],        \
+  }

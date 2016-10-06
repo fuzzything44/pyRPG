@@ -179,9 +179,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="pyRPG.py" />
-    <Compile Include="res\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="spells\fireball.py" />
     <Compile Include="spells\first_aid.py" />
     <Compile Include="spells\frostshot.py" />

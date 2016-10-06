@@ -10,6 +10,10 @@ hat_type = "hat"
 pants_type = "pants"
 ring_type = "ring"
 
+hat_value = 0
+pants_value = 0
+ring_value = 0
+
 hat_attributes = {\
     "disp_data" : "Lets you see enemy EXP"    \
   }

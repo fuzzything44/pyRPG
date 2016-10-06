@@ -39,8 +39,9 @@ since_start = 0
 while True: # Main game loop
     try:
         new_map_loaded = False
-        # Refresh screen
+        # Refresh screen. Draw player first.
 
+        display.printc(world.player.X, world.player.Y + 5, world.player.getChar(), world.player.getColor())
         display.refresh()
     
         delta_time = int((time.time() - start_time) * 1000) - since_start

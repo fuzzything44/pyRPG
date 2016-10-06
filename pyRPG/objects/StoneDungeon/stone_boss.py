@@ -79,7 +79,7 @@ def update(this, delta_time):
         this.attributes["HP"] = this.attributes["lastHP"]
     if this.attributes["HP"] <= 0:
         world.to_del.append(this)
-        chest_attr = {"canopen" : False, "contents": []}
+        chest_attr = {"contents": []}
         world.map[25][10] = world.WORLD_CHEST
         display.printc(25, 15, '@', display.YELLOW)
         # Add actual chests

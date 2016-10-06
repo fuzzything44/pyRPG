@@ -3,8 +3,6 @@ from random import randrange
 import display
 import world
 
-from items import item
-
 from objects.Loot import money
 from objects import world_object
 from objects import obj_maker

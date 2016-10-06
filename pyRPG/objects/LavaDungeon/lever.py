@@ -9,7 +9,9 @@ bridge_pos = [(11, 10), (12, 10), (13, 10), (14, 10), (15, 10), (16, 10), (16, 1
 def remove_bridge(lever):
     for elem in bridge_pos:
         world.map[elem[0]][elem[1]] = [display.RED, display.RED, '#', True]
-    # TODO Remove lever reset timer
+    for obj in world.objects:
+        if obj.type == "timer-lever":
+            world.to_del.append(obj)
     world.dispworld()
 
 def make_bridge(lever):

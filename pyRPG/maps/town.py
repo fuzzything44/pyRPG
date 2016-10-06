@@ -37,11 +37,11 @@ def generate():
         {"class" : "warrior", "replace" : [display.WHITE, display.BLACK, '.', True]})) # Open house only if warrior.
     world.map[15][1] = world.WORLD_CHEST # Chest in house
     war_chest_attr = {"canopen" : False, "contents" : [\
-        item.item(t1_warrior.hat_name   , t1_warrior.hat_type   , t1_warrior.hat_on_equip   , t1_warrior.hat_on_unequip   , 1, t1_warrior.hat_attributes   ),\
-        item.item(t1_warrior.shirt_name , t1_warrior.shirt_type , t1_warrior.shirt_on_equip , t1_warrior.shirt_on_unequip , 1, t1_warrior.shirt_attributes ),\
-        item.item(t1_warrior.weapon_name, t1_warrior.weapon_type, t1_warrior.weapon_on_equip, t1_warrior.weapon_on_unequip, 1, t1_warrior.weapon_attributes),\
-        item.item(t1_warrior.ring_name  , t1_warrior.ring_type  , t1_warrior.ring_on_equip  , t1_warrior.ring_on_unequip  , 1, t1_warrior.ring_attributes  ),\
-        item.item(t1_warrior.pants_name , t1_warrior.pants_type , t1_warrior.pants_on_equip , t1_warrior.pants_on_unequip , 1, t1_warrior.pants_attributes )\
+        item.item(t1_warrior.hat_name   , t1_warrior.hat_type   , t1_warrior.hat_value   , t1_warrior.hat_on_equip   , t1_warrior.hat_on_unequip   , 1, t1_warrior.hat_attributes   ),\
+        item.item(t1_warrior.shirt_name , t1_warrior.shirt_type , t1_warrior.shirt_value , t1_warrior.shirt_on_equip , t1_warrior.shirt_on_unequip , 1, t1_warrior.shirt_attributes ),\
+        item.item(t1_warrior.weapon_name, t1_warrior.weapon_type, t1_warrior.weapon_value, t1_warrior.weapon_on_equip, t1_warrior.weapon_on_unequip, 1, t1_warrior.weapon_attributes),\
+        item.item(t1_warrior.ring_name  , t1_warrior.ring_type  , t1_warrior.ring_value  , t1_warrior.ring_on_equip  , t1_warrior.ring_on_unequip  , 1, t1_warrior.ring_attributes  ),\
+        item.item(t1_warrior.pants_name , t1_warrior.pants_type , t1_warrior.pants_value , t1_warrior.pants_on_equip , t1_warrior.pants_on_unequip , 1, t1_warrior.pants_attributes )\
       ]}
 
     world.objects.append(obj_maker.make(chest, 15, 2, war_chest_attr)) # This chest contains stuff for warriors.
@@ -64,11 +64,11 @@ def generate():
         {"class" : "mage", "replace" : [display.WHITE, display.BLACK, '.', True]})) # Open house only if mage.
     world.map[24][18] = world.WORLD_CHEST # Chest in house
     mage_chest_attr = {"canopen" : False, "contents" : [\
-        item.item(t1_mage.hat_name   , t1_mage.hat_type   , t1_mage.hat_on_equip   , t1_mage.hat_on_unequip   , 1, t1_mage.hat_attributes   ),\
-        item.item(t1_mage.shirt_name , t1_mage.shirt_type , t1_mage.shirt_on_equip , t1_mage.shirt_on_unequip , 1, t1_mage.shirt_attributes ),\
-        item.item(t1_mage.weapon_name, t1_mage.weapon_type, t1_mage.weapon_on_equip, t1_mage.weapon_on_unequip, 1, t1_mage.weapon_attributes),\
-        item.item(t1_mage.ring_name  , t1_mage.ring_type  , t1_mage.ring_on_equip  , t1_mage.ring_on_unequip  , 1, t1_mage.ring_attributes  ),\
-        item.item(t1_mage.pants_name , t1_mage.pants_type , t1_mage.pants_on_equip , t1_mage.pants_on_unequip , 1, t1_mage.pants_attributes )\
+        item.item(t1_mage.hat_name   , t1_mage.hat_type   , t1_mage.hat_value   , t1_mage.hat_on_equip   , t1_mage.hat_on_unequip   , 1, t1_mage.hat_attributes   ),\
+        item.item(t1_mage.shirt_name , t1_mage.shirt_type , t1_mage.shirt_value , t1_mage.shirt_on_equip , t1_mage.shirt_on_unequip , 1, t1_mage.shirt_attributes ),\
+        item.item(t1_mage.weapon_name, t1_mage.weapon_type, t1_mage.weapon_value, t1_mage.weapon_on_equip, t1_mage.weapon_on_unequip, 1, t1_mage.weapon_attributes),\
+        item.item(t1_mage.ring_name  , t1_mage.ring_type  , t1_mage.ring_value  , t1_mage.ring_on_equip  , t1_mage.ring_on_unequip  , 1, t1_mage.ring_attributes  ),\
+        item.item(t1_mage.pants_name , t1_mage.pants_type , t1_mage.pants_value , t1_mage.pants_on_equip , t1_mage.pants_on_unequip , 1, t1_mage.pants_attributes )\
       ]}
     world.objects.append(obj_maker.make(chest, 24, 17, mage_chest_attr)) # This chest contains stuff for mages.
     world.objects.append(obj_maker.make(chest, 23, 18, mage_chest_attr))
@@ -89,9 +89,9 @@ def generate():
 
     world.map[45][1] = world.WORLD_CHEST # Chest in house
     all_chest_attr = {"canopen" : False, "contents" : [\
-        item.item(enemy_info.ring_name , enemy_info.ring_type , enemy_info.ring_on_equip , enemy_info.ring_on_unequip , 1, enemy_info.ring_attributes ),\
-        item.item(enemy_info.hat_name  , enemy_info.hat_type  , enemy_info.hat_on_equip  , enemy_info.hat_on_unequip  , 1, enemy_info.hat_attributes  ),\
-        item.item(enemy_info.pants_name, enemy_info.pants_type, enemy_info.pants_on_equip, enemy_info.pants_on_unequip, 1, enemy_info.pants_attributes)\
+        item.item(enemy_info.ring_name , enemy_info.ring_type , enemy_info.ring_value , enemy_info.ring_on_equip , enemy_info.ring_on_unequip , 1, enemy_info.ring_attributes ),\
+        item.item(enemy_info.hat_name  , enemy_info.hat_type  , enemy_info.hat_value  , enemy_info.hat_on_equip  , enemy_info.hat_on_unequip  , 1, enemy_info.hat_attributes  ),\
+        item.item(enemy_info.pants_name, enemy_info.pants_type, enemy_info.pants_value, enemy_info.pants_on_equip, enemy_info.pants_on_unequip, 1, enemy_info.pants_attributes)\
       ]}
     world.objects.append(obj_maker.make(chest, 45, 2, all_chest_attr)) # This chest contains stuff for everyone.
     world.objects.append(obj_maker.make(chest, 44, 1, all_chest_attr)) # And the interaction on the left...
@@ -112,11 +112,11 @@ def generate():
         {"class" : "thief", "replace" : [display.WHITE, display.BLACK, '.', True]})) # Open house only if thief.
     world.map[44][18] = world.WORLD_CHEST # Chest in house
     thief_chest_attr = {"canopen" : False, "contents" : [\
-        item.item(t1_thief.hat_name   , t1_thief.hat_type   , t1_thief.hat_on_equip   , t1_thief.hat_on_unequip   , 1, t1_thief.hat_attributes   ),\
-        item.item(t1_thief.shirt_name , t1_thief.shirt_type , t1_thief.shirt_on_equip , t1_thief.shirt_on_unequip , 1, t1_thief.shirt_attributes ),\
-        item.item(t1_thief.weapon_name, t1_thief.weapon_type, t1_thief.weapon_on_equip, t1_thief.weapon_on_unequip, 1, t1_thief.weapon_attributes),\
-        item.item(t1_thief.ring_name  , t1_thief.ring_type  , t1_thief.ring_on_equip  , t1_thief.ring_on_unequip  , 1, t1_thief.ring_attributes  ),\
-        item.item(t1_thief.pants_name , t1_thief.pants_type , t1_thief.pants_on_equip , t1_thief.pants_on_unequip , 1, t1_thief.pants_attributes )\
+        item.item(t1_thief.hat_name   , t1_thief.hat_type   , t1_thief.hat_value   , t1_thief.hat_on_equip   , t1_thief.hat_on_unequip   , 1, t1_thief.hat_attributes   ),\
+        item.item(t1_thief.shirt_name , t1_thief.shirt_type , t1_thief.shirt_value , t1_thief.shirt_on_equip , t1_thief.shirt_on_unequip , 1, t1_thief.shirt_attributes ),\
+        item.item(t1_thief.weapon_name, t1_thief.weapon_type, t1_thief.weapon_value, t1_thief.weapon_on_equip, t1_thief.weapon_on_unequip, 1, t1_thief.weapon_attributes),\
+        item.item(t1_thief.ring_name  , t1_thief.ring_type  , t1_thief.ring_value  , t1_thief.ring_on_equip  , t1_thief.ring_on_unequip  , 1, t1_thief.ring_attributes  ),\
+        item.item(t1_thief.pants_name , t1_thief.pants_type , t1_thief.pants_value , t1_thief.pants_on_equip , t1_thief.pants_on_unequip , 1, t1_thief.pants_attributes )\
       ]}
 
     # TODO: Add chest interaction at (43, 18), (45, 18), and (44, 17)

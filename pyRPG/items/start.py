@@ -5,13 +5,18 @@ pants_name  = "No0b pants"
 ring_name   = "No0b ring"
 shirt_name  = "No0b shirt"
 weapon_name = "Fists"
-\
+
 hat_type = "hat"
 pants_type = "pants"
 ring_type = "ring"
 shirt_type = "shirt"
 weapon_type = "weapon"
 
+hat_value = 0
+pants_value = 0
+ring_value = 0
+shirt_value = 0
+weapon_value = 0
 
 hat_attributes = {\
     "maxHP_mod" : 1      \

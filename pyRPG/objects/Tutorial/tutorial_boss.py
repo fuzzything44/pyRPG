@@ -3,8 +3,6 @@ from random import randrange
 import display
 import world
 
-from items import item
-from items import bread
 from objects.Player import attack
 from objects.Loot import chest
 from objects.Loot import money
