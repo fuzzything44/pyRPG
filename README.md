@@ -18,6 +18,9 @@ If you find a bug or want to give feedback, fill out this form https://goo.gl/fo
 # How to help:
 If you want to help in the development of this game, just tell me!
 If you know how to do any of these it would be a great help:
-- Multiple platform support.
+- Multiple platform support. So being able to get the state of the keyboard on linux based operating systems.
+- Unicode support. Needs to be done for all platforms.
+- Multiplayer. So create a server and client setup.
+
 # Trello:
 https://trello.com/b/EhSnoZf9/pyrpg
