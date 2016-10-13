@@ -13,7 +13,11 @@ Run the pywin32 installer. Make sure it properly installs pywin32.
 Run pyRPG.py
 
 # Bugs:
-If you find a bug or want to give feedback, email me at slimesftw@gmail.com
+If you find a bug or want to give feedback, fill out this form https://goo.gl/forms/aMC34pcfTtKqXE3i1
 
+# How to help:
+If you want to help in the development of this game, just tell me!
+If you know how to do any of these it would be a great help:
+- Multiple platform support.
 # Trello:
 https://trello.com/b/EhSnoZf9/pyrpg
