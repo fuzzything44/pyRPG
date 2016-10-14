@@ -14,125 +14,150 @@ from spells import frostshot
 from spells import lifesteal
 from spells import spell
 
-from items import bread
+class player(world_object.world_object):
+    def __init__(this, posX, posY):
+        super().__init__(posX, posY, "player")
+        # effects is a dictionary of (string) effect name to [(func) tick(player, delta_time), (func) on_remove(player), time_left]
+        # items is a list of ITEMs or to SPELLs
+        this.attributes.update({                \
+              "maxHP" : 100.0,                  \
+              "HP" : 100.0,                     \
+              "maxMP" : 50,                     \
+              "MP" : 50,                        \
+              "money" : 0,                      \
+              "effects" : {},                   \
+              "EXP" : 0,                        \
+              "level" : 1,                      \
+              "items" : [],                     \
+              "class" : "warrior",              \
+              "spell" : spell.spell(0, world_object.no_func, ["   ", "   ", "   "], display.WHITE), \
+              "weapon" : item.item("", "weapon", 0, world_object.no_func, world_object.no_func, 1, {"damage" : 1, "range" : 1}),       \
+              "hat" : item.item("", "hat", 0, world_object.no_func, world_object.no_func),             \
+              "shirt" : item.item("", "shirt", 0, world_object.no_func, world_object.no_func),         \
+              "pants" : item.item("", "pants", 0, world_object.no_func, world_object.no_func),         \
+              "ring" : item.item("", "ring", 0, world_object.no_func, world_object.no_func),           \
+              "consumable" : item.item("", "consumable", 0, world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
+              "mov_spd" : 0,                    # How quickly they move
+              "atk_spd" : 0,                    # How quickly they attack
+              "can_cast" : True,                 \
+              "can_item" : True,                 \
+              "magic" : 5,                      # How good spells are 
+              "strength" : 5,                   # How much damage regular attacks do. 
+              "luck" : 0,                       # Luck will change item and money drops
+              "gainexp" : gain_exp,              \
+              "lastHP" : 100.0,                 # What was their HP last frame?
+              "sincehit" : 300,                 # How long since they were hit
+              "flags" : []                      # A very general list. For tracking progress through dungeons.
+            })
 
-def play_attk_color(this):
-    return display.BLUE
-
-def player_update(this, delta_time):
-    display.printc(8, 0, str(int(this.attributes["HP"])) + "/" + str(int(this.attributes["maxHP"])) + "  ")
-    display.printc(8, 1, str(int(this.attributes["MP"])) + "/" + str(int(this.attributes["maxMP"])) + "  ")
-    display.printc(10, 2, str(this.attributes["money"]) + "     ")
-    display.printc(12, 3, str(this.attributes["level"]))
-    display.printc(5, 4, str(int(0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4 - this.attributes["EXP"])) + " to level        ")
-    if this.attributes["HP"] < this.attributes["lastHP"]:
-        this.attributes["sincehit"] = 0
-    else:
-        this.attributes["sincehit"] += delta_time
-
-    if display.keyDown(ord('W')) and (not "del_up" in this.attributes["effects"]):
-        if (this.Y > 0) and world.map[this.X][this.Y - 1][3]:
-            this.Y -= 1
-        this.attributes["effects"]["del_up"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["mov_spd"]))]
-    if display.keyDown(ord('S')) and (not "del_down" in this.attributes["effects"]):
-        if (this.Y < world.WORLD_Y - 1) and world.map[this.X][this.Y + 1][3]:
-            this.Y += 1
-        this.attributes["effects"]["del_down"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["mov_spd"]))]
-    if display.keyDown(ord('A')) and (not "del_left" in this.attributes["effects"]):
-        if (this.X > 0) and world.map[this.X - 1][this.Y][3]:
-            this.X -= 1
-        this.attributes["effects"]["del_left"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["mov_spd"]))]
-    if display.keyDown(ord('D')) and (not "del_right" in this.attributes["effects"]):
-        if (this.X < world.WORLD_X - 1) and world.map[this.X + 1][this.Y][3]:
-            this.X += 1
-        this.attributes["effects"]["del_right"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["mov_spd"]))]
-    if display.keyDown(ord(' ')) and this.attributes["can_cast"]:
-        this.attributes["spell"].cast(this)
-        this.attributes["can_cast"] = False
-    if not display.keyDown(ord(' ')):
-        this.attributes["can_cast"] = True
-    # Attacks!
-    if (display.keyDown(ord('I'))) and (this.Y != 0) and (world.map[this.X][this.Y - 1][3]) and (not "del_atk" in this.attributes["effects"]):
-        world.objects.append(world_object.world_object(attack.update, attack.collide, attack.char, play_attk_color, attack.type, this.X, this.Y - 1, \
-            {"movex" : 0, "movey": -1, "range" : this.attributes["weapon"].attributes["range"], "damage" : (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), "speed" : 100, "to_move" : 0, "owner" : this}\
-        ))
-        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
-
-    if (display.keyDown(ord('J'))) and (this.X != 0) and (world.map[this.X - 1][this.Y][3]) and (not "del_atk" in this.attributes["effects"]):
-        world.objects.append(world_object.world_object(attack.update, attack.collide, attack.char, play_attk_color, attack.type, this.X - 1, this.Y, \
-            {"movex" : -1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
-        ))
-        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
-
-    if (display.keyDown(ord('K'))) and (this.Y != 19) and (world.map[this.X][this.Y + 1][3]) and (not "del_atk" in this.attributes["effects"]):
-        world.objects.append(world_object.world_object(attack.update, attack.collide, attack.char, play_attk_color, attack.type, this.X, this.Y + 1, \
-            {"movex" : 0, "movey": 1, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
-        ))                                                                                                                                                                  
-        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
-
-    if (display.keyDown(ord('L'))) and (this.X != 49) and (world.map[this.X + 1][this.Y][3]) and (not "del_atk" in this.attributes["effects"]):
-        world.objects.append(world_object.world_object(attack.update, attack.collide, attack.char, play_attk_color, attack.type, this.X + 1, this.Y, \
-            {"movex" : 1, "movey": 0, "range" : this.attributes["weapon"].attributes["range"], "damage" : this.attributes["strength"]*this.attributes["weapon"].attributes["damage"]//2, "speed" : 100, "to_move" : 0, "owner" : this}\
-        ))
-        this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
-        # Or with our constants in python, time = 500/(1+2.718^(.01x)), which is a nice logistic formula.
-
-    if display.keyDown(display.CONST.VK_LSHIFT) and this.attributes["can_item"]:
-        this.attributes["consumable"].attributes["use"](this)
-        this.attributes["can_item"] = False
-        this.attributes["consumable"].amount -= 1
-        if this.attributes["consumable"].amount == 0:
-            if this.attributes["consumable"].name != "Nothing":
-                del this.attributes["items"][this.attributes["items"].index(this.attributes["consumable"])]
-            this.attributes["consumable"] = item.item("Nothing", "consumable", 0, world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func})
-            this.attributes["consumable"].draw()
-    if not display.keyDown(display.CONST.VK_SHIFT):
-        this.attributes["can_item"] = True
-
+    def update(this, delta_time):
+        # Reprint top bar status
+        display.printc(8, 0, str(int(this.attributes["HP"])) + "/" + str(int(this.attributes["maxHP"])) + "  ")
+        display.printc(8, 1, str(int(this.attributes["MP"])) + "/" + str(int(this.attributes["maxMP"])) + "  ")
+        display.printc(10, 2, str(this.attributes["money"]) + "     ")
+        display.printc(12, 3, str(this.attributes["level"]))
+        display.printc(5, 4, str(int(0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4 - this.attributes["EXP"])) + " to level        ")
+        # Check HP diff for flash on hit stuff
+        if this.attributes["HP"] < this.attributes["lastHP"]:
+            this.attributes["sincehit"] = 0
+        else:
+            this.attributes["sincehit"] += delta_time
     
-    eff_del_list = []
-    # Update all effects.
-    for eff in this.attributes["effects"]:
-        this.attributes["effects"][eff][0](this, delta_time)       # Tick code
-        this.attributes["effects"][eff][2] -= delta_time           # Lower time
-        if this.attributes["effects"][eff][2] <= 0:                # Remove effect
-            eff_del_list.append(eff)
-    for to_del in eff_del_list:
-        this.attributes["effects"][to_del][1](this)
-        del this.attributes["effects"][to_del]
-    del eff_del_list
-    if this.attributes["HP"] <= 0:
-        display.printc(33, 9,  "+++++++++++++", display.RED)
-        display.printc(33, 10, "+ You DIED! +", display.RED)
-        display.printc(33, 11, "+++++++++++++", display.RED)
-        display.refresh()
-        time.sleep(1)
-        display.flushinp()
-        key = -1
-        while key == -1:
-            key = display.getch()
+        # Check for movement
+        if display.keyDown(ord('W')) and (not "del_up" in this.attributes["effects"]):
+            if (this.Y > 0) and world.map[this.X][this.Y - 1][3]:
+                this.Y -= 1
+            this.attributes["effects"]["del_up"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["mov_spd"]))]
+        if display.keyDown(ord('S')) and (not "del_down" in this.attributes["effects"]):
+            if (this.Y < world.WORLD_Y - 1) and world.map[this.X][this.Y + 1][3]:
+                this.Y += 1
+            this.attributes["effects"]["del_down"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["mov_spd"]))]
+        if display.keyDown(ord('A')) and (not "del_left" in this.attributes["effects"]):
+            if (this.X > 0) and world.map[this.X - 1][this.Y][3]:
+                this.X -= 1
+            this.attributes["effects"]["del_left"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["mov_spd"]))]
+        if display.keyDown(ord('D')) and (not "del_right" in this.attributes["effects"]):
+            if (this.X < world.WORLD_X - 1) and world.map[this.X + 1][this.Y][3]:
+                this.X += 1
+            this.attributes["effects"]["del_right"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["mov_spd"]))]
 
-        display.end()
-    # Finally, update lastHP. Done after effects because we don't want effects to make you constantly red
-    this.attributes["lastHP"] = this.attributes["HP"]
+        # Check for spell cast
+        if display.keyDown(ord(' ')) and this.attributes["can_cast"]:
+            this.attributes["spell"].cast(this)
+            this.attributes["can_cast"] = False
+        if not display.keyDown(ord(' ')):
+            this.attributes["can_cast"] = True
 
-def collide(this, oth):
-    pass
+        # Attacks!
+        if (display.keyDown(ord('I'))) and (this.Y != 0) and (world.map[this.X][this.Y - 1][3]) and (not "del_atk" in this.attributes["effects"]):
+            world.objects.append(attack.attack(this.X, this.Y - 1, 0, -1, (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), this.attributes["weapon"].attributes["range"], 100, this))
+            this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
+    
+        if (display.keyDown(ord('J'))) and (this.X != 0) and (world.map[this.X - 1][this.Y][3]) and (not "del_atk" in this.attributes["effects"]):
+            world.objects.append(attack.attack(this.X - 1, this.Y, -1, 0, (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), this.attributes["weapon"].attributes["range"], 100, this))
+            this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
+    
+        if (display.keyDown(ord('K'))) and (this.Y != 19) and (world.map[this.X][this.Y + 1][3]) and (not "del_atk" in this.attributes["effects"]):
+            world.objects.append(attack.attack(this.X, this.Y + 1, 0, 1, (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), this.attributes["weapon"].attributes["range"], 100, this))
+            this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
+    
+        if (display.keyDown(ord('L'))) and (this.X != 49) and (world.map[this.X + 1][this.Y][3]) and (not "del_atk" in this.attributes["effects"]):
+            world.objects.append(attack.attack(this.X + 1, this.Y, 1, 0, (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), this.attributes["weapon"].attributes["range"], 100, this))
+            this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, 500/(1+2.718**(.01*this.attributes["atk_spd"]))]
+            # Or with our constants in python, time = 500/(1+2.718^(.01x)), which is a nice logistic formula.
+    
+        # Check for item use
+        if display.keyDown(display.CONST.VK_LSHIFT) and this.attributes["can_item"]:
+            this.attributes["consumable"].attributes["use"](this)
+            this.attributes["can_item"] = False
+            this.attributes["consumable"].amount -= 1
+            if this.attributes["consumable"].amount == 0:
+                if this.attributes["consumable"].name != "Nothing":
+                    del this.attributes["items"][this.attributes["items"].index(this.attributes["consumable"])]
+                this.attributes["consumable"] = item.item("Nothing", "consumable", 0, world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func})
+                this.attributes["consumable"].draw()
+        if not display.keyDown(display.CONST.VK_SHIFT):
+            this.attributes["can_item"] = True
+    
+        # Update all effects.
+        eff_del_list = []
+        for eff in this.attributes["effects"]:
+            this.attributes["effects"][eff][0](this, delta_time)       # Tick code
+            this.attributes["effects"][eff][2] -= delta_time           # Lower time
+            if this.attributes["effects"][eff][2] <= 0:                # Remove effect
+                eff_del_list.append(eff)
+        for to_del in eff_del_list:
+            this.attributes["effects"][to_del][1](this)
+            del this.attributes["effects"][to_del]
+        del eff_del_list
+        if this.attributes["HP"] <= 0:
+            display.printc(33, 9,  "+++++++++++++", display.RED)
+            display.printc(33, 10, "+ You DIED! +", display.RED)
+            display.printc(33, 11, "+++++++++++++", display.RED)
+            display.refresh()
+            time.sleep(1)
+            display.flushinp()
+            key = -1
+            while key == -1:
+                key = display.getch()
+    
+            display.end()
 
-def player_char(this):
-    return 'P'
-
-def player_color(this):
-    if this.attributes["sincehit"] < 75:
-        return display.RED
-    elif this.attributes["sincehit"] < 150:
+        # Finally, update lastHP. Done after effects because we don't want effects to make you constantly red
+        this.attributes["lastHP"] = this.attributes["HP"]
+    
+    def char(this):
+        return 'P'
+    
+    def color(this):
+        if this.attributes["sincehit"] < 75:
+            return display.RED
+        elif this.attributes["sincehit"] < 150:
+            return display.WHITE
+        elif this.attributes["sincehit"] < 225:
+            return display.RED
         return display.WHITE
-    elif this.attributes["sincehit"] < 225:
-        return display.RED
-    return display.WHITE
-
-player_type = "player"
-
+    
 def gain_exp(this, amount):
     this.attributes["EXP"] += amount
     # Takes 0.5L^2 + .5L + 4
@@ -173,39 +198,6 @@ def gain_exp(this, amount):
 
         this.attributes["HP"] = this.attributes["maxHP"] # HP restore on level
         this.attributes["MP"] = this.attributes["maxMP"] # MP restore on level
-# effects is a dictionary of (string) effect name to [(func) tick(player, delta_time), (func) on_remove(player), time_left]
-# items is a list of ITEMs or to SPELLs
-player_attributes =                     \
-    { "maxHP" : 100.0,                  \
-      "HP" : 100.0,                     \
-      "maxMP" : 50,                     \
-      "MP" : 50,                        \
-      "money" : 0,                      \
-      "effects" : {},                   \
-      "EXP" : 0,                        \
-      "level" : 1,                      \
-      "items" : [],                     \
-      "class" : "newb",                 \
-      "spell" : spell.spell(0, world_object.no_func, ["   ", "   ", "   "], display.WHITE), \
-      "weapon" : item.item("", "weapon", 0, world_object.no_func, world_object.no_func, 1, {"damage" : 1, "range" : 1}),       \
-      "hat" : item.item("", "hat", 0, world_object.no_func, world_object.no_func),             \
-      "shirt" : item.item("", "shirt", 0, world_object.no_func, world_object.no_func),         \
-      "pants" : item.item("", "pants", 0, world_object.no_func, world_object.no_func),         \
-      "ring" : item.item("", "ring", 0, world_object.no_func, world_object.no_func),           \
-      "consumable" : item.item("", "consumable", 0, world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
-      "mov_spd" : 0,                    # How quickly they move
-      "atk_spd" : 0,                    # How quickly they attack
-      "can_cast" : True,                 \
-      "can_item" : True,                 \
-      "magic" : 5,                      # How good spells are 
-      "strength" : 5,                   # How much damage regular attacks do. 
-      "luck" : 0,                       # Luck will change item and money drops
-      "gainexp" : gain_exp,              \
-      "lastHP" : 100.0,                 # What was their HP last frame?
-      "sincehit" : 300,                 # How long since they were hit
-      "flags" : []                      # A very general list. For tracking progress through dungeons.
-    }
-
 
 def set_active(type):
     options = [] # All options to go in the menu.

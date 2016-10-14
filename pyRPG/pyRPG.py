@@ -8,7 +8,7 @@ from objects import Player
 
 #makemaps.make_from_file('maps/LavaDungeon/map2.txt', 'maps/LavaDungeon/map2.py')
 
-makemaps.make("all")
+makemaps.make("+tutorial")
 
 display.start()
 main_menu.start()
@@ -40,8 +40,7 @@ while True: # Main game loop
     try:
         new_map_loaded = False
         # Refresh screen. Draw player first.
-
-        display.printc(world.player.X, world.player.Y + 5, world.player.getChar(), world.player.getColor())
+        display.printc(world.player.X, world.player.Y + 5, world.player.char(), world.player.color())
         display.refresh()
     
         delta_time = int((time.time() - start_time) * 1000) - since_start
@@ -60,13 +59,13 @@ while True: # Main game loop
             obj = world.objects[index]
 
             # Redraw world tile, unless the object is invisible
-            if obj.getChar() != '\0':
+            if obj.char() != '\0':
                 display.printc(obj.X, obj.Y + 5, world.map[obj.X][obj.Y][2], world.map[obj.X][obj.Y][0])
             # Update it
             if obj.update(delta_time) is not None:
                 new_map_loaded = True
             for coll in world.objects:    # Check for collision
-                if (coll.getCoords() == obj.getCoords()) and (not coll is obj) :
+                if ((coll.X, coll.Y) == (obj.X, obj.Y)) and (not coll is obj) :
                     if obj.collide(coll) is not None:
                         new_map_loaded = True
                         break # Stop collide check, new map was loaded
@@ -77,7 +76,7 @@ while True: # Main game loop
                 world.to_del.append(obj)
             else:
                 # And now redraw it
-                display.printc(obj.X, obj.Y + 5, obj.getChar(), obj.getColor(), world.map[obj.X][obj.Y][1])
+                display.printc(obj.X, obj.Y + 5, obj.char(), obj.color(), world.map[obj.X][obj.Y][1])
         if new_map_loaded:
             continue
         # Delete objects that need to be deleted.

@@ -3,23 +3,16 @@ import display
 import world
 from objects.General import lock_portal
 from objects import Tutorial
-from objects import obj_maker
 
 def generate():
     world.objects.clear()
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    world.objects.append(obj_maker.make(lock_portal, 49, 10,{"newmap": "tutorial.2-killed", "locx": 45, "locy": 10, "used" : False}))     
-    enemy1 = obj_maker.make(Tutorial.level_up_enemy, 10, 13)
-    enemy2 = obj_maker.make(Tutorial.level_up_enemy, 25, 10)
-    enemy3 = obj_maker.make(Tutorial.level_up_enemy, 40, 10)
-    world.objects.append(obj_maker.make(Tutorial.lava, 0, 0))
-    enemy1.attributes["pattern_loc"] = 3
-    enemy2.attributes["pattern_loc"] = 5
-    enemy3.attributes["pattern_loc"] = 1
+    world.objects.append(lock_portal.lock_portal(49, 10, "tutorial.2-killed", 45, 10))
+    world.objects.append(Tutorial.level_up_enemy.level_up_enemy(10, 13, pattern_loc = 3))
+    world.objects.append(Tutorial.level_up_enemy.level_up_enemy(25, 10, pattern_loc = 5))
+    world.objects.append(Tutorial.level_up_enemy.level_up_enemy(40, 10, pattern_loc = 1))
+    world.objects.append(Tutorial.lava.lava())
 
-    world.objects.append(enemy1)
-    world.objects.append(enemy2)
-    world.objects.append(enemy3)
 
     world.map[19][1] =  [display.RED, display.RED, '#', True]
     world.map[20][1] =  [display.RED, display.RED, '#', True]

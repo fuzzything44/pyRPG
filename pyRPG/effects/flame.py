@@ -2,9 +2,7 @@ import display
 import world
 
 from objects.Player import fireball_obj
-from objects import obj_maker
 from objects import world_object
-
 
 def flame(obj, delta_time):
     if display.keyDown(ord('I')) and (not world.out_of_bounds(obj.X, obj.Y - 1)):

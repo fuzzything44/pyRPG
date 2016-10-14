@@ -1,28 +1,18 @@
 import display
 import world
 from objects.General import portal
-from objects import world_object
 
-update = world_object.no_func
+class level_portal(portal.portal):
+    def __init__(this, posX, posY, newmap, locx, locy, level_req):
+        super().__init__(posX, posY, newmap, locx, locy)
+        this.attributes["level"] = level_req
 
-def collide(this, other):
-    if world.player.attributes["level"] < this.attributes["level"]:
-        return # Too low of level.
-    return portal.collide(this, other)
-
-char = portal.char
-
-def color(this):
-    if world.player.attributes["level"] >= this.attributes["level"]:
-        return display.BLUE
-    return display.RED
-
-type = portal.type
-
-attributes = {\
-    "newmap" : "",\
-    "locx" : 0,\
-    "locy" : 10,\
-    "used" : False,\
-    "level" : 0
-  }
+    def collide(this, other):
+        if world.player.attributes["level"] < this.attributes["level"]:
+            return # Too low of level.
+        return super().collide(other)
+ 
+    def color(this):
+        if world.player.attributes["level"] >= this.attributes["level"]:
+            return super().color()
+        return display.RED

@@ -7,7 +7,6 @@ from items import item
 from items import start as start_eq
 
 from objects.Player import player
-from objects import world_object
 
 from spells import heal
 from spells import spell
@@ -196,8 +195,8 @@ def new_game():
         # Check if they chose an option
         if display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_RETURN):
             # Basic player. Choice will modify it's attributes.
-            world.player = world_object.world_object(player.player_update, player.collide, player.player_char, player.player_color, "player", 0, 0, player.player_attributes)
-            
+            world.player = player.player(world.WORLD_X // 2, world.WORLD_Y - 3)
+
             hat =    item.item(start_eq.hat_name   , start_eq.hat_type   , start_eq.hat_value   , start_eq.hat_on_equip   , start_eq.hat_on_unequip   , 1, copy.deepcopy(start_eq.hat_attributes   ))
             shirt =  item.item(start_eq.shirt_name , start_eq.shirt_type , start_eq.shirt_value , start_eq.shirt_on_equip , start_eq.shirt_on_unequip , 1, copy.deepcopy(start_eq.shirt_attributes ))
             pants =  item.item(start_eq.pants_name , start_eq.pants_type , start_eq.pants_value , start_eq.pants_on_equip , start_eq.pants_on_unequip , 1, copy.deepcopy(start_eq.pants_attributes ))
@@ -226,11 +225,9 @@ def new_game():
             weapon.equip(weapon, world.player)
             world.player.attributes["spell"] = sp
             
-            # Set starting coords
-            world.player.X = world.WORLD_X // 2
-            world.player.Y = world.WORLD_Y - 3
+
             # Load starting world
-            world.load("start")
+            world.load("tutorial.start")
             world.objects = [world.player] + world.objects
             return
 

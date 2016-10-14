@@ -4,7 +4,6 @@ import world
 
 from objects import LavaDungeon
 from objects import General
-from objects import obj_maker
 
 def generate():
     world.objects.clear()

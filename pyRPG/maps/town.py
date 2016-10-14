@@ -12,7 +12,6 @@ from objects.Loot import chest
 from objects.General import portal
 from objects import General
 from objects import world_object
-from objects import obj_maker
 
 def generate():
     world.objects = []

@@ -2,16 +2,15 @@
 import display
 import world
 
-from objects import obj_maker
 from objects.General import lock_portal
 from objects import Tutorial
 
 def generate():
     world.objects.clear()
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    world.objects.append(obj_maker.make(lock_portal, 49, 10,{"newmap": "tutorial.2", "locx": 0, "locy": 10, "used" : False}))     
-    world.objects.append(obj_maker.make(Tutorial.tutorial_enemy, 10, 10))
-    world.objects.append(obj_maker.make(Tutorial.tutorial_move_enemy, 35, 10))
+    world.objects.append(lock_portal.lock_portal(49, 10, "tutorial.2", 0, 10))
+    world.objects.append(Tutorial.tutorial_enemy.enemy(10, 10))
+    world.objects.append(Tutorial.tutorial_move_enemy.move_enemy(35, 10))
 
     world.map[2][5] = [0, 1, 'T', True]
     world.map[3][5] = [0, 1, 'h', True]

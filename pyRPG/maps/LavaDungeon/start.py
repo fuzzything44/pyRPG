@@ -5,7 +5,6 @@ import display
 import world
 
 from objects import LavaDungeon
-from objects import obj_maker
 from objects.General import portal
 from objects.General import npc
 

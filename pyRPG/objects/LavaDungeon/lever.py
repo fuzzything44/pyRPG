@@ -2,7 +2,6 @@ import display
 import world
 
 from objects.LavaDungeon import reset_lever
-from objects import obj_maker
 
 bridge_pos = [(11, 10), (12, 10), (13, 10), (14, 10), (15, 10), (16, 10), (16, 11), (17, 11), (18, 11), (19, 11), (20, 11), (21, 11), (22, 11), (23, 11), (24, 11), (25, 11), (26, 11), (27, 11), (28, 11), (29, 11)]
 

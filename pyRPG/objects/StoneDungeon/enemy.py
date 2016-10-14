@@ -6,7 +6,6 @@ import world
 from objects.Player import attack
 from objects.Loot import money
 from objects import world_object
-from objects import obj_maker
 from spells import spell
 
 def enemy_update(this, delta_time):

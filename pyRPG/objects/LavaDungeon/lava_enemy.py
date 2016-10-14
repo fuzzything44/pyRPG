@@ -9,7 +9,6 @@ from items import bread
 from objects.Loot import money
 from objects.Loot import lootbag
 from objects import world_object
-from objects import obj_maker
 from spells import spell
 
 from objects.LavaDungeon import attack

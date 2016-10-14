@@ -7,7 +7,6 @@ from items import item
 from objects.Player import attack
 from objects.Loot import chest
 from objects import world_object
-from objects import obj_maker
 
 def update(this, delta_time):
     # Movement code

@@ -3,7 +3,6 @@ import display
 import world
 
 from objects import LavaDungeon
-from objects import obj_maker
 from objects.General import portal
 
 def generate():

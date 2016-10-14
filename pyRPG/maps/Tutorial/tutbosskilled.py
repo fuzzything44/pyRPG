@@ -3,7 +3,6 @@ import display
 import world
 
 from objects import Tutorial
-from objects import obj_maker
 from objects.General import portal
 from objects.Loot import chest
 
@@ -14,14 +13,14 @@ def generate():
     world.objects.clear()
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
     
-    world.objects.append(obj_maker.make(portal, 49, 10, {"newmap": "tutorial.final", "locx": 25, "locy": 9, "used" : False}))
-    chest_attr = {"canopen" : False, "contents": [\
+    world.objects.append(portal.portal(49, 10, "tutorial.final", 25, 9))
+    chest_items = [\
         item.item(bread.name, bread.type, bread.value, bread.equip, bread.unequip, 5, bread.attributes) \
-      ]}
-    world.objects.append(obj_maker.make(chest, 24, 10, chest_attr))
-    world.objects.append(obj_maker.make(chest, 26, 10, chest_attr))
-    world.objects.append(obj_maker.make(chest, 25, 11, chest_attr))
-    world.objects.append(obj_maker.make(chest, 25, 9, chest_attr))
+      ]
+    world.objects.append(chest.chest(24, 10, chest_items))
+    world.objects.append(chest.chest(26, 10, chest_items))
+    world.objects.append(chest.chest(25, 11, chest_items))
+    world.objects.append(chest.chest(25, 9 , chest_items))
 
     world.map[25][10] = [display.YELLOW, display.YELLOW, '@', False]
     world.map[2][2] =  [display.RED, display.RED, '#', True]

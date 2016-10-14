@@ -2,13 +2,13 @@
 import display
 import world
 
-from objects import obj_maker
 from objects.General import portal
 
 def generate():
     world.objects.clear()
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    world.objects.append(obj_maker.make(portal, 49, 9, {"newmap": "town", "locx": 25, "locy": 10, "used" : False}))
+    world.objects.append(portal.portal(49, 9, "town", 25, 10))
+
     world.map[1][1] = [0, 1, 'F', True]
     world.map[2][1] = [0, 1, 'i', True]
     world.map[3][1] = [0, 1, 'n', True]

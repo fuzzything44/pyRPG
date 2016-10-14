@@ -89,6 +89,9 @@
     <Compile Include="maps\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="objects\General\enemy_base.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\General\level_portal.py">
       <SubType>Code</SubType>
     </Compile>
@@ -120,9 +123,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\Loot\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="objects\obj_maker.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\Player\attack.py">

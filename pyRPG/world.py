@@ -1,16 +1,10 @@
 import pickle
 
 import display
-from objects import world_object
 from objects import Player as play
 
 # World tile. Form of [foreground color, background color, display char, canwalk]. None of this should move, all is part of background world.
 WORLD_NOTHING   = [display.BLACK, display.BLACK, ' ', True]     # Nothing there
-WORLD_WALL      = [display.WHITE, display.WHITE, '#', False]    # Wall, can't be walked through
-WORLD_LAVA      = [display.RED, display.RED, '#', True]        # Lava tile. Must add a damage tile over it.
-WORLD_GRASS     = [display.GREEN, display.BLACK, ';', True]        # Grass!
-WORLD_CHEST     = [display.YELLOW, display.BLACK, '@', False]       # Phat Loot!
-
 
 WORLD_X = 50    # Max X size
 WORLD_Y = 20    # Max Y size
@@ -35,11 +29,12 @@ def dispworld():
 world_name = "default"
 save_name = "default"
 def load(name):
-    global map, objects, world_name
+    global map, objects, world_name, to_del
     try:
         with open("res/maps/" + name + ".wrld", "rb") as handle:
             map = pickle.load(handle)
             objects = pickle.load(handle)
+            to_del = []
             world_name = name
     except:
         map = [[ WORLD_NOTHING for y in range(WORLD_Y)] for x in range(WORLD_X)]
@@ -79,5 +74,5 @@ def load_player(name):
             load(in_world)
             save_name = name
     except:
-        player = world_object.world_object(play.player_update, play.collide, play.player_char, play.player_color, "player", 0, 0, play.player_attributes)
+        player = play.player.player(0, 0)
     objects = [player] + objects
