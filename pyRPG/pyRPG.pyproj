@@ -89,6 +89,9 @@
     <Compile Include="maps\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="objects\General\base_attack.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\General\enemy_base.py">
       <SubType>Code</SubType>
     </Compile>
@@ -137,6 +140,9 @@
     <Compile Include="objects\LavaDungeon\attack.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="objects\StoneDungeon\attack.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\StoneDungeon\enemy.py" />
     <Compile Include="objects\Player\__init__.py">
       <SubType>Code</SubType>
@@ -152,6 +158,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\General\lock_portal.py" />
+    <Compile Include="objects\Tutorial\attack.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\Tutorial\lava.py">
       <SubType>Code</SubType>
     </Compile>

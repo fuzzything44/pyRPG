@@ -4,7 +4,8 @@ import world
 from objects import world_object
 
 class bg_changer(world_object.world_object):
-    def __init__(this, locX, locY, classes = "warrior mage thief", replace = world.WORLD_NOTHING):
+    # So apparently using replace = world.WORLD_NOTHING causes horrible recursive include issues.
+    def __init__(this, locX, locY, classes = "warrior mage thief", replace = [display.BLACK, display.BLACK, ' ', True]):
         super().__init__(locX, locY, "special")
         this.attributes.update({\
             "class" : classes,  \

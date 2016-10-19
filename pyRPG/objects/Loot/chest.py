@@ -43,6 +43,6 @@ class chest(world_object.world_object):
 
     def collide(this, oth):
         if (oth.type == "player") and display.keyDown(ord('E')):
-            remove_items(this)
+            this.remove_items()
     
 

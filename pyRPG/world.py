@@ -4,12 +4,10 @@ import display
 from objects import Player as play
 
 # World tile. Form of [foreground color, background color, display char, canwalk]. None of this should move, all is part of background world.
-WORLD_NOTHING   = [display.BLACK, display.BLACK, ' ', True]     # Nothing there
+WORLD_NOTHING = [display.BLACK, display.BLACK, ' ', True]     # Nothing there
 
 WORLD_X = 50    # Max X size
 WORLD_Y = 20    # Max Y size
-
-global player, map, objects
 
 map = [[]]
 player = None

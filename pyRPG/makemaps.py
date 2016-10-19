@@ -106,20 +106,19 @@ def make(make_what):
         print("[    ]", end="\r")
 
         StoneDungeon.stonboss.generate()
-        world.save("stoneboss")
+        world.save("stonedungeon.boss")
         print("[>   ]", end="\r")
         
-
         StoneDungeon.stonstart.generate()
-        world.save("stonestart")
+        world.save("stonedungeon.start")
         print("[=>  ]", end="\r")
         
         StoneDungeon.ston1.generate()
-        world.save("stone1")
+        world.save("stonedungeon.1")
         print("[==> ]", end="\r")
         
         StoneDungeon.ston2.generate()
-        world.save("stone2")
+        world.save("stonedungeon.2")
         print("[===>]", end="\r")
 
     if ("+lavadungeon" in make_what) or (("all" in make_what) and ("-stonedungeon" not in make_what)):

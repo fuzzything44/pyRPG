@@ -8,7 +8,7 @@ from objects import Player
 
 #makemaps.make_from_file('maps/LavaDungeon/map2.txt', 'maps/LavaDungeon/map2.py')
 
-makemaps.make("+tutorial")
+makemaps.make("+tutorial +town +stonedungeon")
 
 display.start()
 main_menu.start()
@@ -40,7 +40,7 @@ while True: # Main game loop
     try:
         new_map_loaded = False
         # Refresh screen. Draw player first.
-        display.printc(world.player.X, world.player.Y + 5, world.player.char(), world.player.color())
+        display.printc(world.player.X, world.player.Y + 5, world.player.char(), world.player.color(), world.map[world.player.X][world.player.Y][1])
         display.refresh()
     
         delta_time = int((time.time() - start_time) * 1000) - since_start

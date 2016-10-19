@@ -13,6 +13,7 @@ def generate():
     world.objects.clear()
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
     
+    world.objects.append(Tutorial.lava.lava())
     world.objects.append(portal.portal(49, 10, "tutorial.final", 25, 9))
     chest_items = [\
         item.item(bread.name, bread.type, bread.value, bread.equip, bread.unequip, 5, bread.attributes) \

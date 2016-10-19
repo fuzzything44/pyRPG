@@ -5,8 +5,8 @@ from objects.General import enemy_base
 
 class move_enemy(enemy_base.enemy_base):
     # Pattern is ^^^^^>>>>>VVVVV<<<<<
-    def __init__(this, posX, posY, health = 5, damage = 3, exp = 1, pattern_loc = 0):
-        super().__init__(posX, posY, health, damage, exp)
+    def __init__(this, posX, posY, pattern_loc = 0):
+        super().__init__(posX, posY, 5, 3, 1)
         this.attributes["del_mov"] = 200
         this.attributes["pattern_loc"] = pattern_loc
         this.pattern = [[0, -1], [0, -1], [0, -1], [0, -1], [0, -1], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [0, 1], [0, 1], [0, 1], [0, 1], [0, 1], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]]
@@ -33,4 +33,7 @@ class move_enemy(enemy_base.enemy_base):
             # Bounce other back opposite of pattern.
             oth.X -= this.pattern[this.attributes["pattern_loc"]][0]
             oth.Y -= this.pattern[this.attributes["pattern_loc"]][1]
+
+    def char(this):
+        return 'Q'
 

@@ -3,7 +3,7 @@ from objects import world_object
 
 class lavatile(world_object.world_object):
     def __init__(this, locX, locY):
-        super().__init__(this, locX, locY, "damage")
+        super().__init__(locX, locY, "damage")
         this.attributes.update({"timers" : {}})
 
     def update(this, delta_time):

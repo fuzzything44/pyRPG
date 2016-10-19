@@ -1,9 +1,8 @@
-import display
 import world
 
 from objects.General import base_attack
 
-class attack(base_attack.base_attack):
+class shoot_attack(base_attack.base_attack):
     def __init__(this, posX, posY, movex, movey, damage, range, speed, owner):
         super().__init__(posX, posY, damage, owner)
         this.attributes.update({     \
@@ -24,7 +23,3 @@ class attack(base_attack.base_attack):
             if (this.attributes["range"] <= 0) or world.out_of_bounds(this.X, this.Y) or (not world.map[this.X][this.Y][3]):
                     # Hit something or out of range.
                     world.to_del.append(this)
-       
-    def color(this):
-        return display.BLUE
-    

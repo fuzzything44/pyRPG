@@ -7,7 +7,8 @@ from objects.Player import attack
 from objects.Loot import chest
 from objects.Loot import money
 from objects.General import enemy_base
-from spells import spell
+from objects import world_object
+from objects.Tutorial import attack
 
 class boss(enemy_base.enemy_base):
     def __init__(this, posX, posY):
@@ -58,7 +59,7 @@ class boss(enemy_base.enemy_base):
                 diffY = -1
             else:
                 diffY = int(not not diffY)
-            world.objects.append(obj_maker.make(attack, this.X + diffX, this.Y + diffY, {"movex" : diffX, "movey" : diffY, "damage" : this.attributes["damage"], "range" : this.attributes["range"], "speed" : 250, "to_move" : 125, "owner" : this}))
+            world.objects.append(attack.boss_attack(this.X + diffX, this.Y + diffY, diffX, diffY, this.attributes["damage"], this.attributes["range"], 250, this))
         
         # Update effects.
         eff_del_list = []
@@ -72,7 +73,7 @@ class boss(enemy_base.enemy_base):
             del this.attributes["effects"][to_del]
         del eff_del_list
         if this.attributes["HP"] <= 0:
-            die()
+            this.die()
             world.load("tutorial.boss-killed")
             world.objects = [world.player] + world.objects
             world.player.X = 10

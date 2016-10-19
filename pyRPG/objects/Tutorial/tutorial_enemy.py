@@ -6,6 +6,9 @@ import world
 from objects.General import enemy_base
 
 class enemy(enemy_base.enemy_base):   
+    def __init__(this, posX, posY):
+        super().__init__(posX, posY, 1, 1, 1)
+
     # Deals some damage...
     def collide(this, oth):
         if "HP" in oth.attributes:
