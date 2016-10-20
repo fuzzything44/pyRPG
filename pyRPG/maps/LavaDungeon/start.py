@@ -12,15 +12,14 @@ def generate():
     world.objects.clear()
     world.map = [[ [display.WHITE, display.BLACK, '.', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
 
-    world.objects.append(obj_maker.make(LavaDungeon.lava, 0, 0))
-    world.objects.append(obj_maker.make(portal, 0, 10, {"newmap" : "town", "locx" : 25, "locy": 10, "used": False}))
-    world.objects.append(obj_maker.make(portal, 25, 10, {"newmap" : "lavadungeon.1", "locx" : 25, "locy" : 10, "used" : False}))
-    world.objects.append(obj_maker.make(LavaDungeon.enemy, 15, 7))
-    world.objects.append(obj_maker.make(LavaDungeon.enemy, 43, 5))
-    world.objects.append(obj_maker.make(LavaDungeon.enemy, 35, 15))
-    npc_attrs = copy.deepcopy(npc.attributes)
-    npc_attrs["text"] = "Hello, adventurer.\nA warning before you enter\n the volcano:\nIt contains an\n ancient deadly beast.\nThere is no escape\n from the volcano before\n the beast is slain."
-    world.objects.append(obj_maker.make(npc, 23, 9, npc_attrs))
+    world.objects.append(LavaDungeon.lava.lava())
+    world.objects.append(portal.portal(0, 10, "town", 25, 10))
+    world.objects.append(portal.portal(25, 10, "lavadungeon.1", 25, 10))
+    world.objects.append(LavaDungeon.enemy.generic_enemy(15, 7))
+    world.objects.append(LavaDungeon.enemy.generic_enemy(43, 5))
+    world.objects.append(LavaDungeon.enemy.generic_enemy(35, 15))
+    npc_text = "Hello, adventurer.\nA warning before you enter\n the volcano:\nIt contains an\n ancient deadly beast.\nThere is no escape\n from the volcano before\n the beast is slain."
+    world.objects.append(npc.npc(23, 9, npc_text))
 
     world.map[0][0] =  [display.WHITE, display.BLACK, '#', False]
     world.map[1][0] =  [display.WHITE, display.BLACK, '#', False]

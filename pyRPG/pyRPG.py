@@ -8,7 +8,7 @@ from objects import Player
 
 #makemaps.make_from_file('maps/LavaDungeon/map2.txt', 'maps/LavaDungeon/map2.py')
 
-makemaps.make("+tutorial +town +stonedungeon")
+makemaps.make("all")
 
 display.start()
 main_menu.start()

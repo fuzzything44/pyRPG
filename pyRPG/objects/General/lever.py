@@ -21,7 +21,7 @@ class lever(world_object.world_object):
 
     def update(this, delta_time):
         if display.keyDown(ord('E')) and (this.attributes["can_pull"]): # If they pulled the lever...
-            if (world.player.X == this.X - 1) and (this.attributes["mode"] != MODE_LEFT): # They're to the left, not already max left
+            if (world.player.X == this.X - 1) and (this.attributes["mode"] != this.MODE_LEFT): # They're to the left, not already max left
                 this.attributes["can_pull"] = False
                 this.attributes["mode"] -= 1
                 if this.attributes["mode"] == 0: # It was pulled to the left
@@ -32,7 +32,7 @@ class lever(world_object.world_object):
                         this.attributes["on_left"](this)
                     else:
                         this.attributes["on_mid"](this)
-            if (world.player.X == this.X + 1) and (this.attributes["mode"] != MODE_RIGHT): # They're to the right, not already max right.
+            if (world.player.X == this.X + 1) and (this.attributes["mode"] != this.MODE_RIGHT): # They're to the right, not already max right.
                 this.attributes["can_pull"] = False
                 this.attributes["mode"] += 1
                 if this.attributes["mode"] == 2:
@@ -50,11 +50,11 @@ class lever(world_object.world_object):
         return display.YELLOW
     
     def char(this):
-        if this.attributes["mode"] == MODE_LEFT:
+        if this.attributes["mode"] == lever.MODE_LEFT:
             return "\\"
-        if this.attributes["mode"] == MODE_MID:
+        if this.attributes["mode"] == lever.MODE_MID:
             return "|"
-        if this.attributes["mode"] == MODE_RIGHT:
+        if this.attributes["mode"] == lever.MODE_RIGHT:
             return "/"
         return "\0"
     

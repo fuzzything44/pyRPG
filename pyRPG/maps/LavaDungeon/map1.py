@@ -8,14 +8,14 @@ from objects.General import portal
 def generate():
     world.objects.clear()
     world.map = [[ [display.WHITE, display.BLACK, '.', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    world.objects.append(obj_maker.make(LavaDungeon.lava, 0, 0))
-    world.objects.append(obj_maker.make(LavaDungeon.enemy, 3, 16, {"HP" :  1000000, "effects" : {}, "mov_spd" : 0, "atk_spd" : 100, "damage" : 10, "range_min" : 5, "range_max" : 5, "aggro_range" : 10000, "EXP" : 0, "money" : 0, "attack" : None}))
-    world.objects.append(obj_maker.make(LavaDungeon.enemy, 11, 16, {"HP" : 1000000, "effects" : {}, "mov_spd" : 0, "atk_spd" : 100, "damage" : 10, "range_min" : 7, "range_max" : 8, "aggro_range" : 10000, "EXP" : 0, "money" : 0, "attack" : None}))
-    world.objects.append(obj_maker.make(LavaDungeon.enemy, 19, 16, {"HP" : 1000000, "effects" : {}, "mov_spd" : 0, "atk_spd" : 100, "damage" : 10, "range_min" : 3, "range_max" : 9, "aggro_range" : 10000, "EXP" : 0, "money" : 0, "attack" : None}))
-    world.objects.append(obj_maker.make(LavaDungeon.enemy, 27, 16, {"HP" : 1000000, "effects" : {}, "mov_spd" : 0, "atk_spd" : 100, "damage" : 10, "range_min" : 2, "range_max" : 5, "aggro_range" : 10000, "EXP" : 0, "money" : 0, "attack" : None}))
-    world.objects.append(obj_maker.make(LavaDungeon.enemy, 35, 16, {"HP" : 1000000, "effects" : {}, "mov_spd" : 0, "atk_spd" : 100, "damage" : 10, "range_min" : 5, "range_max" : 7, "aggro_range" : 10000, "EXP" : 0, "money" : 0, "attack" : None}))
-    world.objects.append(obj_maker.make(LavaDungeon.enemy, 43, 16, {"HP" : 1000000, "effects" : {}, "mov_spd" : 0, "atk_spd" : 100, "damage" : 10, "range_min" : 5, "range_max" : 6, "aggro_range" : 10000, "EXP" : 0, "money" : 0, "attack" : None}))
-    world.objects.append(obj_maker.make(portal, 16, 19, {"newmap" : "lavadungeon.2", "locx" : 16, "locy" : 1, "used" : False}))
+    world.objects.append(LavaDungeon.lava.lava())
+    world.objects.append(LavaDungeon.enemy.generic_enemy(3, 16 , 3, 7, 70))
+    world.objects.append(LavaDungeon.enemy.generic_enemy(11, 16, 3, 7, 70))
+    world.objects.append(LavaDungeon.enemy.generic_enemy(19, 16, 3, 7, 70))
+    world.objects.append(LavaDungeon.enemy.generic_enemy(27, 16, 3, 7, 70))
+    world.objects.append(LavaDungeon.enemy.generic_enemy(35, 16, 3, 7, 70))
+    world.objects.append(LavaDungeon.enemy.generic_enemy(43, 16, 3, 7, 70))
+    world.objects.append(portal.portal(16, 19, "lavadungeon.2", 16, 1))
 
     world.map[0][0] =  [display.WHITE, display.BLACK, '#', False]
     world.map[1][0] =  [display.WHITE, display.BLACK, '#', False]

@@ -175,26 +175,26 @@ def gain_exp(this, amount):
             if this.attributes["class"] == "mage":
                 this.attributes["items"].append(spell.spell(frostshot.manaCost, frostshot.frostshot, frostshot.name, frostshot.icon, frostshot.color))
         if this.attributes["class"] == "warrior":
-            this.attributes["maxHP"] += 15 # Give stats. TODO: Give them based on class
+            this.attributes["maxHP"] += 15 # Give stats.
             this.attributes["maxMP"] += 5
-            this.attributes["mov_spd"] -= 1
-            this.attributes["atk_spd"] -= 2
+            this.attributes["mov_spd"] += 1
+            this.attributes["atk_spd"] += 1
             this.attributes["magic"] += 1
-            this.attributes["strength"] += 4
-        if this.attributes["class"] == "mage":
-            this.attributes["maxHP"] += 5 # Give stats. TODO: Give them based on class
-            this.attributes["maxMP"] += 10
-            this.attributes["mov_spd"] -= 2
-            this.attributes["atk_spd"] -= 2
-            this.attributes["magic"] += 4
-            this.attributes["strength"] += 2
-        if this.attributes["class"] == "thief":
-            this.attributes["maxHP"] += 10  # Give stats. TODO: Give them based on class
-            this.attributes["maxMP"] += 10
-            this.attributes["mov_spd"] -= 4
-            this.attributes["atk_spd"] -= 3
-            this.attributes["magic"] += 2
             this.attributes["strength"] += 3
+        if this.attributes["class"] == "mage":
+            this.attributes["maxHP"] += 5 # Give stats.
+            this.attributes["maxMP"] += 15
+            this.attributes["mov_spd"] += 3
+            this.attributes["atk_spd"] += 3
+            this.attributes["magic"] += 3
+            this.attributes["strength"] += 1
+        if this.attributes["class"] == "thief":
+            this.attributes["maxHP"] += 10  # Give stats.
+            this.attributes["maxMP"] += 10
+            this.attributes["mov_spd"] += 5
+            this.attributes["atk_spd"] += 5
+            this.attributes["magic"] += 2
+            this.attributes["strength"] += 2
 
         this.attributes["HP"] = this.attributes["maxHP"] # HP restore on level
         this.attributes["MP"] = this.attributes["maxMP"] # MP restore on level

@@ -9,13 +9,14 @@ def generate():
     world.objects.clear()
     world.map = [[ [display.RED, display.BLACK, '.', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
 
-    world.objects.append(obj_maker.make(LavaDungeon.lava, 0, 0))
-    world.objects.append(obj_maker.make(General.portal, 16, 0, {"newmap" : "lavadungeon.1", "locx" : 16, "locy" : 18, "used" : False}))
-
-    lever_attrs = {"mode" : 0, "on_left" : LavaDungeon.lever.remove_bridge, "on_right" : LavaDungeon.lever.make_bridge, "can_pull" : True, "2pos" : True}
-    world.objects.append(obj_maker.make(General.lever, 35, 10, lever_attrs))
-    world.objects.append(obj_maker.make(General.lever, 15, 15, lever_attrs))
-    world.objects.append(obj_maker.make(LavaDungeon.lava_enemy, 20, 10))
+    world.objects.append(LavaDungeon.lava.lava())
+    world.objects.append(General.portal.portal(16, 0, "lavadungeon.1", 16, 18))
+    lever1 = LavaDungeon.lever.bridge_lever(35, 10)
+    lever2 = LavaDungeon.lever.bridge_lever(15, 15)
+    lever2.attributes = lever1.attributes
+    world.objects.append(lever1)
+    world.objects.append(lever2)
+    world.objects.append(LavaDungeon.lava_enemy.lava_enemy(20, 10))
 
     world.map[0][0] =  [display.WHITE, display.BLACK, '#', False]
     world.map[1][0] =  [display.WHITE, display.BLACK, '#', False]

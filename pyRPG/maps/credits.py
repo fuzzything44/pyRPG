@@ -4,18 +4,11 @@ import world
 from objects.General import portal
 from objects import world_object
 
-def pchar(this):
-    if this.attributes["used"]:
-        return '\0'
-    return 'o'
-def pcolor(this):
-    return 0
 
 def generate():
     world.objects = []
     world.map = [[ world.WORLD_NOTHING for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
-    port = world_object.world_object(portal.update, portal.collide, pchar, pcolor, portal.type, 33,12,{"newmap": "town", "locx": 0, "locy": 0, "used" : False})
-    world.objects.append(port)
+    world.objects.append(portal.portal(33, 12, "town", 25, 10))
     world.map[5][4] = [display.YELLOW, display.BLACK, 'p', False]
     world.map[6][4] = [display.YELLOW, display.BLACK, 'y', False]
     world.map[7][4] = [display.RED, display.BLACK, 'R', False]
