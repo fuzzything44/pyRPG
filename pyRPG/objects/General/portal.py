@@ -3,7 +3,15 @@ import world
 from objects import world_object
 
 class portal(world_object.world_object):
+    """Brings player into a new map"""
     def __init__(this, posX, posY, newmap, locx, locy):
+        """Parameters:
+            posX: The X position of the portal.
+            poxY: The Y position of the portal.
+            newmap: The new map to bring the player to.
+            locx: The x location to bring the player to.
+            locy: The y location to bring the player to.
+        """
         super().__init__(posX, posY, "portal")
         this.attributes.update({      \
             "newmap" : newmap,  \
@@ -13,6 +21,7 @@ class portal(world_object.world_object):
         })
 
     def collide(this, other):
+        "If collided with player, brings them to the new map."
         if other.type == "player":
             world.load(this.attributes["newmap"])
             world.objects = [world.player] + world.objects

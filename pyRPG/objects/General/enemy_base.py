@@ -8,18 +8,34 @@ from objects.Loot import lootbag
 from objects.Loot import money
 
 class enemy_base(world_object.world_object):
+    """Basic enemy. Checks for death, defines color."""
     def __init__(this, posX, posY, health = 1, damage = 1, exp = 1, money = 0, drops = []):
+        """Parameters:
+            posX: The X position of the enemy.
+            posY: The Y position of the enemy.
+            health: The health of the enemy.
+            damage: How much damage the enemy does.
+            exp: How much EXP is granted to player on death.
+            money: How much money is dropped. Can be up to 10% greater after luck mods.
+            drops: A list of [item, int]. Gives an int percent chance to drop item. 100% drops are unaffected by luck.
+"""
         super().__init__(posX, posY, "enemy")
         this.attributes.update({"HP" : health, "damage" : damage, "EXP" : exp, "money" : money, "items" : drops})
 
     def update(this, delta_time):
+        "Checks if dead. If so, dies"
         if this.attributes["HP"] <= 0:
             this.die()
 
     def color(this):
+        "Returns cyan. DO NOT CHANGE!"
         return display.CYAN
 
+    def char(this):
+        return 'Q'
+
     def die(this):
+        "Deletes this, gives player EXP, drops money, drops items."
         world.to_del.append(this) # Delete
         world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give exp
 
