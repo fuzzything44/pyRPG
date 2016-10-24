@@ -3,6 +3,7 @@ import world
 
 from effects import fire
 
+from objects import world_object
 from objects.Player import attack
 
 class fireball_atk(attack.attack):

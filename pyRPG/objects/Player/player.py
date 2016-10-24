@@ -31,12 +31,12 @@ class player(world_object.world_object):
               "items" : [],                     \
               "class" : "warrior",              \
               "spell" : spell.spell(0, world_object.no_func, ["   ", "   ", "   "], display.WHITE), \
-              "weapon" : item.item("", "weapon", 0, world_object.no_func, world_object.no_func, 1, {"damage" : 1, "range" : 1}),       \
-              "hat" : item.item("", "hat", 0, world_object.no_func, world_object.no_func),             \
-              "shirt" : item.item("", "shirt", 0, world_object.no_func, world_object.no_func),         \
-              "pants" : item.item("", "pants", 0, world_object.no_func, world_object.no_func),         \
-              "ring" : item.item("", "ring", 0, world_object.no_func, world_object.no_func),           \
-              "consumable" : item.item("", "consumable", 0, world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
+              "weapon" : item.item("", "weapon", 0, 1, {"damage" : 1, "range" : 1}),                \
+              "hat" : item.item("", "hat", 0),                                                      \
+              "shirt" : item.item("", "shirt", 0),         \
+              "pants" : item.item("", "pants", 0),         \
+              "ring" : item.item("", "ring", 0),           \
+              "consumable" : item.item("", "consumable", 0, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func}), \
               "mov_spd" : 0,                    # How quickly they move
               "atk_spd" : 0,                    # How quickly they attack
               "can_cast" : True,                 \
@@ -107,14 +107,13 @@ class player(world_object.world_object):
             # Or with our constants in python, time = 500/(1+2.718^(.01x)), which is a nice logistic formula.
     
         # Check for item use
-        if display.keyDown(display.CONST.VK_LSHIFT) and this.attributes["can_item"]:
-            this.attributes["consumable"].attributes["use"](this)
+        if display.keyDown(display.CONST.VK_LSHIFT) and this.attributes["can_item"] and (this.attributes["consumable"].name != "Nothing"):
+            this.attributes["consumable"].use(this)
             this.attributes["can_item"] = False
             this.attributes["consumable"].amount -= 1
             if this.attributes["consumable"].amount == 0:
-                if this.attributes["consumable"].name != "Nothing":
-                    del this.attributes["items"][this.attributes["items"].index(this.attributes["consumable"])]
-                this.attributes["consumable"] = item.item("Nothing", "consumable", 0, world_object.no_func, world_object.no_func, 1, {"icon" : ["   ", "   ", "   "], "color" : 0, "use" : world_object.no_func})
+                del this.attributes["items"][this.attributes["items"].index(this.attributes["consumable"])]
+                this.attributes["consumable"] = item.item("Nothing", "consumable", 0, 1, {"icon" : ["   ", "   ", "   "], "color" : 0})
                 this.attributes["consumable"].draw()
         if not display.keyDown(display.CONST.VK_SHIFT):
             this.attributes["can_item"] = True
@@ -216,9 +215,9 @@ def set_active(type):
         return
 
     if type != "spell": # Spells don't have equip and unequip functions.
-        world.player.attributes[type].unequip(world.player.attributes[type], world.player) # Unequip the old item.
+        world.player.attributes[type].unequip(world.player) # Unequip the old item.
         world.player.attributes[type] = items[choice - 1] # Find the new item
-        world.player.attributes[type].equip(world.player.attributes[type], world.player) # Equip new item
+        world.player.attributes[type].equip(world.player) # Equip new item
     else:
         world.player.attributes[type] = items[choice - 1]
 

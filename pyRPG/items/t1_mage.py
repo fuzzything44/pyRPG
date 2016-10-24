@@ -1,48 +1,23 @@
 from items import item
 
-hat_name = "Magical hat"
-pants_name = "Pants of Power"
-ring_name = "Cubic Zirconium Ring"
-shirt_name = "White shirt"
-weapon_name = "Aluminum wand"
+class t1_mage_hat(item.item):
+    def __init__(this, quantity = 1):
+        super().__init__("Magical hat", "hat", 0, quantity, {"maxMP_mod" : 10})
 
-hat_type = "hat"
-pants_type = "pants"
-ring_type = "ring"
-shirt_type = "shirt"
-weapon_type = "weapon"
+class t1_mage_pants(item.item):
+    def __init__(this, quantity = 1):
+        super().__init__("Pants of Power", "pants", 0, quantity, {"maxMP_mod" : 15})
 
-hat_value = 0
-pants_value = 0
-ring_value = 0
-shirt_value = 0
-weapon_value = 0
+class t1_mage_ring(item.item):
+    def __init__(this, quantity = 1):
+        super().__init__("Cubic Zirconium Ring", "ring", 0, quantity, {"maxMP_mod" : 5, "magic_mod" : 5})
 
-hat_attributes = {\
-    "maxMP_mod" : 10    \
-  }
-pants_attributes = {\
-    "maxMP_mod" : 15    \
-  }
-ring_attributes = {\
-    "maxMP_mod" : 5,    \
-    "magic_mod" : 5,      \
-  }
-shirt_attributes = {\
-    "maxMP_mod" : 25    \
-  }
-weapon_attributes = {\
-    "range" : 7,        \
-    "damage" : 5        \
-  }
+class t1_mage_shirt(item.item):
+    def __init__(this, quantity = 1):
+        super().__init__("White shirt", "shirt", 0, quantity, {"maxMP_mod" : 25})
 
-hat_on_equip = item.reg_equip
-hat_on_unequip = item.reg_unequip
-pants_on_equip = item.reg_equip
-pants_on_unequip = item.reg_unequip
-ring_on_equip = item.reg_equip
-ring_on_unequip = item.reg_unequip
-shirt_on_equip = item.reg_equip
-shirt_on_unequip = item.reg_unequip
-weapon_on_equip = item.reg_equip
-weapon_on_unequip = item.reg_unequip
+class t1_mage_weapon(item.item):
+    def __init__(this, quantity = 1):
+        super().__init__("Aluminum wand", "weapon", 0, quantity, {"range" : 7, "damage" : 5})
+
+

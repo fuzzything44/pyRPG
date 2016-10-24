@@ -48,8 +48,8 @@ class enemy_base(world_object.world_object):
         dropped_items = []
         for drop in this.attributes["items"]:
             # Roll die, see if it drops
-            if randrange(0, 100) < (drop[1] * (1.0 + world.player.attributes["luck"] / 100)):
+            if random.randrange(0, 100) < (drop[1] * (1.0 + world.player.attributes["luck"] / 100)):
                 dropped_items.append(drop[0]) # They got the item!
         if len(dropped_items) > 0:
-            world.objects.append(obj_maker.make(lootbag, this.X, this.Y, {"contents" : dropped_items}))
+            world.objects.append(lootbag.lootbag(this.X, this.Y, dropped_items))
 

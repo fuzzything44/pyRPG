@@ -34,11 +34,11 @@ def generate():
     world.objects.append(bg_changer.bg_changer(15, 5, "warrior", [display.WHITE, display.BLACK, '.', True]))
     world.map[15][1] = [display.YELLOW, display.YELLOW, '@', False] # Chest in house
     war_chest_items = [\
-        item.item(t1_warrior.hat_name   , t1_warrior.hat_type   , t1_warrior.hat_value   , t1_warrior.hat_on_equip   , t1_warrior.hat_on_unequip   , 1, t1_warrior.hat_attributes   ),\
-        item.item(t1_warrior.shirt_name , t1_warrior.shirt_type , t1_warrior.shirt_value , t1_warrior.shirt_on_equip , t1_warrior.shirt_on_unequip , 1, t1_warrior.shirt_attributes ),\
-        item.item(t1_warrior.weapon_name, t1_warrior.weapon_type, t1_warrior.weapon_value, t1_warrior.weapon_on_equip, t1_warrior.weapon_on_unequip, 1, t1_warrior.weapon_attributes),\
-        item.item(t1_warrior.ring_name  , t1_warrior.ring_type  , t1_warrior.ring_value  , t1_warrior.ring_on_equip  , t1_warrior.ring_on_unequip  , 1, t1_warrior.ring_attributes  ),\
-        item.item(t1_warrior.pants_name , t1_warrior.pants_type , t1_warrior.pants_value , t1_warrior.pants_on_equip , t1_warrior.pants_on_unequip , 1, t1_warrior.pants_attributes )\
+        t1_warrior.t1_warrior_hat(),    \
+        t1_warrior.t1_warrior_pants(),  \
+        t1_warrior.t1_warrior_ring(),   \
+        t1_warrior.t1_warrior_shirt(),  \
+        t1_warrior.t1_warrior_weapon()  \
       ]
 
     world.objects.append(chest.chest(15, 2, war_chest_items)) # This chest contains stuff for warriors.
@@ -60,11 +60,11 @@ def generate():
     world.objects.append(bg_changer.bg_changer(20, 16, "mage", [display.WHITE, display.BLACK, '.', True]))
     world.map[24][18] = [display.YELLOW, display.YELLOW, '@', False] # Chest in house
     mage_chest_items = [\
-        item.item(t1_mage.hat_name   , t1_mage.hat_type   , t1_mage.hat_value   , t1_mage.hat_on_equip   , t1_mage.hat_on_unequip   , 1, t1_mage.hat_attributes   ),\
-        item.item(t1_mage.shirt_name , t1_mage.shirt_type , t1_mage.shirt_value , t1_mage.shirt_on_equip , t1_mage.shirt_on_unequip , 1, t1_mage.shirt_attributes ),\
-        item.item(t1_mage.weapon_name, t1_mage.weapon_type, t1_mage.weapon_value, t1_mage.weapon_on_equip, t1_mage.weapon_on_unequip, 1, t1_mage.weapon_attributes),\
-        item.item(t1_mage.ring_name  , t1_mage.ring_type  , t1_mage.ring_value  , t1_mage.ring_on_equip  , t1_mage.ring_on_unequip  , 1, t1_mage.ring_attributes  ),\
-        item.item(t1_mage.pants_name , t1_mage.pants_type , t1_mage.pants_value , t1_mage.pants_on_equip , t1_mage.pants_on_unequip , 1, t1_mage.pants_attributes )\
+        t1_mage.t1_mage_hat(),  \
+        t1_mage.t1_mage_pants(),\
+        t1_mage.t1_mage_ring(), \
+        t1_mage.t1_mage_shirt(),\
+        t1_mage.t1_mage_weapon()\
       ]
     world.objects.append(chest.chest(24, 17, mage_chest_items)) # This chest contains stuff for mages.
     world.objects.append(chest.chest(23, 18, mage_chest_items))
@@ -85,9 +85,9 @@ def generate():
 
     world.map[45][1] = [display.YELLOW, display.YELLOW, '@', False] # Chest in house
     all_chest_items = [\
-        item.item(enemy_info.ring_name , enemy_info.ring_type , enemy_info.ring_value , enemy_info.ring_on_equip , enemy_info.ring_on_unequip , 1, enemy_info.ring_attributes ),\
-        item.item(enemy_info.hat_name  , enemy_info.hat_type  , enemy_info.hat_value  , enemy_info.hat_on_equip  , enemy_info.hat_on_unequip  , 1, enemy_info.hat_attributes  ),\
-        item.item(enemy_info.pants_name, enemy_info.pants_type, enemy_info.pants_value, enemy_info.pants_on_equip, enemy_info.pants_on_unequip, 1, enemy_info.pants_attributes)\
+        enemy_info.info_hat(),  \
+        enemy_info.info_pants(),\
+        enemy_info.info_ring()  \
       ]
     world.objects.append(chest.chest(45, 2, all_chest_items)) # This chest contains stuff for everyone.
     world.objects.append(chest.chest(44, 1, all_chest_items)) # And the interaction on the left...
@@ -107,11 +107,11 @@ def generate():
     world.objects.append(bg_changer.bg_changer(44, 14, "thief", [display.WHITE, display.BLACK, '.', True]))
     world.map[44][18] = [display.YELLOW, display.YELLOW, '@', False] # Chest in house
     thief_chest_items = [\
-        item.item(t1_thief.hat_name   , t1_thief.hat_type   , t1_thief.hat_value   , t1_thief.hat_on_equip   , t1_thief.hat_on_unequip   , 1, t1_thief.hat_attributes   ),\
-        item.item(t1_thief.shirt_name , t1_thief.shirt_type , t1_thief.shirt_value , t1_thief.shirt_on_equip , t1_thief.shirt_on_unequip , 1, t1_thief.shirt_attributes ),\
-        item.item(t1_thief.weapon_name, t1_thief.weapon_type, t1_thief.weapon_value, t1_thief.weapon_on_equip, t1_thief.weapon_on_unequip, 1, t1_thief.weapon_attributes),\
-        item.item(t1_thief.ring_name  , t1_thief.ring_type  , t1_thief.ring_value  , t1_thief.ring_on_equip  , t1_thief.ring_on_unequip  , 1, t1_thief.ring_attributes  ),\
-        item.item(t1_thief.pants_name , t1_thief.pants_type , t1_thief.pants_value , t1_thief.pants_on_equip , t1_thief.pants_on_unequip , 1, t1_thief.pants_attributes )\
+        t1_thief.t1_thief_hat(),    \
+        t1_thief.t1_thief_pants(),  \
+        t1_thief.t1_thief_ring(),   \
+        t1_thief.t1_thief_shirt(),  \
+        t1_thief.t1_thief_weapon()  \
       ]
 
     world.objects.append(chest.chest(43, 18, thief_chest_items)) # This chest contains stuff for thiefs.

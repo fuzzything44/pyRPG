@@ -197,11 +197,11 @@ def new_game():
             # Basic player. Choice will modify it's attributes.
             world.player = player.player(world.WORLD_X // 2, world.WORLD_Y - 3)
 
-            hat =    item.item(start_eq.hat_name   , start_eq.hat_type   , start_eq.hat_value   , start_eq.hat_on_equip   , start_eq.hat_on_unequip   , 1, copy.deepcopy(start_eq.hat_attributes   ))
-            shirt =  item.item(start_eq.shirt_name , start_eq.shirt_type , start_eq.shirt_value , start_eq.shirt_on_equip , start_eq.shirt_on_unequip , 1, copy.deepcopy(start_eq.shirt_attributes ))
-            pants =  item.item(start_eq.pants_name , start_eq.pants_type , start_eq.pants_value , start_eq.pants_on_equip , start_eq.pants_on_unequip , 1, copy.deepcopy(start_eq.pants_attributes ))
-            weapon = item.item(start_eq.weapon_name, start_eq.weapon_type, start_eq.weapon_value, start_eq.weapon_on_equip, start_eq.weapon_on_unequip, 1, copy.deepcopy(start_eq.weapon_attributes))
-            ring =   item.item(start_eq.ring_name  , start_eq.ring_type  , start_eq.ring_value  , start_eq.ring_on_equip  , start_eq.ring_on_unequip  , 1, copy.deepcopy(start_eq.ring_attributes  ))
+            hat =    start_eq.start_hat()
+            shirt =  start_eq.start_shirt()
+            pants =  start_eq.start_pants()
+            weapon = start_eq.start_weapon()
+            ring =   start_eq.start_ring()
             sp = spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon, heal.color)
             pclass = ""
             if not choice: # Choice was 0, so warrior
@@ -214,15 +214,15 @@ def new_game():
             world.player.attributes["class"] = pclass
             world.player.attributes["items"] = [hat, shirt, pants, ring, weapon, sp] # Give them their equips
             world.player.attributes["hat"] = hat
-            hat.equip(hat, world.player)
+            hat.equip(world.player)
             world.player.attributes["shirt"] = shirt
-            shirt.equip(shirt, world.player)
+            shirt.equip( world.player)
             world.player.attributes["pants"] = pants
-            pants.equip(pants, world.player)
+            pants.equip(world.player)
             world.player.attributes["ring"] = ring
-            ring.equip(ring, world.player)
+            ring.equip(world.player)
             world.player.attributes["weapon"] = weapon
-            weapon.equip(weapon, world.player)
+            weapon.equip(world.player)
             world.player.attributes["spell"] = sp
             
 

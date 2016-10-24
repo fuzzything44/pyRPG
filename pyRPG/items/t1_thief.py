@@ -1,51 +1,22 @@
 from items import item
 
-hat_name = "Fedora"
-pants_name = "Skinny Jeans"
-ring_name = "Iron Ring"
-shirt_name = "\"I'm with stupid\" shirt"
-weapon_name = "Orange Mocha Frappuccino"
+class t1_thief_hat(item.item):
+    def __init__(this, quantity = 1):
+        super().__init__("Fedora", "hat", 0, quantity, {"maxHP_mod" : 5, "atk_spd_mod" : 5})
 
-hat_type = "hat"
-pants_type = "pants"
-ring_type = "ring"
-shirt_type = "shirt"
-weapon_type = "weapon"
+class t1_thief_pants(item.item):
+    def __init__(this, quantity = 1):
+        super().__init__("Skinny Jeans", "pants", 0, quantity, {"maxHP_mod" : 10, "mov_spd_mod" : 10})
 
-hat_value = 0
-pants_value = 0
-ring_value = 0
-shirt_value = 0
-weapon_value = 0
+class t1_thief_ring(item.item):
+    def __init__(this, quantity = 1):
+        super().__init__("Iron Ring", "ring", 0, quantity, {"luck_mod" : 5, "str_mod" : 7})
 
-hat_attributes = {\
-    "maxHP_mod" : 5,    \
-    "atk_spd_mod" : 5   \
-  }
-pants_attributes = {\
-    "maxHP_mod" : 10,   \
-    "mov_spd_mod" : 10  \
-  }
-ring_attributes = {\
-    "luck_mod" : 5,     \
-    "str_mod" : 7       \
-  }
-shirt_attributes = {\
-    "maxHP_mod" : 10,   \
-    "luck_mod" : 5      \
-  }
-weapon_attributes = {\
-    "range" : 2,        \
-    "damage" : 7        \
-  }
+class t1_thief_shirt(item.item):
+    def __init__(this, quantity = 1):
+        super().__init__("\"I'm with stupid\" shirt", "shirt", 0, quantity, {"maxHP_mod" : 10, "luck_mod" : 5})
 
-hat_on_equip = item.reg_equip
-hat_on_unequip = item.reg_unequip
-pants_on_equip = item.reg_equip
-pants_on_unequip = item.reg_unequip
-ring_on_equip = item.reg_equip
-ring_on_unequip = item.reg_unequip
-shirt_on_equip = item.reg_equip
-shirt_on_unequip = item.reg_unequip
-weapon_on_equip = item.reg_equip
-weapon_on_unequip = item.reg_unequip
+class t1_thief_weapon(item.item):
+    def __init__(this, quantity = 1):
+        super().__init__("Orange Mocha Frappuccino", "weapon", 0, quantity, {"range" : 2, "damage" : 7})
+

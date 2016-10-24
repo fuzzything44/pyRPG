@@ -2,6 +2,7 @@ import display
 import world
 from effects import frozen
 from objects.Player import attack
+from objects import world_object
 
 class frostshot_atk(attack.attack):
     def collide(this, other):

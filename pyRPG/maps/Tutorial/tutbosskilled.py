@@ -16,7 +16,7 @@ def generate():
     world.objects.append(Tutorial.lava.lava())
     world.objects.append(portal.portal(49, 10, "tutorial.final", 25, 9))
     chest_items = [\
-        item.item(bread.name, bread.type, bread.value, bread.equip, bread.unequip, 5, bread.attributes) \
+        bread.bread(5) \
       ]
     world.objects.append(chest.chest(24, 10, chest_items))
     world.objects.append(chest.chest(26, 10, chest_items))

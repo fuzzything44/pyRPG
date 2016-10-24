@@ -56,6 +56,7 @@ def save_player():
         with open("res/saves/" + save_name + ".plr", "wb") as handle:
             pickle.dump(player, handle)
             pickle.dump(world_name, handle)
+            display.flash()
     except Exception as ex:
         display.printc(20, 10, "Could not save. Press ESC to continue.")
         display.refresh()

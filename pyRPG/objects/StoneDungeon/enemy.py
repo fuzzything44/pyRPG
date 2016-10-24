@@ -7,7 +7,8 @@ from objects.Player import attack
 from objects.Loot import money
 from objects import world_object
 from objects.General import enemy_base
-from spells import spell
+
+from items import bread
 
 class stone_enemy(enemy_base.enemy_base):
     def __init__(this, posX, posY):

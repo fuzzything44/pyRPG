@@ -1,18 +1,14 @@
 import display
 from objects import world_object
+from items import item
 
-type = "consumable"
-equip = world_object.no_func
-unequip = world_object.no_func
-value = 0
+class bread(item.item):
+    def __init__(this, quantity = 1):
+        super().__init__("Bread", "consumable", 0, quantity, {"icon" : ["   ", "(#)", "   "], "color": display.YELLOW})
 
-def use(own):
-    try:
-        own.attributes["HP"] += 5
-    except:
-        pass
-name = "Bread"
-attributes = {"icon" : ["   ", "(#)", "   "], "color": display.YELLOW, "use" : use}
+    def use(this, owner):
+        owner.attributes["HP"] += 5
+
 
 
 
