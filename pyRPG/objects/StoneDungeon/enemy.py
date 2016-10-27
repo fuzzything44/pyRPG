@@ -24,16 +24,6 @@ class stone_enemy(enemy_base.enemy_base):
             if (newX >= 0) and (newX < world.WORLD_X) and (newY >= 0) and (newY < world.WORLD_Y) and (world.map[newX][newY][3]):
                 this.X = newX
                 this.Y = newY
-        eff_del_list = []
-        for eff in this.attributes["effects"]:
-            this.attributes["effects"][eff][0](this, delta_time)       # Tick code
-            this.attributes["effects"][eff][2] -= delta_time           # Lower time
-            if this.attributes["effects"][eff][2] <= 0:                # Remove effect
-                eff_del_list.append(eff)
-        for to_del in eff_del_list:
-            this.attributes["effects"][to_del][1](this)
-            del this.attributes["effects"][to_del]
-        del eff_del_list
         super().update(delta_time)
     
     def collide(this, obj):

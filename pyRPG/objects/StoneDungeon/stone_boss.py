@@ -54,16 +54,7 @@ class stone_boss(enemy_base.enemy_base):
             world.objects.append(attack.shoot_attack(this.X - 1, this.Y    , -1, 0 , this.attributes["damage"], this.attributes["range"], 300, this))
             world.objects.append(attack.shoot_attack(this.X - 1, this.Y + 1, -1, 1 , this.attributes["damage"], this.attributes["range"], 300, this))
             this.attributes["effects"]["atk_del"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
-        eff_del_list = []
-        for eff in this.attributes["effects"]:
-            this.attributes["effects"][eff][0](this, delta_time)       # Tick code
-            this.attributes["effects"][eff][2] -= delta_time           # Lower time
-            if this.attributes["effects"][eff][2] <= 0:                # Remove effect
-                eff_del_list.append(eff)
-        for to_del in eff_del_list:
-            this.attributes["effects"][to_del][1](this)
-            del this.attributes["effects"][to_del]
-        del eff_del_list
+
         if this.attributes["HP"] < this.attributes["lastHP"]:
             diff = this.attributes["lastHP"] - this.attributes["HP"] # Difference in HP between this frame and last frame
             if diff > 10: # Soft damage cap

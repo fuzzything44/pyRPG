@@ -61,7 +61,7 @@ def make_from_file(file_in, file_out):
 
 def make(make_what):
     # World generation
-    if ("+tutorial" in make_what) or (("all" in make_what) and ("-tutorial" not in make_what)):
+    if ("+tutorial " in make_what) or (("+all " in make_what) and ("-tutorial " not in make_what)):
         print("Making tutorial maps", end = "")
         
         Tutorial.start.generate()
@@ -92,14 +92,14 @@ def make(make_what):
         world.save("tutorial.final")
         print(".")
 
-    if ("+town" in make_what) or (("all" in make_what) and ("-town" not in make_what)):
+    if ("+town " in make_what) or (("+all " in make_what) and ("-town " not in make_what)):
         print("Making town", end="")
 
         town.generate()
         world.save("town")
         print(".")
 
-    if ("+stonedungeon" in make_what) or (("all" in make_what) and ("-stonedungeon" not in make_what)):
+    if ("+stonedungeon " in make_what) or (("+all " in make_what) and ("-stonedungeon " not in make_what)):
         print("Making Stone Dungeon", end="")
 
         StoneDungeon.stonboss.generate()
@@ -118,7 +118,7 @@ def make(make_what):
         world.save("stonedungeon.2")
         print(".")
 
-    if ("+lavadungeon" in make_what) or (("all" in make_what) and ("-lavadungeon" not in make_what)):
+    if ("+lavadungeon " in make_what) or (("+all " in make_what) and ("-lavadungeon " not in make_what)):
         print("Making LavaDungeon", end="")
 
         LavaDungeon.start.generate()
@@ -133,7 +133,7 @@ def make(make_what):
         world.save("lavadungeon.2")
         print(".")
 
-    if ("+credits" in make_what) or (("all" in make_what) and ("-credits" not in make_what)):
+    if ("+credits " in make_what) or (("+all " in make_what) and ("-credits " not in make_what)):
         print("Making credits", end="")
 
         credits.generate()
@@ -148,4 +148,4 @@ if __name__ == "__main__":
     print("    stonedungeon")
     print("    lavadungeon")
     print("    credits")
-    make(input())
+    make(input() + " ")

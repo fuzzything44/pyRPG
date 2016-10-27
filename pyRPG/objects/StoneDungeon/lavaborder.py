@@ -14,5 +14,5 @@ class lavaborder(world_object.world_object):
              if this.attributes["sincehit"] > 100:
                  world.player.attributes["HP"] -= 10
                  this.attributes["sincehit"] = 0
-                 world.player.attributes["effects"]["fire"] = [fire.fire, world_object.no_func, 1000]
+                 world.player.attributes["effects"]["fire"] = fire.fire(world.player, 1000, 15)
     

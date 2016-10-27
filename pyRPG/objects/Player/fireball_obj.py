@@ -13,7 +13,7 @@ class fireball_atk(attack.attack):
                 other.attributes["HP"] -= this.attributes["damage"]
                 world.to_del.append(this)
                 if "effects" in other.attributes:
-                    other.attributes["effects"]["fire"] = [fire.fire, world_object.no_func, 1000]
+                    other.attributes["effects"]["fire"] = fire.fire(other, 2500, 10.0)
     
     def color(this):
         return display.RED

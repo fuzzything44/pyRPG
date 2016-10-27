@@ -20,10 +20,22 @@ class enemy_base(world_object.world_object):
             drops: A list of [item, int]. Gives an int percent chance to drop item. 100% drops are unaffected by luck.
 """
         super().__init__(posX, posY, "enemy")
-        this.attributes.update({"HP" : health, "damage" : damage, "EXP" : exp, "money" : money, "items" : drops})
+        this.attributes.update({"HP" : health, "damage" : damage, "EXP" : exp, "money" : money, "items" : drops, "effects" : {}})
 
     def update(this, delta_time):
-        "Checks if dead. If so, dies"
+        "Updates effects. Checks if dead. If so, dies."
+        # Update all effects.
+        eff_del_list = []
+        for eff_name in this.attributes["effects"]:
+            eff = this.attributes["effects"][eff_name]
+            eff.tick(delta_time)  # Tick effect
+            if eff.time <= 0:           # Remove effect
+                eff_del_list.append(eff_name)
+        for eff_name in eff_del_list:
+            this.attributes["effects"][eff_name].uneffect(this)
+            del this.attributes["effects"][eff_name]
+        del eff_del_list
+        # Check if dead.
         if this.attributes["HP"] <= 0:
             this.die()
 

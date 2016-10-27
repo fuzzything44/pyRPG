@@ -1,7 +1,16 @@
-def frozen(obj, delta_time):
-    obj.X = obj.attributes["stuckX"]
-    obj.Y = obj.attributes["stuckY"]
+from effects import effect
 
-def unfreeze(obj):
-    del obj.attributes["stuckX"]
-    del obj.attributes["stuckY"]
+class frozen(effect.effect):
+    def tick(owner, delta_time):
+        if "stuckX" in obj.attributes:
+            obj.X = obj.attributes["stuckX"]
+        else:
+            obj.attributes["stuckX"] = obj.X
+        if "stuckY" in obj.attributes:
+            obj.Y = obj.attributes["stuckY"]
+        else:
+            obj.attributes["stuckY"] = obj.Y
+
+    def uneffect(this, owner):
+        del owner.attributes["stuckX"]
+        del owner.attributes["stuckY"]

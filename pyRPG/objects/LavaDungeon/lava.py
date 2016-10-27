@@ -18,7 +18,7 @@ class lava(world_object.world_object):
         if (world.map[world.player.X][world.player.Y][2] == '#') and (this.attributes["delay_lava"] <= 0):
             world.player.attributes["HP"] -= world.player.attributes["maxHP"]*.1              # Hurt it
             this.attributes["delay_lava"] = 100    # Give invincibility
-            world.player.attributes["effects"]["fire"] = [fire.fire, lambda x: 0, 1000] # Start fire damage
+            world.player.attributes["effects"]["fire"] = fire.fire(world.player, 1000, 15) # Start fire damage
     
         if (world.map[world.player.X][world.player.Y] == [display.RED, display.BLACK, '.', True]) and (this.attributes["delay_coals"] <= 0):
             world.player.attributes["HP"] -= 1  # Hurt it

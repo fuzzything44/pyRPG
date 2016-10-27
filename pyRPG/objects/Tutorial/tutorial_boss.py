@@ -3,6 +3,8 @@ from random import randrange
 import display
 import world
 
+from effects import effect
+
 from objects.Player import attack
 from objects.Loot import chest
 from objects.Loot import money
@@ -43,7 +45,7 @@ class boss(enemy_base.enemy_base):
                 this.Y += 1
             if this.Y == world.WORLD_Y - 1: # Bottom
                 this.Y -= 1
-            this.attributes["effects"]["mov_del"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
+            this.attributes["effects"]["mov_del"] = effect.effect(this, this.attributes["mov_spd"])
         # Attack code
         this.attributes["to_atk"] -= delta_time
         if this.attributes["to_atk"] <= 0:
@@ -61,17 +63,18 @@ class boss(enemy_base.enemy_base):
                 diffY = int(not not diffY)
             world.objects.append(attack.boss_attack(this.X + diffX, this.Y + diffY, diffX, diffY, this.attributes["damage"], this.attributes["range"], 250, this))
         
-        # Update effects.
+        # Update all effects.
         eff_del_list = []
-        for eff in this.attributes["effects"]:
-            this.attributes["effects"][eff][0](this, delta_time)       # Tick code
-            this.attributes["effects"][eff][2] -= delta_time           # Lower time
-            if this.attributes["effects"][eff][2] <= 0:                # Remove effect
-                eff_del_list.append(eff)
-        for to_del in eff_del_list:
-            this.attributes["effects"][to_del][1](this)
-            del this.attributes["effects"][to_del]
+        for eff_name in this.attributes["effects"]:
+            eff = this.attributes["effects"][eff_name]
+            eff.tick(delta_time)  # Tick effect
+            if eff.time <= 0:           # Remove effect
+                eff_del_list.append(eff_name)
+        for eff_name in eff_del_list:
+            this.attributes["effects"][eff_name].uneffect(this)
+            del this.attributes["effects"][eff_name]
         del eff_del_list
+
         if this.attributes["HP"] <= 0:
             this.die()
             world.load("tutorial.boss-killed")

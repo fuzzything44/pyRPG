@@ -16,5 +16,5 @@ class lava(world_object.world_object):
         if (world.map[world.player.X][world.player.Y][2] == '#') and (this.attributes["delay"] <= 0):
             world.player.attributes["HP"] -= 10              # Hurt it
             this.attributes["delay"] = 100    # Give invincibility
-            world.player.attributes["effects"]["fire"] = [fire.fire, lambda x: 0, 1000] # Start fire damage
+            world.player.attributes["effects"]["fire"] = fire.fire(world.player, 1000, 5) # Start fire damage
     

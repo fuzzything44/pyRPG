@@ -1,18 +1,10 @@
-def regen1(obj, delta_time):
-    if ("HP" in obj.attributes) and ("maxHP" in obj.attributes):
-        obj.attributes["HP"] += 1.0 * obj.attributes["magic"] * delta_time / 1000
-        if obj.attributes["HP"] > obj.attributes["maxHP"]:
-            obj.attributes["HP"] = obj.attributes["maxHP"]
+from effects import effect
 
-
-def regen2(obj, delta_time):
-    if ("HP" in obj.attributes) and ("maxHP" in obj.attributes):
-        obj.attributes["HP"] += 2.0  * obj.attributes["magic"] * delta_time / 1000
-        if obj.attributes["HP"] > obj.attributes["maxHP"]:
-            obj.attributes["HP"] = obj.attributes["maxHP"]
-
-def regen3(obj, delta_time):
-    if ("HP" in obj.attributes) and ("maxHP" in obj.attributes):
-        obj.attributes["HP"] += 3.0 * obj.attributes["magic"] * delta_time / 1000
-        if obj.attributes["HP"] > obj.attributes["maxHP"]:
-            obj.attributes["HP"] = obj.attributes["maxHP"]
+class regen(effect.effect):
+    def tick(this, delta_time):
+        super().tick(delta_time)
+        if ("HP" in this.owner.attributes) and ("maxHP" in this.owner.attributes):
+            this.owner.attributes["HP"] += 1.0 * this.owner.attributes["magic"] * delta_time / 1000
+            if this.owner.attributes["HP"] > this.owner.attributes["maxHP"]:
+                this.owner.attributes["HP"] = this.owner.attributes["maxHP"]
+    
