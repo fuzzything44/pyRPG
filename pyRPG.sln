@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "pyRPG", "pyRPG\pyRPG.pyproj", "{AAF65346-0654-4417-A346-CC53F5DCB536}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "pyRPG_Server", "pyRPG_Server\pyRPG_Server.pyproj", "{7AAB0DE1-45AD-4DCA-B29F-230C49ABC818}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AAF65346-0654-4417-A346-CC53F5DCB536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AAF65346-0654-4417-A346-CC53F5DCB536}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AAB0DE1-45AD-4DCA-B29F-230C49ABC818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AAB0DE1-45AD-4DCA-B29F-230C49ABC818}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

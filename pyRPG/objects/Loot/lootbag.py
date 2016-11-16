@@ -5,6 +5,7 @@ from objects.Loot import chest
 
 class lootbag(chest.chest):
     def update(this, delta_time):
+        super().update(delta_time)
         if len(this.attributes["contents"]) == 0:
             world.to_del.append(this)
 

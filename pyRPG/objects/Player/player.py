@@ -207,26 +207,34 @@ def set_active(type):
     for opt in world.player.attributes["items"]:
         if opt.type == type:
             if opt.type == "spell":
-                options.append([opt.name + "(" + str(opt.amount) + ")", world_object.no_func])
+                options.append(opt.name + "(" + str(opt.amount) + ")")
             else:
-                options.append([opt.name +"(" + str(opt.amount) + ")" + opt.attributes["disp_data"], world_object.no_func])
+                options.append(opt.name +"(" + str(opt.amount) + ")" + opt.attributes["disp_data"])
             items.append(opt)
 
     empty_lists = [[] for x in range(len(options) + 1)]
-    choice = display.menu("Set to what?", empty_lists, ["Back", world_object.no_func],  *options)
-    if choice == 0: # They chose back
+    menu = display.menu("Set to what?", "Back", *options)
+    while menu.update() is None:
+        display.refresh()
+
+    if menu.update() == 0: # They chose back
         return
 
     if type != "spell": # Spells don't have equip and unequip functions.
         world.player.attributes[type].unequip(world.player) # Unequip the old item.
-        world.player.attributes[type] = items[choice - 1] # Find the new item
+        world.player.attributes[type] = items[menu.update() - 1] # Find the new item
         world.player.attributes[type].equip(world.player) # Equip new item
     else:
-        world.player.attributes[type] = items[choice - 1]
+        world.player.attributes[type] = items[menu.update() - 1]
 
     
 def inventory_menu():
-    while display.menu("Inventory\nMax HP: Red\nMax MP: Blue\nMovement Speed: Green\nAttack Speed: White\nMagic Power: Cyan\nStrength: Magenta\nLuck: Yellow", [[], ["consumable"], ["weapon"], ["hat"], ["shirt"], ["pants"], ["ring"]], ["Back", world_object.no_func], ["Set Consumable", set_active], ["Set Weapon", set_active], ["Set Hat", set_active], ["Set Shirt", set_active], ["Set Pants", set_active], ["Set Ring", set_active]):
+    while True:
+        menu = display.menu("Inventory\nMax HP: \\frRed\n\\fwMax MP: \\fbBlue\n\\fwMovement Speed: \\fgGreen\n\\fwAttack Speed: White\nMagic Power: \\fcCyan\n\\fwStrength: \\fmMagenta\n\\fwLuck: \\fyYellow", "Back", "Set Consumable", "Set Weapon", "Set Hat", "Set Shirt", "Set Pants", "Set Ring")
+        while menu.update() is None:
+            display.refresh()
+        if menu.update() != 0:
+            set_active([0, "consumable", "weapon", "hat", "shirt", "pants", "ring"][menu.update()])
         # Redraw equip names.
         display.printc(display.WEAPON_X, display.WEAPON_Y, ' ' * 33)
         display.printc(display.WEAPON_X, display.WEAPON_Y, world.player.attributes["weapon"].name[:33])
@@ -238,4 +246,6 @@ def inventory_menu():
         display.printc(display.PANTS_X, display.PANTS_Y, world.player.attributes["pants"].name[:34])
         display.printc(display.RING_X, display.RING_Y, ' ' * 35)
         display.printc(display.RING_X, display.RING_Y, world.player.attributes["ring"].name[:35])
+        if menu.update() == 0:
+            return
  

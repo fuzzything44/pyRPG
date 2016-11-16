@@ -34,14 +34,71 @@ PANTS_Y = 3
 RING_X = 39 + len("Ring:")
 RING_Y = 4
 
-def printc(x, y, ch, color = WHITE, bgcolor = BLACK):
-    "Prints a character at the given location with the given color.\n\nArguments:\nx: The x location to print the character\ny: The y location to print the character\nch: The character to print\ncolor: The color to print the character, default white\n\nBounds: String must end before reaching 79 along x-axis, must be before 24 on y-axis."
-    if (x > 79 - len(ch)) or (y > 24) or (x < 0) or (y < 0):
-        raise Exception("String out of bounds, shorten string or move left. Bounds are <= 79 on right, <= 23 on bottom, and >= 1 on top and left")
-    if ('\n' in ch) or ('\r' in ch):
-        raise Exception("No newlines in strings")
-    mvaddstr(y, x, ch, COLOR_PAIR(color + bgcolor * 8))
-    
+def chr_to_color(chr): # Gets the color corresponding to the given character
+      if chr == 'r':
+         return display.RED
+      if chr == 'g':
+          return display.GREEN
+      if chr == 'b':
+          return display.BLUE
+      if chr == 'c':
+          return display.CYAN
+      if chr == 'm':
+          return display.MAGENTA
+      if chr == 'y':
+          return display.YELLOW
+      return display.WHITE # Just return white if unknown (or w)
+
+def printc(x, y, str, start_color = WHITE, start_bgcolor = BLACK):
+    """Prints a string at the given location with the given color.
+
+Arguments:
+  x: The x location to print the string
+  y: The y location to print the string
+  ch: The string to print
+  start_color: The color to print the string, default white
+  start_bgcolor: The background color for the string, default black.
+
+Special characters:
+  To go on to a new line (and reset x location to given x), use a newline character(\\n).
+  To set the foreground color, use \\fX, where X is the color to set it to.
+  To set the background color, use \\bX, where X is the color to set it to.
+"""
+
+    color   = start_color
+    bgcolor = start_bgcolor
+
+    escaped       = False
+    setting_color = False
+    setting_bg    = False
+
+    move(y, x) # Move to start printing.
+    for chr in str:
+        if escaped: # Set color.
+            if chr == '\\': # Print just the backslash.
+                addstr(chr, COLOR_PAIR(color + bgcolor * 8))
+            elif chr == 'b': # Set background color
+                setting_bg = True
+            elif chr == 'f': # Set foreground color
+                setting_color = True
+            else: # Unknown
+                raise "Unknown escaped character '" + chr + "'."
+            escaped = False
+        elif setting_color:
+            color = chr_to_color(chr)
+            setting_color = False
+        elif setting_bg:
+            bgcolor = chr_to_color(chr)
+            setting_bg = False
+        else:
+            if chr == '\n': # Reset to left position, next col.
+                y += 1
+                move(y, x)
+            elif chr == '\\': # Escape character.
+                escaped = True
+            else: # Regular character.
+                addstr(chr, COLOR_PAIR(color + bgcolor * 8))
+
     
 
 stdscr = None      # Entire screen
@@ -78,181 +135,137 @@ def end():
     endwin()
     exit(0)
 
+current_menu = None
 
-def menu(text, fn_params = [],  *opt_list):
-    """Base menu template.
+class menu:
+    def update(this):
+        """Updates the menu, returns None if no option selected, otherwise returns option."""
+        if this._end_val != -1:
+            return this._end_val
 
-Arguments:
-text: A string containing the introduction text to the menu
-fn_params: A list of lists. fn_params[n] will be the list of arguments to be passed to opt_list[n]'s function if it has one.
-*opt_list: A set of  [string, func] . The string is the displayed option, the func is function called if chosen.
-
-Returns an int corresponding to the option chosen. Min of 0, max of (Num_options - 1)
-"""
-
-    # Intro text stuff.
-    substrs = text.split('\n') # Split their intro text on lines.
-    substrs.append('') # Add spacing line after intro text.
-    line = 5 # Current line to print on
-    while keyDown(ord('E')) or keyDown(CONST.VK_RETURN):
-        pass
-    flushinp()
-    if len(substrs) > 10:
-        raise Exception("Menu Error: Too long of basic description. Be more concise.")
-    for str in substrs:
-        # Cut off strings if too long.
-        str = str[:29]
-        # Append proper spacing
-        str = str + ' ' * (29 - len(str))
-        printc(50,  line, str)
-        line += 1
-    # Finished intro text
-
-
-    # Format their options to be better.
-    # Option class: can print itself, knows how many lines it is
-    class option:
-        def __init__(this, str, func): # str is the given string.
-            this.function = func
-            this.disps = [] # disps is all strings it will display
-            curr_str = ""
-            curr_index = 0 # How far we are along the screen. Can go to 28.
-            curr_color = display.WHITE
-            curr_line = 0
-            
-            setting_color = False
-            for chr in str:
-                if setting_color:
-                    setting_color = False
-                    if chr != '\\': # let them use \\ to just put a regular \
-                        # Add the string. curr_index - len(curr_string) to get the start of the string, not the end.
-                        this.disps.append([curr_index - len(curr_str), curr_line, curr_str, curr_color])
-                        curr_str = "" # Reset string
-                        curr_color = this.get_color(chr) # Set color to what they chose.
-                    else:
-                        curr_str += chr # Add the character to the string
-                        curr_index += 1
-                elif chr == '\\':
-                    setting_color = True
+        display.printc(50, this._cursor, ' ')
+        # Update
+    
+        # Move cursor up
+        if this._can_up:
+            if keyDown(CONST.VK_UP):
+                # Go up in the menu.
+                if this._page_opt == 0: # Top of page
+                    if this._page != 0: # Go to prev page
+                        this._page -= 1
+                        # Redraw page
+                        for i in range(this._opt_start, 50):
+                            display.printc(50, i, ' ' * 29)
+                        linecount = 0
+                        for elem in this._pages[this._page]:
+                            display.printc(51, linecount + this._opt_start, elem)
+                            linecount += elem.count('\n') + 1
+                        # Reset cursor, page loc stuff
+                        this._page_opt = len(this._pages[this._page]) - 1
+                        this._cursor = linecount + this._opt_start - 1 - this._pages[this._page][this._page_opt].count('\n')
+                        this._opt -= 1
                 else:
-                    if chr != '\n':
-                        curr_str += chr # Add the character to the string.
-                        curr_index += 1
-                    if (curr_index == 28) or (chr == '\n'): # Max size or they wanted a new line
-                        this.disps.append([curr_index - len(curr_str), curr_line, curr_str, curr_color])
-                        curr_index = 1 # Add small indent
-                        curr_str = ""
-                        curr_line += 1
-            this.disps.append([curr_index - len(curr_str), curr_line, curr_str, curr_color])
-            this.lines = curr_line + 1 # Amount of lines it takes up.
-            if this.lines > 7: # 7 chosen arbitrarily. It should be enough.
-                raise Exception("Menu Error: Wayyy too long of an option. Really, over 7 lines?!")
-        def disp(this, start_line):
-            for elem in this.disps:
-                # Elements have 4 variables: x location, line, text, color
-                # Elements have to be shifted 51 on X-axis and start_line on Y-axis.
-                display.printc(elem[0] + 51, elem[1] + start_line, elem[2], elem[3]) 
-
-        def get_color(this, chr): # Gets the color corresponding to the given character
-              if chr == 'r':
-                 return display.RED
-              if chr == 'g':
-                  return display.GREEN
-              if chr == 'b':
-                  return display.BLUE
-              if chr == 'c':
-                  return display.CYAN
-              if chr == 'm':
-                  return display.MAGENTA
-              if chr == 'y':
-                  return display.YELLOW
-              return display.WHITE # Just return white if unknown (or w)
-        
-
-    # Turn strings in opt_list to options
-    PAGE_SIZE = 26 - line # Max options in a page
-    pages = [[]] # List of pages, contains list of options.
-    linecount = 0 # How many lines all our options take up.
-    for opt in opt_list: 
-        optn = option(opt[0], opt[1]) # Create option from their string
-        if linecount + optn.lines >= PAGE_SIZE: # If overflow of page
-            pages.append([]) # New page
-            linecount = 0 # Haven't used any of it.
-        pages[-1].append(optn) # Add option
-        linecount += optn.lines
-        
-    curr_page = 0
-    choice = 0
-    menu_min = line # Can't go farther up than this.
-
-    # Display first page
-    # Start by clearing area.
-    for index in range(menu_min, 25):
-        display.printc(50, index, ' ' * 29)
-    for optn in pages[curr_page]: # Display everything
-        optn.disp(line)
-        line += optn.lines
-
-    # Draw cursor
-    printc(50, menu_min, '>')
-    cursor_loc = menu_min
-    can_W = True
-    can_S = True
-    while True:
-        refresh()
-        if (keyDown(ord('W')) or keyDown(CONST.VK_UP)) and can_W:
-            if choice > 0:
-                printc(50, cursor_loc, ' ')
-                choice -= 1
-                cursor_loc -= pages[curr_page][choice].lines
-                printc(50, cursor_loc, '>')
-            elif curr_page > 0: # They can go to a lesser page
-                curr_page -= 1 # Go to prev page
-                cursor_loc = menu_min
-                for index in range(menu_min, 25): # Clear menu area
-                    display.printc(50, index, ' ' * 29)
-                for optn in pages[curr_page]: # Display everything
-                    optn.disp(cursor_loc)
-                    cursor_loc += optn.lines
-                choice = len(pages[curr_page]) - 1
-                cursor_loc -= pages[curr_page][-1].lines
-                display.printc(50, cursor_loc, '>')
-
-            can_W = False
-        if not (keyDown(ord('W')) or keyDown(CONST.VK_UP)):
-            can_W = True
-
-        if (keyDown(ord('S')) or keyDown(CONST.VK_DOWN)) and can_S:
-            if choice < len(pages[curr_page]) - 1:
-                printc(50, cursor_loc, ' ')
-                cursor_loc += pages[curr_page][choice].lines
-                choice += 1
-                printc(50, cursor_loc, '>')
-            elif len(pages) - 1 > curr_page:
-                curr_page += 1 # Go to prev page
-                cursor_loc = menu_min
-                for index in range(menu_min, 25): # Clear menu area
-                    display.printc(50, index, ' ' * 29)
-                for optn in pages[curr_page]: # Display everything
-                    optn.disp(cursor_loc)
-                    cursor_loc += optn.lines
-                choice = 0
-                cursor_loc = menu_min
-                display.printc(50, cursor_loc, '>')
-
-            can_S = False
-        if not (keyDown(ord('S')) or keyDown(CONST.VK_DOWN)):
-            can_S = True
-        if (keyDown(CONST.VK_RETURN)) or (keyDown(ord('E'))):
-            # Clear menu area
-            for i in range(20): # Clear menu
-                printc(50, i + 5, ' ' * 29)
-            # Call function
-            pages[curr_page][choice].function(*fn_params[choice])
-            while (keyDown(ord('E')) or keyDown(CONST.VK_RETURN)):
+                    this._page_opt -= 1 # Track previous option
+                    # Move cursor up proper amount of lines
+                    this._cursor -= this._pages[this._page][this._page_opt].count('\n') + 1
+                    this._opt -= 1      # Select previous option.
+                this._can_up = False
+        elif not keyDown(CONST.VK_UP):
+            this._can_up = True
+    
+        # Move cursor down
+        if this._can_down:
+            if keyDown(CONST.VK_DOWN):
+                # Go down in the menu.
+                if this._page_opt == len(this._pages[this._page]) - 1: # Top of page
+                    if this._page != len(this._pages) - 1: # Go to next page
+                        this._page += 1
+                        # Redraw page
+                        for i in range(this._opt_start, 50):
+                            display.printc(50, i, ' ' * 29)
+                        linecount = 0
+                        for elem in this._pages[this._page]:
+                            display.printc(51, linecount + this._opt_start, elem)
+                            linecount += elem.count('\n') + 1
+                        # Reset cursor, page loc stuff
+                        this._cursor = this._opt_start
+                        this._page_opt = 0
+                        this._opt += 1
+    
+                else:
+                    # Move cursor up proper amount of lines
+                    this._cursor += this._pages[this._page][this._page_opt].count('\n') + 1
+                    this._page_opt += 1 # Track next option
+                    this._opt += 1      # Select previous option.
+                this._can_down = False
+        elif not keyDown(CONST.VK_DOWN):
+            this._can_down = True
+    
+        if keyDown(CONST.VK_RETURN):
+            while keyDown(CONST.VK_RETURN):
                 pass
-            # Since non-uniform page length, must add all page sizes to get what they chose
-            opt_chosen = 0
-            for index in range(curr_page):
-                opt_chosen += len(pages[index]) # Add length of page
-            return opt_chosen + choice
+            this._end_val = this._opt
+            for i in range(5, 25):
+                display.printc(50, i, ' ' * 29)
+            return this._opt
+        # Redraw cursor
+        display.printc(50, this._cursor, '>')
+    
+    def redraw(this):
+        # Redraws menu
+        # Clear right pane
+        for i in range(5, 25):
+            display.printc(50, i, ' ' * 29)
+        printc(50, 5, this._text) # Redraw description
+
+        # Redraw current options.
+        linecount = 0
+        for elem in this._pages[this._page]:
+            display.printc(51, linecount + this._opt_start, elem)
+            linecount += elem.count('\n') + 1
+
+    def __init__(this, text, *opt_list):
+        """Starts a menu.
+    
+    Arguments:
+    text: A string containing the introduction text to the menu
+    *opt_list: A list of strings as options to display.
+    
+    Begins by displaying the text and initializing for future updatethis.() calls.
+    """
+        this._cursor    = 0     # Where cursor is currently
+        this._pages     = [[]]  # All pages of options.
+        this._opt_start = 0     # Top place cursor/options can go.
+        this._page      = 0     # What page we're on
+        this._opt       = 0     # What option we're on.
+        this._page_opt  = 0     # Where we are on the page.
+        this._can_up    = True  # They can go up
+        this._can_down  = True  # They can go down
+        this._end_val   = -1    # Not finished yet
+        this._text      = text
+        if text.count('\n') > 10: # Count lines of text
+            raise BaseException("Menu Error: Too long of basic description. Be more concise.")
+    
+        printc(50, 5, text)
+        
+        this._opt_start = 7 + text.count('\n') # What line we're printing on for options. 5 (start) + 1 (description) + extra description lines
+            # + 1 (blank space after description)
+    
+        # Turn strings in opt_list to options
+        PAGE_SIZE = 26 - this._opt_start # Max lines in a page
+        pages = [[]] # List of pages, contains list of options.
+        linecount = 0 # How many lines all our options take up so far.
+    
+        for opt in opt_list: 
+            if linecount + opt.count('\n') + 1 >= PAGE_SIZE: # If overflow of page
+                pages.append([]) # New page
+                linecount = 0 # Haven't used any of it.
+            pages[-1].append(opt) # Add option
+            if len(pages) == 1: # Only print first page
+                display.printc(51, linecount + this._opt_start, opt)
+            linecount += opt.count('\n') + 1
+    
+    
+        this._pages   = pages
+        this._cursor  = this._opt_start
+    

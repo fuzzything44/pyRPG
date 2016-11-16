@@ -30,37 +30,37 @@ class item:
                 disp_str += " Range " + str(this.attributes["range"]) + " " # Add range
                 disp_str += "Damage " + str(this.attributes["damage"]) + " " # Add damage
             if "maxHP_mod" in this.attributes:
-                disp_str += "\\r("
+                disp_str += "\\fr("
                 if this.attributes["maxHP_mod"] >= 0:
                     disp_str += "+"
                 disp_str += str(this.attributes["maxHP_mod"]) + ")"
             if "maxMP_mod" in this.attributes:
-                disp_str += "\\b("
+                disp_str += "\\fb("
                 if this.attributes["maxMP_mod"] >= 0:
                     disp_str += "+"
                 disp_str += str(this.attributes["maxMP_mod"]) + ")"
             if "mov_spd_mod" in this.attributes:
-                disp_str += "\\g("
+                disp_str += "\\fg("
                 if this.attributes["mov_spd_mod"] >= 0:
                     disp_str += "+"
                 disp_str += str(this.attributes["mov_spd_mod"]) + ")"
             if "atk_spd_mod" in this.attributes:
-                disp_str += "\\w("
+                disp_str += "\\fw("
                 if this.attributes["atk_spd_mod"] >= 0:
                     disp_str += "+"
                 disp_str += str(this.attributes["atk_spd_mod"]) + ")"
             if "magic_mod" in this.attributes:
-                disp_str += "\\c("
+                disp_str += "\\fc("
                 if this.attributes["magic_mod"] >= 0:
                     disp_str += "+"
                 disp_str += str(this.attributes["magic_mod"]) + ")"
             if "str_mod" in this.attributes:
-                disp_str += "\\m("
+                disp_str += "\\fm("
                 if this.attributes["str_mod"] >= 0:
                     disp_str += "+"
                 disp_str += str(this.attributes["str_mod"]) + ")"
             if "luck_mod" in this.attributes:
-                disp_str += "\\y("
+                disp_str += "\\fy("
                 if this.attributes["luck_mod"] >= 0:
                     disp_str += "+"
                 disp_str += str(this.attributes["luck_mod"]) + ")"

@@ -300,7 +300,7 @@ def help_menu():
     display.printc(2, 15, "is lava. Stepping on it hurts!")
     display.printc(0, 16, ';', display.GREEN)
     display.printc(2, 16, "is a common ground tile. It does nothing special.")
-    display.printc(0, 17, "| \ /", display.YELLOW)
+    display.printc(0, 17, "| \\\\ /", display.YELLOW)
     display.printc(6, 17, "are levers. Stand next to it and press E to pull it. What does it do?")
 
     display.printc(0, 20, "These are common trends and there are objects that break these trends.")
@@ -318,12 +318,14 @@ def help_menu():
 
 def start():
     """Gives the main menu option to load a file, create a new file, or exit"""
+
     display.printc(28, 10, "Welcome to pyRPG!")
-    display.printc(30, 11, ">Load a file")
-    display.printc(31, 12, "New game")
-    display.printc(31, 13, "Exit game")
-    display.printc(28, 15, "Press H for help")
+    display.printc(30, 11,   ">Load a file")
+    display.printc(31, 12,    "New game")
+    display.printc(31, 13,    "Exit game")
+    display.printc(28, 15,    "Press H for help")
     display.refresh()
+
     opt = 0
     while True:
 
@@ -379,10 +381,10 @@ def start():
             help_menu()
             display.clear()
             display.printc(28, 10, "Welcome to pyRPG!")
-            display.printc(31, 11, "Load a file")
-            display.printc(31, 12, "New game")
-            display.printc(31, 13, "Exit game")
-            display.printc(28, 15, "Press H for help")
+            display.printc(31, 11,    "Load a file")
+            display.printc(31, 12,    "New game")
+            display.printc(31, 13,    "Exit game")
+            display.printc(28, 15,    "Press H for help")
             display.printc(30, opt + 11, '>')
             display.refresh()
 

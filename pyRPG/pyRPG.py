@@ -84,9 +84,22 @@ while True: # Main game loop
                 display.printc(obj.X, obj.Y + 5, world.map[obj.X][obj.Y][2], world.map[obj.X][obj.Y][0])
             world.objects.remove(obj)
         if display.keyDown(display.CONST.VK_ESCAPE):
-            while display.menu("Options:", [[], [], ["spell"], [], []], ["Resume", lambda: 0], ["Inventory", Player.player.inventory_menu], ["Spells", Player.player.set_active], ["Save", world.save_player], ["Exit", display.end]):
-                world.player.attributes["spell"].draw()
-                world.player.attributes["consumable"].draw()
+            menu = display.menu("Options:", "Resume", "Inventory", "Spells", "Save", "Exit")
+            while menu.update() is None: # Blocking operation for main menu
                 display.refresh()
+            if menu.update() == 1: # Inventory
+                Player.player.inventory_menu()
+            elif menu.update() == 2: # Spells
+                Player.player.set_active("spell")
+            elif menu.update() == 3: # Save
+                world.save_player()
+            elif menu.update() == 4:
+                exit(0)
+            
+            world.player.attributes["spell"].draw()
+            world.player.attributes["consumable"].draw()
+            if display.current_menu is not None: # Redraw old menu.
+                display.current_menu.redraw()
+            display.refresh()
     except Exception as ex:
         pass
