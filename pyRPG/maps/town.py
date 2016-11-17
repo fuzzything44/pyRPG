@@ -18,7 +18,11 @@ def generate():
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
     world.objects.append(portal.portal(49, 10, "stonedungeon.start", 2, 10))
     world.objects.append(General.level_portal.level_portal(25, 0, "lavadungeon.start", 2, 10, 5))
-    world.objects.append(General.npc.npc(43, 4, "Hello! Welcome to pyRPG!\nI would suggest entering the\n portal to the right.\nIt leads to the\n Forgotten Catacombs."))
+    dialogue_tree = General.npc.dialogue_tree()
+    dialogue_tree.add_node("start", General.npc.node("Hello! Welcome to pyRPG!\nI would suggest entering the\n portal to the right.\nIt leads to the\n Forgotten Catacombs.", ("What's above?", "lavadungeon_info"), ("Bye", "exit")))
+    dialogue_tree.add_node("lavadungeon_info", General.npc.node("That's the collapsed volcano.\n In it lives a great beast.\n It is quite dangerous, I \n would not recommend entering.", ("What's to the right?", "start"), ("Bye", "exit")))
+    dialogue_tree.add_exit("exit", 0)
+    world.objects.append(General.npc.npc(43, 4, dialogue_tree))
 
     # Upper left. This is the WARRIOR house
     for x in range(10,20): # Make walls

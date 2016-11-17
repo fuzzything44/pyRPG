@@ -9,6 +9,8 @@ from objects.Loot import chest
 from objects import world_object
 from objects.General import enemy_base
 
+from effects import effect
+
 class stone_boss(enemy_base.enemy_base):
     def __init__(this, posX, posY):
         super().__init__(posX, posY, 1000.0, 30, 50, 20, [])
@@ -42,7 +44,8 @@ class stone_boss(enemy_base.enemy_base):
                 this.Y += 1
             if this.Y == world.WORLD_Y - 1: # Bottom
                 this.Y -= 1
-            this.attributes["effects"]["mov_del"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
+            this.attributes["effects"]["mov_del"] = effect.effect(this, this.attributes["mov_spd"])
+
         if not ("atk_del" in this.attributes["effects"]):
             # Attack!
             world.objects.append(attack.shoot_attack(this.X + 1, this.Y - 1, 1 , -1, this.attributes["damage"], this.attributes["range"], 300, this))
@@ -53,7 +56,7 @@ class stone_boss(enemy_base.enemy_base):
             world.objects.append(attack.shoot_attack(this.X - 1, this.Y - 1, -1, -1, this.attributes["damage"], this.attributes["range"], 300, this))
             world.objects.append(attack.shoot_attack(this.X - 1, this.Y    , -1, 0 , this.attributes["damage"], this.attributes["range"], 300, this))
             world.objects.append(attack.shoot_attack(this.X - 1, this.Y + 1, -1, 1 , this.attributes["damage"], this.attributes["range"], 300, this))
-            this.attributes["effects"]["atk_del"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
+            this.attributes["effects"]["atk_del"] = effect.effect(this, this.attributes["atk_spd"])
 
         if this.attributes["HP"] < this.attributes["lastHP"]:
             diff = this.attributes["lastHP"] - this.attributes["HP"] # Difference in HP between this frame and last frame

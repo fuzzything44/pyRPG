@@ -19,7 +19,10 @@ def generate():
     world.objects.append(LavaDungeon.enemy.generic_enemy(43, 5))
     world.objects.append(LavaDungeon.enemy.generic_enemy(35, 15))
     npc_text = "Hello, adventurer.\nA warning before you enter\n the volcano:\nIt contains an\n ancient deadly beast.\nThere is no escape\n from the volcano before\n the beast is slain."
-    world.objects.append(npc.npc(23, 9, npc_text))
+    npc_diag = npc.dialogue_tree()
+    npc_diag.add_node("start", npc.node(npc_text, ("Oh no!", "exit")))
+    npc_diag.add_exit("exit", 0)
+    world.objects.append(npc.npc(23, 9, npc_diag))
 
     world.map[0][0] =  [display.WHITE, display.BLACK, '#', False]
     world.map[1][0] =  [display.WHITE, display.BLACK, '#', False]

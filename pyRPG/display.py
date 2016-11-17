@@ -74,6 +74,8 @@ Special characters:
 
     move(y, x) # Move to start printing.
     for chr in str:
+        if getyx(stdscr)[1] < x:      # We wrapped to a new line.
+            return                    # Just ignore the rest of the string
         if escaped: # Set color.
             if chr == '\\': # Print just the backslash.
                 addstr(chr, COLOR_PAIR(color + bgcolor * 8))
@@ -205,8 +207,7 @@ class menu:
             while keyDown(CONST.VK_RETURN):
                 pass
             this._end_val = this._opt
-            for i in range(5, 25):
-                display.printc(50, i, ' ' * 29)
+            this.clear()
             return this._opt
         # Redraw cursor
         display.printc(50, this._cursor, '>')
@@ -214,8 +215,7 @@ class menu:
     def redraw(this):
         # Redraws menu
         # Clear right pane
-        for i in range(5, 25):
-            display.printc(50, i, ' ' * 29)
+        this.clear()
         printc(50, 5, this._text) # Redraw description
 
         # Redraw current options.
@@ -246,6 +246,7 @@ class menu:
         if text.count('\n') > 10: # Count lines of text
             raise BaseException("Menu Error: Too long of basic description. Be more concise.")
     
+        this.clear()        # Clear so that menu is drawn nicely
         printc(50, 5, text)
         
         this._opt_start = 7 + text.count('\n') # What line we're printing on for options. 5 (start) + 1 (description) + extra description lines
@@ -268,4 +269,8 @@ class menu:
     
         this._pages   = pages
         this._cursor  = this._opt_start
+
+    def clear(this):
+        for i in range(5, 25):
+            display.printc(50, i, ' ' * 30)
     

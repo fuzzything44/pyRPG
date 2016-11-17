@@ -16,6 +16,8 @@ class chest(world_object.world_object):
             # Update menu
             if this.attributes["open"]:
                 if display.current_menu.update() is not None: # They chose something
+                    if this.attributes["contents"] == []:     # Nothing in chest
+                        return
                     #  So add to their stock or create new one.
                     if this.attributes["contents"][display.current_menu.update()] in world.player.attributes["items"]:
                         # Get their item location
@@ -41,9 +43,9 @@ class chest(world_object.world_object):
                         display.current_menu = display.menu("An empty chest.", "No items to remove")
                     this.attributes["open"] = True
 
-        elif this.attributes["open"]:             # Not colliding but opened.
-            display.current_menu = None           # Remove menu
+        elif this.attributes["open"]:           # Not colliding but opened.
+            display.current_menu.clear()        # Clear right pane
+            display.current_menu = None         # Remove menu
             this.attributes["open"] = False
-            for i in range(5, 25):                # Clear right pane
-                display.printc(50, i, ' ' * 29)
+            
 
