@@ -52,6 +52,13 @@ while True: # Main game loop
         # Clear out deletion list for next update
         world.to_del.clear()
 
+        if display.current_menu is None:
+            for i in range(5, display.sidebar_line):
+                display.printc(50, i, ' ' * 29)
+            display.sidebar_line = 5
+        else:
+            display.sidebar_line = 24
+
         # Loop through all objects. Update and redraw all of them.
         for index in range(len(world.objects)):
             obj = world.objects[index]
@@ -76,6 +83,9 @@ while True: # Main game loop
                 # And now redraw it
                 display.printc(obj.X, obj.Y + 5, obj.char(), obj.color(), world.map[obj.X][obj.Y][1])
         if new_map_loaded:
+            if display.current_menu is not None:    # End menu on new map load, don't want extra stuff left over.
+                display.current_menu.clear()
+                display.current_menu = None
             continue
         # Delete objects that need to be deleted.
         for obj in set(world.to_del): # Set to remove duplicates

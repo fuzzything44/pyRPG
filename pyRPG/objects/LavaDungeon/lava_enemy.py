@@ -14,6 +14,8 @@ from spells import spell
 from objects.LavaDungeon import attack
 from objects.General import enemy_base
 
+from effects import effect
+
 class lava_enemy(enemy_base.enemy_base):
     def __init__(this, posX, posY):
         super().__init__(posX, posY, 150.0, 25, 17, 0, []) # TODO: Add actual drop
@@ -47,14 +49,14 @@ class lava_enemy(enemy_base.enemy_base):
                     this.Y += 1
                 if this.Y == world.WORLD_Y - 1: # Bottom
                     this.Y -= 1
-                this.attributes["effects"]["mov_del"] = [world_object.no_func, world_object.no_func, this.attributes["mov_spd"]]
+                this.attributes["effects"]["mov_del"] = effect.effect(this, this.attributes["mov_spd"])
    
         super().update(delta_time)
 
     def collide(this, obj):
         if obj.type == "player" and ("del_atk" not in this.attributes["effects"]):
             obj.attributes["HP"] -= this.attributes["damage"]
-            this.attributes["effects"]["del_atk"] = [world_object.no_func, world_object.no_func, this.attributes["atk_spd"]]
+            this.attributes["effects"]["del_atk"] = effect.effect(this, this.attributes["mov_spd"])
     
     def char(this):
       return 'S'

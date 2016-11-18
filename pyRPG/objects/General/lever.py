@@ -64,7 +64,7 @@ class lever(world_object.world_object):
     def char(this):
         "Returns a character corresponding to the position the lever is in."
         if this.attributes["mode"] == lever.MODE_LEFT:
-            return "\\"
+            return "\\\\"
         if this.attributes["mode"] == lever.MODE_MID:
             return "|"
         if this.attributes["mode"] == lever.MODE_RIGHT:

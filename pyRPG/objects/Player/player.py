@@ -121,6 +121,12 @@ class player(world_object.world_object):
             this.attributes["can_item"] = True
     
         # Update all effects.
+        eff_printed = 0
+        if display.sidebar_line < 10:   # Must have room to show some effects
+            display.printc(50, display.sidebar_line, "Effects:")
+            eff_printed = display.sidebar_line
+            display.sidebar_line += 1
+
         eff_del_list = []
         for eff_name in this.attributes["effects"]:
             eff = this.attributes["effects"][eff_name]
@@ -131,6 +137,11 @@ class player(world_object.world_object):
             this.attributes["effects"][eff_name].uneffect(this)
             del this.attributes["effects"][eff_name]
         del eff_del_list
+
+        if eff_printed == display.sidebar_line - 1:
+            display.printc(50, display.sidebar_line, " No effects")
+            display.sidebar_line += 1
+
         if this.attributes["HP"] <= 0: #TODO: Actually have things happen when you die.
             display.printc(33, 9,  "+++++++++++++", display.RED)
             display.printc(33, 10, "+ You DIED! +", display.RED)

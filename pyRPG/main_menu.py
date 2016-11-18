@@ -43,7 +43,7 @@ def load_game():
     can_up = True
     can_down = True
     while True: # Now loop and wait for a choice
-        if (display.keyDown(ord('W')) or display.keyDown(display.CONST.VK_UP)) and can_up:
+        if (display.keyDown(ord('Q')) or display.keyDown(display.CONST.VK_UP)) and can_up:
             # Go up 1.
             display.printc(9, choice, ' ') # Remove old arrow
             if choice == 0: # Already at top of page. 
@@ -61,9 +61,9 @@ def load_game():
             display.printc(9, choice, '>') # Redraw arrow
             display.refresh() # Refresh screen
             can_up = False
-        if not (display.keyDown(ord('W')) or display.keyDown(display.CONST.VK_UP)):
+        if not (display.keyDown(ord('Q')) or display.keyDown(display.CONST.VK_UP)):
             can_up = True
-        if (display.keyDown(ord('S')) or display.keyDown(display.CONST.VK_DOWN)) and can_down:
+        if (display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_DOWN)) and can_down:
             # Go down 1.
             display.printc(9, choice, ' ') # Remove old arrow
             if choice == len(pages[curr_page]) - 1: # Already at bottom of page. 
@@ -83,12 +83,12 @@ def load_game():
             display.printc(9, choice, '>') # Redraw arrow
             display.refresh() # Refresh screen
             can_down = False
-        if not (display.keyDown(ord('S')) or display.keyDown(display.CONST.VK_DOWN)):
+        if not (display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_DOWN)):
             can_down = True
 
         # TODO: Possibly let them easily skip through pages with AD and left/right arrow keys
     
-        if display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_RETURN):
+        if display.keyDown(display.CONST.VK_RETURN):
             file = pages[curr_page][choice]
             world.load_player(file)
             return
@@ -152,7 +152,7 @@ def new_game():
     display.refresh()
     while True:
         # Check for choice down/up
-        if display.keyDown(ord('W')) or display.keyDown(display.CONST.VK_UP):
+        if display.keyDown(ord('Q')) or display.keyDown(display.CONST.VK_UP):
             # Redraw current box in white
             display.printc(box_left, box_start + choice * box_size, box)
             display.printc(box_left, box_start + choice * box_size + 1, text_list[choice])
@@ -170,9 +170,9 @@ def new_game():
             # Refresh display
             display.refresh()
             # Wait for release
-            while display.keyDown(ord('W')) or display.keyDown(display.CONST.VK_UP):
+            while display.keyDown(ord('Q')) or display.keyDown(display.CONST.VK_UP):
                 pass
-        if display.keyDown(ord('S')) or display.keyDown(display.CONST.VK_DOWN):
+        if display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_DOWN):
             # Redraw current box in white
             display.printc(box_left, box_start + choice * box_size, box)
             display.printc(box_left, box_start + choice * box_size + 1, text_list[choice])
@@ -189,11 +189,11 @@ def new_game():
             # Refresh display
             display.refresh()
             # Wait for release
-            while display.keyDown(ord('S')) or display.keyDown(display.CONST.VK_DOWN):
+            while display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_DOWN):
                 pass
 
         # Check if they chose an option
-        if display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_RETURN):
+        if display.keyDown(display.CONST.VK_RETURN):
             # Basic player. Choice will modify it's attributes.
             world.player = player.player(world.WORLD_X // 2, world.WORLD_Y - 3)
 
@@ -234,10 +234,10 @@ def new_game():
 def help_menu():
     display.clear()
     display.printc(0, 0,  "pyRPG is a real-time terminal based RPG")
-    display.printc(0, 4,  "In a menu, use either the UP ARROW key or the W key to move your cursor up")
-    display.printc(0, 5,  "Use either the DOWN ARROW key or the S key to move your cursor down")
-    display.printc(0, 6,  "Use either the ENTER key or the E key to select the current option")
-    display.printc(0, 9,  "In game controls:")
+    display.printc(0, 4,  "In a menu, use either the UP ARROW key or the Q key to move your cursor up")
+    display.printc(0, 5,  "Use either the DOWN ARROW key or the E key to move your cursor down")
+    display.printc(0, 6,  "Use ENTER to select the current option")
+    display.printc(0, 9,  "Character controls:")
     display.printc(0, 10, "Use WASD to move and IJKL to attack directionally")
     display.printc(0, 11, "Press SPACE to cast your current spell, set in the Spell menu")
     display.printc(0, 12, "Press LEFT SHIFT to use your item, set in the Consumable menu of your inventory")
@@ -293,7 +293,7 @@ def help_menu():
 
     display.printc(0, 11, "Common Symbols:")
     display.printc(0, 12, "@", display.YELLOW)
-    display.printc(2, 12, "is a chest. Stand next to it and press E to open!")
+    display.printc(2, 12, "is a chest. Stand next to to see what it holds!")
     display.printc(0, 13, "# is a wall. Walls block movement of the player, attacks, and enemies.")
     display.printc(0, 14, ". is a common ground tile. It does nothing special.")
     display.printc(0, 15, "#", display.RED)
@@ -301,7 +301,7 @@ def help_menu():
     display.printc(0, 16, ';', display.GREEN)
     display.printc(2, 16, "is a common ground tile. It does nothing special.")
     display.printc(0, 17, "| \\\\ /", display.YELLOW)
-    display.printc(6, 17, "are levers. Stand next to it and press E to pull it. What does it do?")
+    display.printc(6, 17, "are levers. Stand next to it and press ENTER to pull it. What does it do?")
 
     display.printc(0, 20, "These are common trends and there are objects that break these trends.")
     display.printc(0, 21, "However, they hold true for most objects that you will encounter.")
@@ -330,7 +330,7 @@ def start():
     while True:
 
         # Move cursor up if w or up key pressed
-        if display.keyDown(ord('W')) or display.keyDown(display.CONST.VK_UP):
+        if display.keyDown(ord('Q')) or display.keyDown(display.CONST.VK_UP):
             # Clear old cursor
             display.printc(30, opt + 11, ' ')
             opt -= 1
@@ -340,11 +340,11 @@ def start():
             display.printc(30, opt + 11, '>')
             display.refresh()      
             # Wait for release
-            while display.keyDown(ord('W')) or display.keyDown(display.CONST.VK_UP):
+            while display.keyDown(ord('Q')) or display.keyDown(display.CONST.VK_UP):
                 pass
 
         # Move cursor down if s or down key pressed
-        if display.keyDown(ord('S')) or display.keyDown(display.CONST.VK_DOWN):
+        if display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_DOWN):
             # Clear old cursor
             display.printc(30, opt + 11, ' ')
             opt += 1
@@ -354,13 +354,13 @@ def start():
             display.printc(30, opt + 11, '>')
             display.refresh()      
             # Wait for release
-            while display.keyDown(ord('S')) or display.keyDown(display.CONST.VK_DOWN):
+            while display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_DOWN):
                 pass
 
         # If they have e or enter pressed, they chose an option.
-        if display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_RETURN):
+        if display.keyDown(display.CONST.VK_RETURN):
             # Wait for key release
-            while display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_RETURN):
+            while display.keyDown(display.CONST.VK_RETURN):
                 pass
             if opt == 0:
                 load_game()

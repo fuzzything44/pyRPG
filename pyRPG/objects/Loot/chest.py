@@ -30,8 +30,6 @@ class chest(world_object.world_object):
 
                     this.attributes["open"] = False # Close chest
                     display.current_menu = None
-                    for i in range(5, 25): # Clear right pane
-                        display.printc(50, i, ' ' * 29) 
             else:
                 if display.current_menu is None: # We can actually make it
                     option_list = []
@@ -39,9 +37,11 @@ class chest(world_object.world_object):
                         option_list.append(item.name)
                     if option_list != []:
                         display.current_menu = display.menu("A Chest!", *option_list)
-                    else:
-                        display.current_menu = display.menu("An empty chest.", "No items to remove")
-                    this.attributes["open"] = True
+                        this.attributes["open"] = True
+
+                    elif display.sidebar_line < 24:
+                        display.printc(50, display.sidebar_line, "An empty chest.")
+                        display.sidebar_line += 1
 
         elif this.attributes["open"]:           # Not colliding but opened.
             display.current_menu.clear()        # Clear right pane

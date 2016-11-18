@@ -137,6 +137,7 @@ def end():
     endwin()
     exit(0)
 
+sidebar_line = 5
 current_menu = None
 
 class menu:
@@ -150,7 +151,7 @@ class menu:
     
         # Move cursor up
         if this._can_up:
-            if keyDown(CONST.VK_UP):
+            if keyDown(CONST.VK_UP) or keyDown(ord('Q')):
                 # Go up in the menu.
                 if this._page_opt == 0: # Top of page
                     if this._page != 0: # Go to prev page
@@ -172,12 +173,12 @@ class menu:
                     this._cursor -= this._pages[this._page][this._page_opt].count('\n') + 1
                     this._opt -= 1      # Select previous option.
                 this._can_up = False
-        elif not keyDown(CONST.VK_UP):
+        elif not (keyDown(CONST.VK_UP) or keyDown(ord('Q'))):
             this._can_up = True
     
         # Move cursor down
         if this._can_down:
-            if keyDown(CONST.VK_DOWN):
+            if keyDown(CONST.VK_DOWN) or keyDown(ord('E')):
                 # Go down in the menu.
                 if this._page_opt == len(this._pages[this._page]) - 1: # Top of page
                     if this._page != len(this._pages) - 1: # Go to next page
@@ -200,7 +201,7 @@ class menu:
                     this._page_opt += 1 # Track next option
                     this._opt += 1      # Select previous option.
                 this._can_down = False
-        elif not keyDown(CONST.VK_DOWN):
+        elif not (keyDown(CONST.VK_DOWN) or keyDown(ord('E'))):
             this._can_down = True
     
         if keyDown(CONST.VK_RETURN):
