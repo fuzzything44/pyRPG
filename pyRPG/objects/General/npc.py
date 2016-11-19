@@ -92,6 +92,7 @@ class npc(world_object.world_object):
             if this.attributes["needs_reset"]:
                 this.attributes["needs_reset"] = False
                 this.attributes["dialogue"].reset()
+                this.attributes["talking"] = False
             if this.attributes["talking"]:
                 this.attributes["talking"] = False
                 this.attributes["dialogue"].pause()

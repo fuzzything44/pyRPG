@@ -24,48 +24,43 @@ class item:
         this.attributes = attr
         this.type = type
         if "disp_data" not in this.attributes: # They gave no default display data. Make it.
-            disp_str = "" # Go through all default modifiers and add them to the string.
+            disp_str = ""   # Go through all default modifiers and add them to the string.
+            str_len = 0     # Current number of characters in item name on this line
+            maxlen = 25     # Max allowed per line
+            str_len += len(this.name) # Add length of name.
+
             if this.type == "weapon":
                 # It's a weapon, so we need to show range and damage
-                disp_str += " Range " + str(this.attributes["range"]) + " " # Add range
-                disp_str += "Damage " + str(this.attributes["damage"]) + " " # Add damage
-            if "maxHP_mod" in this.attributes:
-                disp_str += "\\fr("
-                if this.attributes["maxHP_mod"] >= 0:
-                    disp_str += "+"
-                disp_str += str(this.attributes["maxHP_mod"]) + ")"
-            if "maxMP_mod" in this.attributes:
-                disp_str += "\\fb("
-                if this.attributes["maxMP_mod"] >= 0:
-                    disp_str += "+"
-                disp_str += str(this.attributes["maxMP_mod"]) + ")"
-            if "mov_spd_mod" in this.attributes:
-                disp_str += "\\fg("
-                if this.attributes["mov_spd_mod"] >= 0:
-                    disp_str += "+"
-                disp_str += str(this.attributes["mov_spd_mod"]) + ")"
-            if "atk_spd_mod" in this.attributes:
-                disp_str += "\\fw("
-                if this.attributes["atk_spd_mod"] >= 0:
-                    disp_str += "+"
-                disp_str += str(this.attributes["atk_spd_mod"]) + ")"
-            if "magic_mod" in this.attributes:
-                disp_str += "\\fc("
-                if this.attributes["magic_mod"] >= 0:
-                    disp_str += "+"
-                disp_str += str(this.attributes["magic_mod"]) + ")"
-            if "str_mod" in this.attributes:
-                disp_str += "\\fm("
-                if this.attributes["str_mod"] >= 0:
-                    disp_str += "+"
-                disp_str += str(this.attributes["str_mod"]) + ")"
-            if "luck_mod" in this.attributes:
-                disp_str += "\\fy("
-                if this.attributes["luck_mod"] >= 0:
-                    disp_str += "+"
-                disp_str += str(this.attributes["luck_mod"]) + ")"
-            this.attributes["disp_data"] = disp_str # Add string to disp mod.
+                range_str= " Range " + str(this.attributes["range"]) + " " # Add range
+                if str_len + len(range_str) > maxlen:   # Too long right now
+                    disp_str += "\n "                   # Add new line
+                    str_len = 1                         # 1 because space is a char.
+                disp_str += range_str
+                str_len += len(range_str)
 
+                damage_str= "Damage " + str(this.attributes["damage"]) + " " # Add damage
+                if str_len + len(damage_str) > maxlen:   # Too long right now
+                    disp_str += "\n "                   # Add new line
+                    str_len = 1                         # 1 because space is a char.
+                disp_str += damage_str
+                str_len += len(damage_str)
+
+            mod_types = ["maxHP_mod", "maxMP_mod", "mov_spd_mod", "atk_spd_mod", "magic_mod", "str_mod", "luck_mod"]
+            mod_colors = 'rbgwcmy'
+
+            for mod in mod_types:
+                if mod in this.attributes:
+                    disp_str += "\\f" + mod_colors[mod_types.index(mod)]
+                    mod_str = '('
+                    if this.attributes[mod] >= 0:
+                        mod_str += '+'
+                    mod_str += str(this.attributes[mod]) + ')'
+                    if str_len + len(mod_str) > maxlen:
+                        disp_str += "\n "
+                        str_len = 1
+                    disp_str += mod_str
+                    str_len += len(mod_str)
+            this.attributes["disp_data"] = disp_str
     def __lt__(self, other):
         return self.name < other
     
