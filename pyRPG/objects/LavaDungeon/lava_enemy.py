@@ -18,7 +18,7 @@ from effects import effect
 
 class lava_enemy(enemy_base.enemy_base):
     def __init__(this, posX, posY):
-        super().__init__(posX, posY, 150.0, 25, 17, 0, []) # TODO: Add actual drop
+        super().__init__(posX, posY, 150.0, 25, 17, 0, [[bread.bread(3), 100]]) # TODO: Add actual drop
         this.attributes.update({\
               "effects" : {},   \
               "mov_spd" : 800,  \

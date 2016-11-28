@@ -9,9 +9,10 @@ from objects import world_object
 
 class freeze(effect.effect):
     def __init__(this, owner):
-        super().__init__(owner, 1)
+        super().__init__(owner, float("inf"), "Frostball")
 
     def tick(this, delta_time):
+        super().tick(delta_time)
         if display.keyDown(ord('I')) and (not world.out_of_bounds(this.owner.X, this.owner.Y - 1)):
             world.objects.append(frostshot_obj.frostshot_atk(this.owner.X, this.owner.Y - 1, 0, -1, 1.25*this.owner.attributes["magic"], 7, 100, this.owner))
             this.time = 0 

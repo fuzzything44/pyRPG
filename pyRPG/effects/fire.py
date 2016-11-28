@@ -2,7 +2,7 @@ from effects import effect
 
 class fire(effect.effect):
     def __init__(this, owner, duration, dps = 15.0):
-        super().__init__(owner, duration)
+        super().__init__(owner, duration, "Literally on fire")
         this.damage = dps
 
     def tick(this, delta_time):

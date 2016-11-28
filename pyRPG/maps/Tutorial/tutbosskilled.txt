@@ -1,5 +1,6 @@
 ; = [display.GREEN, display.BLACK, ';', True]
 # = [display.RED, display.RED, '#', True]
+@ = [display.YELLOW, display.YELLOW, '@', False]
 end;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -8,16 +9,17 @@ end;
 ;;;;;;#;;;;;;;;;You killed the boss!;;;;;;;#;;;;;;
 ;;;;;;;;;#;Pick up items from the chest;#;;;;;;;;;
 ;;;;;;;;;;;;;#By standing next to it#;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;#And pressing 'E'#;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;#;;;;;;;;;;;;;;;;#;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;#;;;;;;;;;;#;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;@;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;#;;;;;;;;;;#;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;#;;;;;;;;;;;;;;;;#;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;#;;Then, decide what;;;#;;;;;;;;;;;;;
 ;;;;;;;;;#you want to take and choose it#;;;;;;;;;
-;;;;;;#;;;;Finally, in the menu, set it;;;;#;;;;;;
-;;##;;;;;;;under the "Inventory" option;;;;;;;##;;
-;;##;;;Press LEFT SHIFT to use your current;;;##;;
+;;;;;;#;Choose with UP and DOWN or Q and E;#;;;;;;
+;;##;;;;;;Press ENTER to take your choice;;;;;##;;
+;;##;;Then set your consumable at Inventory;;;##;;
+;;;;;;;Press LEFT SHIFT to use your current;;;;;;;
 ;;;;;consumable. Make sure you don't run out!;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

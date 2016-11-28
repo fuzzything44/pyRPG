@@ -9,7 +9,7 @@ class effect():
 
     def tick(this, delta_time):
         this.time -= delta_time
-        if this.name is not None and display.sidebar_line < 15: # Only show the first few effects.
+        if this.owner.type == "player" and this.name is not None and display.sidebar_line < 15: # Only show the first few effects.
             time_left = "Inf"
             if this.time < float("inf"):
                 time_left = str(int(this.time/1000))

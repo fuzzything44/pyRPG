@@ -32,7 +32,7 @@ class lever(world_object.world_object):
     def update(this, delta_time):
         "Checks if player is pulling it and if they're at the correct side of it."
         if display.keyDown(ord('E')) and (this.attributes["can_pull"]): # If they pulled the lever...
-            if (world.player.X == this.X - 1) and (this.attributes["mode"] != this.MODE_LEFT): # They're to the left, not already max left
+            if (world.player.X == this.X - 1) and (world.player.Y == this.Y) and (this.attributes["mode"] != this.MODE_LEFT): # They're to the left, not already max left
                 this.attributes["can_pull"] = False
                 this.attributes["mode"] -= 1
                 if this.attributes["mode"] == 0: # It was pulled to the left
@@ -43,7 +43,7 @@ class lever(world_object.world_object):
                         this.attributes["on_left"](this)
                     else:
                         this.attributes["on_mid"](this)
-            if (world.player.X == this.X + 1) and (this.attributes["mode"] != this.MODE_RIGHT): # They're to the right, not already max right.
+            if (world.player.X == this.X + 1) and (world.player.Y == this.Y) and (this.attributes["mode"] != this.MODE_RIGHT): # They're to the right, not already max right.
                 this.attributes["can_pull"] = False
                 this.attributes["mode"] += 1
                 if this.attributes["mode"] == 2:
@@ -56,6 +56,9 @@ class lever(world_object.world_object):
                         this.attributes["on_mid"](this) # It was pulled to the mid.
         if not display.keyDown(ord('E')):
             this.attributes["can_pull"] = True
+            if (world.player.X == this.X - 1 or world.player.X == this.X + 1) and world.player.Y == this.Y and display.sidebar_line < 29:
+                display.printc(50, display.sidebar_line, "Press E to pull lever")
+                display.sidebar_line += 1
        
     def color(this):
         "Returns green"
