@@ -6,8 +6,7 @@
     <ProjectGuid>7aab0de1-45ad-4dca-b29f-230c49abc818</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>pyRPG_Server.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <SearchPath>..\pyRPG\</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>pyRPG_Server</Name>
@@ -22,7 +21,17 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="display.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="map.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="multiplayer.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="pyRPG_Server.py" />
+    <Compile Include="world.py" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

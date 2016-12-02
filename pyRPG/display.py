@@ -140,6 +140,21 @@ def end():
 sidebar_line = 5
 current_menu = None
 
+def draw_topbar():
+    # Print top pane
+    printc(5, 0, "HP:")
+    printc(5, 1, "MP:")
+    printc(5, 2, "Gold:")
+    printc(5, 3, "Level")
+    
+    # Current spell and item border
+    printc(SPELL_BOX_START, 0, "+++++ +++++   Weapon:")
+    printc(SPELL_BOX_START, 1, "+   + +   +   Hat:"   )
+    printc(SPELL_BOX_START, 2, "+   + +   +   Shirt:" )
+    printc(SPELL_BOX_START, 3, "+   + +   +   Pants:" )
+    printc(SPELL_BOX_START, 4, "+++++ +++++   Ring:"  )
+
+
 class menu:
     def update(this):
         """Updates the menu, returns None if no option selected, otherwise returns option."""

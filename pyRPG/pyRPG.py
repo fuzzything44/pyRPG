@@ -17,18 +17,14 @@ main_menu.start()
 # Print world out
 world.dispworld()
 
-# Print top pane
-display.printc(5, 0, "HP:")
-display.printc(5, 1, "MP:")
-display.printc(5, 2, "Gold:")
-display.printc(5, 3, "Level")
+display.draw_topbar()
 
-# Current spell and item border
-display.printc(display.SPELL_BOX_START, 0, "+++++ +++++   Weapon:" + world.player.attributes["weapon"].name)
-display.printc(display.SPELL_BOX_START, 1, "+   + +   +   Hat:" + world.player.attributes["hat"].name)
-display.printc(display.SPELL_BOX_START, 2, "+   + +   +   Shirt:" + world.player.attributes["shirt"].name)
-display.printc(display.SPELL_BOX_START, 3, "+   + +   +   Pants:" + world.player.attributes["pants"].name)
-display.printc(display.SPELL_BOX_START, 4, "+++++ +++++   Ring:" + world.player.attributes["ring"].name)
+display.printc(display.WEAPON_X, display.WEAPON_Y, world.player.attributes["weapon"].name)
+display.printc(display.HAT_X, display.HAT_Y, world.player.attributes["hat"].name)
+display.printc(display.SHIRT_X, display.SHIRT_Y, world.player.attributes["shirt"].name)
+display.printc(display.PANTS_X, display.PANTS_Y, world.player.attributes["pants"].name)
+display.printc(display.RING_X, display.RING_Y, world.player.attributes["ring"].name)
+
 
 world.player.attributes["spell"].draw()
 world.player.attributes["consumable"].draw()

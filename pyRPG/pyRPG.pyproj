@@ -91,6 +91,9 @@
     <Compile Include="maps\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="multiplayer.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\General\base_attack.py">
       <SubType>Code</SubType>
     </Compile>

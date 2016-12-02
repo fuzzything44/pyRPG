@@ -11,6 +11,8 @@ from objects.Player import player
 from spells import heal
 from spells import spell
 
+import multiplayer
+
 def load_game():
     display.clear()
     # Get all save files
@@ -323,6 +325,7 @@ def start():
     display.printc(30, 11,   ">Load a file")
     display.printc(31, 12,    "New game")
     display.printc(31, 13,    "Exit game")
+    display.printc(31, 14,    "Multiplayer")
     display.printc(28, 15,    "Press H for help")
     display.refresh()
 
@@ -335,7 +338,7 @@ def start():
             display.printc(30, opt + 11, ' ')
             opt -= 1
             if opt < 0:
-                opt = 2
+                opt = 3
             # Redraw for good menu
             display.printc(30, opt + 11, '>')
             display.refresh()      
@@ -348,7 +351,7 @@ def start():
             # Clear old cursor
             display.printc(30, opt + 11, ' ')
             opt += 1
-            if opt > 2:
+            if opt > 3:
                 opt = 0
             # Redraw for good menu
             display.printc(30, opt + 11, '>')
@@ -375,6 +378,9 @@ def start():
                 return
             if opt == 2:
                 display.end() # They chose exit
+            if opt == 3:
+                multiplayer.multiplayer("fuzzything44")
+
 
         # They need help!
         if display.keyDown(ord('H')):
@@ -384,6 +390,7 @@ def start():
             display.printc(31, 11,    "Load a file")
             display.printc(31, 12,    "New game")
             display.printc(31, 13,    "Exit game")
+            display.printc(31, 14,    "Multiplayer")
             display.printc(28, 15,    "Press H for help")
             display.printc(30, opt + 11, '>')
             display.refresh()
