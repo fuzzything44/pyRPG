@@ -5,6 +5,8 @@ from objects import world_object
 import world
 from effects import effect
 
+import pickle
+
 # Key defs
 KEY_W = 0
 KEY_A = 1
@@ -20,6 +22,15 @@ KEY_SHIFT = 8
 KEY_SPACE = 9
 KEY_ENTER = 10
 
+KEY_UP = 11
+KEY_Q = 11
+
+KEY_DOWN = 12
+KEY_E    = 12
+
+# Not actually a key but packed with them. What map they think they're in.
+KEY_MAPID = 13
+
 class player(world_object.world_object):
     """description of class"""
     def __init__(this, posX, posY, sock, addr):
@@ -28,7 +39,8 @@ class player(world_object.world_object):
             "socket" : sock,    \
             "address" : addr,   \
             "timeout" : 0,      \
-            "keys"    : [0] * 11\
+            "current_map" : 0,  \
+            "keys"    : [0] * 13\
          })
         this.attributes.update({                \
               "maxHP" : 100.0,                  \
@@ -68,12 +80,18 @@ class player(world_object.world_object):
                 while select.select([this.attributes["socket"]], [], [], 0) != ([], [], []):
                     this.attributes["socket"].recvfrom(65507)
                 this.attributes["timeout"] = 0
+                if this.attributes["keys"][KEY_MAPID] != this.attributes["current_map"]:
+                    pass# Send map data to player
+                    data = bytearray(2) + pickle.dumps(world.map)
+                    data[0] = 3
+                    data[1] = this.attributes["current_map"]
+                    this.attributes["socket"].sendto(data, this.attributes["address"])
             except ConnectionResetError as ex:
                 world.to_del_plr.append(this)
                 return
         else:
             this.attributes["timeout"] += delta_time
-            if this.attributes["timeout"] > 100000000000000:
+            if this.attributes["timeout"] > 1000:
                 world.to_del_plr.append(this)
                 return
 

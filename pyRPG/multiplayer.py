@@ -2,6 +2,8 @@ import display
 import world
 import socket
 import select
+import pickle
+
 
 def multiplayer(name):
     display.clear()
@@ -16,6 +18,9 @@ def multiplayer(name):
 
     # All coord pairs to overwrite.
     to_overwrite = []
+
+    # ID of current map we're in. Useful for server.
+    current_map = 0
     while True:
         if select.select([sock], [], [], 0) != ([], [], []):
             data, addr = sock.recvfrom(65507)
@@ -39,8 +44,12 @@ def multiplayer(name):
                 pass
             if data[0] == 2: # Probably sidebar?
                 pass
-            if data[0] == 3: # Probably new map?
-                pass
+            if data[0] == 3: # New map
+                current_map = data[1]
+                world.map = pickle.loads(data[2:])
+                world.dispworld()
+                display.refresh()
+
         # Sends what keys are down.
         # Byte  Key
         # 0     W  
@@ -54,7 +63,10 @@ def multiplayer(name):
         # 8     SHIFT 
         # 9     SPACE
         # 10    ENTER
-        to_send = bytearray(11)
+        # 11    Q/UP
+        # 12    E/DOWN
+        # 13    Special: Current map ID. Not actually a key. 
+        to_send = bytearray(14)
         to_send[0] = display.keyDown(ord('W'))
         to_send[1] = display.keyDown(ord('A'))
         to_send[2] = display.keyDown(ord('S'))
@@ -66,5 +78,8 @@ def multiplayer(name):
         to_send[8] = display.keyDown(display.CONST.VK_LSHIFT)
         to_send[9] = display.keyDown(ord(' '))
         to_send[10]= display.keyDown(display.CONST.VK_RETURN)
+        to_send[11]= display.keyDown(ord('Q')) or display.keyDown(display.CONST.VK_UP)
+        to_send[12]= display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_DOWN)
+        to_send[13]= current_map
 
         sock.sendto(to_send, new_addr)

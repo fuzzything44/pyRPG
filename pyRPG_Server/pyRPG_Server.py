@@ -37,7 +37,7 @@ def connector(queue):
             (data, addr) = serversocket.recvfrom(65507) # Receive the data.
             plr_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)   # Socket player connects to.
             plr = multiplayer.player(25, 10, plr_sock, addr)                       # New player object for request.
-            move_requests.append(("start", plr))
+            move_requests.append(("town", plr))
             print("Player connected")
 
         if not queue.empty(): # Some owner input
@@ -78,6 +78,7 @@ def connector(queue):
                 send.put(("add", req[1]))
                 proc.start()
                 maps[name] = [get, send]    # Add map to list
+
 
 
 

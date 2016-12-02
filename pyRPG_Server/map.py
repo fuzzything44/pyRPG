@@ -4,6 +4,9 @@ import world
 
 # Runs the map with the given name and given queues
 def run_map(map_name, get, send):
+
+    world.load(map_name)
+
     print("Map " + map_name + " started")
     start_time = time.time()
     since_start = 0
@@ -19,6 +22,10 @@ def run_map(map_name, get, send):
         if not get.empty():
             message = get.get()
             if message[0] == "add": # We're adding a player
+                message[1].attributes["current_map"] += 1 # Count how many maps a player's been in.
+                if message[1].attributes["current_map"] > 255: # Reset once we get past a byte
+                    message[1].attributes["current_map"] = 1
+
                 world.players.append(message[1])
                 print("Player added to map " + map_name)
         if world.players == []: # No players left

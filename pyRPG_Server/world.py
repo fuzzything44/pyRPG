@@ -24,13 +24,15 @@ def load(name):
     try:
         with open("res/maps/" + name + ".wrld", "rb") as handle:
             map = pickle.load(handle)
-            objects = pickle.load(handle)
+            #objects = pickle.load(handle)
             to_del = []
             world_name = name
-    except:
+    except Exception as ex:
         map = [[ WORLD_NOTHING for y in range(WORLD_Y)] for x in range(WORLD_X)]
         objects = []
         world_name = "default"
+        print("Error loading map " + name)
+        print(ex)
 
 def save_player(index):
     try:
