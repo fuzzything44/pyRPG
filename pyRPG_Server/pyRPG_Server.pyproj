@@ -6,7 +6,8 @@
     <ProjectGuid>7aab0de1-45ad-4dca-b29f-230c49abc818</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>pyRPG_Server.py</StartupFile>
-    <SearchPath>..\pyRPG\</SearchPath>
+    <SearchPath>
+    </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>pyRPG_Server</Name>
@@ -24,14 +25,100 @@
     <Compile Include="display.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="effects\effect.py" />
+    <Compile Include="effects\enemy_info.py" />
+    <Compile Include="effects\fire.py" />
+    <Compile Include="effects\flame.py" />
+    <Compile Include="effects\freeze.py" />
+    <Compile Include="effects\frozen.py" />
+    <Compile Include="effects\regen.py" />
+    <Compile Include="effects\__init__.py" />
+    <Compile Include="items\bread.py" />
+    <Compile Include="items\enemy_info.py" />
+    <Compile Include="items\item.py" />
+    <Compile Include="items\start.py" />
+    <Compile Include="items\t1_mage.py" />
+    <Compile Include="items\t1_thief.py" />
+    <Compile Include="items\t1_warrior.py" />
+    <Compile Include="items\__init__.py" />
     <Compile Include="map.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="maps\__init__.py" />
     <Compile Include="multiplayer.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="objects\General\base_attack.py" />
+    <Compile Include="objects\General\bg_changer.py" />
+    <Compile Include="objects\General\enemy_base.py" />
+    <Compile Include="objects\General\invis_dmg.py" />
+    <Compile Include="objects\General\level_portal.py" />
+    <Compile Include="objects\General\lever.py" />
+    <Compile Include="objects\General\lock_portal.py" />
+    <Compile Include="objects\General\npc.py" />
+    <Compile Include="objects\General\portal.py" />
+    <Compile Include="objects\General\__init__.py" />
+    <Compile Include="objects\Loot\chest.py" />
+    <Compile Include="objects\Loot\lootbag.py" />
+    <Compile Include="objects\Loot\money.py" />
+    <Compile Include="objects\Loot\__init__.py" />
+    <Compile Include="objects\Player\attack.py" />
+    <Compile Include="objects\Player\fireball_obj.py" />
+    <Compile Include="objects\Player\frostshot_obj.py" />
+    <Compile Include="objects\Player\player.py" />
+    <Compile Include="objects\Player\__init__.py" />
+    <Compile Include="objects\world_object.py" />
+    <Compile Include="objects\__init__.py" />
     <Compile Include="pyRPG_Server.py" />
+    <Compile Include="spells\fireball.py" />
+    <Compile Include="spells\first_aid.py" />
+    <Compile Include="spells\frostshot.py" />
+    <Compile Include="spells\heal.py" />
+    <Compile Include="spells\lifesteal.py" />
+    <Compile Include="spells\spell.py" />
+    <Compile Include="spells\__init__.py" />
     <Compile Include="world.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="effects\" />
+    <Folder Include="items\" />
+    <Folder Include="maps\" />
+    <Folder Include="objects\" />
+    <Folder Include="objects\General\" />
+    <Folder Include="objects\Loot\" />
+    <Folder Include="objects\Player\" />
+    <Folder Include="res\" />
+    <Folder Include="res\maps\" />
+    <Folder Include="res\saves\" />
+    <Folder Include="spells\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="res\maps\credits.wrld" />
+    <Content Include="res\maps\lavadungeon.1.wrld" />
+    <Content Include="res\maps\lavadungeon.2.wrld" />
+    <Content Include="res\maps\lavadungeon.start.wrld" />
+    <Content Include="res\maps\stonedungeon.1.wrld" />
+    <Content Include="res\maps\stonedungeon.2.wrld" />
+    <Content Include="res\maps\stonedungeon.boss.wrld" />
+    <Content Include="res\maps\stonedungeon.start.wrld" />
+    <Content Include="res\maps\town.wrld" />
+    <Content Include="res\maps\tutorial.1.wrld" />
+    <Content Include="res\maps\tutorial.2-killed.wrld" />
+    <Content Include="res\maps\tutorial.2.wrld" />
+    <Content Include="res\maps\tutorial.boss-killed.wrld" />
+    <Content Include="res\maps\tutorial.boss.wrld" />
+    <Content Include="res\maps\tutorial.final.wrld" />
+    <Content Include="res\maps\tutorial.start.wrld" />
+    <Content Include="res\saves\A.plr" />
+    <Content Include="res\saves\default.plr" />
+    <Content Include="res\saves\Dood.plr" />
+    <Content Include="res\saves\lavadungeon.start.plr" />
+    <Content Include="res\saves\me.plr" />
+    <Content Include="res\saves\stonedungeon.boss.plr" />
+    <Content Include="res\saves\Tanner.plr" />
+    <Content Include="res\saves\tutorial.boss.plr" />
+    <Content Include="res\saves\tutorial.final.plr" />
+    <Content Include="res\saves\tutorial.start.plr" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -324,8 +324,8 @@ def start():
     display.printc(28, 10, "Welcome to pyRPG!")
     display.printc(30, 11,   ">Load a file")
     display.printc(31, 12,    "New game")
-    display.printc(31, 13,    "Exit game")
-    display.printc(31, 14,    "Multiplayer")
+    display.printc(31, 13,    "Multiplayer")
+    display.printc(31, 14,    "Exit game")
     display.printc(28, 15,    "Press H for help")
     display.refresh()
 
@@ -377,10 +377,17 @@ def start():
                 display.clear()
                 return
             if opt == 2:
-                display.end() # They chose exit
-            if opt == 3:
                 multiplayer.multiplayer("fuzzything44")
-
+                display.clear()
+                display.printc(28, 10, "Welcome to pyRPG!")
+                display.printc(31, 11,    "Load a file")
+                display.printc(31, 12,    "New game")
+                display.printc(31, 13,    "Multiplayer")
+                display.printc(31, 14,    "Exit game")
+                display.printc(28, 15,    "Press H for help")
+                display.refresh()
+            if opt == 3:
+                display.end() # They chose exit
 
         # They need help!
         if display.keyDown(ord('H')):
@@ -389,8 +396,8 @@ def start():
             display.printc(28, 10, "Welcome to pyRPG!")
             display.printc(31, 11,    "Load a file")
             display.printc(31, 12,    "New game")
-            display.printc(31, 13,    "Exit game")
-            display.printc(31, 14,    "Multiplayer")
+            display.printc(31, 13,    "Multiplayer")
+            display.printc(31, 14,    "Exit game")
             display.printc(28, 15,    "Press H for help")
             display.printc(30, opt + 11, '>')
             display.refresh()

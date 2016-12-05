@@ -7,6 +7,8 @@ from effects import effect
 
 import pickle
 
+import struct
+
 # Key defs
 KEY_W = 0
 KEY_A = 1
@@ -40,6 +42,8 @@ class player(world_object.world_object):
             "address" : addr,   \
             "timeout" : 0,      \
             "current_map" : 0,  \
+            "sidebar" : "",     \
+            "current_menu" : None,\
             "keys"    : [0] * 13\
          })
         this.attributes.update({                \
@@ -83,7 +87,7 @@ class player(world_object.world_object):
                 if this.attributes["keys"][KEY_MAPID] != this.attributes["current_map"]:
                     pass# Send map data to player
                     data = bytearray(2) + pickle.dumps(world.map)
-                    data[0] = 3
+                    data[0] = 1
                     data[1] = this.attributes["current_map"]
                     this.attributes["socket"].sendto(data, this.attributes["address"])
             except ConnectionResetError as ex:
@@ -180,6 +184,13 @@ class player(world_object.world_object):
             return display.RED
         return display.WHITE
     
+    # All extra data to be sent. So HP/MP, equip stuff, sidebar stuff.
+    def extra_data(this):
+        hp = struct.pack("!I", int(this.attributes["HP"])) + struct.pack("!I", int(this.attributes["maxHP"]))
+        mp = struct.pack("!I", int(this.attributes["MP"])) + struct.pack("!I", int(this.attributes["maxMP"]))
 
-
-
+        # So we need an int for length and then all the data.
+        sidebar_data = bytearray(this.attributes["sidebar"], 'utf-8')
+        sidebar_len  = struct.pack("!I", len(sidebar_data))
+        
+        return hp + mp + sidebar_len + sidebar_data
