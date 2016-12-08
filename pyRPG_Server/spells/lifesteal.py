@@ -20,6 +20,5 @@ def lifesteal(player):
         if player.attributes["HP"] > player.attributes["maxHP"]:
             player.attributes["HP"] = player.attributes["maxHP"]
 manaCost = 20
-icon = [" ! ", "(X)", " ! "]
-color = display.GREEN
+icon = "\\fg ! \n(X)\n ! "
 name = "Lifesteal"

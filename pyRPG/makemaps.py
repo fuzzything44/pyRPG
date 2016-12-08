@@ -6,6 +6,7 @@ from maps import town
 from maps import credits
 from maps import StoneDungeon
 from maps import LavaDungeon
+from maps import Multiplayer
 
 
 def make_from_file(file_in, file_out):
@@ -140,12 +141,21 @@ def make(make_what):
         world.save("credits")
         print(".")
 
+    if ("+mp.start" in make_what) or (("+mp.all" in make_what) and ("-mp.start" not in make_what)):
+        print("Making mp.start", end="")
+    
+        Multiplayer.start.generate()
+        world.save("multiplayer/start")
+        print(".")
+
 if __name__ == "__main__":
     print("Make what maps?")
-    print("Options:")
+    print("Options: (use +opt_name or +all for all, use -opt_name to exclude from +all)")
     print("    tutorial")
     print("    town")
     print("    stonedungeon")
     print("    lavadungeon")
     print("    credits")
+    print("Multiplayer Options: (add 'mp.' or use +mp.all instead of +all)")
+    print("    start")
     make(input() + " ")

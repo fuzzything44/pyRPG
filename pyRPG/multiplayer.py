@@ -9,6 +9,7 @@ import struct
 def multiplayer(name):
     display.clear()
     display.draw_topbar()
+    display.refresh()
 
     world.map = [[ world.WORLD_NOTHING for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
 
@@ -62,10 +63,31 @@ def multiplayer(name):
                     display.printc(8, 1, str(MP) + "/" + str(maxMP) + "  ")
                     index += 8
 
+                    # Draw level and EXP:
+                    level   = struct.unpack("!I", data[index:index + 4])[0]
+                    exp     = struct.unpack("!I", data[index + 4: index +8])[0]
+                    display.printc(12, 3, str(level))
+                    display.printc(5, 4, str(int(exp)) + " to level        ")
+
+                    index += 8
+
+                    # Print spell box, item box
+                    spell_len = struct.unpack("!I", data[index: index + 4])[0]
+                    index += 4
+                    display.printc(display.SPELL_BOX_START + 1, 1, data[index: index + spell_len].decode('utf-8'))
+                    index += spell_len
+
+                    item_len = struct.unpack("!I", data[index: index + 4])[0]
+                    index += 4
+                    display.printc(display.ITEM_BOX_START + 1, 1, data[index: index + item_len].decode('utf-8'))
+                    index += item_len
+
+                    # TODO: Print equipment
+
                     # Now, we see if we have sidebar stuff to print.
                     # So overwrite previous sidebar
-                    for index in range(sidebar_lines):
-                        display.printc(50, index + 5, ' ' * 30)
+                    for ind in range(sidebar_lines):
+                        display.printc(50, ind + 5, ' ' * 30)
 
                     sidebar_length = struct.unpack("!I", data[index: index + 4])[0]
                     index += 4

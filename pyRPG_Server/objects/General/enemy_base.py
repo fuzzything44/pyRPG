@@ -20,7 +20,7 @@ class enemy_base(world_object.world_object):
             drops: A list of [item, int]. Gives an int percent chance to drop item. 100% drops are unaffected by luck.
 """
         super().__init__(posX, posY, "enemy")
-        this.attributes.update({"HP" : health, "damage" : damage, "EXP" : exp, "money" : money, "items" : drops, "effects" : {}})
+        this.attributes.update({"HP" : health, "damage" : damage, "EXP" : exp, "money" : money, "items" : drops, "effects" : {}, "dmg_dist" : {}})
 
     def update(this, delta_time):
         "Updates effects. Checks if dead. If so, dies."
@@ -49,6 +49,9 @@ class enemy_base(world_object.world_object):
     def die(this):
         "Deletes this, gives player EXP, drops money, drops items."
         world.to_del.append(this) # Delete
+
+        did_most = None
+        
         world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give exp
 
         # Drop money. Dropped is their luck times the drop amount plus 0-10%.

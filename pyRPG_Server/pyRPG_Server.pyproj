@@ -44,12 +44,7 @@
     <Compile Include="map.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="maps\__init__.py" />
-    <Compile Include="multiplayer.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="objects\General\base_attack.py" />
-    <Compile Include="objects\General\bg_changer.py" />
     <Compile Include="objects\General\enemy_base.py" />
     <Compile Include="objects\General\invis_dmg.py" />
     <Compile Include="objects\General\level_portal.py" />
@@ -82,7 +77,6 @@
   <ItemGroup>
     <Folder Include="effects\" />
     <Folder Include="items\" />
-    <Folder Include="maps\" />
     <Folder Include="objects\" />
     <Folder Include="objects\General\" />
     <Folder Include="objects\Loot\" />

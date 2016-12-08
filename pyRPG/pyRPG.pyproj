@@ -78,6 +78,10 @@
     <Compile Include="maps\LavaDungeon\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="maps\Multiplayer\start.py" />
+    <Compile Include="maps\Multiplayer\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="maps\StoneDungeon\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -223,6 +227,7 @@
     <Folder Include="effects\" />
     <Folder Include="maps\" />
     <Folder Include="maps\LavaDungeon\" />
+    <Folder Include="maps\Multiplayer\" />
     <Folder Include="maps\StoneDungeon\" />
     <Folder Include="maps\Tutorial\" />
     <Folder Include="objects\General\" />
@@ -239,6 +244,7 @@
     <Content Include="maps\LavaDungeon\map1.txt" />
     <Content Include="maps\LavaDungeon\map2.txt" />
     <Content Include="maps\LavaDungeon\start.txt" />
+    <Content Include="maps\Multiplayer\start.txt" />
     <Content Include="maps\Tutorial\start.txt" />
     <Content Include="maps\Tutorial\tut1.txt" />
     <Content Include="maps\Tutorial\tut2.txt" />

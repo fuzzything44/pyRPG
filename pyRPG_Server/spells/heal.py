@@ -7,6 +7,5 @@ def heal(player):
             player.attributes["HP"] = player.attributes["maxHP"]
 
 manaCost = 5
-icon = ["\\\\|/", "-+-", "/|\\\\"]
-color = display.WHITE
+icon = "\\\\|/\n-+-\n/|\\\\"
 name = "Heal"

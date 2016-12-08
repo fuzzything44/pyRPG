@@ -24,7 +24,7 @@ def load(name):
     try:
         with open("res/maps/" + name + ".wrld", "rb") as handle:
             map = pickle.load(handle)
-            #objects = pickle.load(handle)
+            objects = pickle.load(handle)
             to_del = []
             world_name = name
     except Exception as ex:

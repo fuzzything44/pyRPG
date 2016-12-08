@@ -22,8 +22,10 @@ class base_attack(world_object.world_object):
         "Checks if collided object is of a different type than spawner. If so, does damage and gets destroyed."
         if (this.attributes["owner"].type != oth.type) and ("HP" in oth.attributes):
             oth.attributes["HP"] -= this.attributes["damage"]
+            if "dmg_dist" in oth.attributes: # Add damage to damage distribution
+                oth.attributes["dmg_dist"][this.attributes["owner"]] += this.attributes["damage"]
+
             world.to_del.append(this)
-    
     def char(this):
         "Always a '!'"
         return '!'

@@ -5,7 +5,7 @@ import world
 # Runs the map with the given name and given queues
 def run_map(map_name, get, send):
     try:
-        world.load(map_name)
+        world.load(map_name.split(';')[0]) # Only load everything before first ;
     
         print("Map " + map_name + " started")
         start_time = time.time()

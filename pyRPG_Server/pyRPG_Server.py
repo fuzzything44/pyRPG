@@ -4,7 +4,7 @@ import socket
 import time
 
 import map as spawn_map
-import multiplayer
+from objects import Player
 
 
 # Returns IP to bind to.
@@ -36,8 +36,8 @@ def connector(queue):
         if can_read != []: # We have some data to process...
             (data, addr) = serversocket.recvfrom(65507) # Receive the data.
             plr_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)   # Socket player connects to.
-            plr = multiplayer.player(25, 10, plr_sock, addr)                       # New player object for request.
-            move_requests.append(("town", plr))
+            plr = Player.player.player(25, 10, plr_sock, addr)            # New player object for request.
+            move_requests.append(("start", plr))
             print("Player connected")
 
         if not queue.empty(): # Some owner input

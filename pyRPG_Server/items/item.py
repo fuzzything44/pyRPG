@@ -80,12 +80,6 @@ class item:
     def __ge__(self, other):
         return self.name >= other
 
-    def draw(this):
-        "Draws the consumable icon. Only needed if it's a consumable"
-        display.printc(display.SPELL_BOX_START + 7, 1, this.attributes["icon"][0], this.attributes["color"])
-        display.printc(display.SPELL_BOX_START + 7, 2, this.attributes["icon"][1], this.attributes["color"])
-        display.printc(display.SPELL_BOX_START + 7, 3, this.attributes["icon"][2], this.attributes["color"])
-
     # Default equip and unequip functions. Use these when having normal enchantments.
     def equip(this, player):
         if "maxHP_mod" in this.attributes:
