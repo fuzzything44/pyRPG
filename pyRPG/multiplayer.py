@@ -83,6 +83,14 @@ def multiplayer(name):
                     index += item_len
 
                     # TODO: Print equipment
+                    y_print = 0
+                    
+                    for equip in [display.WEAPON_X, display.HAT_X, display.SHIRT_X, display.PANTS_X, display.RING_X]:
+                        equip_len = struct.unpack("!I", data[index : index + 4])[0]
+                        index += 4
+                        display.printc(equip, y_print, data[index : index + equip_len].decode('utf-8'))
+                        index += equip_len
+                        y_print += 0
 
                     # Now, we see if we have sidebar stuff to print.
                     # So overwrite previous sidebar

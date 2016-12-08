@@ -217,6 +217,13 @@ class player(world_object.world_object):
         item_len = struct.pack("!I", len(this.attributes["consumable"].attributes["icon"]))
         item_image = bytearray(this.attributes["consumable"].attributes["icon"], 'utf-8')
 
+        equip_info = bytes()
+        for type in ["weapon", "hat", "shirt", "pants", "ring"]:
+            type_len    = struct.pack("!I", len(this.attributes[type].name))
+            type_info   = bytearray(this.attributes[type].name, 'utf-8')
+            equip_info += type_len + type_info
+
+
         # So we need an int for length and then all the data.
         sidebar_data = None
         if this.attributes["current_menu"] is None:
@@ -228,7 +235,7 @@ class player(world_object.world_object):
         this.attributes["sidebar"] = ""
         
         
-        return hp + mp + level + exp + spell_len + spell_image + item_len + item_image + sidebar_len + sidebar_data
+        return hp + mp + level + exp + spell_len + spell_image + item_len + item_image + equip_info + sidebar_len + sidebar_data
 
 def gain_exp(this, amount):
     this.attributes["EXP"] += amount

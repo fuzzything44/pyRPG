@@ -41,6 +41,7 @@
     <Compile Include="items\t1_thief.py" />
     <Compile Include="items\t1_warrior.py" />
     <Compile Include="items\__init__.py" />
+    <Compile Include="makemaps.py" />
     <Compile Include="map.py">
       <SubType>Code</SubType>
     </Compile>

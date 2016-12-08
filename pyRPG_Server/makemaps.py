@@ -1,12 +1,7 @@
 import world
 
 # Import all maps
-from maps import Tutorial
-from maps import town
-from maps import credits
-from maps import StoneDungeon
-from maps import LavaDungeon
-from maps import Multiplayer
+
 
 
 def make_from_file(file_in, file_out):
@@ -73,81 +68,11 @@ def make(make_what):
         world.save("tutorial.1")
         print(".", end="")
         
-        Tutorial.tut2.generate()
-        world.save("tutorial.2")
-        print(".", end="")
-
-        Tutorial.tut2killed.generate()
-        world.save("tutorial.2-killed")
-        print(".", end="")
-
-        Tutorial.tutboss.generate()
-        world.save("tutorial.boss")
-        print(".", end="")
-
-        Tutorial.tutbosskilled.generate()
-        world.save("tutorial.boss-killed")
-        print(".", end="")
-        
-        Tutorial.tutfinal.generate()
-        world.save("tutorial.final")
-        print(".")
-
-    if ("+town " in make_what) or (("+all " in make_what) and ("-town " not in make_what)):
-        print("Making town", end="")
-
-        town.generate()
-        world.save("town")
-        print(".")
-
-    if ("+stonedungeon " in make_what) or (("+all " in make_what) and ("-stonedungeon " not in make_what)):
-        print("Making Stone Dungeon", end="")
-
-        StoneDungeon.stonboss.generate()
-        world.save("stonedungeon.boss")
-        print(".", end="")
-        
-        StoneDungeon.stonstart.generate()
-        world.save("stonedungeon.start")
-        print(".", end="")
-        
-        StoneDungeon.ston1.generate()
-        world.save("stonedungeon.1")
-        print(".", end="")
-        
-        StoneDungeon.ston2.generate()
-        world.save("stonedungeon.2")
-        print(".")
-
-    if ("+lavadungeon " in make_what) or (("+all " in make_what) and ("-lavadungeon " not in make_what)):
-        print("Making LavaDungeon", end="")
-
-        LavaDungeon.start.generate()
-        world.save("lavadungeon.start")
-        print(".", end="")
-
-        LavaDungeon.map1.generate()
-        world.save("lavadungeon.1")
-        print(".", end="")
-
-        LavaDungeon.map2.generate()
-        world.save("lavadungeon.2")
-        print(".")
-
-    if ("+credits " in make_what) or (("+all " in make_what) and ("-credits " not in make_what)):
-        print("Making credits", end="")
-
-        credits.generate()
-        world.save("credits")
-        print(".")
 
 
 if __name__ == "__main__":
     print("Make what maps?")
     print("Options: (use +opt_name or +all for all, use -opt_name to exclude from +all)")
-    print("    tutorial")
-    print("    town")
-    print("    stonedungeon")
-    print("    lavadungeon")
-    print("    credits")
+    print("    None so far")
+
     make(input() + " ")
