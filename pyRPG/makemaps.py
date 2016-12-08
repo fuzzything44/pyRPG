@@ -6,7 +6,6 @@ from maps import town
 from maps import credits
 from maps import StoneDungeon
 from maps import LavaDungeon
-from maps import Multiplayer
 
 
 def make_from_file(file_in, file_out):

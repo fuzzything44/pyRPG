@@ -1,6 +1,7 @@
 import world
 
 # Import all maps
+from maps import start
 
 
 
@@ -57,15 +58,11 @@ def make_from_file(file_in, file_out):
 
 def make(make_what):
     # World generation
-    if ("+tutorial " in make_what) or (("+all " in make_what) and ("-tutorial " not in make_what)):
-        print("Making tutorial maps", end = "")
+    if ("+start " in make_what) or (("+all " in make_what) and ("-tutorial " not in make_what)):
+        print("Making start", end = "")
         
-        Tutorial.start.generate()
-        world.save("tutorial.start")
-        print(".", end="")
-
-        Tutorial.tut1.generate()
-        world.save("tutorial.1")
+        start.generate()
+        world.save("start")
         print(".", end="")
         
 
@@ -73,6 +70,6 @@ def make(make_what):
 if __name__ == "__main__":
     print("Make what maps?")
     print("Options: (use +opt_name or +all for all, use -opt_name to exclude from +all)")
-    print("    None so far")
+    print("    start")
 
     make(input() + " ")

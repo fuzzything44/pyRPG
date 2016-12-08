@@ -40,4 +40,13 @@ def save_player(index):
             pickle.dump(players[index], handle)
             pickle.dump(world_name, handle)
     except Exception as ex:
-        print(20, 10, "Could not save player in map " + world_name)
+        print("Could not save player in map " + world_name)
+
+def save(name):
+    try:
+        with open("res/maps/" + name + ".wrld", "wb") as handle:
+            pickle.dump(map, handle)
+            pickle.dump(objects, handle)
+    except Exception as ex:
+        print( "Could not save.")
+

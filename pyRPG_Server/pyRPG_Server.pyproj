@@ -45,6 +45,10 @@
     <Compile Include="map.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="maps\start.py" />
+    <Compile Include="maps\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\General\base_attack.py" />
     <Compile Include="objects\General\enemy_base.py" />
     <Compile Include="objects\General\invis_dmg.py" />
@@ -78,6 +82,7 @@
   <ItemGroup>
     <Folder Include="effects\" />
     <Folder Include="items\" />
+    <Folder Include="maps\" />
     <Folder Include="objects\" />
     <Folder Include="objects\General\" />
     <Folder Include="objects\Loot\" />
@@ -88,6 +93,7 @@
     <Folder Include="spells\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="maps\start.txt" />
     <Content Include="res\maps\credits.wrld" />
     <Content Include="res\maps\lavadungeon.1.wrld" />
     <Content Include="res\maps\lavadungeon.2.wrld" />
