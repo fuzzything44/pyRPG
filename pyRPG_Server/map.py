@@ -1,4 +1,5 @@
 import time
+import traceback
 
 import world
 
@@ -21,6 +22,7 @@ def run_map(map_name, get, send):
             # Check queue for new messages.
             if not get.empty():
                 message = get.get()
+
                 if message[0] == "add": # We're adding a player
                     message[1].attributes["current_map"] += 1 # Count how many maps a player's been in.
                     if message[1].attributes["current_map"] > 255: # Reset once we get past a byte
@@ -28,6 +30,10 @@ def run_map(map_name, get, send):
     
                     world.players.append(message[1])
                     print("Player added to map " + map_name)
+                if message[0] == "end": # Forcibly end map
+                    for plr in world.players:
+                        plr.attributes["socket"].close()
+                    return
             if world.players == []: # No players left
                 send.put(("end", ))
                 print("Ending map " + map_name)
@@ -85,5 +91,7 @@ def run_map(map_name, get, send):
     except Exception as ex:
         send.put(("end", ))
         print("Ending map " + map_name + " due to error (", ex, ")")
+        print( traceback.format_exc())
+
 
     

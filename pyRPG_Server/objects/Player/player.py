@@ -72,12 +72,12 @@ class player(world_object.world_object):
               "items" : [],                     \
               "class" : "warrior",              \
               "spell" : spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon),                \
-              "weapon" : item.item("", "weapon", 0, 1, {"damage" : 1, "range" : 1}),                \
-              "hat" : item.item("", "hat", 0),                                                      \
-              "shirt" : item.item("", "shirt", 0),         \
-              "pants" : item.item("", "pants", 0),         \
-              "ring" : item.item("", "ring", 0),           \
-              "consumable" : item.item("Nothing", "consumable", 0, 1, {"icon" : "   \n   \n   ", "color" : 0, "use" : world_object.no_func}), \
+              "weapon" : item.item("No weapon", "weapon", 0, 1, {"damage" : 1, "range" : 1}),                \
+              "hat" : item.item("No hat", "hat", 0),                                                      \
+              "shirt" : item.item("No shirt", "shirt", 0),         \
+              "pants" : item.item("No pants", "pants", 0),         \
+              "ring" : item.item("No ring", "ring", 0),           \
+              "consumable" : item.item("Nothing", "consumable", 0, 1, {"icon" : "    \n   \n   ", "color" : 0, "use" : world_object.no_func}), \
               "mov_spd" : 0,                    # How quickly they move
               "atk_spd" : 0,                    # How quickly they attack
               "can_cast" : True,                 \
@@ -210,7 +210,7 @@ class player(world_object.world_object):
         mp = struct.pack("!I", int(this.attributes["MP"])) + struct.pack("!I", int(this.attributes["maxMP"]))
         level = struct.pack("!I", this.attributes["level"])
         exp = struct.pack("!I", int(0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4 - this.attributes["EXP"]))
-
+        gold = struct.pack("I", this.attributes["money"])
         spell_len = struct.pack("!I", len(this.attributes["spell"].image))
         spell_image = bytearray(this.attributes["spell"].image, 'utf-8')
 
@@ -229,13 +229,13 @@ class player(world_object.world_object):
         if this.attributes["current_menu"] is None:
             sidebar_data = bytearray(this.attributes["sidebar"], 'utf-8')
         else:
-            sidebar_data = this.attributes["current_menu"].disp()
+            sidebar_data = bytearray(this.attributes["current_menu"].disp(), 'utf-8')
         sidebar_len  = struct.pack("!I", len(sidebar_data))
         # Sidebar stuff is sent, so now we zero it out.
         this.attributes["sidebar"] = ""
         
         
-        return hp + mp + level + exp + spell_len + spell_image + item_len + item_image + equip_info + sidebar_len + sidebar_data
+        return hp + mp + level + exp + gold + spell_len + spell_image + item_len + item_image + equip_info + sidebar_len + sidebar_data
 
 def gain_exp(this, amount):
     this.attributes["EXP"] += amount

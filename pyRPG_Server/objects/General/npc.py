@@ -1,6 +1,7 @@
 import display
 import world
 from objects import world_object
+import copy
 
 class node:
     def __init__(this, text, *options):
@@ -12,22 +13,21 @@ class node:
         this.options = options
         this.ret_val = None
 
-    def start_node(this):
+    def start_node(this, player):
         # Create options
         disp_opts = []
         for opt in this.options:
             disp_opts.append(opt[0])
         this.ret_val = None
-        display.current_menu = display.menu(this.text, *disp_opts)
+        player.attributes["current_menu"] = display.menu(this.text, player, *disp_opts)
 
     # Calls menu, returns new node or None
-    def run_node(this):
+    def run_node(this, player):
         if this.ret_val is not None:
-            display.current_menu.clear()
-            display.current_menu = None
+            player.attributes["current_menu"] = None
             return this.options[this.ret_val][1]
         else:
-            this.ret_val = display.current_menu.update()
+            this.ret_val = player.attributes["current_menu"].update()
 
 
 class dialogue_tree:
@@ -36,6 +36,7 @@ class dialogue_tree:
         this.nodes = {}
         this.exit_nodes = {}
         this.current_node = "start"
+        this.linked_player = None
         this.paused = True
         this.exit_taken = None
 
@@ -49,27 +50,17 @@ class dialogue_tree:
         if this.exit_taken is not None:
             return this.exit_taken
         if this.paused:
-            this.paused = False                         # Unpause
-            this.nodes[this.current_node].start_node()  # Redraw node
+            this.paused = False                                             # Unpause
+            this.nodes[this.current_node].start_node(this.linked_player)    # Redraw node
         else:
-            new_node = this.nodes[this.current_node].run_node()
+            new_node = this.nodes[this.current_node].run_node(this.linked_player)
             if new_node is not None:                            # Menu finished
                 if new_node in this.exit_nodes:                 # Menu ended
                     this.exit_taken = this.exit_nodes[new_node] # Exit
                     return this.exit_taken
                 else:
                     this.current_node = new_node                # Go to new node
-                    this.nodes[this.current_node].start_node()
-
-    def pause(this):
-        display.current_menu.clear()
-        display.current_menu = None 
-        this.paused = True
-    
-    def reset(this):
-        this.current_node = "start"
-        this.paused = True
-        this.exit_taken = None
+                    this.nodes[this.current_node].start_node(this.linked_player)
 
 
 class npc(world_object.world_object):
@@ -78,25 +69,28 @@ class npc(world_object.world_object):
         super().__init__(posX, posY, "interactable")
         this.attributes.update({        \
             "dialogue" : dialogue,      \
-            "talking" : False,          \
-            "needs_reset" : False       \
+            "talking_players" : {}      \
           })
 
     def update(this, delta_time):
         "Talks to player if they're standing next to it."
-        if world.player.X + 1 >= this.X and world.player.X - 1 <= this.X and world.player.Y + 1 >= this.Y and world.player.Y -1 <= this.Y:
-            this.attributes["talking"] = True
-            if this.attributes["dialogue"].run() is not None:
-                this.attributes["needs_reset"] = True
-        else:
-            if this.attributes["needs_reset"]:
-                this.attributes["needs_reset"] = False
-                this.attributes["dialogue"].reset()
-                this.attributes["talking"] = False
-            if this.attributes["talking"]:
-                this.attributes["talking"] = False
-                this.attributes["dialogue"].pause()
+        for plr in world.players:
+            if plr.X + 1 >= this.X and plr.X - 1 <= this.X and plr.Y + 1 >= this.Y and plr.Y -1 <= this.Y:
+                if plr not in this.attributes["talking_players"]: # Not talking to them already
+                    diag = copy.copy(this.attributes["dialogue"])
+                    diag.linked_player = plr
+                    this.attributes["talking_players"][plr] = diag
 
+        left_players = []
+        for plr, diag in this.attributes["talking_players"].items(): 
+            if plr.X + 1 >= this.X and plr.X - 1 <= this.X and plr.Y + 1 >= this.Y and plr.Y -1 <= this.Y:
+                diag.run()
+            else:
+                left_players.append(plr)
+
+        for gone in left_players:
+            del this.attributes["talking_players"][gone]
+            gone.attributes["current_menu"] = None
 
         if ("HP" in this.attributes) and (this.attributes["HP"] <= 0):
             world.to_del.append(this)

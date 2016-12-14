@@ -55,21 +55,27 @@ def multiplayer(name):
                     # Draw HP and MP
                     HP = struct.unpack("!I", data[index:index + 4])[0]
                     maxHP = struct.unpack("!I", data[index + 4 : index+8])[0]
-                    display.printc(8, 0, str(HP) + "/" + str(maxHP) + "  ")
+                    display.printc(8, 0, ' ' * 17)
+                    display.printc(8, 0, str(HP) + "/" + str(maxHP))
                     index += 8
 
                     MP = struct.unpack("!I", data[index:index + 4])[0]
                     maxMP = struct.unpack("!I", data[index + 4 : index+8])[0]
-                    display.printc(8, 1, str(MP) + "/" + str(maxMP) + "  ")
+                    display.printc(8, 1, ' ' * 17)
+                    display.printc(8, 1, str(MP) + "/" + str(maxMP))
                     index += 8
 
-                    # Draw level and EXP:
+                    # Draw level, EXP, gold:
                     level   = struct.unpack("!I", data[index:index + 4])[0]
-                    exp     = struct.unpack("!I", data[index + 4: index +8])[0]
-                    display.printc(12, 3, str(level))
-                    display.printc(5, 4, str(int(exp)) + " to level        ")
+                    exp     = struct.unpack("!I", data[index + 4: index + 8])[0]
+                    gold    = struct.unpack("!I", data[index + 8: index + 12])[0]
 
-                    index += 8
+                    display.printc(12, 3, str(level))
+                    display.printc(5, 4, ' ' * 20)
+                    display.printc(5, 4, str(int(exp)) + " to level")
+                    display.printc(10, 2, ' ' * 15)
+                    display.printc(10, 2, str(gold))
+                    index += 12
 
                     # Print spell box, item box
                     spell_len = struct.unpack("!I", data[index: index + 4])[0]
@@ -88,9 +94,10 @@ def multiplayer(name):
                     for equip in [display.WEAPON_X, display.HAT_X, display.SHIRT_X, display.PANTS_X, display.RING_X]:
                         equip_len = struct.unpack("!I", data[index : index + 4])[0]
                         index += 4
+                        display.printc(equip, y_print, ' ' * 37)
                         display.printc(equip, y_print, data[index : index + equip_len].decode('utf-8'))
                         index += equip_len
-                        y_print += 0
+                        y_print += 1
 
                     # Now, we see if we have sidebar stuff to print.
                     # So overwrite previous sidebar
@@ -100,7 +107,7 @@ def multiplayer(name):
                     sidebar_length = struct.unpack("!I", data[index: index + 4])[0]
                     index += 4
                     display.printc(50, 5, data[index : index + sidebar_length].decode('utf-8'))
-                    sidebar_lines = display.getyx(display.stdscr)[0] - 5 # We know how far down we printed by where the cursor is.
+                    sidebar_lines = display.getyx(display.stdscr)[0] - 4 # We know how far down we printed by where the cursor is.
 
                     display.refresh()
     

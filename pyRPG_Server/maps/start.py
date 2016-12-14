@@ -1,9 +1,18 @@
 # This file automatically generated from a template. That's why it defines the world one at a time instead of using loops
 import display
 import world
+from objects import General
 
 def generate():
     world.objects.clear()
+
+    dialogue_tree = General.npc.dialogue_tree()
+    dialogue_tree.add_node("start", General.npc.node("Welcome to pyRPG Multiplayer!", ("Yay!", "yay"), ("Bye", "exit"), ("Byte", "exit")))
+    dialogue_tree.add_node("yay", General.npc.node("That's the spirit!", ("Bye", "exit")))
+    dialogue_tree.add_exit("exit", 0)
+    world.objects.append(General.npc.npc(43, 4, dialogue_tree))
+
+
     world.map = [[ [display.WHITE, display.BLACK, ' ', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
     world.map[0][0] =  [display.WHITE, display.BLACK, '#', False]
     world.map[1][0] =  [display.WHITE, display.BLACK, '#', False]

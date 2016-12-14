@@ -2,6 +2,8 @@ from multiprocessing import Process, Queue
 import select
 import socket
 import time
+import sys
+import importlib
 
 import map as spawn_map
 from objects import Player
@@ -41,14 +43,28 @@ def connector(queue):
             print("Player connected")
 
         if not queue.empty(): # Some owner input
-            command = queue.get()
-            if command == "end":
+            command = queue.get().split(' -')
+            if command[0] == "end":
                 serversocket.close() # End server
                 for map, data in maps.items(): # End maps.
                     data[1].put(("end",))
                 return
-            elif command == "test":
-                print("Test...")
+            elif command[0] == "mod":
+                print("Modules loaded:" )
+                for mod in sys.modules.keys():
+                    if len(command) == 1 or command[1] in mod:
+                        print(" ", mod)
+            elif command[0] == "rel":
+                try:
+                    importlib.reload(sys.modules[command[1]])
+                    print("Module reloaded")
+                except:
+                    print("Couldn't refresh module")
+            elif command[0] == "help":
+                print("Available commands:")
+                print("  end : Ends the server.")
+                print("  mod [-X]: Print all modules loaded [with X in their name]")
+                print("  rel -X: Reload module X")
             else:
                 print("Unknown command \"", command, '"')
 
