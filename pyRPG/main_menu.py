@@ -382,7 +382,7 @@ def start():
                 display.printc(28, 10, "Welcome to pyRPG!")
                 display.printc(31, 11,    "Load a file")
                 display.printc(31, 12,    "New game")
-                display.printc(31, 13,    "Multiplayer")
+                display.printc(30, 13,    ">Multiplayer")
                 display.printc(31, 14,    "Exit game")
                 display.printc(28, 15,    "Press H for help")
                 display.refresh()

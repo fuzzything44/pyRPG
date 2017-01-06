@@ -23,6 +23,31 @@ PANTS_Y = 3
 RING_X = 39 + len("Ring:")
 RING_Y = 4
 
+# Key defs
+KEY_W = 0
+KEY_A = 1
+KEY_S = 2
+KEY_D = 3
+
+KEY_I = 4
+KEY_J = 5
+KEY_K = 6
+KEY_L = 7
+
+KEY_SHIFT = 8
+KEY_SPACE = 9
+KEY_ENTER = 10
+
+KEY_UP = 11
+KEY_Q = 11
+
+KEY_DOWN = 12
+KEY_E    = 12
+
+KEY_ESC  = 13
+# Not actually a key but packed with them. What map they think they're in.
+KEY_MAPID = 14
+
 def chr_to_color(chr): # Gets the color corresponding to the given character
       if chr == 'r':
          return RED
@@ -44,11 +69,20 @@ class menu:
         if this._end_val != -1:
             return this._end_val
 
+        # If enter key was down
+        if this._ending:
+            # If released, finish menu
+            if not this._player.attributes["keys"][KEY_ENTER]:
+                this._end_val = this._opt
+                return this._opt
+            # Still pressed. Ignore all other input
+            return
+
         # Update
     
         # Move cursor up
         if this._can_up:
-            if this._player.attributes["keys"][11]:
+            if this._player.attributes["keys"][KEY_UP]:
                 # Go up in the menu.
                 if this._page_opt == 0: # Top of page
                     if this._page != 0: # Go to prev page
@@ -63,12 +97,12 @@ class menu:
                     this._page_opt -= 1 # Track previous option
                     this._opt -= 1      # Select previous option.
                 this._can_up = False
-        elif not this._player.attributes["keys"][11]:
+        elif not this._player.attributes["keys"][KEY_UP]:
             this._can_up = True
     
         # Move cursor down
         if this._can_down:
-            if this._player.attributes["keys"][12]:
+            if this._player.attributes["keys"][KEY_DOWN]:
                 # Go down in the menu.
                 if this._page_opt == len(this._pages[this._page]) - 1: # Top of page
                     if this._page != len(this._pages) - 1: # Go to next page
@@ -84,12 +118,11 @@ class menu:
                     this._page_opt += 1 # Track next option
                     this._opt += 1      # Select previous option.
                 this._can_down = False
-        elif not this._player.attributes["keys"][12]:
+        elif not this._player.attributes["keys"][KEY_DOWN]:
             this._can_down = True
     
-        if this._player.attributes["keys"][10]:
-            this._end_val = this._opt
-            return this._opt
+        if this._player.attributes["keys"][KEY_ENTER]:
+            this._ending = True
     
     def __init__(this, text, player, *opt_list):
         """Starts a menu.
@@ -109,6 +142,7 @@ class menu:
         this._end_val   = -1    # Not finished yet
         this._text      = text
         this._player    = player
+        this._ending    = False # End when enter key is pressed
         if text.count('\n') > 10: # Count lines of text
             raise BaseException("Menu Error: Too long of basic description. Be more concise.")
     

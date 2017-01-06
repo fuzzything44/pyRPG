@@ -22,29 +22,6 @@ import pickle
 import struct
 import select
 
-# Key defs
-KEY_W = 0
-KEY_A = 1
-KEY_S = 2
-KEY_D = 3
-
-KEY_I = 4
-KEY_J = 5
-KEY_K = 6
-KEY_L = 7
-
-KEY_SHIFT = 8
-KEY_SPACE = 9
-KEY_ENTER = 10
-
-KEY_UP = 11
-KEY_Q = 11
-
-KEY_DOWN = 12
-KEY_E    = 12
-
-# Not actually a key but packed with them. What map they think they're in.
-KEY_MAPID = 13
 
 
 class player(world_object.world_object):
@@ -58,7 +35,7 @@ class player(world_object.world_object):
             "current_map" : 0,  \
             "sidebar" : "",     \
             "current_menu" : None,\
-            "keys"    : [0] * 14\
+            "keys"    : [0] * 15\
          })
         this.attributes.update({                \
               "maxHP" : 100.0,                  \
@@ -116,57 +93,57 @@ class player(world_object.world_object):
             this.attributes["sincehit"] += delta_time
     
         # Check for movement
-        if this.attributes["keys"][KEY_W] and (not "del_up" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_W] and (not "del_up" in this.attributes["effects"]):
             if (this.Y > 0) and world.map[this.X][this.Y - 1][3]:
                 this.Y -= 1
             this.attributes["effects"]["del_up"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["mov_spd"])))
-        if this.attributes["keys"][KEY_S] and (not "del_down" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_S] and (not "del_down" in this.attributes["effects"]):
             if (this.Y < world.WORLD_Y - 1) and world.map[this.X][this.Y + 1][3]:
                 this.Y += 1
             this.attributes["effects"]["del_down"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["mov_spd"])))
-        if this.attributes["keys"][KEY_A] and (not "del_left" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_A] and (not "del_left" in this.attributes["effects"]):
             if (this.X > 0) and world.map[this.X - 1][this.Y][3]:
                 this.X -= 1
             this.attributes["effects"]["del_left"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["mov_spd"])))
-        if this.attributes["keys"][KEY_D] and (not "del_right" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_D] and (not "del_right" in this.attributes["effects"]):
             if (this.X < world.WORLD_X - 1) and world.map[this.X + 1][this.Y][3]:
                 this.X += 1
             this.attributes["effects"]["del_right"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["mov_spd"])))
 
         # Check for spell cast
-        if this.attributes["keys"][KEY_SPACE] and this.attributes["can_cast"]:
+        if this.attributes["keys"][display.KEY_SPACE] and this.attributes["can_cast"]:
             this.attributes["spell"].cast(this)
             this.attributes["can_cast"] = False
-        if not this.attributes["keys"][KEY_SPACE]:
+        if not this.attributes["keys"][display.KEY_SPACE]:
             this.attributes["can_cast"] = True
 
         # Attacks!
-        if this.attributes["keys"][KEY_I] and (this.Y != 0) and (world.map[this.X][this.Y - 1][3]) and (not "del_atk" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_I] and (this.Y != 0) and (world.map[this.X][this.Y - 1][3]) and (not "del_atk" in this.attributes["effects"]):
             world.objects.append(attack.attack(this.X, this.Y - 1, 0, -1, (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), this.attributes["weapon"].attributes["range"], 100, this))
             this.attributes["effects"]["del_atk"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["atk_spd"])))
     
-        if this.attributes["keys"][KEY_J] and (this.X != 0) and (world.map[this.X - 1][this.Y][3]) and (not "del_atk" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_J] and (this.X != 0) and (world.map[this.X - 1][this.Y][3]) and (not "del_atk" in this.attributes["effects"]):
             world.objects.append(attack.attack(this.X - 1, this.Y, -1, 0, (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), this.attributes["weapon"].attributes["range"], 100, this))
             this.attributes["effects"]["del_atk"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["atk_spd"])))
     
-        if this.attributes["keys"][KEY_K] and (this.Y != 19) and (world.map[this.X][this.Y + 1][3]) and (not "del_atk" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_K] and (this.Y != 19) and (world.map[this.X][this.Y + 1][3]) and (not "del_atk" in this.attributes["effects"]):
             world.objects.append(attack.attack(this.X, this.Y + 1, 0, 1, (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), this.attributes["weapon"].attributes["range"], 100, this))
             this.attributes["effects"]["del_atk"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["atk_spd"])))
     
-        if this.attributes["keys"][KEY_L] and (this.X != 49) and (world.map[this.X + 1][this.Y][3]) and (not "del_atk" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_L] and (this.X != 49) and (world.map[this.X + 1][this.Y][3]) and (not "del_atk" in this.attributes["effects"]):
             world.objects.append(attack.attack(this.X + 1, this.Y, 1, 0, (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), this.attributes["weapon"].attributes["range"], 100, this))
             this.attributes["effects"]["del_atk"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["atk_spd"])))
             # Or with our constants in python, time = 500/(1+2.718^(.01x)), which is a nice logistic formula.
     
         # Check for item use
-        if this.attributes["keys"][KEY_SHIFT] and this.attributes["can_item"] and (this.attributes["consumable"].name != "Nothing"):
+        if this.attributes["keys"][display.KEY_SHIFT] and this.attributes["can_item"] and (this.attributes["consumable"].name != "Nothing"):
             this.attributes["consumable"].use(this)
             this.attributes["can_item"] = False
             this.attributes["consumable"].amount -= 1
             if this.attributes["consumable"].amount == 0:
                 del this.attributes["items"][this.attributes["items"].index(this.attributes["consumable"])]
                 this.attributes["consumable"] = item.item("Nothing", "consumable", 0, 1, {"icon" : "   \n   \n   ", "color" : 0})
-        if not this.attributes["keys"][KEY_SHIFT]:
+        if not this.attributes["keys"][display.KEY_SHIFT]:
             this.attributes["can_item"] = True
     
         # Update all effects.
@@ -201,7 +178,7 @@ class player(world_object.world_object):
         return display.WHITE
     
     def map_data(this):
-        if this.attributes["keys"][KEY_MAPID] != this.attributes["current_map"]:
+        if this.attributes["keys"][display.KEY_MAPID] != this.attributes["current_map"]:
             # Send map data to player
             data = bytearray(2)
             data[0] = 1

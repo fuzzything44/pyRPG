@@ -29,6 +29,8 @@ def multiplayer(name):
         while True:
             # Let players force quit with Ctrl+Q
             if display.keyDown(display.CONST.VK_CONTROL) and display.keyDown(ord('Q')):
+                while display.keyDown(ord('Q')):
+                    pass
                 sock.close()
                 return
     
@@ -140,8 +142,9 @@ def multiplayer(name):
             # 10    ENTER
             # 11    Q/UP
             # 12    E/DOWN
-            # 13    Special: Current map ID. Not actually a key. 
-            to_send = bytearray(14)
+            # 13    ESC
+            # 14    Special: Current map ID. Not actually a key. 
+            to_send = bytearray(15)
             to_send[0] = display.keyDown(ord('W'))
             to_send[1] = display.keyDown(ord('A'))
             to_send[2] = display.keyDown(ord('S'))
@@ -155,7 +158,8 @@ def multiplayer(name):
             to_send[10]= display.keyDown(display.CONST.VK_RETURN)
             to_send[11]= display.keyDown(ord('Q')) or display.keyDown(display.CONST.VK_UP)
             to_send[12]= display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_DOWN)
-            to_send[13]= current_map
+            to_send[13]= display.keyDown(display.CONST.VK_ESCAPE)
+            to_send[14]= current_map
     
             sock.sendto(to_send, new_addr)
 

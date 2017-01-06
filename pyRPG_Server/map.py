@@ -86,7 +86,6 @@ def run_map(map_name, get, send):
     
             # Send update to all players
             for plr in world.players:
-                print(send_data)
                 plr.attributes["socket"].sendto(plr.map_data() + send_data + plr.extra_data(), plr.attributes["address"])
                 
     except ConnectionResetError as ex:
