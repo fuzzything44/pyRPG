@@ -67,13 +67,13 @@ def run_map(map_name, get, send):
                 world.players.remove(plr)
     
             # Send data to players.
+            # Start with map data - either a 0 byte or a 1 byte with map len and map after.
             # We need (#objects + # players) things to send.
             # Each thing needs an X coord, Y coord, char, and color
             # We devote 1 byte to each, meaning each is 4 bytes
-            # Additionally, we need a 1 byte header. Header is 0 for update data
-            send_data = bytearray(2 + (len(world.objects) + len(world.players) ) * 4)
-            index = 2 # Where to start adding info for next object
-            send_data[1] = len(world.objects) + len(world.players)
+            send_data = bytearray(1 + (len(world.objects) + len(world.players) ) * 4)
+            index = 1 # Where to start adding info for next object
+            send_data[0] = len(world.objects) + len(world.players)
             for obj in world.objects + world.players: # Loop through objects, get data.
                 send_data[index] = obj.X
                 index += 1
@@ -86,9 +86,10 @@ def run_map(map_name, get, send):
     
             # Send update to all players
             for plr in world.players:
-                plr.attributes["socket"].sendto(send_data + plr.extra_data(), plr.attributes["address"])
+                print(send_data)
+                plr.attributes["socket"].sendto(plr.map_data() + send_data + plr.extra_data(), plr.attributes["address"])
                 
-    except Exception as ex:
+    except ConnectionResetError as ex:
         send.put(("end", ))
         print("Ending map " + map_name + " due to error (", ex, ")")
         print( traceback.format_exc())

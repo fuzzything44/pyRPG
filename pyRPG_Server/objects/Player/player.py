@@ -58,7 +58,7 @@ class player(world_object.world_object):
             "current_map" : 0,  \
             "sidebar" : "",     \
             "current_menu" : None,\
-            "keys"    : [0] * 13\
+            "keys"    : [0] * 14\
          })
         this.attributes.update({                \
               "maxHP" : 100.0,                  \
@@ -98,18 +98,14 @@ class player(world_object.world_object):
                 while select.select([this.attributes["socket"]], [], [], 0) != ([], [], []):
                     this.attributes["socket"].recvfrom(65507)
                 this.attributes["timeout"] = 0
-                if this.attributes["keys"][KEY_MAPID] != this.attributes["current_map"]:
-                    pass# Send map data to player
-                    data = bytearray(2) + pickle.dumps(world.map)
-                    data[0] = 1
-                    data[1] = this.attributes["current_map"]
-                    this.attributes["socket"].sendto(data, this.attributes["address"])
             except ConnectionResetError as ex:
+                print("Connection lost")
                 world.to_del_plr.append(this)
                 return
         else:
             this.attributes["timeout"] += delta_time
             if this.attributes["timeout"] > 1000:
+                print("Timeout")
                 world.to_del_plr.append(this)
                 return
 
@@ -204,6 +200,20 @@ class player(world_object.world_object):
             return display.RED
         return display.WHITE
     
+    def map_data(this):
+        if this.attributes["keys"][KEY_MAPID] != this.attributes["current_map"]:
+            # Send map data to player
+            data = bytearray(2)
+            data[0] = 1
+            data[1] = this.attributes["current_map"]
+            map_data = pickle.dumps(world.map)
+            data += struct.pack("!I", len(map_data))
+            data += map_data
+            return data
+        else:
+            return bytearray(1)
+
+
     # All extra data to be sent. So HP/MP, equip stuff, sidebar stuff.
     def extra_data(this):
         hp = struct.pack("!I", int(this.attributes["HP"])) + struct.pack("!I", int(this.attributes["maxHP"]))
