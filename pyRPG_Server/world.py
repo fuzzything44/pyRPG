@@ -14,6 +14,8 @@ objects = []    # World objects that can interacted with such as enemies, chests
 to_del = []     # Objects that should be deleted.
 to_del_plr = []
 
+move_requests = [] # Requests to move players
+
 def out_of_bounds(x, y):
     return (y < 0) or (y >= WORLD_Y) or (x < 0) or (x >= WORLD_X)
 

@@ -77,12 +77,12 @@ def connector(queue):
                 if cmd[0] == "end": # Close map command
                     to_close.append(mapname) # Remove map, should have returned anyways.
                 elif cmd[0] == "mov": # Move player command
-                    move_requests.append((cmd[1], cmd[2])) # Add move request.
+                    move_requests.append(cmd[1]) # Add move request.
 
         for mapname in to_close: # Remove closed maps.
             del maps[mapname]
 
-        # Handle move requests.
+        # Handle move requests. Should be in form of (map, object)
         for req in move_requests:
             if req[0] in maps:          # Map currently exists
                 maps[req[0]][1].put(("add", req[1]))

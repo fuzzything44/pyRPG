@@ -223,7 +223,6 @@ def set_active(type):
                 options.append(opt.name +"(" + str(opt.amount) + ")" + opt.attributes["disp_data"])
             items.append(opt)
 
-    empty_lists = [[] for x in range(len(options) + 1)]
     menu = display.menu("Set to what?", "Back", *options)
     while menu.update() is None:
         display.refresh()

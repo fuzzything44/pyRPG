@@ -39,16 +39,16 @@ def run_map(map_name, get, send):
                 print("Ending map " + map_name)
                 return
     
-            world.to_del = []
-            world.to_del_plr = []
+            world.to_del.clear()
+            world.to_del_plr.clear()
     
             # Update objects
             for index in range(len(world.objects + world.players)):
                 obj = (world.objects + world.players)[index]
     
                 # Update it
-                if obj.update(delta_time) is not None:
-                    new_map_loaded = True
+                obj.update(delta_time)
+
                 for coll in world.objects[index + 1:]:    # Check for collision
                     if coll.X == obj.X and coll.Y == obj.Y:
                         obj.collide(coll) # Call collisions
@@ -63,9 +63,14 @@ def run_map(map_name, get, send):
                 world.objects.remove(obj)
     
             # Remove players that left
-            for plr in world.to_del_plr:
+            for plr in set(world.to_del_plr):
                 world.players.remove(plr)
     
+            # Handle move requests.
+            for req in world.move_requests:
+                send.put(("mov", req)) # Send request
+            world.move_requests.clear()
+
             # Send data to players.
             # Start with map data - either a 0 byte or a 1 byte with map len and map after.
             # We need (#objects + # players) things to send.

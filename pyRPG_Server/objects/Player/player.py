@@ -25,17 +25,22 @@ import select
 
 
 class player(world_object.world_object):
-    """description of class"""
     def __init__(this, posX, posY, sock, addr):
         super().__init__(posX, posY, "player")
-        this.attributes.update({\
-            "socket" : sock,    \
-            "address" : addr,   \
-            "timeout" : 0,      \
-            "current_map" : 0,  \
-            "sidebar" : "",     \
-            "current_menu" : None,\
-            "keys"    : [0] * 15\
+        this.attributes.update({    # Multiplayer info
+            "socket" : sock,        # Socket to get data from
+            "address" : addr,       # Where to send data
+            "timeout" : 0,          # Time since last message, for timeouts
+            "current_map" : 0,      # Increments on map change so we know when to stop sending map BG data
+            "sidebar" : "",         # What the sidebar currently shows
+            "current_menu" : None,  # What menu needs to be shown. If not none, displayed instead of sidebar
+
+            "esc_menu" : None,      # For inventory management, will override current_menu
+            "esc_menu_type" : "",   # Tracking what current esc_menu is doing. Main, inventory, ect...
+            "set_name" : "",        # Tracking what to set (ex hat, spell...)
+            "set_list" : [],        # List of what options correspond to when setting.
+
+            "keys"    : [0] * 15    # What keys are down.
          })
         this.attributes.update({                \
               "maxHP" : 100.0,                  \
@@ -48,23 +53,26 @@ class player(world_object.world_object):
               "level" : 1,                      \
               "items" : [],                     \
               "class" : "warrior",              \
-              "spell" : spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon),                \
-              "weapon" : item.item("No weapon", "weapon", 0, 1, {"damage" : 1, "range" : 1}),                \
-              "hat" : item.item("No hat", "hat", 0),                                                      \
-              "shirt" : item.item("No shirt", "shirt", 0),         \
-              "pants" : item.item("No pants", "pants", 0),         \
-              "ring" : item.item("No ring", "ring", 0),           \
+              "spell" : spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon),            \
+              "weapon" : item.item("No weapon", "weapon", 0, 1, {"damage" : 1, "range" : 1}),   \
+              "hat" : item.item("No hat", "hat", 0),                \
+              "shirt" : item.item("No shirt", "shirt", 0),          \
+              "pants" : item.item("No pants", "pants", 0),          \
+              "ring" : item.item("No ring", "ring", 0),             \
               "consumable" : item.item("Nothing", "consumable", 0, 1, {"icon" : "    \n   \n   ", "color" : 0, "use" : world_object.no_func}), \
               "mov_spd" : 0,                    # How quickly they move
               "atk_spd" : 0,                    # How quickly they attack
-              "can_cast" : True,                 \
-              "can_item" : True,                 \
+              "can_cast" : True,                \
+              "can_item" : True,                \
               "magic" : 5,                      # How good spells are 
               "strength" : 5,                   # How much damage regular attacks do. 
               "luck" : 0,                       # Luck will change item and money drops
-              "gainexp" : gain_exp,              \
+              "gainexp" : gain_exp,             \
               "lastHP" : 100.0,                 # What was their HP last frame?
               "sincehit" : 300,                 # How long since they were hit
+              "respawnX" : posX,                \
+              "respawnY" : posY,                \
+              "respawnMap" : "start",           \
               "flags" : []                      # A very general list. For tracking progress through dungeons.
             })
 
@@ -77,14 +85,66 @@ class player(world_object.world_object):
                 this.attributes["timeout"] = 0
             except ConnectionResetError as ex:
                 print("Connection lost")
+                this.attributes["socket"].close()
                 world.to_del_plr.append(this)
                 return
         else:
             this.attributes["timeout"] += delta_time
             if this.attributes["timeout"] > 1000:
                 print("Timeout")
+                this.attributes["socket"].close()
                 world.to_del_plr.append(this)
                 return
+
+
+        if this.attributes["esc_menu"] is not None:
+            opt = this.attributes["esc_menu"].update()
+            if opt is not None: # They chose an option
+                if this.attributes["esc_menu_type"] == "main":
+                    if opt == 0:
+                        this.attributes["esc_menu"] = None
+                    elif opt == 1:
+                        this.attributes["esc_menu"] = display.menu("Inventory\nMax HP: \\frRed\n\\fwMax MP: \\fbBlue\n\\fwMovement Speed: \\fgGreen\n\\fwAttack Speed: White\nMagic Power: \\fcCyan\n\\fwStrength: \\fmMagenta\n\\fwLuck: \\fyYellow\\fw", this, "Back", "Set Consumable", "Set Weapon", "Set Hat", "Set Shirt", "Set Pants", "Set Ring")
+                        this.attributes["esc_menu_type"] = "inv"
+                    elif opt == 2:
+                        this.attributes["esc_menu"] == "Spell_menu"
+                    elif opt == 3:
+                        this.attributes["socket"].close()
+                        world.to_del_plr.append(this)
+                elif this.attributes["esc_menu_type"] == "inv": # Let them choose what item to set
+                    if opt == 0:
+                        this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Exit Server")
+                        this.attributes["esc_menu_type"] = "main"
+                    else:
+                        # What type of item they are setting
+                        set_type = ["consumable", "weapon", "hat", "shirt", "pants", "ring"][opt - 1]
+                        this.attributes["set_name"] = set_type
+                        options = [] # All options to go in the menu.
+                        items = [] # The item corresponding to the option
+                        for opt in this.attributes["items"]:
+                            if opt.type == set_type:
+                                if set_type == "spell":
+                                    options.append(opt.name + "(" + str(opt.amount) + ")")
+                                else:
+                                    options.append(opt.name +"(" + str(opt.amount) + ")" + opt.attributes["disp_data"])
+                                items.append(opt)
+                        this.attributes["esc_menu"] = display.menu("Set to what?", this, "Back", *options)
+                        this.attributes["esc_menu_type"] = "set"
+                        this.attributes["set_list"] = items
+                elif this.attributes["esc_menu_type"] == "set": # Let them set an item
+                    # TODO: set item
+                    this.attributes["esc_menu"] = display.menu("Inventory\nMax HP: \\frRed\n\\fwMax MP: \\fbBlue\n\\fwMovement Speed: \\fgGreen\n\\fwAttack Speed: White\nMagic Power: \\fcCyan\n\\fwStrength: \\fmMagenta\n\\fwLuck: \\fyYellow\\fw", this, "Back", "Set Consumable", "Set Weapon", "Set Hat", "Set Shirt", "Set Pants", "Set Ring")
+                    this.attributes["esc_menu_type"] = "inv"
+
+                elif this.attributes["esc_menu_type"] == "spell": # Let them set a spell
+                    # TODO: set spell
+                    this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Exit Server")
+                    this.attributes["esc_menu_type"] = "main"
+
+        # Open ESC menu if needed.
+        if this.attributes["keys"][display.KEY_ESC] and this.attributes["esc_menu"] is None:
+            this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Exit Server")
+            this.attributes["esc_menu_type"] = "main"
 
         # Check HP diff for flash on hit stuff
         if this.attributes["HP"] < this.attributes["lastHP"]:
@@ -164,6 +224,12 @@ class player(world_object.world_object):
         if this.attributes["sidebar"].count('\n') == sidebar_len:
             this.attributes["sidebar"] += " No effects\n"
 
+        if this.attributes["HP"] <= 0: # Dead
+            this.attributes["HP"] = this.attributes["maxHP"]                    # Recover HP
+            this.X = this.attributes["respawnX"]                                # Return to last saved place
+            this.Y = this.attributes["respawnY"]
+            world.move_requests.append((this.attributes["respawnMap"], this))   # At last saved map...
+            world.to_del_plr.append(this)                                       # Exit from this map.
 
     def char(this):
         return 'P'
@@ -213,7 +279,9 @@ class player(world_object.world_object):
 
         # So we need an int for length and then all the data.
         sidebar_data = None
-        if this.attributes["current_menu"] is None:
+        if this.attributes["esc_menu"] is not None:
+            sidebar_data = bytearray(this.attributes["esc_menu"].disp(), 'utf-8')
+        elif this.attributes["current_menu"] is None:
             sidebar_data = bytearray(this.attributes["sidebar"], 'utf-8')
         else:
             sidebar_data = bytearray(this.attributes["current_menu"].disp(), 'utf-8')
