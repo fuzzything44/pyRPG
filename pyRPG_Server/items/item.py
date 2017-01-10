@@ -60,7 +60,7 @@ class item:
                         str_len = 1
                     disp_str += mod_str
                     str_len += len(mod_str)
-            this.attributes["disp_data"] = disp_str
+            this.attributes["disp_data"] = disp_str + '\\fw'
     def __lt__(self, other):
         return self.name < other
     

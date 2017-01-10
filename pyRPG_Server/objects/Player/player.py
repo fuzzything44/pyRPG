@@ -6,6 +6,7 @@ import world
 from effects import effect
 
 from items import item
+from items import start as start_items
 
 from objects.Player import attack
 from objects import world_object
@@ -21,7 +22,6 @@ import pickle
 
 import struct
 import select
-
 
 
 class player(world_object.world_object):
@@ -51,7 +51,7 @@ class player(world_object.world_object):
               "effects" : {},                   \
               "EXP" : 0,                        \
               "level" : 1,                      \
-              "items" : [],                     \
+              "items" : [start_items.start_hat(), start_items.start_pants(), start_items.start_ring(), start_items.start_shirt(), start_items.start_weapon(), spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon)],\
               "class" : "warrior",              \
               "spell" : spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon),            \
               "weapon" : item.item("No weapon", "weapon", 0, 1, {"damage" : 1, "range" : 1}),   \
@@ -59,7 +59,7 @@ class player(world_object.world_object):
               "shirt" : item.item("No shirt", "shirt", 0),          \
               "pants" : item.item("No pants", "pants", 0),          \
               "ring" : item.item("No ring", "ring", 0),             \
-              "consumable" : item.item("Nothing", "consumable", 0, 1, {"icon" : "    \n   \n   ", "color" : 0, "use" : world_object.no_func}), \
+              "consumable" : item.item("Nothing", "consumable", 0, 1, {"icon" : "   \n   \n   ", "color" : 0, "use" : world_object.no_func}), \
               "mov_spd" : 0,                    # How quickly they move
               "atk_spd" : 0,                    # How quickly they attack
               "can_cast" : True,                \
@@ -147,10 +147,10 @@ class player(world_object.world_object):
                         this.attributes["set_list"] = items
                 elif this.attributes["esc_menu_type"] == "set": # Let them set an item
                     if opt != 0:
-                        itm = this.attributes["set_list"][opt - 1]              # Find chosen item
-                        this.attributes[this.attributes["set_name"]].unequip()  # Unequip other item
-                        this.attributes[this.attributes["set_name"]] = itm      # Put in equipped slot
-                        itm.equip(this)                                         # Equip
+                        itm = this.attributes["set_list"][opt - 1]                  # Find chosen item
+                        this.attributes[this.attributes["set_name"]].unequip(this)  # Unequip other item
+                        this.attributes[this.attributes["set_name"]] = itm          # Put in equipped slot
+                        itm.equip(this)                                             # Equip
                     this.attributes["esc_menu"] = display.menu("Inventory\nMax HP: \\frRed\n\\fwMax MP: \\fbBlue\n\\fwMovement Speed: \\fgGreen\n\\fwAttack Speed: White\nMagic Power: \\fcCyan\n\\fwStrength: \\fmMagenta\n\\fwLuck: \\fyYellow\\fw", this, "Back", "Set Consumable", "Set Weapon", "Set Hat", "Set Shirt", "Set Pants", "Set Ring")
                     this.attributes["esc_menu"].is_esc_menu = True
                     this.attributes["esc_menu_type"] = "inv"
