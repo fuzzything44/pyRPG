@@ -40,7 +40,7 @@ class player(world_object.world_object):
             "set_name" : "",        # Tracking what to set (ex hat, spell...)
             "set_list" : [],        # List of what options correspond to when setting.
 
-            "keys"    : [0] * 15    # What keys are down.
+            "keys" : bytearray(15)  # What keys are down.
          })
         this.attributes.update({                \
               "maxHP" : 100.0,                  \
@@ -79,7 +79,8 @@ class player(world_object.world_object):
     def update(this, delta_time):
         if select.select([this.attributes["socket"]], [], [], 0) != ([], [], []):
             try:
-                (this.attributes["keys"], addr) = this.attributes["socket"].recvfrom(65507)
+                (inpt, addr) = this.attributes["socket"].recvfrom(65507)
+                this.attributes["keys"] = bytearray(inpt)
                 while select.select([this.attributes["socket"]], [], [], 0) != ([], [], []):
                     this.attributes["socket"].recvfrom(65507)
                 this.attributes["timeout"] = 0
@@ -99,21 +100,33 @@ class player(world_object.world_object):
 
         if this.attributes["esc_menu"] is not None:
             opt = this.attributes["esc_menu"].update()
+
             if opt is not None: # They chose an option
                 if this.attributes["esc_menu_type"] == "main":
                     if opt == 0:
                         this.attributes["esc_menu"] = None
                     elif opt == 1:
                         this.attributes["esc_menu"] = display.menu("Inventory\nMax HP: \\frRed\n\\fwMax MP: \\fbBlue\n\\fwMovement Speed: \\fgGreen\n\\fwAttack Speed: White\nMagic Power: \\fcCyan\n\\fwStrength: \\fmMagenta\n\\fwLuck: \\fyYellow\\fw", this, "Back", "Set Consumable", "Set Weapon", "Set Hat", "Set Shirt", "Set Pants", "Set Ring")
+                        this.attributes["esc_menu"].is_esc_menu = True
                         this.attributes["esc_menu_type"] = "inv"
                     elif opt == 2:
-                        this.attributes["esc_menu"] == "Spell_menu"
+                        options = [] # All options to go in the menu.
+                        spell_list = [] # The spell corresponding to the option
+                        for opt in this.attributes["items"]:    # Find all items
+                            if opt.type == "spell":             # Do stuff if they're actually a spell
+                                options.append(opt.name + "(" + str(opt.amount) + ")")
+                                spell_list.append(opt)
+                        this.attributes["esc_menu"] = display.menu("Set to what?", this, "Back", *options)
+                        this.attributes["esc_menu"].is_esc_menu = True
+                        this.attributes["esc_menu_type"] = "spell"
+                        this.attributes["set_list"] = spell_list
                     elif opt == 3:
                         this.attributes["socket"].close()
                         world.to_del_plr.append(this)
                 elif this.attributes["esc_menu_type"] == "inv": # Let them choose what item to set
                     if opt == 0:
                         this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Exit Server")
+                        this.attributes["esc_menu"].is_esc_menu = True
                         this.attributes["esc_menu_type"] = "main"
                     else:
                         # What type of item they are setting
@@ -129,21 +142,30 @@ class player(world_object.world_object):
                                     options.append(opt.name +"(" + str(opt.amount) + ")" + opt.attributes["disp_data"])
                                 items.append(opt)
                         this.attributes["esc_menu"] = display.menu("Set to what?", this, "Back", *options)
+                        this.attributes["esc_menu"].is_esc_menu = True
                         this.attributes["esc_menu_type"] = "set"
                         this.attributes["set_list"] = items
                 elif this.attributes["esc_menu_type"] == "set": # Let them set an item
-                    # TODO: set item
+                    if opt != 0:
+                        itm = this.attributes["set_list"][opt - 1]              # Find chosen item
+                        this.attributes[this.attributes["set_name"]].unequip()  # Unequip other item
+                        this.attributes[this.attributes["set_name"]] = itm      # Put in equipped slot
+                        itm.equip(this)                                         # Equip
                     this.attributes["esc_menu"] = display.menu("Inventory\nMax HP: \\frRed\n\\fwMax MP: \\fbBlue\n\\fwMovement Speed: \\fgGreen\n\\fwAttack Speed: White\nMagic Power: \\fcCyan\n\\fwStrength: \\fmMagenta\n\\fwLuck: \\fyYellow\\fw", this, "Back", "Set Consumable", "Set Weapon", "Set Hat", "Set Shirt", "Set Pants", "Set Ring")
+                    this.attributes["esc_menu"].is_esc_menu = True
                     this.attributes["esc_menu_type"] = "inv"
 
                 elif this.attributes["esc_menu_type"] == "spell": # Let them set a spell
-                    # TODO: set spell
+                    if opt != 0:
+                        this.attributes["spell"] = this.attributes["set_list"][opt - 1]
                     this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Exit Server")
+                    this.attributes["esc_menu"].is_esc_menu = True
                     this.attributes["esc_menu_type"] = "main"
 
         # Open ESC menu if needed.
         if this.attributes["keys"][display.KEY_ESC] and this.attributes["esc_menu"] is None:
             this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Exit Server")
+            this.attributes["esc_menu"].is_esc_menu = True
             this.attributes["esc_menu_type"] = "main"
 
         # Check HP diff for flash on hit stuff

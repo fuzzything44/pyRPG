@@ -4,7 +4,7 @@ import socket
 import select
 import pickle
 import struct
-
+import time
 
 def multiplayer(name):
     display.clear()
@@ -14,11 +14,13 @@ def multiplayer(name):
     world.map = [[ world.WORLD_NOTHING for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.settimeout(1)
     try:
         sock.sendto(bytes(name, 'utf-8'), ('localhost', 5000))
     
         (data, new_addr) = sock.recvfrom(65507)
-    
+        last_update = time.clock()
+
         # All coord pairs to overwrite.
         to_overwrite = []
     
@@ -28,7 +30,7 @@ def multiplayer(name):
         current_map = 0
         while True:
             # Let players force quit with Ctrl+Q
-            if display.keyDown(display.CONST.VK_CONTROL) and display.keyDown(ord('Q')):
+            if display.keyDown(display.CONST.VK_CONTROL) and display.keyDown(ord('Q')) or (time.clock() - last_update > .5):
                 while display.keyDown(ord('Q')):
                     pass
                 sock.close()
@@ -38,7 +40,8 @@ def multiplayer(name):
                 data, addr = sock.recvfrom(65507)
                 while select.select([sock], [], [], 0) != ([], [], []):
                     sock.recvfrom(65507)
-    
+                last_update = time.clock()
+
                 index = 1 # Current data index
                 if data[0] == 1:
                     current_map = data[index]

@@ -78,6 +78,10 @@ class menu:
             # Still pressed. Ignore all other input
             return
 
+        # Player has ESC menu up and this isn't it.
+        if this._player.attributes["esc_menu"] is not None and not this.is_esc_menu:
+            return
+
         # Update
     
         # Move cursor up
@@ -143,6 +147,7 @@ class menu:
         this._text      = text
         this._player    = player
         this._ending    = False # End when enter key is pressed
+        this.is_esc_menu= False # So when moving through esc menus normal ones don't also update.
         if text.count('\n') > 10: # Count lines of text
             raise BaseException("Menu Error: Too long of basic description. Be more concise.")
     
