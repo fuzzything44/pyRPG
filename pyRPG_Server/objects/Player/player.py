@@ -25,11 +25,13 @@ import select
 
 
 class player(world_object.world_object):
-    def __init__(this, posX, posY, sock, addr):
+    def __init__(this, posX, posY, sock, addr, name):
         super().__init__(posX, posY, "player")
         this.attributes.update({    # Multiplayer info
             "socket" : sock,        # Socket to get data from
             "address" : addr,       # Where to send data
+            "name" : name,          # Name they set
+
             "timeout" : 0,          # Time since last message, for timeouts
             "current_map" : 0,      # Increments on map change so we know when to stop sending map BG data
             "sidebar" : "",         # What the sidebar currently shows

@@ -36,13 +36,24 @@ def load(name):
         print("Error loading map " + name)
         print(ex)
 
-def save_player(index):
+def save_player(plr):
+    temp_sock = plr.attributes["socket"] # Save socket because it can't be serialized.
     try:
-        with open("res/saves/" + world_name + ".plr", "wb") as handle:
-            pickle.dump(players[index], handle)
-            pickle.dump(world_name, handle)
+        with open("res/saves/" + plr.attributes["name"] + ".plr", "wb") as handle:
+            plr.attributes["socket"] = None
+            pickle.dump(plr, handle)
+            plr.attributes["socket"] = temp_sock
     except Exception as ex:
-        print("Could not save player in map " + world_name)
+        print("Could not save player named " + plr.attributes["name"], ": ", ex)
+        plr.attributes["socket"] = temp_sock
+
+def load_player(name):
+    try:
+        with open("res/saves/" + name + ".plr", "rb") as handle:
+            print('a')
+            return pickle.load(handle)
+    except Exception as ex:
+        return None
 
 def save(name):
     try:

@@ -174,3 +174,5 @@ def multiplayer(name):
     except ConnectionResetError as ex:
         sock.close()
         return
+    except Exception as ex:
+        pause
