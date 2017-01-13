@@ -40,7 +40,8 @@ class player(world_object.world_object):
             "set_name" : "",        # Tracking what to set (ex hat, spell...)
             "set_list" : [],        # List of what options correspond to when setting.
 
-            "keys" : bytearray(15)  # What keys are down.
+            "keys" : bytearray(17), # What keys are down.
+            "can_spell_cycle" : True# Can we change the current spell? (So last update UO weren't down)
          })
         this.attributes.update({                \
               "maxHP" : 100.0,                  \
@@ -51,9 +52,10 @@ class player(world_object.world_object):
               "effects" : {},                   \
               "EXP" : 0,                        \
               "level" : 1,                      \
-              "items" : [start_items.start_hat(), start_items.start_pants(), start_items.start_ring(), start_items.start_shirt(), start_items.start_weapon(), spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon)],\
+              "items" : [start_items.start_hat(), start_items.start_pants(), start_items.start_ring(), start_items.start_shirt(), start_items.start_weapon()],\
+              "spells" : [spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon)],         \
               "class" : "warrior",              \
-              "spell" : spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon),            \
+              "spell" : 0,                      # Index of spells for current spell
               "weapon" : item.item("No weapon", "weapon", 0, 1, {"damage" : 1, "range" : 1}),   \
               "hat" : item.item("No hat", "hat", 0),                \
               "shirt" : item.item("No shirt", "shirt", 0),          \
@@ -111,15 +113,12 @@ class player(world_object.world_object):
                         this.attributes["esc_menu_type"] = "inv"
                     elif opt == 2:
                         options = [] # All options to go in the menu.
-                        spell_list = [] # The spell corresponding to the option
-                        for opt in this.attributes["items"]:    # Find all items
-                            if opt.type == "spell":             # Do stuff if they're actually a spell
-                                options.append(opt.name + "(" + str(opt.amount) + ")")
-                                spell_list.append(opt)
+                        spell_list = this.attributes["spells"] # The spell corresponding to the option
+                        for spl in spell_list:    # Find all items
+                            options.append(opt.name + "(" + str(opt.amount) + ")")
                         this.attributes["esc_menu"] = display.menu("Set to what?", this, "Back", *options)
                         this.attributes["esc_menu"].is_esc_menu = True
                         this.attributes["esc_menu_type"] = "spell"
-                        this.attributes["set_list"] = spell_list
                     elif opt == 3:
                         this.attributes["socket"].close()
                         world.to_del_plr.append(this)
@@ -157,7 +156,7 @@ class player(world_object.world_object):
 
                 elif this.attributes["esc_menu_type"] == "spell": # Let them set a spell
                     if opt != 0:
-                        this.attributes["spell"] = this.attributes["set_list"][opt - 1]
+                        this.attributes["spell"] = this.attributes["spells"][opt - 1]
                     this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Exit Server")
                     this.attributes["esc_menu"].is_esc_menu = True
                     this.attributes["esc_menu_type"] = "main"
@@ -194,10 +193,24 @@ class player(world_object.world_object):
 
         # Check for spell cast
         if this.attributes["keys"][display.KEY_SPACE] and this.attributes["can_cast"]:
-            this.attributes["spell"].cast(this)
+            this.attributes["spells"][this.attributes["spell"]].cast(this)
             this.attributes["can_cast"] = False
         if not this.attributes["keys"][display.KEY_SPACE]:
             this.attributes["can_cast"] = True
+
+        # Check for spell cycle
+        if this.attributes["keys"][display.KEY_U] and this.attributes["can_spell_cycle"]:
+            if this.attributes["spell"] == 0: # Cycle to end of list if at start
+                this.attributes["spell"] = len(this.attributes["spells"])
+            this.attributes["spell"] -= 1     # Cycle backwards
+            this.attributes["can_spell_cycle"] = False
+        if this.attributes["keys"][display.KEY_O] and this.attributes["can_spell_cycle"]:
+            this.attributes["spell"] += 1
+            if this.attributes["spell"] >= len(this.attributes["spells"]): # If at end of list, cycle to start
+                this.attributes["spell"] = 0
+            this.attributes["can_spell_cycle"] = False
+        if not (this.attributes["keys"][display.KEY_U] or this.attributes["keys"][display.KEY_O]):
+            this.attributes["can_spell_cycle"] = True
 
         # Attacks!
         if this.attributes["keys"][display.KEY_I] and (this.Y != 0) and (world.map[this.X][this.Y - 1][3]) and (not "del_atk" in this.attributes["effects"]):
@@ -286,8 +299,8 @@ class player(world_object.world_object):
         level = struct.pack("!I", this.attributes["level"])
         exp = struct.pack("!I", int(0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4 - this.attributes["EXP"]))
         gold = struct.pack("I", this.attributes["money"])
-        spell_len = struct.pack("!I", len(this.attributes["spell"].image))
-        spell_image = bytearray(this.attributes["spell"].image, 'utf-8')
+        spell_len = struct.pack("!I", len(this.attributes["spells"][this.attributes["spell"]].image))
+        spell_image = bytearray(this.attributes["spells"][this.attributes["spell"]].image, 'utf-8')
 
         item_len = struct.pack("!I", len(this.attributes["consumable"].attributes["icon"]))
         item_image = bytearray(this.attributes["consumable"].attributes["icon"], 'utf-8')
@@ -314,43 +327,54 @@ class player(world_object.world_object):
         
         return hp + mp + level + exp + gold + spell_len + spell_image + item_len + item_image + equip_info + sidebar_len + sidebar_data
 
+# Level at which a spell is gained
+spell_gain_levels = [2]
+
+warrior_spells  = [spell.spell(first_aid.manaCost, first_aid.FirstAid, first_aid.name, first_aid.icon)]
+mage_spells     = [spell.spell(fireball.manaCost, fireball.fireball, fireball.name, fireball.icon), spell.spell(frostshot.manaCost, frostshot.frostshot, frostshot.name, frostshot.icon)]
+thief_spells    = [spell.spell(lifesteal.manaCost, lifesteal.lifesteal, lifesteal.name, lifesteal.icon)]
+
 def gain_exp(this, amount):
     this.attributes["EXP"] += amount
-    # Takes 0.5L^2 + .5L + 4
+    # Takes 0.5L^2 + .5L + 4 EXP to level
     while this.attributes["EXP"] >= (0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4): # They levelled up!
         this.attributes["EXP"] -= (0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4) # Remove EXP required for level
+        if this.attributes["level"] >= 20: # Max level
+            this.attributes["HP"] = this.attributes["maxHP"] # HP restore
+            this.attributes["MP"] = this.attributes["maxMP"] # MP restore
+            continue
+
         this.attributes["level"] += 1 # Duh.
-        if this.attributes["level"] == 2:
-            if this.attributes["class"] == "mage":
-                this.attributes["items"].append(spell.spell(fireball.manaCost, fireball.fireball, fireball.name, fireball.icon, fireball.color))
+        if this.attributes["level"] in spell_gain_levels:               # They have a spell to gain
+            sp_index = spell_gain_levels.index(this.attributes["level"])
             if this.attributes["class"] == "warrior":
-                this.attributes["items"].append(spell.spell(first_aid.manaCost, first_aid.FirstAid, first_aid.name, first_aid.icon, first_aid.color))
-            if this.attributes["class"] == "thief":
-                this.attributes["items"].append(spell.spell(lifesteal.manaCost, lifesteal.lifesteal, lifesteal.name, lifesteal.icon, lifesteal.color))
-        if this.attributes["level"] == 4:
+                this.attributes["items"].append(warrior_spells[sp_index])
             if this.attributes["class"] == "mage":
-                this.attributes["items"].append(spell.spell(frostshot.manaCost, frostshot.frostshot, frostshot.name, frostshot.icon, frostshot.color))
+                this.attributes["items"].append(mage_spells[sp_index])
+            if this.attributes["class"] == "thief":
+                this.attributes["items"].append(thief_spells[sp_index])
+
         if this.attributes["class"] == "warrior":
             this.attributes["maxHP"] += 15 # Give stats.
             this.attributes["maxMP"] += 5
             this.attributes["mov_spd"] += 1
             this.attributes["atk_spd"] += 1
             this.attributes["magic"] += 1
-            this.attributes["strength"] += 3
+            this.attributes["strength"] += 2
         if this.attributes["class"] == "mage":
-            this.attributes["maxHP"] += 5 # Give stats.
+            this.attributes["maxHP"] += 10 # Give stats.
             this.attributes["maxMP"] += 15
             this.attributes["mov_spd"] += 3
             this.attributes["atk_spd"] += 3
             this.attributes["magic"] += 3
             this.attributes["strength"] += 1
         if this.attributes["class"] == "thief":
-            this.attributes["maxHP"] += 10  # Give stats.
+            this.attributes["maxHP"] += 5  # Give stats.
             this.attributes["maxMP"] += 10
             this.attributes["mov_spd"] += 5
             this.attributes["atk_spd"] += 5
             this.attributes["magic"] += 2
-            this.attributes["strength"] += 2
+            this.attributes["strength"] += 3
 
         this.attributes["HP"] = this.attributes["maxHP"] # HP restore on level
         this.attributes["MP"] = this.attributes["maxMP"] # MP restore on level

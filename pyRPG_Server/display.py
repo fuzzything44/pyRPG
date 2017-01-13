@@ -44,9 +44,12 @@ KEY_Q = 11
 KEY_DOWN = 12
 KEY_E    = 12
 
-KEY_ESC  = 13
+KEY_U    = 13
+KEY_O    = 14
+
+KEY_ESC  = 15
 # Not actually a key but packed with them. What map they think they're in.
-KEY_MAPID = 14
+KEY_MAPID = 16
 
 def chr_to_color(chr): # Gets the color corresponding to the given character
       if chr == 'r':

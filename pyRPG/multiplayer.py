@@ -145,9 +145,12 @@ def multiplayer(name):
             # 10    ENTER
             # 11    Q/UP
             # 12    E/DOWN
-            # 13    ESC
-            # 14    Special: Current map ID. Not actually a key. 
-            to_send = bytearray(15)
+            # 13    U
+            # 14    O
+            # 15    ESC
+            # 16    Special: Current map ID. Not actually a key. 
+
+            to_send = bytearray(17)
             to_send[0] = display.keyDown(ord('W'))
             to_send[1] = display.keyDown(ord('A'))
             to_send[2] = display.keyDown(ord('S'))
@@ -161,8 +164,10 @@ def multiplayer(name):
             to_send[10]= display.keyDown(display.CONST.VK_RETURN)
             to_send[11]= display.keyDown(ord('Q')) or display.keyDown(display.CONST.VK_UP)
             to_send[12]= display.keyDown(ord('E')) or display.keyDown(display.CONST.VK_DOWN)
-            to_send[13]= display.keyDown(display.CONST.VK_ESCAPE)
-            to_send[14]= current_map
+            to_send[13]= display.keyDown(ord('U'))
+            to_send[14]= display.keyDown(ord('O'))
+            to_send[15]= display.keyDown(display.CONST.VK_ESCAPE)
+            to_send[16]= current_map
     
             sock.sendto(to_send, new_addr)
 
