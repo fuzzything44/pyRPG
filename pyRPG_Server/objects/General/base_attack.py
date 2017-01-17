@@ -23,7 +23,10 @@ class base_attack(world_object.world_object):
         if (this.attributes["owner"].type != oth.type) and ("HP" in oth.attributes):
             oth.attributes["HP"] -= this.attributes["damage"]
             if "dmg_dist" in oth.attributes: # Add damage to damage distribution
-                oth.attributes["dmg_dist"][this.attributes["owner"]] += this.attributes["damage"]
+                if this.attributes["owner"] in oth.attributes["dmg_dist"]:
+                    oth.attributes["dmg_dist"][this.attributes["owner"]] += this.attributes["damage"]
+                else:
+                    oth.attributes["dmg_dist"][this.attributes["owner"]]  = this.attributes["damage"]
 
             world.to_del.append(this)
     def char(this):

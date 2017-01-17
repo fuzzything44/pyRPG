@@ -13,7 +13,10 @@ class money(world_object.world_object):
 
     def collide(this, obj):
         if ("money" in obj.attributes) and (not this.attributes["taken"]):
-            obj.attributes["money"] += this.attributes["value"]
+            moneydrop = this.attributes["value"]
+            if "luck" in obj.attributes:
+                moneydrop = .01*moneydrop*(100 + obj.attributes["luck"])*(1 + 0.1*random.randrange(0, 10))
+            obj.attributes["money"] += int(this.attributes["value"])
             this.attributes["taken"] = True
             world.to_del.append(this)
     

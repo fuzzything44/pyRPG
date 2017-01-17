@@ -52,19 +52,33 @@ class enemy_base(world_object.world_object):
 
         did_most = None
         
-        world.player.attributes["gainexp"](world.player, this.attributes["EXP"]) # Give exp
+        for plr in this.attributes["dmg_dist"]:
+            plr.attributes["gainexp"](plr, this.attributes["EXP"]) # Give exp
 
         # Drop money. Dropped is their luck times the drop amount plus 0-10%.
-        moneydrop = int(.01*this.attributes["money"]*(100 + world.player.attributes["luck"])*(1 + 0.1*random.randrange(0, 10)))
-        if moneydrop > 0:
-            world.objects.append(money.money(this.X, this.Y, moneydrop))
+        if this.attributes["money"] > 0:
+            world.objects.append(money.money(this.X, this.Y, this.attributes["money"]))
 
         # Drop items
-        dropped_items = []
+        # What priority players get drops in
+        drop_priority = sorted(this.attributes["dmg_dist"], key=this.attributes["dmg_dist"].get, reverse=True)
+
+        if len(drop_priority) == 0:
+            return # Don't drop stuff if no one killed
+        # What drops each player gets
+        drops = [[] * len(drop_priority)]
+
+        # Where we are in the priority list
+        priority_index = 0
         for drop in this.attributes["items"]:
             # Roll die, see if it drops
-            if random.randrange(0, 100) < (drop[1] * (1.0 + world.player.attributes["luck"] / 100)):
-                dropped_items.append(drop[0]) # They got the item!
-        if len(dropped_items) > 0:
-            world.objects.append(lootbag.lootbag(this.X, this.Y, dropped_items))
+            if random.randrange(0, 100) < (drop[1] * (1.0 + drop_priority[priority_index].attributes["luck"] / 100)):
+                drops[priority_index].append(drop[0]) # They got the item!
+            priority_index += 1
+            if priority_index >= len(drop_priority):
+                priority_index = 0
+
+        for ind in range(len(drop_priority)): # For all players that damaged...
+            world.objects.append(lootbag.lootbag(this.X, this.Y, drop_priority[ind], drops[ind])) # Give drops
+
 

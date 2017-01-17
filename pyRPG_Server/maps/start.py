@@ -2,6 +2,7 @@
 import display
 import world
 from objects import General
+from items import bread
 
 def generate():
     world.objects.clear()
@@ -12,6 +13,7 @@ def generate():
     dialogue_tree.add_exit("exit", 0)
     world.objects.append(General.npc.npc(43, 4, dialogue_tree))
 
+    world.objects.append(General.enemy_base.enemy_base(27, 8, drops=[(bread.bread(), 100), (bread.bread(2), 100), (bread.bread(3), 100)]))
 
     world.map = [[ [display.WHITE, display.BLACK, ' ', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
     world.map[0][0] =  [display.WHITE, display.BLACK, '#', False]

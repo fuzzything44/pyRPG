@@ -33,14 +33,14 @@ class chest(world_object.world_object):
                     this.attributes["contents"].remove(this.attributes["contents"][menu.update()])
 
                     this.attributes["open"] = False # Close chest
-                    display.current_menu = None
+                    plr.attributes["current_menu"] = None
             else:
                 if menu is None: # We can actually make it
                     option_list = []
                     for item in this.attributes["contents"]:
-                        option_list.append(item.name)
+                        option_list.append(item.name + "(" + str(item.amount) + ")")
                     if option_list != []:
-                        menu = display.menu("A Chest!", *option_list)
+                        plr.attributes["current_menu"] = display.menu("A Chest!", plr, *option_list)
                         this.attributes["open"] = True
 
                     else:

@@ -64,6 +64,7 @@ def run_map(map_name, get, send):
     
             # Remove players that left
             for plr in set(world.to_del_plr):
+                world.save_player(plr)
                 world.players.remove(plr)
     
             # Handle move requests.
