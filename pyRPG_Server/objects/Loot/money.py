@@ -1,3 +1,5 @@
+import random
+
 import display
 import world
 
@@ -16,7 +18,8 @@ class money(world_object.world_object):
             moneydrop = this.attributes["value"]
             if "luck" in obj.attributes:
                 moneydrop = .01*moneydrop*(100 + obj.attributes["luck"])*(1 + 0.1*random.randrange(0, 10))
-            obj.attributes["money"] += int(this.attributes["value"])
+
+            obj.attributes["money"] += int(moneydrop)
             this.attributes["taken"] = True
             world.to_del.append(this)
     

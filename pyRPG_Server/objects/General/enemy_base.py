@@ -36,7 +36,7 @@ class enemy_base(world_object.world_object):
             del this.attributes["effects"][eff_name]
         del eff_del_list
         # Check if dead.
-        if this.attributes["HP"] <= 0:
+        if this.attributes["HP"] <= -10: # TODO: bring back to normal
             this.die()
 
     def color(this):
@@ -66,11 +66,11 @@ class enemy_base(world_object.world_object):
         if len(drop_priority) == 0:
             return # Don't drop stuff if no one killed
         # What drops each player gets
-        drops = [[] * len(drop_priority)]
-
+        drops = [[] for x in range(len(drop_priority))]
         # Where we are in the priority list
         priority_index = 0
         for drop in this.attributes["items"]:
+            print("Rolling drop...", drop)
             # Roll die, see if it drops
             if random.randrange(0, 100) < (drop[1] * (1.0 + drop_priority[priority_index].attributes["luck"] / 100)):
                 drops[priority_index].append(drop[0]) # They got the item!
@@ -80,5 +80,4 @@ class enemy_base(world_object.world_object):
 
         for ind in range(len(drop_priority)): # For all players that damaged...
             world.objects.append(lootbag.lootbag(this.X, this.Y, drop_priority[ind], drops[ind])) # Give drops
-
 

@@ -84,7 +84,7 @@ def multiplayer(name):
                 index += 8
 
                 # Draw level, EXP, gold:
-                level   = struct.unpack("!I", data[index:index + 4])[0]
+                level   = struct.unpack("!I", data[index: index + 4])[0]
                 exp     = struct.unpack("!I", data[index + 4: index + 8])[0]
                 gold    = struct.unpack("!I", data[index + 8: index + 12])[0]
 

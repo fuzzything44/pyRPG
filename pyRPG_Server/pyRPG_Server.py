@@ -38,7 +38,7 @@ def connector(queue):
         if can_read != []: # We have some data to process...
             (data, addr) = serversocket.recvfrom(65507) # Receive the data.
             plr_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)   # Socket player connects to.
-            plr = world.load_player(data.decode('utf-8'))
+            plr = None #world.load_player(data.decode('utf-8'))
             if plr is None:
                 plr = Player.player.player(25, 10, plr_sock, addr, data.decode('utf-8'))  # New player object for request.
                 print("New player connected")

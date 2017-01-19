@@ -43,16 +43,18 @@ def run_map(map_name, get, send):
             world.to_del_plr.clear()
     
             # Update objects
-            for index in range(len(world.objects + world.players)):
-                obj = (world.objects + world.players)[index]
+            obj_update_list = world.objects + world.players
+            for index in range(len(obj_update_list)):
+                obj = obj_update_list[index]
     
                 # Update it
                 obj.update(delta_time)
 
-                for coll in world.objects[index + 1:]:    # Check for collision
-                    if coll.X == obj.X and coll.Y == obj.Y:
-                        obj.collide(coll) # Call collisions
-                        coll.collide(obj)
+                if obj.type != "player": # Don't check player collisions as they can only collide with other players.
+                    for coll in obj_update_list[index + 1:]:    # Check for collision
+                        if coll.X == obj.X and coll.Y == obj.Y:
+                            obj.collide(coll) # Call collisions
+                            coll.collide(obj)
     
                 #Check if out of bounds
                 if world.out_of_bounds(obj.X, obj.Y):

@@ -300,7 +300,7 @@ class player(world_object.world_object):
         mp = struct.pack("!I", int(this.attributes["MP"])) + struct.pack("!I", int(this.attributes["maxMP"]))
         level = struct.pack("!I", this.attributes["level"])
         exp = struct.pack("!I", int(0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4 - this.attributes["EXP"]))
-        gold = struct.pack("I", this.attributes["money"])
+        gold = struct.pack("!I", this.attributes["money"])
         spell_len = struct.pack("!I", len(this.attributes["spells"][this.attributes["spell"]].image))
         spell_image = bytearray(this.attributes["spells"][this.attributes["spell"]].image, 'utf-8')
 
