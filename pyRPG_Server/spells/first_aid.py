@@ -5,5 +5,5 @@ def FirstAid(player):
     player.attributes["effects"]["firstaid"] = regen.regen(player, 10000, "Regeneration")
 
 manaCost = 10
-icon = "\\rcX+X\n+X+\nX+X"
+icon = "\\fcX+X\n+X+\nX+X"
 name = "First Aid"

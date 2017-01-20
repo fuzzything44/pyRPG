@@ -13,7 +13,7 @@ class effect():
             time_left = "Inf"
             if this.time < float("inf"):
                 time_left = str(int(this.time/1000))
-            owner.attributes["sidebar"] += this.name + '(' + time_left + "(\n"
+            this.owner.attributes["sidebar"] += this.name + '(' + time_left + ")\n"
 
     def uneffect(this, owner):
         pass

@@ -29,6 +29,14 @@ class node:
         else:
             this.ret_val = player.attributes["current_menu"].update()
 
+class exit_node:
+    def __init__(this, val, func, *args):
+        this.exit_number = val
+        this._exit_func = func
+        this._args = args
+
+    def run_exit(this, plr):
+        this._exit_func(plr, *this._args)
 
 class dialogue_tree:
 
@@ -43,12 +51,12 @@ class dialogue_tree:
     def add_node(this, name, node):
         this.nodes[name] = node
 
-    def add_exit(this, exit_name, exit_number):
-        this.exit_nodes[exit_name] = exit_number
+    def add_exit(this, exit_name, exit_number, on_exit = world_object.no_func, *on_exit_args):
+        this.exit_nodes[exit_name] = exit_node(exit_number, on_exit, *on_exit_args)
 
     def run(this):
         if this.exit_taken is not None:
-            return this.exit_taken
+            return this.exit_taken.exit_number
         if this.paused:
             this.paused = False                                             # Unpause
             this.nodes[this.current_node].start_node(this.linked_player)    # Redraw node
@@ -57,7 +65,8 @@ class dialogue_tree:
             if new_node is not None:                            # Menu finished
                 if new_node in this.exit_nodes:                 # Menu ended
                     this.exit_taken = this.exit_nodes[new_node] # Exit
-                    return this.exit_taken
+                    this.exit_taken.run_exit(this.linked_player)
+                    return this.exit_taken.exit_number
                 else:
                     this.current_node = new_node                # Go to new node
                     this.nodes[this.current_node].start_node(this.linked_player)
@@ -86,6 +95,8 @@ class npc(world_object.world_object):
             if plr.X + 1 >= this.X and plr.X - 1 <= this.X and plr.Y + 1 >= this.Y and plr.Y -1 <= this.Y:
                 diag.run()
             else:
+                left_players.append(plr)
+            if plr not in world.players:
                 left_players.append(plr)
 
         for gone in left_players:

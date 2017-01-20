@@ -84,7 +84,7 @@ Special characters:
             elif chr == 'f': # Set foreground color
                 setting_color = True
             else: # Unknown
-                raise "Unknown escaped character '" + chr + "'."
+                raise BaseException("Unknown escaped character '" + chr + "'.")
             escaped = False
         elif setting_color:
             color = chr_to_color(chr)

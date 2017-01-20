@@ -117,7 +117,7 @@ class player(world_object.world_object):
                         options = [] # All options to go in the menu.
                         spell_list = this.attributes["spells"] # The spell corresponding to the option
                         for spl in spell_list:    # Find all items
-                            options.append(opt.name + "(" + str(opt.amount) + ")")
+                            options.append(spl.name + "(" + str(spl.amount) + ")")
                         this.attributes["esc_menu"] = display.menu("Set to what?", this, "Back", *options)
                         this.attributes["esc_menu"].is_esc_menu = True
                         this.attributes["esc_menu_type"] = "spell"
@@ -135,13 +135,10 @@ class player(world_object.world_object):
                         this.attributes["set_name"] = set_type
                         options = [] # All options to go in the menu.
                         items = [] # The item corresponding to the option
-                        for opt in this.attributes["items"]:
-                            if opt.type == set_type:
-                                if set_type == "spell":
-                                    options.append(opt.name + "(" + str(opt.amount) + ")")
-                                else:
-                                    options.append(opt.name +"(" + str(opt.amount) + ")" + opt.attributes["disp_data"])
-                                items.append(opt)
+                        for itm in this.attributes["items"]:
+                            if itm.type == set_type:
+                                options.append(itm.name +"(" + str(itm.amount) + ")" + itm.attributes["disp_data"])
+                                items.append(itm)
                         this.attributes["esc_menu"] = display.menu("Set to what?", this, "Back", *options)
                         this.attributes["esc_menu"].is_esc_menu = True
                         this.attributes["esc_menu_type"] = "set"
@@ -158,7 +155,7 @@ class player(world_object.world_object):
 
                 elif this.attributes["esc_menu_type"] == "spell": # Let them set a spell
                     if opt != 0:
-                        this.attributes["spell"] = this.attributes["spells"][opt - 1]
+                        this.attributes["spell"] = opt - 1
                     this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Exit Server")
                     this.attributes["esc_menu"].is_esc_menu = True
                     this.attributes["esc_menu_type"] = "main"
@@ -258,6 +255,8 @@ class player(world_object.world_object):
             del this.attributes["effects"][eff_name]
         del eff_del_list
 
+        this.attributes["lastHP"] = this.attributes["HP"] # Reset lastHP, done after effect updating.
+
         if this.attributes["sidebar"].count('\n') == sidebar_len:
             this.attributes["sidebar"] += " No effects\n"
 
@@ -267,6 +266,7 @@ class player(world_object.world_object):
             this.Y = this.attributes["respawnY"]
             world.move_requests.append((this.attributes["respawnMap"], this))   # At last saved map...
             world.to_del_plr.append(this)                                       # Exit from this map.
+            print("Player died")
 
     def char(this):
         return 'P'
@@ -350,11 +350,11 @@ def gain_exp(this, amount):
         if this.attributes["level"] in spell_gain_levels:               # They have a spell to gain
             sp_index = spell_gain_levels.index(this.attributes["level"])
             if this.attributes["class"] == "warrior":
-                this.attributes["items"].append(warrior_spells[sp_index])
+                this.attributes["spells"].append(warrior_spells[sp_index])
             if this.attributes["class"] == "mage":
-                this.attributes["items"].append(mage_spells[sp_index])
+                this.attributes["spells"].append(mage_spells[sp_index])
             if this.attributes["class"] == "thief":
-                this.attributes["items"].append(thief_spells[sp_index])
+                this.attributes["spells"].append(thief_spells[sp_index])
 
         if this.attributes["class"] == "warrior":
             this.attributes["maxHP"] += 15 # Give stats.

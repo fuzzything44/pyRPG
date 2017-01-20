@@ -87,10 +87,12 @@ def connector(queue):
                     move_requests.append(cmd[1]) # Add move request.
 
         for mapname in to_close: # Remove closed maps.
+            maps[mapname][1].put(("end",)) # Send acknowledge of close
             del maps[mapname]
 
         # Handle move requests. Should be in form of (map, object)
         for req in move_requests:
+            print("Handling move request...")
             if req[0] in maps:          # Map currently exists
                 maps[req[0]][1].put(("add", req[1]))
             else:                       # Map doesn't exist, add map

@@ -37,6 +37,8 @@ def run_map(map_name, get, send):
             if world.players == []: # No players left
                 send.put(("end", ))
                 print("Ending map " + map_name)
+                while get.get() != ("end",): # Wait for acknowledge of end.
+                    pass
                 return
     
             world.to_del.clear()
@@ -100,6 +102,8 @@ def run_map(map_name, get, send):
         send.put(("end", ))
         print("Ending map " + map_name + " due to error (", ex, ")")
         print( traceback.format_exc())
+        while get.get() != ("end",): # Wait for acknowledge of end.
+            pass
 
 
     

@@ -36,7 +36,7 @@ class enemy_base(world_object.world_object):
             del this.attributes["effects"][eff_name]
         del eff_del_list
         # Check if dead.
-        if this.attributes["HP"] <= -10: # TODO: bring back to normal
+        if this.attributes["HP"] <= 0: # TODO: bring back to normal
             this.die()
 
     def color(this):
@@ -53,7 +53,7 @@ class enemy_base(world_object.world_object):
         did_most = None
         
         for plr in this.attributes["dmg_dist"]:
-            plr.attributes["gainexp"](plr, this.attributes["EXP"]) # Give exp
+            plr.attributes["gainexp"](plr, this.attributes["EXP"])
 
         # Drop money. Dropped is their luck times the drop amount plus 0-10%.
         if this.attributes["money"] > 0:

@@ -14,6 +14,10 @@ class chest(world_object.world_object):
 
     def update(this, delta_time):
         plr = this.attributes["player"]
+        if plr not in world.players: # If player leaves, remove this.
+            world.to_del.append(this)
+            return
+
         menu = plr.attributes["current_menu"]
 
         if plr.X == this.X and plr.Y == this.Y: # Colliding with player.
