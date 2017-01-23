@@ -36,6 +36,9 @@
     <Compile Include="items\bread.py" />
     <Compile Include="items\enemy_info.py" />
     <Compile Include="items\item.py" />
+    <Compile Include="items\no_item.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="items\start.py" />
     <Compile Include="items\t1_mage.py" />
     <Compile Include="items\t1_thief.py" />

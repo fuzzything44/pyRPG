@@ -1,5 +1,3 @@
-import display
-
 def heal(player):
     if ("HP" in player.attributes) and ("maxHP" in player.attributes):
         player.attributes["HP"] += 1.5*player.attributes["magic"]

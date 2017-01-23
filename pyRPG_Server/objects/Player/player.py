@@ -6,7 +6,7 @@ import world
 from effects import effect
 
 from items import item
-from items import start as start_items
+from items import no_item
 
 from objects.Player import attack
 from objects import world_object
@@ -58,12 +58,12 @@ class player(world_object.world_object):
               "spells" : [spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon)],         \
               "class" : "warrior",              \
               "spell" : 0,                      # Index of spells for current spell
-              "weapon" : item.item("No weapon", "weapon", 0, 1, {"damage" : 1, "range" : 1}),   \
-              "hat" : item.item("No hat", "hat", 0),                \
-              "shirt" : item.item("No shirt", "shirt", 0),          \
-              "pants" : item.item("No pants", "pants", 0),          \
-              "ring" : item.item("No ring", "ring", 0),             \
-              "consumable" : item.item("Nothing", "consumable", 0, 1, {"icon" : "   \n   \n   ", "color" : 0, "use" : world_object.no_func}), \
+              "weapon" : no_item.no_weapon(),   \
+              "hat"    : no_item.no_hat(),      \
+              "shirt"  : no_item.no_shirt(),    \
+              "pants"  : no_item.no_pants(),    \
+              "ring"   : no_item.no_ring(),     \
+              "consumable" : no_item.no_consumable(),\
               "mov_spd" : 0,                    # How quickly they move
               "atk_spd" : 0,                    # How quickly they attack
               "can_cast" : True,                \
@@ -236,7 +236,7 @@ class player(world_object.world_object):
             this.attributes["consumable"].amount -= 1
             if this.attributes["consumable"].amount == 0:
                 del this.attributes["items"][this.attributes["items"].index(this.attributes["consumable"])]
-                this.attributes["consumable"] = item.item("Nothing", "consumable", 0, 1, {"icon" : "   \n   \n   ", "color" : 0})
+                this.attributes["consumable"] = no_item.no_consumable()
         if not this.attributes["keys"][display.KEY_SHIFT]:
             this.attributes["can_item"] = True
     
