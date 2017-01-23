@@ -1,4 +1,5 @@
 from items import item
+from objects import world_object
 
 class no_hat(item.item):
     def __init__(this):

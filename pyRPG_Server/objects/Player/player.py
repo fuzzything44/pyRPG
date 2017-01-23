@@ -7,6 +7,7 @@ from effects import effect
 
 from items import item
 from items import no_item
+from items import start as start_items
 
 from objects.Player import attack
 from objects import world_object
@@ -146,9 +147,10 @@ class player(world_object.world_object):
                 elif this.attributes["esc_menu_type"] == "set": # Let them set an item
                     if opt != 0:
                         itm = this.attributes["set_list"][opt - 1]                  # Find chosen item
-                        this.attributes[this.attributes["set_name"]].unequip(this)  # Unequip other item
-                        this.attributes[this.attributes["set_name"]] = itm          # Put in equipped slot
-                        itm.equip(this)                                             # Equip
+                        if itm in this.attributes["items"]:     # If they have the item
+                            this.attributes[this.attributes["set_name"]].unequip(this)  # Unequip other item
+                            this.attributes[this.attributes["set_name"]] = itm          # Put in equipped slot
+                            itm.equip(this)                                             # Equip
                     this.attributes["esc_menu"] = display.menu("Inventory\nMax HP: \\frRed\n\\fwMax MP: \\fbBlue\n\\fwMovement Speed: \\fgGreen\n\\fwAttack Speed: White\nMagic Power: \\fcCyan\n\\fwStrength: \\fmMagenta\n\\fwLuck: \\fyYellow\\fw", this, "Back", "Set Consumable", "Set Weapon", "Set Hat", "Set Shirt", "Set Pants", "Set Ring")
                     this.attributes["esc_menu"].is_esc_menu = True
                     this.attributes["esc_menu_type"] = "inv"
