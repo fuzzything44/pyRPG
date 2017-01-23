@@ -16,27 +16,19 @@ class portal(world_object.world_object):
         this.attributes.update({      \
             "newmap" : newmap,  \
             "locx" : locx,      \
-            "locy" : locy,      \
-            "used" : False      \
+            "locy" : locy       \
         })
 
     def collide(this, other):
         "If collided with player, brings them to the new map."
         if other.type == "player":
-            world.load(this.attributes["newmap"])
-            world.objects = [world.player] + world.objects
-    
-            world.player.X = this.attributes["locx"]
-            world.player.Y = this.attributes["locy"]
-            this.attributes["used"] = True
-            # Print world out
-            world.dispworld()
-            return True
+            world.to_del_plr.append(other) # Move player out of map
+            world.move_requests.append((this.attributes["newmap"], other)) # Put player in new map
+            other.X = this.attributes["locx"] # Set player coords for new map
+            other.Y = this.attributes["locy"]
 
     def char(this):
-        if not this.attributes["used"]:
-            return 'O'
-        return '\0'
+        return 'O'
 
     def color(this):
         return display.BLUE

@@ -20,11 +20,10 @@ class lavatile(world_object.world_object):
     # Since various sources of damage may do different effects, we need a new collide for each effect       
     def collide(this, oth):
         "Does damage to stuff."
-        if not (oth in this.attributes["timers"]):
-            if "HP" in oth.attributes:
-                oth.attributes["HP"] -= 10              # Hurt it
-                this.attributes["timers"][oth] = 100    # Give invincibility
-                if "effects" in oth.attributes:
-                    oth.attributes["effects"]["fire"] = fire.fire(oth, 1000, 10) # Start fire damage
+        if "HP" in oth.attributes and (oth not in this.attributes["timers"]):
+            oth.attributes["HP"] -= 10              # Hurt it
+            this.attributes["timers"][oth] = 100    # Give invincibility
+            if "effects" in oth.attributes:
+                oth.attributes["effects"]["fire"] = fire.fire(oth, 1000, 10) # Start fire damage
     
     

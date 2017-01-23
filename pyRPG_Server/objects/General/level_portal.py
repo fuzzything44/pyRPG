@@ -10,12 +10,6 @@ class level_portal(portal.portal):
 
     def collide(this, other):
         "Possibly changes current map if collides with player."
-        if world.player.attributes["level"] < this.attributes["level"]:
-            return # Too low of level.
-        return super().collide(other)
+        if oth.type == "player" and oth.attributes["level"] >= this.attributes["level"]:
+            return super().collide(other)
  
-    def color(this):
-        "Normal if usable, red otherwise"
-        if world.player.attributes["level"] >= this.attributes["level"]:
-            return super().color()
-        return display.RED

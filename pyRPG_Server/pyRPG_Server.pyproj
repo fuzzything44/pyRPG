@@ -46,6 +46,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="maps\start.py" />
+    <Compile Include="maps\warrior_begin.py" />
     <Compile Include="maps\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -94,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="maps\start.txt" />
+    <Content Include="maps\warrior_begin.txt" />
     <Content Include="res\maps\credits.wrld" />
     <Content Include="res\maps\lavadungeon.1.wrld" />
     <Content Include="res\maps\lavadungeon.2.wrld" />

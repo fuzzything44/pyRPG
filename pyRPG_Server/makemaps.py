@@ -1,9 +1,7 @@
 import world
 
 # Import all maps
-from maps import start
-
-
+import maps
 
 def make_from_file(file_in, file_out):
     data = []
@@ -61,15 +59,31 @@ def make(make_what):
     if ("+start " in make_what) or (("+all " in make_what) and ("-tutorial " not in make_what)):
         print("Making start", end = "")
         
-        start.generate()
+        maps.start.generate()
         world.save("start")
+        print(".")
+
+    if ("+war_tut " in make_what) or ("+tutorial" in make_what and "-war_tut" not in make_what) or (("+all " in make_what) and ("-tutorial " not in make_what or "-war_tut" not in make_what)):
+        print("Making warrior tutorial", end = "")
+        
+        maps.warrior_begin.generate()
+        world.save("warrior_start")
         print(".", end="")
         
 
 
 if __name__ == "__main__":
+    #make_from_file("maps/warrior_begin.txt", "maps/warrior_begin.py")
     print("Make what maps?")
-    print("Options: (use +opt_name or +all for all, use -opt_name to exclude from +all)")
-    print("    start")
+    print("Options: (use +opt_name for that map (or everything under it), use -opt to exclude option")
+    print("all")
+    print("|--start")
+    print("|--tutorial")
+    print("|  |--war_tut")
+    print("|  |--mage_tut(NOT MADE YET)")
+    print("|  |--thief_tut(NOT MADE YET)")
+    print("|--dungeon1(NOT MADE YET)")
+
+
 
     make(input() + " ")
