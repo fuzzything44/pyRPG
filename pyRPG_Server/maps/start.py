@@ -4,18 +4,47 @@ import world
 from objects import General
 from items import bread
 
+def to_warr(player):
+    player.attributes["class"] = "warrior"
+    player.X = 3  # Set start coords for new map
+    player.Y = 7
+    player.attributes["respawnX"] = 3  # Set respawn info
+    player.attributes["respawnY"] = 7
+    player.attributes["respawnMap"] = "warrior_start"
+    world.to_del_plr.append(player) # Move player
+    world.move_requests.append(("warrior_start", player))
+
+ 
+def to_mage(player):
+    player.attributes["class"] = "mage"
+    player.X = 9
+    player.Y = 9
+    player.attributes["respawnX"] = 9
+    player.attributes["respawnY"] = 9
+    player.attributes["respawnMap"] = "mage_start"
+    world.to_del_plr.append(player)
+    world.move_requests.append(("mage_start", player))
+
+def to_thief(player):
+    player.attributes["class"] = "thief"
+    player.X = 43
+    player.Y = 12
+    player.attributes["respawnX"] = 34
+    player.attributes["respawnY"] = 12
+    player.attributes["respawnMap"] = "thief_start"
+    world.to_del_plr.append(player)
+    world.move_requests.append(("thief_start", player))
+
 def generate():
     world.objects.clear()
 
     dialogue_tree = General.npc.dialogue_tree()
-    dialogue_tree.add_node("start", General.npc.node("Welcome to pyRPG Multiplayer!", ("Yay!", "yay"), ("Bye", "exit"), ("Byte", "exit")))
-    dialogue_tree.add_node("yay", General.npc.node("That's the spirit!", ("Bye", "exit")))
-    dialogue_tree.add_exit("exit", 0)
-    world.objects.append(General.npc.npc(43, 4, dialogue_tree))
+    dialogue_tree.add_node("start", General.npc.node("Welcome to pyRPG Multiplayer!\nChoose a class:", ("Warrior!", "warr"), ("Mage!", "mage"), ("Thief!", "thief")))
+    dialogue_tree.add_exit("warr", 0, to_warr)
+    dialogue_tree.add_exit("mage", 1, to_mage)
+    dialogue_tree.add_exit("thief",2, to_thief)
+    world.objects.append(General.npc.npc(25, 4, dialogue_tree))
 
-    world.objects.append(General.enemy_base.enemy_base(27, 8, drops=[(bread.bread(), 100), (bread.bread(2), 100), (bread.bread(3), 100)]))
-
-    world.objects.append(General.portal.portal(23, 11, "warrior_start", 10, 10))
 
     world.map = [[ [display.WHITE, display.BLACK, ' ', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
     world.map[0][0] =  [display.WHITE, display.BLACK, '#', False]

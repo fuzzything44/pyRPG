@@ -59,6 +59,9 @@
     <Compile Include="objects\General\level_portal.py" />
     <Compile Include="objects\General\lever.py" />
     <Compile Include="objects\General\lock_portal.py" />
+    <Compile Include="objects\General\merchant.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\General\npc.py" />
     <Compile Include="objects\General\portal.py" />
     <Compile Include="objects\General\__init__.py" />
