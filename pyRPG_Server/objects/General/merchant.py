@@ -49,6 +49,8 @@ class merchant(world_object.world_object):
                 left_players.append(plr)
 
         for left in left_players:
+            left.attributes["current_menu"] = None
+
             del this.attributes["players_start"][left]
 
         left_players.clear()

@@ -98,12 +98,13 @@ def run_map(map_name, get, send):
             for plr in world.players:
                 plr.attributes["socket"].sendto(plr.map_data() + send_data + plr.extra_data(), plr.attributes["address"])
                 
-    except ConnectionResetError as ex:
+    except Exception as ex:
         send.put(("end", ))
-        print("Ending map " + map_name + " due to error (", ex, ")")
-        print( traceback.format_exc())
+        print("Ending map " + map_name + " due to error!")
+        print(traceback.format_exc())
         while get.get() != ("end",): # Wait for acknowledge of end.
             pass
+        return
 
 
     
