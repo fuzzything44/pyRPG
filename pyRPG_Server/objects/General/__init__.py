@@ -2,8 +2,8 @@ from objects.General import base_attack
 from objects.General import enemy_base
 from objects.General import invis_dmg
 from objects.General import level_portal
-from objects.General import level_portal
 from objects.General import lever
 from objects.General import lock_portal
+from objects.General import merchant
 from objects.General import npc
 from objects.General import portal

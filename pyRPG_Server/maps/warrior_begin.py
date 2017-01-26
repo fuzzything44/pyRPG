@@ -3,10 +3,13 @@ import display
 import world
 
 from objects import General
+from items import t1_warrior
 
 def generate():
     world.objects.clear()
 
+    world.objects.append(General.merchant.merchant(6, 16, [t1_warrior.t1_warrior_hat(), t1_warrior.t1_warrior_pants(), t1_warrior.t1_warrior_ring(), t1_warrior.t1_warrior_shirt(), t1_warrior.t1_warrior_weapon()]))
+    world.objects.append(General.merchant.merchant(43, 16, [t1_warrior.t1_warrior_hat(), t1_warrior.t1_warrior_pants(), t1_warrior.t1_warrior_ring(), t1_warrior.t1_warrior_shirt(), t1_warrior.t1_warrior_weapon()]))
 
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
     world.map[0][0] =  [display.WHITE, display.BLACK, '#', False]

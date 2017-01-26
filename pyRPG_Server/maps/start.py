@@ -6,14 +6,13 @@ from items import bread
 
 def to_warr(player):
     player.attributes["class"] = "warrior"
-    player.X = 3  # Set start coords for new map
-    player.Y = 7
-    player.attributes["respawnX"] = 3  # Set respawn info
-    player.attributes["respawnY"] = 7
+    player.X = 24  # Set start coords for new map
+    player.Y = 13
+    player.attributes["respawnX"] = 24  # Set respawn info
+    player.attributes["respawnY"] = 13
     player.attributes["respawnMap"] = "warrior_start"
     world.to_del_plr.append(player) # Move player
     world.move_requests.append(("warrior_start", player))
-
  
 def to_mage(player):
     player.attributes["class"] = "mage"

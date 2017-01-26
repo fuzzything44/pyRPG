@@ -65,8 +65,8 @@ def connector(queue):
                 try:
                     importlib.reload(sys.modules[command[1]])
                     print("Module reloaded")
-                except:
-                    print("Couldn't refresh module")
+                except Exception as ex:
+                    print("Couldn't refresh module: ", ex)
             elif command[0] == "help":
                 print("Available commands:")
                 print("  end : Ends the server.")

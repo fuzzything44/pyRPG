@@ -33,14 +33,14 @@ class item:
                 # It's a weapon, so we need to show range and damage
                 range_str= " Range " + str(this.attributes["range"]) + " " # Add range
                 if str_len + len(range_str) > maxlen:   # Too long right now
-                    disp_str += "\n "                   # Add new line
+                    disp_str += "\n  "                   # Add new line
                     str_len = 1                         # 1 because space is a char.
                 disp_str += range_str
                 str_len += len(range_str)
 
                 damage_str= "Damage " + str(this.attributes["damage"]) + " " # Add damage
                 if str_len + len(damage_str) > maxlen:   # Too long right now
-                    disp_str += "\n "                   # Add new line
+                    disp_str += "\n  "                   # Add new line
                     str_len = 1                         # 1 because space is a char.
                 disp_str += damage_str
                 str_len += len(damage_str)
@@ -56,7 +56,7 @@ class item:
                         mod_str += '+'
                     mod_str += str(this.attributes[mod]) + ')'
                     if str_len + len(mod_str) > maxlen:
-                        disp_str += "\n "
+                        disp_str += "\n  "
                         str_len = 1
                     disp_str += mod_str
                     str_len += len(mod_str)

@@ -25,3 +25,16 @@ class no_consumable(item.item):
     def __init__(this):
         super().__init__("Nothing", "consumable", 0, 0, {"icon" : "   \n   \n   ", "color" : 0, "use" : world_object.no_func})
 
+def make_noitem(type):
+    if type == "hat":
+        return no_hat()
+    elif type == "pants":
+        return no_pants()
+    elif type == "ring":
+        return no_ring()
+    elif type == "shirt":
+        return no_shirt()
+    elif type == "weapon":
+        return no_weapon()
+    elif type == "consumable":
+        return no_consumable()
