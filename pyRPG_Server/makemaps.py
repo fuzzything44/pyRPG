@@ -73,7 +73,7 @@ def make(make_what):
 
 
 if __name__ == "__main__":
-    #make_from_file("maps/warrior_begin.txt", "maps/warrior_begin.py")
+    #make_from_file("maps/start.txt", "maps/start.py")
     print("Make what maps?")
     print("Options: (use +opt_name for that map (or everything under it), use -opt to exclude option")
     print("all")

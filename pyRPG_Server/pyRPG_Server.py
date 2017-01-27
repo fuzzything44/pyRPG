@@ -40,7 +40,7 @@ def connector(queue):
             plr_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)   # Socket player connects to.
             plr = None #world.load_player(data.decode('utf-8'))
             if plr is None:
-                plr = Player.player.player(25, 10, plr_sock, addr, data.decode('utf-8'))  # New player object for request.
+                plr = Player.player.player(25, 7, plr_sock, addr, data.decode('utf-8'))  # New player object for request.
                 print("New player connected")
                 world.save_player(plr)
             else:
