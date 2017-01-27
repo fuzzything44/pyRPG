@@ -49,7 +49,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="maps\start.py" />
-    <Compile Include="maps\warrior_begin.py" />
+    <Compile Include="maps\tutorial\war_tut\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="maps\tutorial\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="maps\tutorial\war_tut\warrior_start.py" />
     <Compile Include="maps\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -90,6 +96,8 @@
     <Folder Include="effects\" />
     <Folder Include="items\" />
     <Folder Include="maps\" />
+    <Folder Include="maps\tutorial\" />
+    <Folder Include="maps\tutorial\war_tut\" />
     <Folder Include="objects\" />
     <Folder Include="objects\General\" />
     <Folder Include="objects\Loot\" />
@@ -101,7 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="maps\start.txt" />
-    <Content Include="maps\warrior_begin.txt" />
+    <Content Include="maps\tutorial\war_tut\warrior_start.txt" />
     <Content Include="res\maps\credits.wrld" />
     <Content Include="res\maps\lavadungeon.1.wrld" />
     <Content Include="res\maps\lavadungeon.2.wrld" />

@@ -10,6 +10,6 @@ class level_portal(portal.portal):
 
     def collide(this, other):
         "Possibly changes current map if collides with player."
-        if oth.type == "player" and oth.attributes["level"] >= this.attributes["level"]:
+        if other.type == "player" and other.attributes["level"] >= this.attributes["level"]:
             return super().collide(other)
  

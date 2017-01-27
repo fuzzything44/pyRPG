@@ -8,8 +8,15 @@ from items import t1_warrior
 def generate():
     world.objects.clear()
 
+    # Add merchants
     world.objects.append(General.merchant.merchant(6, 16, [t1_warrior.t1_warrior_hat(), t1_warrior.t1_warrior_pants(), t1_warrior.t1_warrior_ring(), t1_warrior.t1_warrior_shirt(), t1_warrior.t1_warrior_weapon()]))
     world.objects.append(General.merchant.merchant(43, 16, [t1_warrior.t1_warrior_hat(), t1_warrior.t1_warrior_pants(), t1_warrior.t1_warrior_ring(), t1_warrior.t1_warrior_shirt(), t1_warrior.t1_warrior_weapon()]))
+    
+    # Add portals
+    world.objects.append(General.portal.portal(49, 9, "war_tut-1", 1, 10))
+    world.objects.append(General.level_portal.level_portal(24, 19, "map", 24, 1, 5))
+
+    # What next? TODO: Finish the tutorial!
 
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
     world.map[0][0] =  [display.WHITE, display.BLACK, '#', False]
