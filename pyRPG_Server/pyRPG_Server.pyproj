@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="bitset.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="display.py">
       <SubType>Code</SubType>
     </Compile>
@@ -79,7 +82,19 @@
     <Compile Include="objects\Player\fireball_obj.py" />
     <Compile Include="objects\Player\frostshot_obj.py" />
     <Compile Include="objects\Player\player.py" />
+    <Compile Include="objects\Player\player_flags.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\Player\__init__.py" />
+    <Compile Include="objects\tutorial\quest_giver.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\tutorial\war_tut\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\tutorial\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\world_object.py" />
     <Compile Include="objects\__init__.py" />
     <Compile Include="pyRPG_Server.py" />
@@ -102,6 +117,8 @@
     <Folder Include="objects\General\" />
     <Folder Include="objects\Loot\" />
     <Folder Include="objects\Player\" />
+    <Folder Include="objects\tutorial\" />
+    <Folder Include="objects\tutorial\war_tut\" />
     <Folder Include="res\" />
     <Folder Include="res\maps\" />
     <Folder Include="res\saves\" />

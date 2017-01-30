@@ -1,3 +1,4 @@
+import array
 import time
 
 import display
@@ -78,7 +79,7 @@ class player(world_object.world_object):
               "respawnX" : posX,                \
               "respawnY" : posY,                \
               "respawnMap" : "start",           \
-              "flags" : []                      # A very general list. For tracking progress through dungeons.
+              "flags" : array.array('b')           # A very general list. For tracking progress through dungeons.
             })
 
     def update(this, delta_time):

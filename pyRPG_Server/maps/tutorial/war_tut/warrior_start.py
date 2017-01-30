@@ -5,6 +5,13 @@ import world
 from objects import General
 from items import t1_warrior
 
+from objects.Player import player_flags
+from objects import tutorial
+
+def give_money(player):
+    player.attributes["money"] += 50
+    player_flags.set_flag(player, player_flags.TUT_MONEY_GIVEN, 1)
+
 def generate():
     world.objects.clear()
 
@@ -14,9 +21,14 @@ def generate():
     
     # Add portals
     world.objects.append(General.portal.portal(49, 9, "war_tut-1", 1, 10))
-    world.objects.append(General.level_portal.level_portal(24, 19, "map", 24, 1, 5))
+    world.objects.append(General.level_portal.level_portal(24, 19, "warrior_start", 24, 1, 5))
 
-    # What next? TODO: Finish the tutorial!
+    # Add tutorial guy who gives you equip money.
+    dialogue_tree = General.npc.dialogue_tree()
+    dialogue_tree.add_node("start", General.npc.node("Welcome to Doobyville,\n the warrior town!", ("Bye", "exit")))
+    dialogue_tree.add_exit("exit", 0)
+    dialogue_tree.add_exit("money", 1, give_money)
+    world.objects.append(tutorial.quest_giver.quest_giver(39, 4, dialogue_tree))
 
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
     world.map[0][0] =  [display.WHITE, display.BLACK, '#', False]
