@@ -304,16 +304,16 @@ class player(world_object.world_object):
         level = struct.pack("!I", this.attributes["level"])
         exp = struct.pack("!I", int(0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4 - this.attributes["EXP"]))
         gold = struct.pack("!I", this.attributes["money"])
-        spell_len = struct.pack("!I", len(this.attributes["spells"][this.attributes["spell"]].image))
         spell_image = bytearray(this.attributes["spells"][this.attributes["spell"]].image, 'utf-8')
+        spell_len = struct.pack("!I", len(spell_image))
 
-        item_len = struct.pack("!I", len(this.attributes["consumable"].attributes["icon"]))
         item_image = bytearray(this.attributes["consumable"].attributes["icon"], 'utf-8')
+        item_len = struct.pack("!I", len(item_image))
 
         equip_info = bytes()
         for type in ["weapon", "hat", "shirt", "pants", "ring"]:
-            type_len    = struct.pack("!I", len(this.attributes[type].name))
             type_info   = bytearray(this.attributes[type].name, 'utf-8')
+            type_len    = struct.pack("!I", len(type_info))
             equip_info += type_len + type_info
 
 

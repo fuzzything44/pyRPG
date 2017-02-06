@@ -22,9 +22,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="bitset.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="display.py">
       <SubType>Code</SubType>
     </Compile>
@@ -127,6 +124,7 @@
   <ItemGroup>
     <Content Include="maps\start.txt" />
     <Content Include="maps\tutorial\war_tut\warrior_start.txt" />
+    <Content Include="maps\tutorial\war_tut\war_tut_1.txt" />
     <Content Include="res\maps\credits.wrld" />
     <Content Include="res\maps\lavadungeon.1.wrld" />
     <Content Include="res\maps\lavadungeon.2.wrld" />

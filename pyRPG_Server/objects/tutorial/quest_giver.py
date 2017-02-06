@@ -17,8 +17,12 @@ class quest_giver(General.npc.npc):
                     diag.linked_player = plr
                     if not player_flags.get_flag(plr, player_flags.TUT_MONEY_GIVEN): # Don't have tut money, so give it
                         diag.nodes["start"].text += "\nYou're new. Take this money.\nUse it to buy some gear\n at the (\\fyM\\fw) Merchant"
-                        print(diag.nodes["start"].options)
                         diag.nodes["start"].options = [("Thanks!", "money")]
+                    elif plr.attributes["level"] < 5:
+                        diag.nodes["start"].text += "\nGo to the (\\fb0\\fw) portal at\n the right.\nCome back when you're\n stronger."
+                    else:
+                        diag.nodes["start"].text += "\nNice job!\nGo to the lower portal\n for a bigger challenge."
+
                     this.attributes["talking_players"][plr] = diag
 
         left_players = []

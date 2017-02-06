@@ -6,6 +6,18 @@ import pickle
 import struct
 import time
 
+# Returns number of bytes the utf-8 char will take. Byte is the first byte of the char
+def unicode_bytes(byte):
+    if byte < 0b10000000: # So a 0 in start position
+        return 1
+    elif byte < 0b11000000: # Not a single width, but less than a double width. Must be a continuing char.
+        return 0
+    elif byte < 0b11100000: # Not continuing, not 3 width. So 2
+        return 2
+    elif byte < 0b11110000: # Not 4 width, not 2. So 3
+        return 3
+    return 4
+
 def multiplayer(name):
     display.clear()
     display.draw_topbar()
@@ -65,9 +77,15 @@ def multiplayer(name):
                 # Redraw all new objects
                 
                 while num_objs > 0:
-                    display.printc(data[index], 5 + data[index + 1], chr(data[index + 2]), data[index + 3])
-                    to_overwrite.append((data[index], 5 + data[index + 1]))
-                    index += 4
+                    x_loc = data[index]
+                    y_loc = data[index + 1]
+                    index += 2
+                    char = data[index: index + unicode_bytes(data[index])].decode('utf-8') # Total char length for unicode char
+                    index += unicode_bytes(data[index]) # Increment counter
+                    color = data[index]
+                    index += 1
+                    display.printc(x_loc, 5 + y_loc, char, color)
+                    to_overwrite.append((x_loc, 5 + y_loc))
                     num_objs -= 1
     
                 # Draw HP and MP

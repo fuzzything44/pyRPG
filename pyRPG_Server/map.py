@@ -81,18 +81,12 @@ def run_map(map_name, get, send):
             # We need (#objects + # players) things to send.
             # Each thing needs an X coord, Y coord, char, and color
             # We devote 1 byte to each, meaning each is 4 bytes
-            send_data = bytearray(1 + (len(world.objects) + len(world.players) ) * 4)
-            index = 1 # Where to start adding info for next object
+            send_data = bytearray(1)
             send_data[0] = len(world.objects) + len(world.players)
             for obj in world.objects + world.players: # Loop through objects, get data.
-                send_data[index] = obj.X
-                index += 1
-                send_data[index] = obj.Y
-                index += 1
-                send_data[index] = ord(obj.char())
-                index += 1
-                send_data[index] = obj.color()
-                index += 1
+                send_data += bytearray([obj.X, obj.Y])
+                send_data += bytearray(obj.char(), 'utf-8')
+                send_data += bytearray([obj.color()])
     
             # Send update to all players
             for plr in world.players:
