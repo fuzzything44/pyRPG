@@ -21,6 +21,7 @@ In all functions passed during init, another parameter "this" is required as a r
         this.X = posX
         this.Y = posY
         this.type = type
+        this.blocks_map_exit = False
         this.attributes = {}
         
     def update(this, delta_time):

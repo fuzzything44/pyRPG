@@ -140,7 +140,6 @@ def make(make_what):
         world.save("credits")
         print(".")
 
-
 if __name__ == "__main__":
     print("Make what maps?")
     print("Options: (use +opt_name or +all for all, use -opt_name to exclude from +all)")

@@ -34,16 +34,11 @@ def run_map(map_name, get, send):
                     for plr in world.players:
                         plr.attributes["socket"].close()
                     return
-            if world.players == []: # No players left
-                send.put(("end", ))
-                print("Ending map " + map_name)
-                while get.get() != ("end",): # Wait for acknowledge of end.
-                    pass
-                return
     
             world.to_del.clear()
             world.to_del_plr.clear()
     
+            continue_loop = False
             # Update objects
             obj_update_list = world.objects + world.players
             for index in range(len(obj_update_list)):
@@ -61,7 +56,10 @@ def run_map(map_name, get, send):
                 #Check if out of bounds
                 if world.out_of_bounds(obj.X, obj.Y):
                     world.to_del.append(obj)
-    
+
+                if obj.blocks_map_exit:
+                    continue_loop = True
+
             # Delete objects that need to be deleted.
             for obj in set(world.to_del): # Set to remove duplicates
                 world.objects.remove(obj)
@@ -92,6 +90,13 @@ def run_map(map_name, get, send):
             for plr in world.players:
                 plr.attributes["socket"].sendto(plr.map_data() + send_data + plr.extra_data(), plr.attributes["address"])
                 
+            if not continue_loop: # Nothing blocking.
+                send.put(("end", ))
+                print("Ending map " + map_name)
+                while get.get() != ("end",): # Wait for acknowledge of end.
+                    pass
+                return
+
     except Exception as ex:
         send.put(("end", ))
         print("Ending map " + map_name + " due to error!")

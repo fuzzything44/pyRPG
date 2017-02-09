@@ -92,11 +92,9 @@ class npc(world_object.world_object):
 
         left_players = []
         for plr, diag in this.attributes["talking_players"].items(): 
-            if plr.X + 1 >= this.X and plr.X - 1 <= this.X and plr.Y + 1 >= this.Y and plr.Y -1 <= this.Y:
+            if plr.X + 1 >= this.X and plr.X - 1 <= this.X and plr.Y + 1 >= this.Y and plr.Y -1 <= this.Y and plr in world.players:
                 diag.run()
             else:
-                left_players.append(plr)
-            if plr not in world.players:
                 left_players.append(plr)
 
         for gone in left_players:

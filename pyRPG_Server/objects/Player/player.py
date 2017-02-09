@@ -29,6 +29,7 @@ import select
 class player(world_object.world_object):
     def __init__(this, posX, posY, sock, addr, name):
         super().__init__(posX, posY, "player")
+        this.blocks_map_exit = True
         this.attributes.update({    # Multiplayer info
             "socket" : sock,        # Socket to get data from
             "address" : addr,       # Where to send data
