@@ -8,7 +8,7 @@ def run_map(map_name, get, send):
     try:
         world.load(map_name.split(';')[0]) # Only load everything before first ;
     
-        print("Map " + map_name + " started")
+        print("[" + map_name + "] Map started")
         start_time = time.time()
         since_start = 0
     
@@ -30,11 +30,11 @@ def run_map(map_name, get, send):
                             message[1].attributes["current_map"] = 1
     
                         world.players.append(message[1])
-                        print("Player added to map " + map_name)
+                        print("[" + map_name + "] Player added to map")
                     else:
                         world.objects.append(message[1])
                 if message[0] == "end": # Forcibly end map
-                    print("Map ", world.world_name, " forcibly ended.")
+                    print("[" + map_name + "] Map forcibly ended.")
                     for plr in world.players:
                         plr.attributes["socket"].close()
                     return
@@ -96,15 +96,15 @@ def run_map(map_name, get, send):
                 
             if not continue_loop: # Nothing blocking.
                 send.put(("end", ))
-                print("Ending map " + map_name)
+                print("[" + map_name + "] Ending map")
                 while get.get() != ("end",): # Wait for acknowledge of end.
                     pass
                 return
 
     except Exception as ex:
         send.put(("end", ))
-        print("Ending map " + map_name + " due to error!")
-        print(traceback.format_exc())
+        print("[" + map_name + "] Ending map due to error!")
+        print("[" + map_name + "]", traceback.format_exc())
         while get.get() != ("end",): # Wait for acknowledge of end.
             pass
         return

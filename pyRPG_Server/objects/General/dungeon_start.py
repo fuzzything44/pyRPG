@@ -73,7 +73,6 @@ class dungeon_start(world_object.world_object):
             this.attributes["timeout"] += delta_time
             if this.attributes["timeout"] > 1000: # Timed out. No players left in dungeon.
                 for map_name in this.attributes["send_queues"]: # Tell all maps to exit.
-                    print("sending exit signal")
                     this.attributes["send_queues"][map_name].put({"_exit" : True})
                 this.blocks_map_exit = False # Stop blocking exit.
 
