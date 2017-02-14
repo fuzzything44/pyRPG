@@ -24,13 +24,17 @@ def run_map(map_name, get, send):
                 message = get.get()
 
                 if message[0] == "add": # We're adding a player
-                    message[1].attributes["current_map"] += 1 # Count how many maps a player's been in.
-                    if message[1].attributes["current_map"] > 255: # Reset once we get past a byte
-                        message[1].attributes["current_map"] = 1
+                    if message[1].type == "player":
+                        message[1].attributes["current_map"] += 1 # Count how many maps a player's been in.
+                        if message[1].attributes["current_map"] > 255: # Reset once we get past a byte
+                            message[1].attributes["current_map"] = 1
     
-                    world.players.append(message[1])
-                    print("Player added to map " + map_name)
+                        world.players.append(message[1])
+                        print("Player added to map " + map_name)
+                    else:
+                        world.objects.append(message[1])
                 if message[0] == "end": # Forcibly end map
+                    print("Map ", world.world_name, " forcibly ended.")
                     for plr in world.players:
                         plr.attributes["socket"].close()
                     return

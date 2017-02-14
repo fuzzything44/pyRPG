@@ -16,6 +16,9 @@ to_del_plr = []
 
 move_requests = [] # Requests to move players
 
+dungeon_state = {} # Dict of var_name to value, for tracking various values in dungeons.
+dungeon_state_diff = {} # For when stuff wants to change dungeon_state.
+
 def out_of_bounds(x, y):
     return (y < 0) or (y >= WORLD_Y) or (x < 0) or (x >= WORLD_X)
 

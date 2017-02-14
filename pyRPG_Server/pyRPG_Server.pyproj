@@ -49,6 +49,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="maps\start.py" />
+    <Compile Include="maps\test_dungeon\start.py" />
+    <Compile Include="maps\test_dungeon\test_dungeon_1.py" />
+    <Compile Include="maps\test_dungeon\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="maps\tutorial\war_tut\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -60,6 +65,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\General\base_attack.py" />
+    <Compile Include="objects\General\dungeon_start.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\General\dungeon_updater.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\General\enemy_base.py" />
     <Compile Include="objects\General\invis_dmg.py" />
     <Compile Include="objects\General\level_portal.py" />
@@ -108,6 +119,7 @@
     <Folder Include="effects\" />
     <Folder Include="items\" />
     <Folder Include="maps\" />
+    <Folder Include="maps\test_dungeon\" />
     <Folder Include="maps\tutorial\" />
     <Folder Include="maps\tutorial\war_tut\" />
     <Folder Include="objects\" />
@@ -123,6 +135,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="maps\start.txt" />
+    <Content Include="maps\test_dungeon\start.txt" />
+    <Content Include="maps\test_dungeon\test_dungeon_1.txt" />
     <Content Include="maps\tutorial\war_tut\warrior_start.txt" />
     <Content Include="maps\tutorial\war_tut\war_tut_1.txt" />
     <Content Include="res\maps\credits.wrld" />

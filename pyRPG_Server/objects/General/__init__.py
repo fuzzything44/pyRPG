@@ -1,4 +1,6 @@
 from objects.General import base_attack
+from objects.General import dungeon_start
+from objects.General import dungeon_updater
 from objects.General import enemy_base
 from objects.General import invis_dmg
 from objects.General import level_portal

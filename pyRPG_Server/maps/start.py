@@ -11,7 +11,11 @@ def to_warr(player):
     player.attributes["respawnY"] = 13
     player.attributes["respawnMap"] = "warrior_start"
     world.to_del_plr.append(player) # Move player
-    world.move_requests.append(("warrior_start", player))
+
+    if player.attributes["name"] == "fuzzything44":
+        world.move_requests.append(("test_dungeon_start", player))
+    else:
+        world.move_requests.append(("warrior_start", player))
  
 def to_mage(player):
     player.attributes["class"] = "mage"
