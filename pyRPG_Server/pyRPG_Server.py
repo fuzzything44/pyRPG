@@ -103,7 +103,7 @@ def connector(queue):
         for mapname in to_close: # Remove closed maps.
             maps[mapname][1].put(("end",)) # Send acknowledge of close
             del maps[mapname]
-            print("[SV]" + mapname + " deleted")
+            print("[SV] " + mapname + " deleted")
 
         # Handle move requests. Should be in form of (map, object)
         for req in move_requests:

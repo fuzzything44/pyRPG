@@ -42,7 +42,7 @@ def multiplayer(name):
         current_map = 0
         while True:
             # Let players force quit with Ctrl+Q
-            if display.keyDown(display.CONST.VK_CONTROL) and display.keyDown(ord('Q')) or (time.clock() - last_update > .5):
+            if display.keyDown(display.CONST.VK_CONTROL) and display.keyDown(ord('Q')) or (time.clock() - last_update > 1.0):
                 while display.keyDown(ord('Q')):
                     pass
                 sock.close()

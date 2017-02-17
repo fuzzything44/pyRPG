@@ -21,8 +21,7 @@ Does nothing but update world.dungeon_state and block map exit until told to sto
         # Check for updates
         if not this.attributes["get_queue"].empty():
             upd = this.attributes["get_queue"].get()
-            for change in upd:
-                world.dungeon_state[change] = upd[change]
+            world.dungeon_state.update(upd)
 
         # Needs to send updates.
         if len(world.dungeon_state_diff) > 0:

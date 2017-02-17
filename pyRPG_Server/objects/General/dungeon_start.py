@@ -48,8 +48,7 @@ class dungeon_start(world_object.world_object):
         for map_name in this.attributes["get_queues"]: # For each map in dungeon...
             if not this.attributes["get_queues"][map_name].empty(): # See if it changed global stuff.
                 state_upd = this.attributes["get_queues"][map_name].get() 
-                for change in state_upd:
-                    diff[change] = state_upd[change]                   # If so, add that to list of changes.
+                diff.update(change)     # If so, add that to list of changes.
 
         diff.update(world.dungeon_state_diff)
         world.dungeon_state_diff = {}
@@ -58,8 +57,7 @@ class dungeon_start(world_object.world_object):
             for map_name in this.attributes["send_queues"]: # Send those changes to each map.
                 this.attributes["send_queues"][map_name].put(diff)
 
-        for change in diff: # And update starting map's world with the difference.
-            world.dungeon_state[change] = diff[change]
+        world.dungeon_state.update(change)  # And update starting map's world with the difference.
 
         has_players = False
         for name in this.attributes["maps"]:
