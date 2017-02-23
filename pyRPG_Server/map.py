@@ -44,7 +44,7 @@ def run_map(map_name, get, send):
     
             continue_loop = False
             # Update objects
-            obj_update_list = world.objects + world.players
+            obj_update_list = world.players + world.objects
             for index in range(len(obj_update_list)):
                 obj = obj_update_list[index]
     
@@ -52,7 +52,7 @@ def run_map(map_name, get, send):
                 obj.update(delta_time)
 
                 if obj.type != "player": # Don't check player collisions as they can only collide with other players.
-                    for coll in obj_update_list[index + 1:]:    # Check for collision
+                    for coll in obj_update_list[:index]:    # Check for collision
                         if coll.X == obj.X and coll.Y == obj.Y:
                             obj.collide(coll) # Call collisions
                             coll.collide(obj)

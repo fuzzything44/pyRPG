@@ -11,7 +11,7 @@ def unicode_bytes(byte):
     if byte < 0b10000000: # So a 0 in start position
         return 1
     elif byte < 0b11000000: # Not a single width, but less than a double width. Must be a continuing char.
-        return 0
+        raise UnicodeDecodeError("Unexpected continuation character found")
     elif byte < 0b11100000: # Not continuing, not 3 width. So 2
         return 2
     elif byte < 0b11110000: # Not 4 width, not 2. So 3
@@ -84,13 +84,13 @@ def multiplayer(name):
                     index += unicode_bytes(data[index]) # Increment counter
                     color = data[index]
                     index += 1
-                    display.printc(x_loc, 5 + y_loc, char, color)
+                    display.printc(x_loc, 5 + y_loc, char, color, world.map[x_loc][y_loc][1])
                     to_overwrite.append((x_loc, 5 + y_loc))
                     num_objs -= 1
     
                 # Draw HP and MP
                 HP = struct.unpack("!I", data[index:index + 4])[0]
-                maxHP = struct.unpack("!I", data[index + 4 : index+8])[0]
+                maxHP = struct.unpack("!I", data[index + 4 : index + 8])[0]
                 display.printc(8, 0, ' ' * 17)
                 display.printc(8, 0, str(HP) + "/" + str(maxHP))
                 index += 8

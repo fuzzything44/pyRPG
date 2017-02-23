@@ -29,6 +29,7 @@ class base_attack(world_object.world_object):
                     oth.attributes["dmg_dist"][this.attributes["owner"]]  = this.attributes["damage"]
 
             world.to_del.append(this)
+
     def char(this):
         "Always a '!'"
         return '!'

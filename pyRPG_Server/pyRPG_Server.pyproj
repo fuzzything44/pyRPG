@@ -32,6 +32,9 @@
     <Compile Include="effects\freeze.py" />
     <Compile Include="effects\frozen.py" />
     <Compile Include="effects\regen.py" />
+    <Compile Include="effects\slow.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="effects\__init__.py" />
     <Compile Include="items\bread.py" />
     <Compile Include="items\enemy_info.py" />
@@ -54,6 +57,7 @@
     <Compile Include="maps\test_dungeon\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="maps\tutorial\war_tut\war_tut_1.py" />
     <Compile Include="maps\tutorial\war_tut\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -95,6 +99,15 @@
     </Compile>
     <Compile Include="objects\Player\__init__.py" />
     <Compile Include="objects\tutorial\quest_giver.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\tutorial\war_tut\directed_attack.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\tutorial\war_tut\war_enemy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\tutorial\war_tut\water.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\tutorial\war_tut\__init__.py">

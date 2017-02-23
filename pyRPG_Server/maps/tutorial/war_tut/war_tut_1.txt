@@ -1,6 +1,6 @@
 ; = [display.GREEN, display.BLACK, ';', True]
 # = [display.WHITE, display.BLACK, '#', False]
-W = [display.BLUE, display.BLUE, '#', True]
+W = [display.BLUE, display.BLUE, 'W', True]
 end;
 ;;;;;;;;;;;;;;;;WWW;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;WWWW;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

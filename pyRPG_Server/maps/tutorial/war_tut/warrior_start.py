@@ -20,7 +20,7 @@ def generate():
     world.objects.append(General.merchant.merchant(43, 16, [t1_warrior.t1_warrior_hat(), t1_warrior.t1_warrior_pants(), t1_warrior.t1_warrior_ring(), t1_warrior.t1_warrior_shirt(), t1_warrior.t1_warrior_weapon()]))
     
     # Add portals
-    world.objects.append(General.portal.portal(49, 9, "war_tut-1", 1, 10))
+    world.objects.append(General.portal.portal(49, 9, "war_tut_1", 1, 10))
     world.objects.append(General.level_portal.level_portal(24, 19, "warrior_start", 24, 1, 5))
 
     # Add tutorial guy who gives you equip money.

@@ -68,11 +68,11 @@ def make(make_what):
         
         maps.tutorial.war_tut.start.generate()
         world.save("warrior_start")
-        print(".")
+        print(".", end="")
 
-        #maps.war_tut_1.generate()
-        #world.save("war_tut.1")
-        #print('.', end="")
+        maps.tutorial.war_tut.war_tut_1.generate()
+        world.save("war_tut_1")
+        print('.')
 
     if ("+test_dungeon " in make_what) or ("+all " in make_what and "-test_dungeon " not in make_what):
         print("Making test dungeon", end = "")
@@ -88,7 +88,7 @@ def make(make_what):
 
 
 if __name__ == "__main__":
-    #make_from_file("maps/test_dungeon/test_dungeon_1.txt", "maps/test_dungeon/test_dungeon_1.py")
+    #make_from_file("maps/tutorial/war_tut/war_tut_1.txt", "maps/tutorial/war_tut/war_tut_1.py")
     print("Make what maps?")
     print("Options: (use +opt_name for that map (or everything under it), use -opt to exclude option")
     print("all")

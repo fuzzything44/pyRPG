@@ -49,8 +49,6 @@ class enemy_base(world_object.world_object):
     def die(this):
         "Deletes this, gives player EXP, drops money, drops items."
         world.to_del.append(this) # Delete
-
-        did_most = None
         
         for plr in this.attributes["dmg_dist"]:
             plr.attributes["gainexp"](plr, this.attributes["EXP"])

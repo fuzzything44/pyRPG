@@ -265,6 +265,10 @@ class player(world_object.world_object):
             this.attributes["sidebar"] += " No effects\n"
 
         if this.attributes["HP"] <= 0: # Dead
+            for effect in this.attributes["effects"]:
+                eff.uneffect(this)
+            this.attributes["effects"].clear()
+
             this.attributes["HP"] = this.attributes["maxHP"]                    # Recover HP
             this.X = this.attributes["respawnX"]                                # Return to last saved place
             this.Y = this.attributes["respawnY"]
@@ -300,6 +304,8 @@ class player(world_object.world_object):
 
     # All extra data to be sent. So HP/MP, equip stuff, sidebar stuff.
     def extra_data(this):
+        if this.attributes["HP"] < 0:
+            this.attributes["HP"] = 0
         hp = struct.pack("!I", int(this.attributes["HP"])) + struct.pack("!I", int(this.attributes["maxHP"]))
         mp = struct.pack("!I", int(this.attributes["MP"])) + struct.pack("!I", int(this.attributes["maxMP"]))
         level = struct.pack("!I", this.attributes["level"])
