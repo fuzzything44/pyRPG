@@ -265,7 +265,7 @@ class player(world_object.world_object):
             this.attributes["sidebar"] += " No effects\n"
 
         if this.attributes["HP"] <= 0: # Dead
-            for effect in this.attributes["effects"]:
+            for eff in this.attributes["effects"]:
                 eff.uneffect(this)
             this.attributes["effects"].clear()
 
