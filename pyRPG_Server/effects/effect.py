@@ -2,10 +2,13 @@ import display
 
 class effect():
     """Base class of effects."""
-    def __init__(this, owner, duration, name = None):
+    def __init__(this, owner, duration, name = None, stat_mods = {}):
         this.time = duration
         this.owner = owner
         this.name = name
+        this.stat_change = stat_mods
+        for mod in stat_mods:
+            owner.attributes[mod] += stat_mods[mod]
 
     def tick(this, delta_time):
         this.time -= delta_time
@@ -16,5 +19,6 @@ class effect():
             this.owner.attributes["sidebar"] += this.name + '(' + time_left + ")\n"
 
     def uneffect(this, owner):
-        pass
+        for mod in this.stat_change:
+            owner.attributes[mod] -= this.stat_change[mod]
 

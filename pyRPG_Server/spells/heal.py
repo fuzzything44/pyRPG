@@ -1,5 +1,5 @@
 def heal(player):
-    player.attributes["HP"] += 1.5*player.attributes["magic"]
+    player.attributes["HP"] += min(25, 1.5*player.attributes["magic"])
     if player.attributes["HP"] >= player.attributes["maxHP"]:
         player.attributes["HP"] = player.attributes["maxHP"]
 

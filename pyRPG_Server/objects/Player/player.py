@@ -1,4 +1,5 @@
 import array
+import copy
 import time
 
 import display
@@ -13,12 +14,7 @@ from items import start as start_items
 from objects.Player import attack
 from objects import world_object
 
-from spells import fireball
-from spells import first_aid
-from spells import frostshot
-from spells import heal
-from spells import lifesteal
-from spells import spell
+import spells
 
 import pickle
 
@@ -58,7 +54,7 @@ class player(world_object.world_object):
               "EXP" : 0,                        \
               "level" : 1,                      \
               "items" : [start_items.start_hat(), start_items.start_pants(), start_items.start_ring(), start_items.start_shirt(), start_items.start_weapon()],\
-              "spells" : [spell.spell(heal.manaCost, heal.heal, heal.name, heal.icon)],         \
+              "spells" : [spells.spell.spell(spells.heal.manaCost, spells.heal.heal, spells.heal.name, spells.heal.icon)],         \
               "class" : "warrior",              \
               "spell" : 0,                      # Index of spells for current spell
               "weapon" : no_item.no_weapon(),   \
@@ -367,12 +363,6 @@ class player(world_object.world_object):
         
         return hp + mp + level + exp + gold + spell_len + spell_image + item_len + item_image + equip_info + sidebar_len + sidebar_data
 
-# Level at which a spell is gained
-spell_gain_levels = [2]
-
-warrior_spells  = [spell.spell(first_aid.manaCost, first_aid.FirstAid, first_aid.name, first_aid.icon)]
-mage_spells     = [spell.spell(fireball.manaCost, fireball.fireball, fireball.name, fireball.icon), spell.spell(frostshot.manaCost, frostshot.frostshot, frostshot.name, frostshot.icon)]
-thief_spells    = [spell.spell(lifesteal.manaCost, lifesteal.lifesteal, lifesteal.name, lifesteal.icon)]
 
 def gain_exp(this, amount):
     this.attributes["EXP"] += amount
@@ -385,14 +375,14 @@ def gain_exp(this, amount):
             continue
 
         this.attributes["level"] += 1 # Duh.
-        if this.attributes["level"] in spell_gain_levels:               # They have a spell to gain
-            sp_index = spell_gain_levels.index(this.attributes["level"])
+        if this.attributes["level"] in spells.spell_gain_levels:               # They have a spell to gain
+            sp_index = spells.spell_gain_levels.index(this.attributes["level"])
             if this.attributes["class"] == "warrior":
-                this.attributes["spells"].append(warrior_spells[sp_index])
-            if this.attributes["class"] == "mage":
-                this.attributes["spells"].append(mage_spells[sp_index])
-            if this.attributes["class"] == "thief":
-                this.attributes["spells"].append(thief_spells[sp_index])
+                this.attributes["spells"].append(copy.deepcopy(spells.warrior_spells[sp_index])) # Copy in case something changes in the 
+            if this.attributes["class"] == "mage":                                               #  spell. ex: a spell that teleports you
+                this.attributes["spells"].append(copy.deepcopy(spells.mage_spells[sp_index]))    #  to where you were when it was last cast
+            if this.attributes["class"] == "thief":                                              #  would need a saved state.
+                this.attributes["spells"].append(copy.deepcopy(spells.thief_spells[sp_index]))
 
         if this.attributes["class"] == "warrior":
             this.attributes["maxHP"] += 15 # Give stats.

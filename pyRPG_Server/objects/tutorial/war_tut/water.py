@@ -1,7 +1,7 @@
 import display
 import world
 
-from effects import slow
+from effects import effect
 
 from objects import world_object
 
@@ -14,7 +14,7 @@ class water(world_object.world_object):
     def update(this, delta_time):
         for plr in world.players:
             if world.map[plr.X][plr.Y] == [display.BLUE, display.BLUE, 'W', True] and "water_slow" not in plr.attributes["effects"]:
-                plr.attributes["effects"]["water_slow"] = slow.slow(plr, 999, 100)
+                plr.attributes["effects"]["water_slow"] = effect.effect(plr, 999, "Slow", {"mov_spd" : -100})
 
 
 
