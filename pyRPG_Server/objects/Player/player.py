@@ -125,11 +125,19 @@ class player(world_object.world_object):
                         this.attributes["esc_menu"].is_esc_menu = True
                         this.attributes["esc_menu_type"] = "spell"
                     elif opt == 3:
+                        options = [] # All options to go in the menu.
+                        spell_list = this.attributes["spells"] # The spell corresponding to the option
+                        for spl in spell_list:    # Find all items
+                            options.append(spl.name + "(" + str(spl.amount) + ")")
+                        this.attributes["esc_menu"] = display.menu("Switch what spell?", this, "Back", *options)
+                        this.attributes["esc_menu"].is_esc_menu = True
+                        this.attributes["esc_menu_type"] = "sorder1"
+                    elif opt == 4:
                         this.attributes["socket"].close()
                         world.to_del_plr.append(this)
                 elif this.attributes["esc_menu_type"] == "inv": # Let them choose what item to set
                     if opt == 0:
-                        this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Exit Server")
+                        this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Switch Spell Order","Exit Server")
                         this.attributes["esc_menu"].is_esc_menu = True
                         this.attributes["esc_menu_type"] = "main"
                     else:
@@ -160,13 +168,33 @@ class player(world_object.world_object):
                 elif this.attributes["esc_menu_type"] == "spell": # Let them set a spell
                     if opt != 0:
                         this.attributes["spell"] = opt - 1
-                    this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Exit Server")
+                    this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Switch Spell Order", "Exit Server")
                     this.attributes["esc_menu"].is_esc_menu = True
                     this.attributes["esc_menu_type"] = "main"
 
+                elif this.attributes["esc_menu_type"] == "sorder1":
+                    if opt != 0:
+                        this.attributes["spell_switch"] = opt - 1 # First switch option.
+                        options = [] # All options to go in the menu.
+                        spell_list = this.attributes["spells"] # The spell corresponding to the option
+                        for spl in spell_list:    # Find all items
+                            options.append(spl.name + "(" + str(spl.amount) + ")")
+                        this.attributes["esc_menu"] = display.menu("Switch with what?", this, *options)
+                        this.attributes["esc_menu"].is_esc_menu = True
+                        this.attributes["esc_menu_type"] = "sorder2"
+                    else:
+                        this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Switch Spell Order", "Exit Server")
+                        this.attributes["esc_menu"].is_esc_menu = True
+                        this.attributes["esc_menu_type"] = "main"
+                elif this.attributes["esc_menu_type"] == "sorder2":
+                    # Switch spells
+                    this.attributes["spells"][this.attributes["spell_switch"]], this.attributes["spells"][opt] = this.attributes["spells"][opt], this.attributes["spells"][this.attributes["spell_switch"]]
+                    this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Switch Spell Order", "Exit Server")
+                    this.attributes["esc_menu"].is_esc_menu = True
+                    this.attributes["esc_menu_type"] = "main"
         # Open ESC menu if needed.
         if this.attributes["keys"][display.KEY_ESC] and this.attributes["esc_menu"] is None:
-            this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Exit Server")
+            this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Switch Spell Order","Exit Server")
             this.attributes["esc_menu"].is_esc_menu = True
             this.attributes["esc_menu_type"] = "main"
 
@@ -265,7 +293,7 @@ class player(world_object.world_object):
             this.attributes["sidebar"] += " No effects\n"
 
         if this.attributes["HP"] <= 0: # Dead
-            for eff in this.attributes["effects"]:
+            for eff_name, eff in this.attributes["effects"].items():
                 eff.uneffect(this)
             this.attributes["effects"].clear()
 
