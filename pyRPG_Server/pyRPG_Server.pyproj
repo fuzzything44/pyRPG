@@ -120,6 +120,9 @@
     <Compile Include="spells\first_aid.py" />
     <Compile Include="spells\frostshot.py" />
     <Compile Include="spells\heal.py" />
+    <Compile Include="spells\knockback.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="spells\lifesteal.py" />
     <Compile Include="spells\luckboost.py">
       <SubType>Code</SubType>
