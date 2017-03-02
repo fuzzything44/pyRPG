@@ -29,6 +29,7 @@ def run_map(map_name, get, send):
                         if message[1].attributes["current_map"] > 255: # Reset once we get past a byte
                             message[1].attributes["current_map"] = 1
     
+                        message[1].attributes["current_menu"] = None # Clear menu if it somehow kept through this...
                         world.players.append(message[1])
                         print("[" + map_name + "] Player added to map")
                     else:

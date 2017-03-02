@@ -129,8 +129,10 @@ class player(world_object.world_object):
                         this.attributes["esc_menu"].is_esc_menu = True
                         this.attributes["esc_menu_type"] = "sorder1"
                     elif opt == 4:
+                        this.attributes["esc_menu"] = None
                         this.attributes["socket"].close()
                         world.to_del_plr.append(this)
+                        return
                 elif this.attributes["esc_menu_type"] == "inv": # Let them choose what item to set
                     if opt == 0:
                         this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Switch Spell Order","Exit Server")

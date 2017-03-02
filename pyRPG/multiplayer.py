@@ -18,7 +18,61 @@ def unicode_bytes(byte):
         return 3
     return 4
 
-def multiplayer(name):
+def multiplayer():
+
+    # Get username and password.
+    display.clear()
+    display.flushinp()
+    inpt = display.getch()
+    curs_loc = 0
+    char_name = ""
+
+    display.printc(30, 9, "Enter your name:")
+    while inpt != 10: # Until ENTER pressed
+        if inpt == 8: # Backspace
+            if curs_loc != 0:
+                curs_loc -= 1
+                char_name = char_name[:-1] # Remove last character
+            display.printc(curs_loc + 30, 10, ' ')
+        elif (inpt != -1) and (curs_loc < 45) and (chr(inpt) in "abcdefghijklmnopqrtsuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-1234567890 "): # Also don't let them get too long. 45 chosen arbitrarily because yeah.
+            display.printc(curs_loc + 30, 10, chr(inpt))
+            char_name += chr(inpt)
+            curs_loc += 1
+        display.refresh()
+        inpt = display.getch()
+    # Wait for release
+    while display.keyDown(display.CONST.VK_RETURN):
+        pass
+    if char_name == len(char_name) * ' ':
+        char_name = "default"
+
+    curs_loc = 0
+    password = ""
+
+    inpt = display.getch()
+    display.printc(30, 11, "Enter your Password:")
+    while inpt != 10 or len(password) < 8: # Until ENTER pressed. 8 char password min.
+        if inpt == 10 and len(password) < 8:
+            display.printc(30, 13, "Passwords must be at least 8 characters.")
+        elif inpt != -1:
+            display.printc(30, 13, "                                        ")
+        if inpt == 8: # Backspace
+            if curs_loc != 0:
+                curs_loc -= 1
+                password = password[:-1] # Remove last character
+            display.printc(curs_loc + 30, 12, ' ')
+        elif (inpt != -1) and (curs_loc < 45) and (inpt < 127) and (inpt > 31): # Most characters allowed in password. Just has to be a printable ASCI
+            display.printc(curs_loc + 30, 12, chr(inpt))
+            password += chr(inpt)
+            curs_loc += 1
+        display.refresh()
+        inpt = display.getch()
+    # Wait for release
+    while display.keyDown(display.CONST.VK_RETURN):
+        pass
+
+
+
     display.clear()
     display.draw_topbar()
     display.refresh()
@@ -28,7 +82,7 @@ def multiplayer(name):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.settimeout(1)
     try:
-        sock.sendto(bytes(name, 'utf-8'), ('localhost', 5000))
+        sock.sendto(bytes(char_name, 'utf-8'), ('localhost', 5000))
     
         (data, new_addr) = sock.recvfrom(65507)
         last_update = time.clock()

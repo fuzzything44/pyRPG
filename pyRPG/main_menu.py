@@ -377,7 +377,7 @@ def start():
                 display.clear()
                 return
             if opt == 2:
-                multiplayer.multiplayer("!fuzzything44")
+                multiplayer.multiplayer()
                 display.clear()
                 display.printc(28, 10, "Welcome to pyRPG!")
                 display.printc(31, 11,    "Load a file")

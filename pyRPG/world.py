@@ -65,6 +65,7 @@ def save_player():
 
 def load_player(name):
     global player, save_name, objects
+
     try:
         with open("res/saves/" + name + ".plr", "rb") as handle:
             player = pickle.load(handle)

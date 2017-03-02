@@ -51,6 +51,8 @@ def save_player(plr):
         plr.attributes["socket"] = temp_sock
 
 def load_player(name):
+    if name == "default":
+        return None
     try:
         with open("res/saves/" + name + ".plr", "rb") as handle:
             print('a')
