@@ -82,6 +82,9 @@
     </Compile>
     <Compile Include="objects\General\npc.py" />
     <Compile Include="objects\General\portal.py" />
+    <Compile Include="objects\General\save_station.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\General\__init__.py" />
     <Compile Include="objects\Loot\chest.py" />
     <Compile Include="objects\Loot\lootbag.py" />

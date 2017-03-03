@@ -23,6 +23,9 @@ def generate():
     world.objects.append(General.portal.portal(49, 9, "war_tut_1", 1, 10))
     world.objects.append(General.level_portal.level_portal(24, 19, "warrior_start", 24, 1, 5))
 
+    # Add save
+    world.objects.append(General.save_station.save_station(5, 3))
+
     # Add tutorial guy who gives you equip money.
     dialogue_tree = General.npc.dialogue_tree()
     dialogue_tree.add_node("start", General.npc.node("Welcome to Doobyville,\n the warrior town!", ("Bye", "exit")))

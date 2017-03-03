@@ -48,6 +48,8 @@ def connector(queue):
                 plr.attributes["socket"] = plr_sock
                 plr.attributes["address"] = addr
                 print("[SV] Returning player connected")
+            plr.X = plr.attributes["respawnX"]
+            plr.Y = plr.attributes["respawnY"]
             move_requests.append((plr.attributes["respawnMap"], plr))
 
         if not queue.empty(): # Some owner input
