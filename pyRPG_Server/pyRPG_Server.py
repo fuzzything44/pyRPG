@@ -127,7 +127,7 @@ def connector(queue):
 # Gives user input to the queue.
 def inputter():
     input_queue = mp.Queue()
-    proc = mp.Process(target=connector, args=(input_queue,))
+    proc = mp.Process(target=connector, name="pyRPG Server", args=(input_queue,))
     proc.start()
     while True:
         inpt = input()

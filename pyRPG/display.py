@@ -47,6 +47,8 @@ def chr_to_color(chr): # Gets the color corresponding to the given character
           return display.MAGENTA
       if chr == 'y':
           return display.YELLOW
+      if chr == 'x':
+            return display.BLACK
       return display.WHITE # Just return white if unknown (or w)
 
 def printc(x, y, str, start_color = WHITE, start_bgcolor = BLACK):

@@ -2,6 +2,7 @@ import time
 import traceback
 
 import world
+import setuptools
 
 # Runs the map with the given name and given queues
 def run_map(map_name, get, send):

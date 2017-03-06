@@ -32,6 +32,9 @@
     <Compile Include="effects\freeze.py" />
     <Compile Include="effects\frozen.py" />
     <Compile Include="effects\regen.py" />
+    <Compile Include="effects\tough.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="effects\__init__.py" />
     <Compile Include="items\bread.py" />
     <Compile Include="items\enemy_info.py" />
@@ -92,6 +95,9 @@
     <Compile Include="objects\Loot\__init__.py" />
     <Compile Include="objects\Player\attack.py" />
     <Compile Include="objects\Player\fireball_obj.py" />
+    <Compile Include="objects\Player\fire_rain.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\Player\frostshot_obj.py" />
     <Compile Include="objects\Player\player.py" />
     <Compile Include="objects\Player\player_flags.py">
@@ -120,6 +126,9 @@
     <Compile Include="objects\__init__.py" />
     <Compile Include="pyRPG_Server.py" />
     <Compile Include="spells\fireball.py" />
+    <Compile Include="spells\fire_rain.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="spells\first_aid.py" />
     <Compile Include="spells\frostshot.py" />
     <Compile Include="spells\heal.py" />
@@ -130,7 +139,13 @@
     <Compile Include="spells\luckboost.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="spells\shadowjump.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="spells\spell.py" />
+    <Compile Include="spells\toughen.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="spells\__init__.py" />
     <Compile Include="world.py" />
   </ItemGroup>
