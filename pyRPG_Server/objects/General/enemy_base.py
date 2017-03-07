@@ -51,7 +51,7 @@ class enemy_base(world_object.world_object):
         world.to_del.append(this) # Delete
         
         for plr in this.attributes["dmg_dist"]:
-            plr.attributes["gainexp"](plr, this.attributes["EXP"])
+            plr.attributes["gainexp"](plr, this.attributes["EXP"] + 100)
 
         # Drop money. Dropped is their luck times the drop amount plus 0-10%.
         if this.attributes["money"] > 0:
