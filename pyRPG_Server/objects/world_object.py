@@ -1,3 +1,7 @@
+TEAM_NONE   = 0
+TEAM_PLAYER = 1 # Same as 1 << 0
+TEAM_ENEMY  = 2 # Same as 1 << 1
+
 class world_object:
     """A world_object is any moving or interactable object that can appear in the world, such as the player, an enemy, or a chest.
 
@@ -17,9 +21,10 @@ getCoords(): Returns the coordinates of the world_object
 
 In all functions passed during init, another parameter "this" is required as a replacement for self
 """
-    def __init__(this, posX, posY, type = "none"):
+    def __init__(this, posX, posY, type = "none", team = TEAM_NONE):
         this.X = posX
         this.Y = posY
+        this.team = team
         this.type = type
         this.blocks_map_exit = False
         this.attributes = {}

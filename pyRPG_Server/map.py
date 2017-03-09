@@ -13,7 +13,9 @@ def run_map(map_name, get, send):
         start_time = time.time()
         since_start = 0
     
+        loop_count = 0
         while True:
+            loop_count += 1
             # Calculate delta time
             delta_time = int((time.time() - start_time) * 1000) - since_start
             if delta_time > 100:
@@ -47,6 +49,8 @@ def run_map(map_name, get, send):
             continue_loop = False
             # Update objects
             obj_update_list = world.players + world.objects
+
+            
             for index in range(len(obj_update_list)):
                 obj = obj_update_list[index]
     
@@ -56,6 +60,7 @@ def run_map(map_name, get, send):
                 if obj.type != "player": # Don't check player collisions as they can only collide with other players.
                     for coll in obj_update_list[:index]:    # Check for collision
                         if coll.X == obj.X and coll.Y == obj.Y:
+                            print("Collide:", loop_count, coll, obj)
                             obj.collide(coll) # Call collisions
                             coll.collide(obj)
     
@@ -68,6 +73,7 @@ def run_map(map_name, get, send):
 
             # Delete objects that need to be deleted.
             for obj in set(world.to_del): # Set to remove duplicates
+                print("Removing:", loop_count, obj)
                 world.objects.remove(obj)
     
             # Remove players that left

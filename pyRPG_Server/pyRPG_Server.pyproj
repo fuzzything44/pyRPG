@@ -104,10 +104,19 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\Player\__init__.py" />
+    <Compile Include="objects\tutorial\mage_tut\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\tutorial\quest_giver.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="objects\tutorial\war_tut\directed_attack.py">
+    <Compile Include="objects\tutorial\thief_tut\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\tutorial\mage_tut\directed_attack.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\tutorial\mage_tut\mage_enemy.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\tutorial\war_tut\war_enemy.py">
@@ -161,6 +170,8 @@
     <Folder Include="objects\Loot\" />
     <Folder Include="objects\Player\" />
     <Folder Include="objects\tutorial\" />
+    <Folder Include="objects\tutorial\mage_tut\" />
+    <Folder Include="objects\tutorial\thief_tut\" />
     <Folder Include="objects\tutorial\war_tut\" />
     <Folder Include="res\" />
     <Folder Include="res\maps\" />

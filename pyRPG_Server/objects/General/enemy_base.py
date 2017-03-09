@@ -19,7 +19,7 @@ class enemy_base(world_object.world_object):
             money: How much money is dropped. Can be up to 10% greater after luck mods.
             drops: A list of [item, int]. Gives an int percent chance to drop item. 100% drops are unaffected by luck.
 """
-        super().__init__(posX, posY, "enemy")
+        super().__init__(posX, posY, "enemy", world_object.TEAM_ENEMY)
         this.attributes.update({"HP" : health, "damage" : damage, "EXP" : exp, "money" : money, "items" : drops, "effects" : {}, "dmg_dist" : {}})
 
     def update(this, delta_time):
