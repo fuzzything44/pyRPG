@@ -9,7 +9,7 @@ from objects.Loot import money
 
 class enemy_base(world_object.world_object):
     """Basic enemy. Checks for death, defines color."""
-    def __init__(this, posX, posY, health = 1, damage = 1, exp = 1, money = 0, drops = []):
+    def __init__(this, posX, posY, health = 1, damage = 1, exp = 1, money = 0, drops = [], spawner = None):
         """Parameters:
             posX: The X position of the enemy.
             posY: The Y position of the enemy.
@@ -20,7 +20,7 @@ class enemy_base(world_object.world_object):
             drops: A list of [item, int]. Gives an int percent chance to drop item. 100% drops are unaffected by luck.
 """
         super().__init__(posX, posY, "enemy", world_object.TEAM_ENEMY)
-        this.attributes.update({"HP" : health, "damage" : damage, "EXP" : exp, "money" : money, "items" : drops, "effects" : {}, "dmg_dist" : {}})
+        this.attributes.update({"HP" : health, "damage" : damage, "EXP" : exp, "money" : money, "items" : drops, "effects" : {}, "dmg_dist" : {}, "spawner" : spawner})
 
     def update(this, delta_time):
         "Updates effects. Checks if dead. If so, dies."
@@ -49,7 +49,9 @@ class enemy_base(world_object.world_object):
     def die(this):
         "Deletes this, gives player EXP, drops money, drops items."
         world.to_del.append(this) # Delete
-        
+        if this.attributes["spawner"] is not None:
+            this.attributes["spawner"].attributes["current_enemy"] = None # Tell spawner we died.
+
         for plr in this.attributes["dmg_dist"]:
             plr.attributes["gainexp"](plr, this.attributes["EXP"] + 100)
 

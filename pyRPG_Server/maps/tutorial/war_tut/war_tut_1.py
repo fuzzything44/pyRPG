@@ -10,9 +10,16 @@ def generate():
 
     world.objects.append(General.portal.portal(0, 10, "warrior_start", 48, 10))
     world.objects.append(war_tut.water.water())
-    world.objects.append(war_tut.war_enemy.war_enemy(30, 7))
-    world.objects.append(war_tut.war_enemy.war_enemy(20, 3))
-    world.objects.append(war_tut.war_enemy.war_enemy(10, 5))
+    world.objects.append(war_tut.war_spawner.war_spawner(30, 7))
+    world.objects.append(war_tut.war_spawner.war_spawner(20, 3))
+    world.objects.append(war_tut.war_spawner.war_spawner(10, 5))
+    world.objects.append(war_tut.war_spawner.war_spawner(45, 13))
+    world.objects.append(war_tut.war_spawner.war_spawner(40, 17))
+
+    world.objects.append(war_tut.war_enemy.war_enemy(40, 17))
+    world.objects.append(war_tut.war_enemy.war_enemy(40, 17))
+
+
 
 
     world.map = [[ [display.GREEN, display.BLACK, ';', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]

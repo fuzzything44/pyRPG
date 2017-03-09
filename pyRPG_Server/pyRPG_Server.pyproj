@@ -122,6 +122,9 @@
     <Compile Include="objects\tutorial\war_tut\war_enemy.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="objects\tutorial\war_tut\war_spawner.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\tutorial\war_tut\water.py">
       <SubType>Code</SubType>
     </Compile>
