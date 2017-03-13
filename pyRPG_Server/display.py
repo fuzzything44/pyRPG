@@ -66,6 +66,29 @@ def chr_to_color(chr): # Gets the color corresponding to the given character
           return YELLOW
       return WHITE # Just return white if unknown (or w)
 
+def add_newlines(st, maxlen = 29):
+  "Adds new lines in the middle of a string to make it fit in a specific size" 
+  arr = st.split(' ')
+  ret = ''
+  length = 0
+  for elem in arr:
+    if len(elem) + 1 > maxlen:
+      raise Exception("Too long of word" + elem)
+      
+    if len(elem) + 1 + length > maxlen:
+      ret += "\n "
+      length = 0
+      
+    if length != 0:
+      length += 1
+      ret += " "
+      
+    length += len(elem)
+    ret += elem
+    
+  return ret
+  
+
 class menu:
     def update(this):
         """Updates the menu, returns None if no option selected, otherwise returns option."""

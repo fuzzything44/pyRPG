@@ -43,6 +43,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="items\start.py" />
+    <Compile Include="items\t1_consumables.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="items\t1_mage.py" />
     <Compile Include="items\t1_thief.py" />
     <Compile Include="items\t1_warrior.py" />

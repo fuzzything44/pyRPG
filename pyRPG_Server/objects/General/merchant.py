@@ -9,7 +9,6 @@ class merchant(world_object.world_object):
     def __init__(this, posX, posY, inventory = [], overpricing = 2):
         super().__init__(posX, posY, 'interactable')
         this.attributes.update({"items" : inventory, "players_start" : {}, "players_buying" : {}, "players_selling" : {}, "cost_mult" : overpricing})
-
     def update(this, delta_time):
         for plr in world.players:
             if plr.X + 1 >= this.X and plr.X - 1 <= this.X and plr.Y + 1 >= this.Y and plr.Y -1 <= this.Y:

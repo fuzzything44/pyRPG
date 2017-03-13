@@ -53,7 +53,7 @@ class enemy_base(world_object.world_object):
             this.attributes["spawner"].attributes["current_enemy"] = None # Tell spawner we died.
 
         for plr in this.attributes["dmg_dist"]:
-            plr.attributes["gainexp"](plr, this.attributes["EXP"] + 100)
+            plr.attributes["gainexp"](plr, this.attributes["EXP"])
 
         # Drop money. Dropped is their luck times the drop amount plus 0-10%.
         if this.attributes["money"] > 0:

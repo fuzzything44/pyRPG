@@ -11,7 +11,7 @@ import display
 class item:
     """Item class, all items in the game are part of this.
 """
-    def __init__(this, item_name, type, sell_value, quantity = 1, attr = {}):
+    def __init__(this, item_name, type, sell_value, description, quantity = 1, attr = {}):
         """Parameters:
             item_name: The name of the item.
             type: What type it is. hat, pants, consumable...
@@ -21,6 +21,7 @@ class item:
         this.name = item_name
         this.amount = quantity
         this.value = sell_value
+        this.description = description
         this.attributes = attr
         this.type = type
         if "disp_data" not in this.attributes: # They gave no default display data. Make it.

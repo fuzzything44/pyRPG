@@ -66,7 +66,7 @@ def make(make_what):
     if ("+war_tut " in make_what) or ("+tutorial " in make_what and "-war_tut " not in make_what) or (("+all " in make_what) and ("-tutorial " not in make_what or "-war_tut " not in make_what)):
         print("Making warrior tutorial", end = "")
         
-        maps.tutorial.war_tut.start.generate()
+        maps.tutorial.war_tut.warrior_start.generate()
         world.save("warrior_start")
         print(".", end="")
 

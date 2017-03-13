@@ -60,7 +60,6 @@ def run_map(map_name, get, send):
                 if obj.type != "player": # Don't check player collisions as they can only collide with other players.
                     for coll in obj_update_list[:index]:    # Check for collision
                         if coll.X == obj.X and coll.Y == obj.Y:
-                            print("Collide:", loop_count, coll, obj)
                             obj.collide(coll) # Call collisions
                             coll.collide(obj)
     

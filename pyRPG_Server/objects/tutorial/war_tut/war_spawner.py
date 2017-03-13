@@ -1,5 +1,6 @@
 import random
 
+import display
 import world
 
 from objects import world_object
@@ -18,6 +19,12 @@ class war_spawner(world_object.world_object):
             s_enemy = war_enemy.war_enemy(this.X, this.Y, this)
             world.objects.append(s_enemy)
             this.attributes["current_enemy"] = s_enemy
+
+    def color(this):
+        return display.RED
+
+    def char(this):
+        return '%'
 
     
 
