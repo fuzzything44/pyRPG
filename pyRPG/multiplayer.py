@@ -6,6 +6,9 @@ import pickle
 import struct
 import time
 
+def unpack_map(data):
+    return [[ [data[(x + y * world.WORLD_X) * 3], data[(x + y * world.WORLD_X) * 3 + 1], chr(data[(x + y * world.WORLD_X) * 3 + 2])] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
+
 # Returns number of bytes the utf-8 char will take. Byte is the first byte of the char
 def unicode_bytes(byte):
     if byte < 0b10000000: # So a 0 in start position
@@ -77,7 +80,7 @@ def multiplayer():
     display.draw_topbar()
     display.refresh()
 
-    world.map = [[ world.WORLD_NOTHING for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
+    world.map = [[ [0, 1, '!'] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.settimeout(1)
@@ -114,7 +117,7 @@ def multiplayer():
                     index += 1
                     map_size = struct.unpack("!I", data[index:index + 4])[0] # 4 bytes for size of map
                     index += 4
-                    world.map = pickle.loads(data[index:index + map_size])
+                    world.map = unpack_map(data[index: index + map_size]) 
                     index += map_size
                     world.dispworld()
                     display.refresh()
@@ -247,4 +250,4 @@ def multiplayer():
         sock.close()
         return
     except Exception as ex:
-        pause
+        pass

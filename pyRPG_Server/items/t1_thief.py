@@ -18,5 +18,5 @@ class t1_thief_shirt(item.item):
 
 class t1_thief_weapon(item.item):
     def __init__(this, quantity = 1):
-        super().__init__("Orange Mocha Frappuccino", "weapon", 5, "Don't let your friends die in\n a freak gas fight accident.", quantity, {"range" : 2, "damage" : 7})
+        super().__init__("Orange Mocha Frappuccino", "weapon", 5, "Don't let your friends die in\n a freak gas fight accident.", quantity, {"range" : 3, "damage" : 7})
 

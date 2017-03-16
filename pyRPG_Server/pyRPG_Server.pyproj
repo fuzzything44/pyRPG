@@ -60,6 +60,11 @@
     <Compile Include="maps\test_dungeon\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="maps\tutorial\mage_tut\mage_start.py" />
+    <Compile Include="maps\tutorial\mage_tut\mage_start_upper.py" />
+    <Compile Include="maps\tutorial\mage_tut\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="maps\tutorial\war_tut\war_tut_1.py" />
     <Compile Include="maps\tutorial\war_tut\__init__.py">
       <SubType>Code</SubType>
@@ -170,6 +175,7 @@
     <Folder Include="maps\" />
     <Folder Include="maps\test_dungeon\" />
     <Folder Include="maps\tutorial\" />
+    <Folder Include="maps\tutorial\mage_tut\" />
     <Folder Include="maps\tutorial\war_tut\" />
     <Folder Include="objects\" />
     <Folder Include="objects\General\" />
@@ -188,6 +194,8 @@
     <Content Include="maps\start.txt" />
     <Content Include="maps\test_dungeon\start.txt" />
     <Content Include="maps\test_dungeon\test_dungeon_1.txt" />
+    <Content Include="maps\tutorial\mage_tut\mage_start.txt" />
+    <Content Include="maps\tutorial\mage_tut\mage_start_upper.txt" />
     <Content Include="maps\tutorial\war_tut\warrior_start.txt" />
     <Content Include="maps\tutorial\war_tut\war_tut_1.txt" />
     <Content Include="res\maps\credits.wrld" />

@@ -18,5 +18,5 @@ class t1_warrior_shirt(item.item):
 
 class t1_warrior_weapon(item.item):
     def __init__(this, quantity = 1):
-        super().__init__("Iron Longsword", "weapon", 5, "Long, sharp, and hard.\n What else do you need?", quantity, {"range" : 3, "damage" : 5})
+        super().__init__("Iron Longsword", "weapon", 5, "Long, sharp, and hard.\n What else do you need?", quantity, {"range" : 2, "damage" : 5})
 

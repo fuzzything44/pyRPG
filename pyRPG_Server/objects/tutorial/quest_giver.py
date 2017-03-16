@@ -8,6 +8,10 @@ from objects.Player import player_flags
 class quest_giver(General.npc.npc):
     """Talks to the player.""" #TODO: add a good interface for complex dialog trees.
 
+    def __init__(this, posX, posY, dialogue, hard_portal = "lower"):
+        super().__init__(posX, posY, dialogue)
+        this.attributes["next_portal"] = hard_portal
+
     def update(this, delta_time):
         "Talks to player if they're standing next to it."
         for plr in world.players:
@@ -21,7 +25,7 @@ class quest_giver(General.npc.npc):
                     elif plr.attributes["level"] < 5:
                         diag.nodes["start"].text += "\nGo to the (\\fb0\\fw) portal at\n the right.\nCome back when you're\n stronger."
                     else:
-                        diag.nodes["start"].text += "\nNice job!\nGo to the lower portal\n for a bigger challenge."
+                        diag.nodes["start"].text += "\nNice job!\nGo to the " + this.attributes["next_portal"] + " portal\n for a bigger challenge."
 
                     this.attributes["talking_players"][plr] = diag
 

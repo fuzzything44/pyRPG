@@ -16,8 +16,6 @@ from objects import world_object
 
 import spells
 
-import pickle
-
 import struct
 import select
 
@@ -320,7 +318,7 @@ class player(world_object.world_object):
             data = bytearray(2)
             data[0] = 1
             data[1] = this.attributes["current_map"]
-            map_data = pickle.dumps(world.map)
+            map_data = world.send_data
             data += struct.pack("!I", len(map_data))
             data += map_data
             return data
@@ -366,11 +364,14 @@ class player(world_object.world_object):
         return hp + mp + level + exp + gold + spell_len + spell_image + item_len + item_image + equip_info + sidebar_len + sidebar_data
 
 
+def exp_req(lvl): # Weird exponential/polynomial EXP requirement.
+  return int(2 * 1.4 ** lvl + lvl ** 3 + lvl + 1)
+
 def gain_exp(this, amount):
     this.attributes["EXP"] += amount
     # Takes 0.5L^2 + .5L + 4 EXP to level
-    while this.attributes["EXP"] >= (0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4): # They levelled up!
-        this.attributes["EXP"] -= (0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4) # Remove EXP required for level
+    while this.attributes["EXP"] >= exp_req(this.attributes["level"]): # They levelled up!
+        this.attributes["EXP"] -= exp_req(this.attributes["level"]) # Remove EXP required for level
         if this.attributes["level"] >= 20: # Max level
             this.attributes["HP"] = this.attributes["maxHP"] # HP restore
             this.attributes["MP"] = this.attributes["maxMP"] # MP restore

@@ -9,8 +9,7 @@ import display
 # luck = yellow
 # To override this, add the attribute "disp_data".
 class item:
-    """Item class, all items in the game are part of this.
-"""
+    """Item class, all items in the game are part of this."""
     def __init__(this, item_name, type, sell_value, description, quantity = 1, attr = {}):
         """Parameters:
             item_name: The name of the item.

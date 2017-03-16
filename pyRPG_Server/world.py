@@ -8,6 +8,9 @@ WORLD_X = 50    # Max X size
 WORLD_Y = 20    # Max Y size
 
 map = [[ WORLD_NOTHING for y in range(WORLD_Y)] for x in range(WORLD_X)]
+
+send_data = bytearray("\0\1 " * (WORLD_X * WORLD_Y), "utf-8")
+
 players = []
 
 objects = []    # World objects that can interacted with such as enemies, chests, etc...
@@ -25,11 +28,12 @@ def out_of_bounds(x, y):
 world_name = "default"
 
 def load(name):
-    global map, objects, world_name, to_del
+    global map, objects, world_name, to_del, send_data
     try:
         with open("res/maps/" + name + ".wrld", "rb") as handle:
             map = pickle.load(handle)
             objects = pickle.load(handle)
+            send_data = pickle.load(handle)
             to_del = []
             world_name = name
     except Exception as ex:
@@ -55,7 +59,6 @@ def load_player(name):
         return None
     try:
         with open("res/saves/" + name + ".plr", "rb") as handle:
-            print('a')
             return pickle.load(handle)
     except Exception as ex:
         return None
@@ -65,6 +68,13 @@ def save(name):
         with open("res/maps/" + name + ".wrld", "wb") as handle:
             pickle.dump(map, handle)
             pickle.dump(objects, handle)
+            pickle.dump(make_send_data(), handle)
     except Exception as ex:
-        print( "Could not save.")
+        print( "Could not save.", ex)
 
+def make_send_data():
+    ret = ""
+    for y in range(WORLD_Y):
+        for x in range(WORLD_X):
+            ret += chr(map[x][y][0]) + chr(map[x][y][1]) + map[x][y][2]
+    return bytearray(ret, "utf-8")

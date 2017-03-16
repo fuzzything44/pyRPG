@@ -29,6 +29,7 @@ def run_map(map_name, get, send):
                 if message[0] == "add": # We're adding a player
                     if message[1].type == "player":
                         message[1].attributes["current_map"] += 1 # Count how many maps a player's been in.
+                        message[1].attributes["sidebar"] = ""
                         if message[1].attributes["current_map"] > 255: # Reset once we get past a byte
                             message[1].attributes["current_map"] = 1
     
