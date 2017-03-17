@@ -1,3 +1,5 @@
+import world
+
 from objects import General
 
 class directed_attack(General.base_attack.base_attack):
@@ -11,6 +13,9 @@ class directed_attack(General.base_attack.base_attack):
             this.attributes["sincemove"] = 0
             this.X += this.attributes["move_x"]
             this.Y += this.attributes["move_y"]
+        if not world.out_of_bounds(this.X, this.Y) and not world.map[this.X][this.Y][3]: # Hit a wall.
+            world.to_del.append(this)
+
 
 
     
