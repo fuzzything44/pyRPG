@@ -62,6 +62,7 @@
     </Compile>
     <Compile Include="maps\tutorial\mage_tut\mage_start.py" />
     <Compile Include="maps\tutorial\mage_tut\mage_start_upper.py" />
+    <Compile Include="maps\tutorial\mage_tut\mage_tut_1.py" />
     <Compile Include="maps\tutorial\mage_tut\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -112,6 +113,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\Player\__init__.py" />
+    <Compile Include="objects\tutorial\mage_tut\mage_spawner.py" />
     <Compile Include="objects\tutorial\mage_tut\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -196,6 +198,7 @@
     <Content Include="maps\test_dungeon\test_dungeon_1.txt" />
     <Content Include="maps\tutorial\mage_tut\mage_start.txt" />
     <Content Include="maps\tutorial\mage_tut\mage_start_upper.txt" />
+    <Content Include="maps\tutorial\mage_tut\mage_tut_1.txt" />
     <Content Include="maps\tutorial\war_tut\warrior_start.txt" />
     <Content Include="maps\tutorial\war_tut\war_tut_1.txt" />
     <Content Include="res\maps\credits.wrld" />

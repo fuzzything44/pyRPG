@@ -333,7 +333,7 @@ class player(world_object.world_object):
         hp = struct.pack("!I", int(this.attributes["HP"])) + struct.pack("!I", int(this.attributes["maxHP"]))
         mp = struct.pack("!I", int(this.attributes["MP"])) + struct.pack("!I", int(this.attributes["maxMP"]))
         level = struct.pack("!I", this.attributes["level"])
-        exp = struct.pack("!I", int(0.5*this.attributes["level"]**2 + 0.5*this.attributes["level"] + 4 - this.attributes["EXP"]))
+        exp = struct.pack("!I", exp_req(this.attributes["level"]) - this.attributes["EXP"])
         gold = struct.pack("!I", this.attributes["money"])
         spell_image = bytearray(this.attributes["spells"][this.attributes["spell"]].image, 'utf-8')
         spell_len = struct.pack("!I", len(spell_image))

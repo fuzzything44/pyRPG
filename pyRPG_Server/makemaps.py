@@ -12,9 +12,11 @@ def make_from_file(file_in, file_out):
     # Find all definitions:
     chr_defs = {}
     # Populate chr_defs. Pretty much any character easily typed on keyboard is here.
-    for chr in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()`~-_=+[{]}\\|;:\",./<>? ":
+    for chr in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()`~-_=+[{]}|;:,./<>? ":
         chr_defs[chr] = "[0, 1, '" + chr + "', True]\n"
     chr_defs["'"] = "[0, 1, '\\'', True]\n"
+    chr_defs['"'] = "[0, 1, '\\\"', True]\n"
+    chr_defs["\\"]= "[0, 1, '\\\\', True]\n"
 
     while data[0][:3] != "end":
         # Otherwise, line should be in the form of CHR = [fgc, bgc, chr, solid]
@@ -82,8 +84,11 @@ def make(make_what):
 
         maps.tutorial.mage_tut.mage_start_upper.generate()
         world.save("mage_start_upper")
-        print(".")
+        print(".", end = "")
 
+        maps.tutorial.mage_tut.mage_tut_1.generate()
+        world.save("mage_tut_1")
+        print(".", end = "\n")
 
     if ("+test_dungeon " in make_what) or ("+all " in make_what and "-test_dungeon " not in make_what):
         print("Making test dungeon", end = "")
@@ -99,14 +104,14 @@ def make(make_what):
 
 
 if __name__ == "__main__":
-    #make_from_file("maps/tutorial/mage_tut/mage_start_upper.txt", "maps/tutorial/mage_tut/mage_start_upper.py")
+    #make_from_file("maps/tutorial/mage_tut/mage_tut_1.txt", "maps/tutorial/mage_tut/mage_tut_1.py")
     print("Make what maps?")
     print("Options: (use +opt_name for that map (or everything under it), use -opt to exclude option")
     print("all")
     print("|--start")
-    print("|--tutorial")
-    print("|  |--war_tut")
-    print("|  |--mage_tut(NOT MADE YET)")
+    print("|--tutorial (In progress)")
+    print("|  |--war_tut (In progress)")
+    print("|  |--mage_tut (In progress)")
     print("|  |--thief_tut(NOT MADE YET)")
     print("|--test_dungeon")
 
