@@ -17,6 +17,7 @@ def generate():
     world.objects.append(mage_tut.mage_spawner.mage_spawner(7, 15))
     world.objects.append(mage_tut.mage_spawner.mage_spawner(40, 18))
 
+    world.objects.append(General.portal.portal(49, 0, "mage_tut_2", 1, 0))
 
     world.map = [[ [display.WHITE, display.BLACK, '.', True] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
     world.map[41][0] =  [display.WHITE, display.BLACK, '#', False]

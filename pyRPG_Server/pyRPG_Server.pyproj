@@ -49,6 +49,9 @@
     <Compile Include="items\t1_mage.py" />
     <Compile Include="items\t1_thief.py" />
     <Compile Include="items\t1_warrior.py" />
+    <Compile Include="items\tutorial_quest_items.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="items\__init__.py" />
     <Compile Include="makemaps.py" />
     <Compile Include="map.py">
@@ -63,6 +66,7 @@
     <Compile Include="maps\tutorial\mage_tut\mage_start.py" />
     <Compile Include="maps\tutorial\mage_tut\mage_start_upper.py" />
     <Compile Include="maps\tutorial\mage_tut\mage_tut_1.py" />
+    <Compile Include="maps\tutorial\mage_tut\mage_tut_2.py" />
     <Compile Include="maps\tutorial\mage_tut\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -97,6 +101,9 @@
     <Compile Include="objects\General\save_station.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="objects\General\timed_portal.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\General\__init__.py" />
     <Compile Include="objects\Loot\chest.py" />
     <Compile Include="objects\Loot\lootbag.py" />
@@ -113,6 +120,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="objects\Player\__init__.py" />
+    <Compile Include="objects\tutorial\mage_tut\adv_mage_enemy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="objects\tutorial\mage_tut\adv_mage_spawner.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\tutorial\mage_tut\mage_spawner.py" />
     <Compile Include="objects\tutorial\mage_tut\__init__.py">
       <SubType>Code</SubType>
@@ -199,6 +212,7 @@
     <Content Include="maps\tutorial\mage_tut\mage_start.txt" />
     <Content Include="maps\tutorial\mage_tut\mage_start_upper.txt" />
     <Content Include="maps\tutorial\mage_tut\mage_tut_1.txt" />
+    <Content Include="maps\tutorial\mage_tut\mage_tut_2.txt" />
     <Content Include="maps\tutorial\war_tut\warrior_start.txt" />
     <Content Include="maps\tutorial\war_tut\war_tut_1.txt" />
     <Content Include="res\maps\credits.wrld" />

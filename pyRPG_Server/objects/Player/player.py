@@ -262,7 +262,7 @@ class player(world_object.world_object):
             this.attributes["consumable"].use(this)
             this.attributes["can_item"] = False
             this.attributes["consumable"].amount -= 1
-            if this.attributes["consumable"].amount == 0:
+            if this.attributes["consumable"].amount <= 0:
                 del this.attributes["items"][this.attributes["items"].index(this.attributes["consumable"])]
                 this.attributes["consumable"] = no_item.no_consumable()
         if not this.attributes["keys"][display.KEY_SHIFT]:

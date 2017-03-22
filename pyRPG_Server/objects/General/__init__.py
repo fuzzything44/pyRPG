@@ -10,3 +10,4 @@ from objects.General import merchant
 from objects.General import npc
 from objects.General import portal
 from objects.General import save_station
+from objects.General import timed_portal

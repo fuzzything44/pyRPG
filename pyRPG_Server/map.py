@@ -73,7 +73,6 @@ def run_map(map_name, get, send):
 
             # Delete objects that need to be deleted.
             for obj in set(world.to_del): # Set to remove duplicates
-                print("Removing:", loop_count, obj)
                 world.objects.remove(obj)
     
             # Remove players that left

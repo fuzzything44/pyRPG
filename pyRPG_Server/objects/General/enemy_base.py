@@ -20,10 +20,17 @@ class enemy_base(world_object.world_object):
             drops: A list of [item, int]. Gives an int percent chance to drop item. 100% drops are unaffected by luck.
 """
         super().__init__(posX, posY, "enemy", world_object.TEAM_ENEMY)
-        this.attributes.update({"HP" : health, "damage" : damage, "EXP" : exp, "money" : money, "items" : drops, "effects" : {}, "dmg_dist" : {}, "spawner" : spawner})
+        this.attributes.update({"HP" : health, "damage" : damage, "EXP" : exp, "money" : money, "items" : drops, "effects" : {}, "dmg_dist" : {}, "spawner" : spawner, "sincehit" : 300, "lastHP" : health})
 
     def update(this, delta_time):
         "Updates effects. Checks if dead. If so, dies."
+
+        # See if hit for flash red on hit.
+        if this.attributes["HP"] < this.attributes["lastHP"]:
+            this.attributes["sincehit"] = 0
+        else:
+            this.attributes["sincehit"] += delta_time
+
         # Update all effects.
         eff_del_list = []
         for eff_name in this.attributes["effects"]:
@@ -35,12 +42,22 @@ class enemy_base(world_object.world_object):
             this.attributes["effects"][eff_name].uneffect(this)
             del this.attributes["effects"][eff_name]
         del eff_del_list
+
+        # Update lastHP
+        this.attributes["lastHP"] = this.attributes["HP"]
+
         # Check if dead.
         if this.attributes["HP"] <= 0: # TODO: bring back to normal
             this.die()
 
     def color(this):
-        "Returns cyan. DO NOT CHANGE!"
+        "Returns cyan (or red if hit recently). DO NOT OVERLOAD!"
+        if this.attributes["sincehit"] < 75:
+            return display.RED
+        elif this.attributes["sincehit"] < 150:
+            return display.CYAN
+        elif this.attributes["sincehit"] < 225:
+            return display.RED
         return display.CYAN
 
     def char(this):
