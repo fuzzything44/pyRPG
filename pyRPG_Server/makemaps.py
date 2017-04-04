@@ -92,6 +92,10 @@ def make(make_what):
 
         maps.tutorial.mage_tut.mage_tut_2.generate()
         world.save("mage_tut_2")
+        print(".", end = "")
+
+        maps.tutorial.mage_tut.mage_tut_boss.generate()
+        world.save("mage_tut_boss")
         print(".", end = "\n")
 
     if ("+test_dungeon " in make_what) or ("+all " in make_what and "-test_dungeon " not in make_what):
@@ -108,7 +112,7 @@ def make(make_what):
 
 
 if __name__ == "__main__":
-    #make_from_file("maps/tutorial/mage_tut/mage_tut_2.txt", "maps/tutorial/mage_tut/mage_tut_2.py")
+    #make_from_file("maps/tutorial/mage_tut/mage_tut_boss.txt", "maps/tutorial/mage_tut/mage_tut_boss.py")
     print("Make what maps?")
     print("Options: (use +opt_name for that map (or everything under it), use -opt to exclude option")
     print("all")

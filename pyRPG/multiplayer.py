@@ -6,8 +6,12 @@ import pickle
 import struct
 import time
 
+# Double backslashes so when printing they actually print.
+def make_chr(data):
+    return chr(data) if chr(data) != "\\" else "\\\\"
+
 def unpack_map(data):
-    return [[ [data[(x + y * world.WORLD_X) * 3], data[(x + y * world.WORLD_X) * 3 + 1], chr(data[(x + y * world.WORLD_X) * 3 + 2])] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
+    return [[ [data[(x + y * world.WORLD_X) * 3], data[(x + y * world.WORLD_X) * 3 + 1], make_chr(data[(x + y * world.WORLD_X) * 3 + 2])] for y in range(world.WORLD_Y)] for x in range(world.WORLD_X)]
 
 # Returns number of bytes the utf-8 char will take. Byte is the first byte of the char
 def unicode_bytes(byte):

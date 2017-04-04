@@ -17,3 +17,5 @@ class mage_quest_item(item.item):
             world.objects.append(General.timed_portal.timed_portal(26, 9, "mage_tut_boss", 10, 10, 3000))
 
             this.amount -= 3
+        else:
+            this.amount += 1

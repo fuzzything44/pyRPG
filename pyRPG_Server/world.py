@@ -59,7 +59,9 @@ def load_player(name):
         return None
     try:
         with open("res/saves/" + name + ".plr", "rb") as handle:
-            return pickle.load(handle)
+            plr = pickle.load(handle)
+            plr.attributes["timeout"] = 0
+            return plr
     except Exception as ex:
         return None
 
