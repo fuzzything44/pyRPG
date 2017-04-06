@@ -127,6 +127,9 @@
     <Compile Include="objects\tutorial\mage_tut\adv_mage_spawner.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="objects\tutorial\mage_tut\boss_slime.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="objects\tutorial\mage_tut\mage_boss.py">
       <SubType>Code</SubType>
     </Compile>

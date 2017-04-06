@@ -14,6 +14,8 @@ def give_money(player):
 def generate():
     world.objects.clear()
 
+    world.objects.append(General.portal.portal(6, 5, "mage_tut_boss", 25, 10))
+
     # Save station and merchant as starting towns need. Merchant has t1 mage stuff.
     world.objects.append(General.save_station.save_station(4, 16))
     world.objects.append(General.merchant.merchant(47, 6, [t1_mage.t1_mage_hat(), t1_mage.t1_mage_pants(), t1_mage.t1_mage_ring(), t1_mage.t1_mage_shirt(), t1_mage.t1_mage_weapon()]))
