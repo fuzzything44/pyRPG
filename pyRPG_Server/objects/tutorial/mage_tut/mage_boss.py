@@ -13,7 +13,7 @@ from objects.tutorial.mage_tut import boss_slime
 
 class mage_boss(General.enemy_base.enemy_base):
     def __init__(this, posX, posY, owner):
-        super().__init__(posX, posY, 250, 25, 15, 10, [], owner)
+        super().__init__(posX, posY, 300, 25, 15, 10, [], owner)
         this.attributes["go_diag"] = False
         this.attributes["going_to"] = (this.X, this.Y)
 
@@ -23,17 +23,17 @@ class mage_boss(General.enemy_base.enemy_base):
         # Attack
         if "atk_del" not in this.attributes["effects"]:
             if this.attributes["go_diag"]:
-                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, 1 , 1 , 300, False))
-                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, 1 , -1, 300, False))
-                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, -1, 1 , 300, False))
-                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, -1, -1, 300, False))
+                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, 1 , 1 , 200, False))
+                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, 1 , -1, 200, False))
+                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, -1, 1 , 200, False))
+                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, -1, -1, 200, False))
             else:                                                                                                                
-                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, 1 , 0 , 150, False))
-                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, -1, 0 , 150, False))
-                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, 0 , 1 , 150, False))
-                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, 0 , -1, 150, False))
+                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, 1 , 0 , 100, False))
+                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, -1, 0 , 100, False))
+                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, 0 , 1 , 100, False))
+                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, 0 , -1, 100, False))
             this.attributes["go_diag"] = not this.attributes["go_diag"]
-            this.attributes["effects"]["atk_del"] = effect.effect(this, 1000)
+            this.attributes["effects"]["atk_del"] = effect.effect(this, 500)
 
         # Move
         if "mov_del" not in this.attributes["effects"]:
@@ -58,7 +58,7 @@ class mage_boss(General.enemy_base.enemy_base):
             world.objects.append(boss_slime.boss_slime(this.X, this.Y, this))
             this.X += int(dist_x)
             this.Y += int(dist_y)
-            this.attributes["effects"]["mov_del"] = effect.effect(this, 500)
+            this.attributes["effects"]["mov_del"] = effect.effect(this, 300)
 
 
     def collide(this, obj):
