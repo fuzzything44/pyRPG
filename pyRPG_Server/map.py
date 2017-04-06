@@ -19,7 +19,9 @@ def run_map(map_name, get, send):
             # Calculate delta time
             delta_time = int((time.time() - start_time) * 1000) - since_start
             if delta_time > 100:
+                print("Capped tick at", delta_time, "ms.", len(world.objects) + len(world.players), "objects total")
                 delta_time = 100
+
             since_start += delta_time
     
             # Check queue for new messages.
@@ -91,11 +93,20 @@ def run_map(map_name, get, send):
             # Each thing needs an X coord, Y coord, char, and color
             # We devote 1 byte to each, meaning each is 4 bytes
             send_data = bytearray(1)
-            send_data[0] = len(world.objects) + len(world.players)
-            for obj in world.objects + world.players: # Loop through objects, get data.
-                send_data += bytearray([obj.X, obj.Y])
-                send_data += bytearray(obj.char(), 'utf-8')
-                send_data += bytearray([obj.color()])
+
+            if len(world.objects) > 200:
+                send_data[0] = 200 + len(world.players)
+                for index in range(201):
+                    obj = world.objects[index]
+                    send_data += bytearray([obj.X, obj.Y])
+                    send_data += bytearray(obj.char(), 'utf-8')
+                    send_data += bytearray([obj.color()])
+            else:
+                send_data[0] = len(world.objects) + len(world.players)
+                for obj in world.objects + world.players: # Loop through objects, get data.
+                    send_data += bytearray([obj.X, obj.Y])
+                    send_data += bytearray(obj.char(), 'utf-8')
+                    send_data += bytearray([obj.color()])
     
             # Send update to all players
             for plr in world.players:
