@@ -78,9 +78,11 @@ class player(world_object.world_object):
             })
 
     def update(this, delta_time):
+
         if select.select([this.attributes["socket"]], [], [], 0) != ([], [], []):
             try:
                 (inpt, addr) = this.attributes["socket"].recvfrom(65507)
+
                 this.attributes["keys"] = bytearray(inpt)
                 while select.select([this.attributes["socket"]], [], [], 0) != ([], [], []):
                     this.attributes["socket"].recvfrom(65507)
@@ -97,7 +99,6 @@ class player(world_object.world_object):
                 this.attributes["socket"].close()
                 world.to_del_plr.append(this)
                 return
-
 
         if this.attributes["esc_menu"] is not None:
             opt = this.attributes["esc_menu"].update()

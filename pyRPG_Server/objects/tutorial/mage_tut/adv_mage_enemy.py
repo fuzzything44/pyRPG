@@ -16,7 +16,7 @@ from objects.tutorial.mage_tut import directed_attack
 class adv_mage_enemy(General.enemy_base.enemy_base):
     """Stays still, shoots up/down/left/right at even intervals"""
     def __init__(this, posX, posY, spawner):
-        super().__init__(posX, posY, 16, 15, 3, 0, [(t1_consumables.t1_mana(), 30), (tutorial_quest_items.mage_quest_item(), 50)], spawner)
+        super().__init__(posX, posY, 16, 15, 3, 0, [(t1_consumables.t1_mana(), 50), (tutorial_quest_items.mage_quest_item(), 100)], spawner)
         this.attributes.update({\
                 "theta" : random.randrange(0, 360),
                 "radius" : 4    \
@@ -26,7 +26,7 @@ class adv_mage_enemy(General.enemy_base.enemy_base):
         super().update(delta_time)
 
         # Move
-        this.attributes["theta"] += (delta_time * .003 / this.attributes["radius"])    
+        this.attributes["theta"] += (delta_time * .002 / this.attributes["radius"])   
         this.X = int(this.attributes["radius"] * math.cos(this.attributes["theta"]) + this.attributes["spawner"].X)
         this.Y = int(this.attributes["radius"] * math.sin(this.attributes["theta"]) + this.attributes["spawner"].Y)
         if this.X < 0:
@@ -57,7 +57,7 @@ class adv_mage_enemy(General.enemy_base.enemy_base):
                 else:
                     y_mov =  -1 if y_dist > 0 else 1
 
-                world.objects.append(directed_attack.directed_attack(this.X, this.Y, this.attributes["damage"], this, x_mov, y_mov, 150))
+                world.objects.append(directed_attack.directed_attack(this.X + x_mov, this.Y + y_mov, this.attributes["damage"], this, x_mov, y_mov, 150, True, 10))
             this.attributes["effects"]["atk_del"] = effect.effect(this, 1000)
             
 

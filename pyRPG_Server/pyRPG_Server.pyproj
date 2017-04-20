@@ -27,7 +27,7 @@
     </Compile>
     <Compile Include="effects\effect.py" />
     <Compile Include="effects\enemy_info.py" />
-    <Compile Include="effects\fire.py" />
+    <Compile Include="effects\dot.py" />
     <Compile Include="effects\flame.py" />
     <Compile Include="effects\freeze.py" />
     <Compile Include="effects\frozen.py" />

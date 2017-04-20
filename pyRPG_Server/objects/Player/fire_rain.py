@@ -1,7 +1,7 @@
 import display
 import world
 
-from effects import fire
+from effects import dot
 from objects.General import base_attack
 
 class fire_rain(base_attack.base_attack):
@@ -18,7 +18,7 @@ class fire_rain(base_attack.base_attack):
     def collide(this, oth):
         if not (this.attributes["team"] & base_attack.get_team(oth)) and ("effects" in oth.attributes):
             if "burning" not in oth.attributes["effects"]:
-                oth.attributes["effects"]["burning"] = fire.fire(oth, 10000, 0.2 * this.attributes["damage"])
+                oth.attributes["effects"]["burning"] = dot.dot(oth, 10000, 0.2 * this.attributes["damage"])
             else:
                 oth.attributes["effects"]["burning"].time += 5000
                 oth.attributes["effects"]["burning"].damage += this.attributes["damage"] / 7.0

@@ -56,6 +56,7 @@ def save_player(plr):
 
 def load_player(name):
     if name == "default":
+        print("default!")
         return None
     try:
         with open("res/saves/" + name + ".plr", "rb") as handle:
@@ -63,6 +64,7 @@ def load_player(name):
             plr.attributes["timeout"] = 0
             return plr
     except Exception as ex:
+        print(ex)
         return None
 
 def save(name):

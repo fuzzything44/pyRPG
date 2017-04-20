@@ -20,11 +20,6 @@ class adv_mage_spawner(world_object.world_object):
             world.objects.append(s_enemy)
             this.attributes["current_enemy"] = s_enemy
 
-    def color(this):
-        return display.RED
-
-    def char(this):
-        return '@'
 
     
 

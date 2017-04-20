@@ -21,11 +21,6 @@ class mage_boss_spawner(world_object.world_object):
                 this.attributes["current_enemy"] = s_enemy
                 this.attributes["since_death"] = 0
 
-    def color(this):
-        return display.RED
-
-    def char(this):
-        return '#'
     
 
 

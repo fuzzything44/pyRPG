@@ -1,7 +1,7 @@
 import display
 import world
 
-from effects import fire
+from effects import dot
 
 from objects import world_object
 from objects.Player import attack
@@ -13,7 +13,7 @@ class fireball_atk(attack.attack):
                 other.attributes["HP"] -= min(200, this.attributes["damage"])
                 world.to_del.append(this)
                 if "effects" in other.attributes:
-                    other.attributes["effects"]["fire"] = fire.fire(other, 2500, 10.0)
+                    other.attributes["effects"]["fire"] = dot.dot(other, 2500, 10.0)
     
     def color(this):
         return display.RED

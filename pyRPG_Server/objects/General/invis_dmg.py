@@ -1,4 +1,4 @@
-from effects import fire
+from effects import dot
 from objects import world_object
 
 class lavatile(world_object.world_object):
@@ -24,6 +24,6 @@ class lavatile(world_object.world_object):
             oth.attributes["HP"] -= 10              # Hurt it
             this.attributes["timers"][oth] = 100    # Give invincibility
             if "effects" in oth.attributes:
-                oth.attributes["effects"]["fire"] = fire.fire(oth, 1000, 10) # Start fire damage
+                oth.attributes["effects"]["fire"] = dot.dot(oth, 1000, 10, "Literally on fire") # Start fire damage
     
     

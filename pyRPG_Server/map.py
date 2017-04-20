@@ -10,20 +10,22 @@ def run_map(map_name, get, send):
         world.load(map_name.split(';')[0]) # Only load everything before first ;
     
         print("[" + map_name + "] Map started")
-        start_time = time.time()
+        start_time = time.clock()
         since_start = 0
     
         loop_count = 0
         while True:
             loop_count += 1
             # Calculate delta time
-            delta_time = int((time.time() - start_time) * 1000) - since_start
+            delta_time = int((time.clock() - start_time) * 1000) - since_start
             if delta_time > 100:
                 print("Capped tick at", delta_time, "ms.", len(world.objects) + len(world.players), "objects total")
                 delta_time = 100
-
+            delta_time = max(0, delta_time) # Don't have ticks with negative time!
             since_start += delta_time
-    
+
+            print(delta_time, " ", end="\r")
+
             # Check queue for new messages.
             if not get.empty():
                 message = get.get()
@@ -118,6 +120,7 @@ def run_map(map_name, get, send):
                 while get.get() != ("end",): # Wait for acknowledge of end.
                     pass
                 return
+
 
     except Exception as ex:
         send.put(("end", ))

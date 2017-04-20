@@ -5,6 +5,9 @@ import world
 
 from effects import effect
 
+from items import t1_consumables
+from items import tutorial_quest_items
+
 from objects import world_object
 from objects import General
 
@@ -13,7 +16,15 @@ from objects.tutorial.mage_tut import boss_slime
 
 class mage_boss(General.enemy_base.enemy_base):
     def __init__(this, posX, posY, owner):
-        super().__init__(posX, posY, 300, 25, 15, 10, [], owner)
+        super().__init__(posX, posY, 300, 25, 15, 10, [\
+            (tutorial_quest_items.any_rare_reward(1), 500),   \
+            (tutorial_quest_items.mage_rare_reward(1), 10), \
+            (t1_consumables.t1_mana(5), 20),    \
+            (t1_consumables.t1_mana(5), 20),    \
+            (t1_consumables.t1_mana(5), 20),    \
+            (t1_consumables.t1_mana(5), 20),    \
+            (t1_consumables.t1_mana(5), 20)     \
+          ], owner)
         this.attributes["go_diag"] = False
         this.attributes["going_to"] = (this.X, this.Y)
 
