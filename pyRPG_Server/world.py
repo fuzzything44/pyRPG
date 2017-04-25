@@ -1,5 +1,6 @@
 import pickle
 
+import display
 
 # World tile. Form of [foreground color, background color, display char, canwalk]. None of this should move, all is part of background world.
 WORLD_NOTHING = [0, 1, ' ', True]     # Nothing there
@@ -48,6 +49,8 @@ def save_player(plr):
     try:
         with open("res/saves/" + plr.attributes["name"] + ".plr", "wb") as handle:
             plr.attributes["socket"] = None
+            plr.attributes["timeout"] = 0
+            plr.attributes["keys"] = bytearray(display.NUM_KEYS)
             pickle.dump(plr, handle)
             plr.attributes["socket"] = temp_sock
     except Exception as ex:
@@ -60,9 +63,7 @@ def load_player(name):
         return None
     try:
         with open("res/saves/" + name + ".plr", "rb") as handle:
-            plr = pickle.load(handle)
-            plr.attributes["timeout"] = 0
-            return plr
+            return pickle.load(handle)
     except Exception as ex:
         print(ex)
         return None

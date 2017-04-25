@@ -24,32 +24,35 @@ RING_X = 39 + len("Ring:")
 RING_Y = 4
 
 # Key defs
-KEY_W = 0
-KEY_A = 1
-KEY_S = 2
-KEY_D = 3
+KEY_MOV_UP      = 0
+KEY_MOV_LEFT    = 1
+KEY_MOV_DOWN    = 2
+KEY_MOV_RIGHT   = 3
 
-KEY_I = 4
-KEY_J = 5
-KEY_K = 6
-KEY_L = 7
+KEY_ATK_UP      = 4
+KEY_ATK_LEFT    = 5
+KEY_ATK_DOWN    = 6
+KEY_ATK_RIGHT   = 7
 
-KEY_SHIFT = 8
-KEY_SPACE = 9
-KEY_ENTER = 10
+KEY_ITEM        = 8
+KEY_SPELL       = 9
+KEY_ENTER       = 10
 
 KEY_UP = 11
-KEY_Q = 11
-
 KEY_DOWN = 12
-KEY_E    = 12
 
-KEY_U    = 13
-KEY_O    = 14
+KEY_INTERACT    = 13
 
-KEY_ESC  = 15
+KEY_LASTSPELL   = 14
+KEY_NEXTSPELL   = 15
+
+KEY_INVENTORY   = 16
+KEY_ESC  = 17
 # Not actually a key but packed with them. What map they think they're in.
-KEY_MAPID = 16
+KEY_MAPID = 18
+
+# How many keys there are.
+NUM_KEYS = 19
 
 def chr_to_color(chr): # Gets the color corresponding to the given character
       if chr == 'r':

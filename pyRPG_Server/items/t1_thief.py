@@ -6,7 +6,7 @@ class t1_thief_hat(item.item):
 
 class t1_thief_pants(item.item):
     def __init__(this, quantity = 1):
-        super().__init__("Skinny Jeans", "pants", 5, "Just loose enough to allow\n movement.", quantity, {"maxHP_mod" : 10, "mov_spd_mod" : 10})
+        super().__init__("Skinny Jeans", "pants", 5, "Just loose enough to allow movement.", quantity, {"maxHP_mod" : 10, "mov_spd_mod" : 10})
 
 class t1_thief_ring(item.item):
     def __init__(this, quantity = 1):
@@ -18,5 +18,5 @@ class t1_thief_shirt(item.item):
 
 class t1_thief_weapon(item.item):
     def __init__(this, quantity = 1):
-        super().__init__("Orange Mocha Frappuccino", "weapon", 5, "Don't let your friends die in\n a freak gas fight accident.", quantity, {"range" : 3, "damage" : 7})
+        super().__init__("Orange Mocha Frappuccino", "weapon", 5, "Don't let your friends die in a freak gas fight accident.", quantity, {"range" : 3, "damage" : 7})
 
