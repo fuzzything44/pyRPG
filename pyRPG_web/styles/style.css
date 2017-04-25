@@ -1,0 +1,64 @@
+body {
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-family: 'Source Code Pro', monospace;
+}
+
+table {
+  border-style: solid;
+  border-color: white;
+  border-width: .1em;
+  text-align: left; /* This shouldn't actually be needed as eventually every line will have the same number of characters. Still, better to be safe. */
+}
+
+.fw {
+  color: white;
+}
+.fr {
+  color: red;
+}
+.fg {
+  color: green;
+}
+.fb {
+  color: blue;
+}
+.fc {
+  color: cyan;
+}
+.fm {
+  color: magenta;
+}
+.fy {
+  color: yellow;
+}
+.fx {
+  color: black;
+}
+
+
+.bw {
+  background-color: white;
+}
+.br {
+  background-color: red;
+}
+.bg {
+  background-color: green;
+}
+.bb {
+  background-color: blue;
+}
+.bc {
+  background-color: cyan;
+}
+.bm {
+  background-color: magenta;
+}
+.by {
+  background-color: yellow;
+}
+.bx {
+  background-color: black;
+}
