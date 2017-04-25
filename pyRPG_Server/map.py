@@ -112,7 +112,10 @@ def run_map(map_name, get, send):
     
             # Send update to all players
             for plr in world.players:
-                plr.attributes["socket"].sendto(plr.map_data() + send_data + plr.extra_data(), plr.attributes["address"])
+                if plr.attributes["using_inv"]:
+                    plr.attributes["socket"].sendto(plr.attributes["inv_data"], plr.attributes["address"])
+                else:
+                    plr.attributes["socket"].sendto(plr.map_data() + send_data + plr.extra_data(), plr.attributes["address"])
                 
             if not continue_loop: # Nothing blocking.
                 send.put(("end", ))

@@ -14,10 +14,10 @@ class t1_mage_ring(item.item):
 
 class t1_mage_shirt(item.item):
     def __init__(this, quantity = 1):
-        super().__init__("White shirt", "shirt", 5, "No one knows what type of\n shirt this is.", quantity, {"maxMP_mod" : 25})
+        super().__init__("White shirt", "shirt", 5, "No one knows what type of shirt this is.", quantity, {"maxMP_mod" : 25})
 
 class t1_mage_weapon(item.item):
     def __init__(this, quantity = 1):
-        super().__init__("Aluminum wand", "weapon", 5, "This is a normal rod of\n aluminum about a foot long.\n How does it cast spells?", quantity, {"range" : 7, "damage" : 5})
+        super().__init__("Aluminum wand", "weapon", 5, "A normal rod of aluminum about a foot long.", quantity, {"range" : 7, "damage" : 5})
 
 

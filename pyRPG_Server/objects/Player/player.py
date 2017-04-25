@@ -39,51 +39,53 @@ class player(world_object.world_object):
             "set_name" : "",        # Tracking what to set (ex hat, spell...)
             "set_list" : [],        # List of what options correspond to when setting.
 
-            "keys" : bytearray(17), # What keys are down.
-            "can_spell_cycle" : True# Can we change the current spell? (So last update UO weren't down)
-         })
-        this.attributes.update({                \
-              "maxHP" : 100.0,                  \
-              "HP" : 100.0,                     \
-              "maxMP" : 50,                     \
-              "MP" : 50,                        \
-              "money" : 0,                      \
-              "effects" : {},                   \
-              "EXP" : 0,                        \
-              "level" : 1,                      \
-              "items" : [start_items.start_hat(), start_items.start_pants(), start_items.start_ring(), start_items.start_shirt(), start_items.start_weapon()],\
-              "spells" : [spells.spell.spell(spells.heal.manaCost, spells.heal.heal, spells.heal.name, spells.heal.icon)],         \
-              "class" : "warrior",              \
-              "spell" : 0,                      # Index of spells for current spell
-              "weapon" : no_item.no_weapon(),   \
-              "hat"    : no_item.no_hat(),      \
-              "shirt"  : no_item.no_shirt(),    \
-              "pants"  : no_item.no_pants(),    \
-              "ring"   : no_item.no_ring(),     \
-              "consumable" : no_item.no_consumable(),\
-              "mov_spd" : 0,                    # How quickly they move
-              "atk_spd" : 0,                    # How quickly they attack
-              "can_cast" : True,                \
-              "can_item" : True,                \
-              "magic" : 5,                      # How good spells are 
-              "strength" : 5,                   # How much damage regular attacks do. 
-              "luck" : 0,                       # Luck will change item and money drops
-              "gainexp" : gain_exp,             \
-              "lastHP" : 100.0,                 # What was their HP last frame?
-              "sincehit" : 300,                 # How long since they were hit
-              "respawnX" : posX,                \
-              "respawnY" : posY,                \
-              "respawnMap" : "start",           \
-              "flags" : array.array('b')           # A very general list. For tracking progress through dungeons.
+            "keys" : bytearray(display.NUM_KEYS), # What keys are down.
+            "can_spell_cycle" : True, # Can we change the current spell? (So last update UO weren't down)
+
+            "using_inv" : False,    # Are they using their inventory now? If so we send different stuff.
+            "inv_data" : bytearray(0), # Inventory data to send
+            "maxHP" : 100.0,                  
+            "HP" : 100.0,                     
+            "maxMP" : 50,                     
+            "MP" : 50,                        
+            "money" : 0,                      
+            "effects" : {},                   
+            "EXP" : 0,                        
+            "level" : 1,                      
+            "items" : [start_items.start_hat(), start_items.start_pants(), start_items.start_ring(), start_items.start_shirt(), start_items.start_weapon()],
+            "spells" : [spells.spell.spell(spells.heal.manaCost, spells.heal.heal, spells.heal.name, spells.heal.icon)],         
+            "class" : "warrior",              
+            "spell" : 0,                      # Index of spells for current spell
+            "weapon" : no_item.no_weapon(),   
+            "hat"    : no_item.no_hat(),      
+            "shirt"  : no_item.no_shirt(),    
+            "pants"  : no_item.no_pants(),    
+            "ring"   : no_item.no_ring(),     
+            "consumable" : no_item.no_consumable(),
+            "mov_spd" : 0,                    # How quickly they move
+            "atk_spd" : 0,                    # How quickly they attack
+            "can_cast" : True,                
+            "can_item" : True,                
+            "magic" : 5,                      # How good spells are 
+            "strength" : 5,                   # How much damage regular attacks do. 
+            "luck" : 0,                       # Luck will change item and money drops
+            "gainexp" : gain_exp,             
+            "lastHP" : 100.0,                 # What was their HP last frame?
+            "sincehit" : 300,                 # How long since they were hit
+            "respawnX" : posX,                
+            "respawnY" : posY,                
+            "respawnMap" : "start",           
+            "flags" : array.array('b')        # A very general list. For tracking progress through dungeons.
             })
 
     def update(this, delta_time):
-
         if select.select([this.attributes["socket"]], [], [], 0) != ([], [], []):
             try:
                 (inpt, addr) = this.attributes["socket"].recvfrom(65507)
-
-                this.attributes["keys"] = bytearray(inpt)
+                if inpt[0] == 0:
+                    this.attributes["keys"] = bytearray(inpt)[1:] # Clear header byte
+                elif inpt[0] == 1:
+                    pass # Inventory stuff... TODO: Actually add checking if there's stuff here.
                 while select.select([this.attributes["socket"]], [], [], 0) != ([], [], []):
                     this.attributes["socket"].recvfrom(65507)
                 this.attributes["timeout"] = 0
@@ -195,6 +197,20 @@ class player(world_object.world_object):
             this.attributes["esc_menu"].is_esc_menu = True
             this.attributes["esc_menu_type"] = "main"
 
+        if this.attributes["keys"][display.KEY_INVENTORY]:
+            this.attributes["using_inv"] = True
+            data = bytearray([2]) # Header byte
+            for itm in this.attributes["items"]:
+                itm_data  = bytearray()
+                itm_data += bytearray(itm.type, 'utf-8') + bytearray(1) # Put a null byte after so split works.
+                itm_data += bytearray(itm.name + itm.attributes["disp_data"], 'utf-8')
+                if itm == this.attributes[itm.type]: # If equipped
+                    itm_data += bytearray(" \\fg(Equipped)\\fw", 'utf-8')
+                itm_data += bytearray(1) + bytearray(itm.description, 'utf-8') + bytearray(1)
+                itm_data += struct.pack("!I", itm.amount)
+                itm_data += struct.pack("!I", itm.value)
+                data += struct.pack("!I", len(itm_data)) + itm_data
+            this.attributes["inv_data"] = data
         # Check HP diff for flash on hit stuff
         if this.attributes["HP"] < this.attributes["lastHP"]:
             this.attributes["sincehit"] = 0
@@ -202,71 +218,71 @@ class player(world_object.world_object):
             this.attributes["sincehit"] += delta_time
     
         # Check for movement
-        if this.attributes["keys"][display.KEY_W] and (not "del_up" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_MOV_UP] and (not "del_up" in this.attributes["effects"]):
             if (this.Y > 0) and world.map[this.X][this.Y - 1][3]:
                 this.Y -= 1
             this.attributes["effects"]["del_up"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["mov_spd"])))
-        if this.attributes["keys"][display.KEY_S] and (not "del_down" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_MOV_DOWN] and (not "del_down" in this.attributes["effects"]):
             if (this.Y < world.WORLD_Y - 1) and world.map[this.X][this.Y + 1][3]:
                 this.Y += 1
             this.attributes["effects"]["del_down"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["mov_spd"])))
-        if this.attributes["keys"][display.KEY_A] and (not "del_left" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_MOV_LEFT] and (not "del_left" in this.attributes["effects"]):
             if (this.X > 0) and world.map[this.X - 1][this.Y][3]:
                 this.X -= 1
             this.attributes["effects"]["del_left"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["mov_spd"])))
-        if this.attributes["keys"][display.KEY_D] and (not "del_right" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_MOV_RIGHT] and (not "del_right" in this.attributes["effects"]):
             if (this.X < world.WORLD_X - 1) and world.map[this.X + 1][this.Y][3]:
                 this.X += 1
             this.attributes["effects"]["del_right"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["mov_spd"])))
 
         # Check for spell cast
-        if this.attributes["keys"][display.KEY_SPACE] and this.attributes["can_cast"]:
+        if this.attributes["keys"][display.KEY_SPELL] and this.attributes["can_cast"]:
             this.attributes["spells"][this.attributes["spell"]].cast(this)
             this.attributes["can_cast"] = False
-        if not this.attributes["keys"][display.KEY_SPACE]:
+        if not this.attributes["keys"][display.KEY_SPELL]:
             this.attributes["can_cast"] = True
 
         # Check for spell cycle
-        if this.attributes["keys"][display.KEY_U] and this.attributes["can_spell_cycle"]:
+        if this.attributes["keys"][display.KEY_LASTSPELL] and this.attributes["can_spell_cycle"]:
             if this.attributes["spell"] == 0: # Cycle to end of list if at start
                 this.attributes["spell"] = len(this.attributes["spells"])
             this.attributes["spell"] -= 1     # Cycle backwards
             this.attributes["can_spell_cycle"] = False
-        if this.attributes["keys"][display.KEY_O] and this.attributes["can_spell_cycle"]:
+        if this.attributes["keys"][display.KEY_NEXTSPELL] and this.attributes["can_spell_cycle"]:
             this.attributes["spell"] += 1
             if this.attributes["spell"] >= len(this.attributes["spells"]): # If at end of list, cycle to start
                 this.attributes["spell"] = 0
             this.attributes["can_spell_cycle"] = False
-        if not (this.attributes["keys"][display.KEY_U] or this.attributes["keys"][display.KEY_O]):
+        if not (this.attributes["keys"][display.KEY_LASTSPELL] or this.attributes["keys"][display.KEY_NEXTSPELL]):
             this.attributes["can_spell_cycle"] = True
 
         # Attacks!
-        if this.attributes["keys"][display.KEY_I] and (not "del_atk" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_ATK_UP] and (not "del_atk" in this.attributes["effects"]):
             world.objects.append(attack.attack(this.X, this.Y, 0, -1, (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), this.attributes["weapon"].attributes["range"], 100, this))
             this.attributes["effects"]["del_atk"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["atk_spd"])))
     
-        if this.attributes["keys"][display.KEY_J] and (not "del_atk" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_ATK_LEFT] and (not "del_atk" in this.attributes["effects"]):
             world.objects.append(attack.attack(this.X, this.Y, -1, 0, (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), this.attributes["weapon"].attributes["range"], 100, this))
             this.attributes["effects"]["del_atk"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["atk_spd"])))
     
-        if this.attributes["keys"][display.KEY_K] and (not "del_atk" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_ATK_DOWN] and (not "del_atk" in this.attributes["effects"]):
             world.objects.append(attack.attack(this.X, this.Y, 0, 1, (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), this.attributes["weapon"].attributes["range"], 100, this))
             this.attributes["effects"]["del_atk"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["atk_spd"])))
     
-        if this.attributes["keys"][display.KEY_L] and (not "del_atk" in this.attributes["effects"]):
+        if this.attributes["keys"][display.KEY_ATK_RIGHT] and (not "del_atk" in this.attributes["effects"]):
             world.objects.append(attack.attack(this.X, this.Y, 1, 0, (this.attributes["strength"] * this.attributes["weapon"].attributes["damage"] // 2), this.attributes["weapon"].attributes["range"], 100, this))
             this.attributes["effects"]["del_atk"] = effect.effect(this, 500/(1+2.718**(.01*this.attributes["atk_spd"])))
             # Or with our constants in python, time = 500/(1+2.718^(.01x)), which is a nice logistic formula.
     
         # Check for item use
-        if this.attributes["keys"][display.KEY_SHIFT] and this.attributes["can_item"] and (this.attributes["consumable"].name != "Nothing"):
+        if this.attributes["keys"][display.KEY_ITEM] and this.attributes["can_item"] and (this.attributes["consumable"].name != "Nothing"):
             this.attributes["consumable"].use(this)
             this.attributes["can_item"] = False
             this.attributes["consumable"].amount -= 1
             if this.attributes["consumable"].amount <= 0:
                 del this.attributes["items"][this.attributes["items"].index(this.attributes["consumable"])]
                 this.attributes["consumable"] = no_item.no_consumable()
-        if not this.attributes["keys"][display.KEY_SHIFT]:
+        if not this.attributes["keys"][display.KEY_ITEM]:
             this.attributes["can_item"] = True
     
         # Update all effects.
@@ -363,7 +379,6 @@ class player(world_object.world_object):
         
         
         return hp + mp + level + exp + gold + spell_len + spell_image + item_len + item_image + equip_info + sidebar_len + sidebar_data
-
 
 def exp_req(lvl): # Weird exponential/polynomial EXP requirement.
   return int(2 * 1.4 ** lvl + lvl ** 3 + lvl + 1)

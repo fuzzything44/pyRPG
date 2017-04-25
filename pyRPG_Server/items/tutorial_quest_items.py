@@ -12,7 +12,7 @@ from objects.Player import player_flags
 
 class mage_quest_item(item.item):
     def __init__(this, quantity = 1):
-        super().__init__("Broken Rune", "consumable", 0, "A broken rune.", quantity, {"icon" : "\\fx\\bm\\\\|/\n-#-\n/|\\\\"})
+        super().__init__("Broken Rune", "consumable", 0, "Use this to fix a portal somewhere near Mysticalia.", quantity, {"icon" : "\\fx\\bm\\\\|/\n-#-\n/|\\\\"})
 
     def use(this, owner):
         if this.amount >= 4 and world.world_name == "mage_tut_2": # They have enough
@@ -43,7 +43,7 @@ class thief_quest_item(item.item):
 
 class mage_rare_reward(item.item):
     def __init__(this, quantity = 1):
-        super().__init__("Slime tea", "consumable", 10, display.add_newlines("A tea made of gross slime. Why would you drink this?"), quantity, {"icon" : "|\\fg~\\fw|\n|\\fx\\bg#\\fw\\bx|\n\\\\_/"})
+        super().__init__("Slime tea", "consumable", 10, display.add_newlines("A tea made of gross slime. Don't drink it."), quantity, {"icon" : "|\\fg~\\fw|\n|\\fx\\bg#\\fw\\bx|\n\\\\_/"})
 
     def use(this, owner):
         owner.attributes["HP"] -= 5
@@ -65,7 +65,7 @@ class thief_rare_reward(item.item):
 
 class any_rare_reward(item.item):
     def __init__(this, quantity = 1):
-        super().__init__("Gross Souvenier", "consumable", 25, display.add_newlines("You're still hanging onto that bit of the boss you killed? Just get rid of it."), quantity, {"icon" : " \\bg\\fr~*\n\\bx\\fw \\bg\\fr@\\bx\\fw \n\\bg\\fr/|\\\\"})
+        super().__init__("Gross Souvenier", "consumable", 25, display.add_newlines("A gross bit of a monster. Just get rid of it."), quantity, {"icon" : " \\bg\\fr~*\n\\bx\\fw \\bg\\fr@\\bx\\fw \n\\bg\\fr/|\\\\"})
 
     def use(this, owner):
         owner.attributes["effects"]["tutbosseff"] = effect.effect(owner, 10000, "Ugh")
@@ -73,7 +73,7 @@ class any_rare_reward(item.item):
 
 class rare_reward_skillbook(item.item):
     def __init__(this, quantity = 1):
-        super().__init__("What not to collect", "consumable", 25, display.add_newlines("This book explains what you should and should not take from a monster.\n (Permanent +5 luck)"), quantity, {"icon" : "\\fy|==\n|==\n|==\\fw"})
+        super().__init__("What not to collect", "consumable", 25, display.add_newlines("Gives +5 luck permanately. One usable per player."), quantity, {"icon" : "\\fy|==\n|==\n|==\\fw"})
 
     def use(this, owner):
         if player_flags.get_flag(owner, player_flags.SKILL_TUTORIAL): # They already have the skill

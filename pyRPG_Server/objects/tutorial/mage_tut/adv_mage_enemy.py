@@ -18,7 +18,7 @@ class adv_mage_enemy(General.enemy_base.enemy_base):
     def __init__(this, posX, posY, spawner):
         super().__init__(posX, posY, 16, 15, 3, 0, [(t1_consumables.t1_mana(), 50), (tutorial_quest_items.mage_quest_item(), 100)], spawner)
         this.attributes.update({\
-                "theta" : random.randrange(0, 360),
+                "theta" : random.randrange(0, 10),
                 "radius" : 4    \
             })
 
