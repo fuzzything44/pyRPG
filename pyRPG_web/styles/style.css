@@ -5,12 +5,18 @@ body {
   font-family: 'Source Code Pro', monospace;
 }
 
-table {
+.terminal {
   border-style: solid;
   border-color: white;
   border-width: .1em;
-  text-align: left; /* This shouldn't actually be needed as eventually every line will have the same number of characters. Still, better to be safe. */
 }
+
+table {
+  text-align: left;
+  cellpadding: 10px;
+  border-spacing: 4px;
+}
+
 
 .fw {
   color: white;
