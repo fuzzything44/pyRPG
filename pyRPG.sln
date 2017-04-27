@@ -7,6 +7,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "pyRPG", "pyRPG\pyRPG.pyproj
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "pyRPG_Server", "pyRPG_Server\pyRPG_Server.pyproj", "{7AAB0DE1-45AD-4DCA-B29F-230C49ABC818}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pyRPG_web", "pyRPG_web\pyRPG_web.csproj", "{706DF674-3564-4E46-9BAC-2D80AE64B5A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{AAF65346-0654-4417-A346-CC53F5DCB536}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AAB0DE1-45AD-4DCA-B29F-230C49ABC818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7AAB0DE1-45AD-4DCA-B29F-230C49ABC818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{706DF674-3564-4E46-9BAC-2D80AE64B5A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{706DF674-3564-4E46-9BAC-2D80AE64B5A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{706DF674-3564-4E46-9BAC-2D80AE64B5A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{706DF674-3564-4E46-9BAC-2D80AE64B5A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
