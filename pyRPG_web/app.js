@@ -25,10 +25,16 @@ function set_chr(x, y, set_to, fgcolor, bgcolor) {
     if (bgcolor === void 0) { bgcolor = colors.BLACK; }
     var elem = document.getElementById(x.toString() + "," + y.toString());
     if (elem != null) {
-        elem.innerHTML = set_to[0];
+        if (set_to == " ") {
+            set_to = "&nbsp;";
+        }
+        // So set chr
+        elem.innerHTML = set_to; // make sure set_to is only 1 character
+        // And bgcolor
         elem.className = make_color_pair(fgcolor, bgcolor);
     }
     else {
+        // Maybe throw error here?
     }
 }
 function printc(text, x, y, start_color, start_bgcolor) {
@@ -36,18 +42,12 @@ function printc(text, x, y, start_color, start_bgcolor) {
     if (start_bgcolor === void 0) { start_bgcolor = colors.BLACK; }
     var color = start_color;
     var bgcolor = start_bgcolor;
-    var curr_x = x;
+    var curr_x = x; // Where we're actually printing
     var curr_y = y;
     var escaped = false;
     var setting_color = false;
     var setting_bg = false;
     for (var chr_index in text) {
-        if (curr_x >= SCREEN_X) {
-            curr_x = SCREEN_X - 1;
-        }
-        if (curr_y >= SCREEN_Y) {
-            curr_y = SCREEN_Y - 1;
-        }
         var chr = text[chr_index];
         if (escaped) {
             if (chr == "\\") {
@@ -61,6 +61,7 @@ function printc(text, x, y, start_color, start_bgcolor) {
                 setting_color = true;
             }
             else {
+                // Raise exception
             }
             escaped = false;
         }
@@ -87,17 +88,22 @@ function printc(text, x, y, start_color, start_bgcolor) {
         }
     }
 }
+function clear_screen() {
+    for (var x = 0; x < SCREEN_X; x++) {
+        for (var y = 0; y < SCREEN_Y; y++) {
+            set_chr(x, y, ' ', colors.WHITE, colors.BLACK);
+        }
+    }
+}
+// Holds what key states are.
+var keys = [];
 var Greeter = (function () {
     function Greeter(element) {
-        this.element = element;
-        this.element.innerHTML += "The time is: ";
-        this.span = document.createElement('span');
-        this.element.appendChild(this.span);
-        this.span.innerText = new Date().toUTCString();
+        document.getElementById("7,9").className = make_color_pair(colors.GREEN + this.color_add, colors.RED + this.color_add);
+        printc("abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-=_+[]{}<>", 0, 9);
     }
     Greeter.prototype.start = function () {
-        var _this = this;
-        this.timerToken = setInterval(function () { return _this.span.innerHTML = new Date().toUTCString() + chr_to_color("g").toString(); }, 500);
+        this.timerToken = setInterval(function () { document.getElementById(Math.floor(Math.random() * 80).toString() + "," + Math.floor(Math.random() * 25).toString()).className = make_color_pair(Math.floor(Math.random() * 8), Math.floor(Math.random() * 8)); }, 0);
     };
     Greeter.prototype.stop = function () {
         clearTimeout(this.timerToken);
@@ -105,8 +111,20 @@ var Greeter = (function () {
     return Greeter;
 }());
 window.onload = function () {
-    var el = document.getElementById('test');
+    // Add listeners for keyboard events so we know when keys are pressed.
+    window.addEventListener("keydown", function (event) {
+        // Suppress behavior of tab, space, and arrow keys to stop them from moving around the keyboard.
+        if ([9, 32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+            event.preventDefault();
+        }
+        keys[event.keyCode] = true;
+    }, false);
+    window.addEventListener("keyup", function (event) {
+        keys[event.keyCode] = false;
+    }, false);
+    var el = document.getElementById('5,7');
     var greeter = new Greeter(el);
     greeter.start();
-    printc("abc\\\\\\fg\\bydef\nhey", 5, 0);
+    //set_chr(0, 0, "a", colors.RED, colors.GREEN);
+    printc("abc\\\\\\fg\\bydef\nhey", 6, 0);
 };

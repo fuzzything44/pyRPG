@@ -28,8 +28,11 @@ function make_color_pair(fgcolor: colors, bgcolor: colors): string {
 function set_chr(x: number, y: number, set_to: string, fgcolor: colors = colors.WHITE, bgcolor: colors = colors.BLACK) {
     let elem: HTMLElement = document.getElementById(x.toString() + "," + y.toString())
     if (elem != null) { // Make sure we got an actual element
+        if (set_to == " ") {
+            set_to = "&nbsp;";
+        }
         // So set chr
-        elem.innerHTML = set_to[0]; // make sure set_to is only 1 character
+        elem.innerHTML = set_to; // make sure set_to is only 1 character
         // And bgcolor
         elem.className = make_color_pair(fgcolor, bgcolor);
     } else {
@@ -49,13 +52,6 @@ function printc(text: String, x: number, y: number, start_color: colors = colors
     let setting_bg: boolean = false;
 
     for (let chr_index in text) {
-        if (curr_x >= SCREEN_X) { // Wrapped to a new line...
-            curr_x = SCREEN_X - 1;
-        }
-        if (curr_y >= SCREEN_Y) { // Somehow printing too far down.
-            curr_y = SCREEN_Y - 1;
-        }
-
         let chr: string = text[chr_index];
 
         if (escaped) {
@@ -90,21 +86,28 @@ function printc(text: String, x: number, y: number, start_color: colors = colors
     }
 }
 
+function clear_screen() {
+    for (let x: number = 0; x < SCREEN_X; x++) {
+        for (let y: number = 0; y < SCREEN_Y; y++) {
+            set_chr(x, y, ' ', colors.WHITE, colors.BLACK);
+        }
+    }
+}
+
+// Holds what key states are.
+let keys = [];
+
 class Greeter {
-    element: HTMLElement;
-    span: HTMLElement;
     timerToken: number;
+    color_add: number;
 
     constructor(element: HTMLElement) {
-        this.element = element;
-        this.element.innerHTML += "The time is: ";
-        this.span = document.createElement('span');
-        this.element.appendChild(this.span);
-        this.span.innerText = new Date().toUTCString();
+        document.getElementById("7,9").className = make_color_pair(colors.GREEN + this.color_add, colors.RED + this.color_add);
+        printc("abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-=_+[]{}<>", 0, 9);
     }
 
     start() {
-        this.timerToken = setInterval(() => this.span.innerHTML = new Date().toUTCString() + chr_to_color("g").toString(), 500);
+        this.timerToken = setInterval(function() { document.getElementById(Math.floor(Math.random() * 80).toString() + "," + Math.floor(Math.random() * 25).toString()).className = make_color_pair(Math.floor(Math.random() * 8), Math.floor(Math.random() * 8));}, 0);
     }
 
     stop() {
@@ -114,9 +117,23 @@ class Greeter {
 }
 
 window.onload = () => {
-    var el = document.getElementById('test');
+    // Add listeners for keyboard events so we know when keys are pressed.
+    window.addEventListener("keydown", function(event) {
+        // Suppress behavior of tab, space, and arrow keys to stop them from moving around the keyboard.
+        if([9, 32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+            event.preventDefault();
+        }
+        keys[event.keyCode] = true;
+    }, false);
+
+    window.addEventListener("keyup", function(event) {
+        keys[event.keyCode] = false;
+    }, false);
+
+
+    var el = document.getElementById('5,7');
     var greeter = new Greeter(el);
     greeter.start();
     //set_chr(0, 0, "a", colors.RED, colors.GREEN);
-    printc("abc\\\\\\fg\\bydef\nhey", 5, 0)
+    printc("abc\\\\\\fg\\bydef\nhey", 6, 0)
 };
