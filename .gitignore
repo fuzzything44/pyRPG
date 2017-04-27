@@ -99,5 +99,4 @@ ENV/
 # Typescript stuff
 pyRPG_web/bin/
 pyRPG_web/obj/Debug/
-*.js
 *.config
