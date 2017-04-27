@@ -94,3 +94,10 @@ ENV/
 # Game save files
 *.wrld
 *.plr
+
+
+# Typescript stuff
+pyRPG_web/bin/
+pyRPG_web/obj/Debug/
+*.js
+*.config
