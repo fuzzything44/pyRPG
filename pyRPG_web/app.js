@@ -97,24 +97,58 @@ function clear_screen() {
 }
 // Holds what key states are.
 var keys = [];
-var Greeter = (function () {
-    function Greeter(element) {
-        document.getElementById("7,9").className = make_color_pair(colors.GREEN + this.color_add, colors.RED + this.color_add);
-        printc("abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-=_+[]{}<>", 0, 9);
+var key_codes;
+(function (key_codes) {
+    key_codes[key_codes["BACKSPACE"] = 8] = "BACKSPACE";
+    key_codes[key_codes["TAB"] = 9] = "TAB";
+    key_codes[key_codes["ENTER"] = 13] = "ENTER";
+    key_codes[key_codes["SHIFT"] = 16] = "SHIFT";
+    key_codes[key_codes["ESCAPE"] = 27] = "ESCAPE";
+    key_codes[key_codes["SPACE"] = 32] = "SPACE";
+    key_codes[key_codes["LEFT_ARROW"] = 37] = "LEFT_ARROW";
+    key_codes[key_codes["UP_ARROW"] = 38] = "UP_ARROW";
+    key_codes[key_codes["RIGHT_ARROW"] = 39] = "RIGHT_ARROW";
+    key_codes[key_codes["DOWN_ARROW"] = 40] = "DOWN_ARROW";
+})(key_codes || (key_codes = {}));
+function echo_text(start_x, start_y, x_len, callback) {
+    var to_echo = "";
+    var current_x = start_x;
+    var current_y = start_y;
+    var max_x = start_x + x_len;
+    // Get keypresses and add them to the string.
+    function key_listener(event) {
+        if (event.type == "keypress") {
+            if (event.keyCode == key_codes.ENTER) {
+                window.removeEventListener("keypress", key_listener, false);
+                window.removeEventListener("keydown", key_listener, false);
+                callback(to_echo);
+            }
+            if (current_x < max_x) {
+                var char = String.fromCharCode(event.keyCode);
+                printc(char, current_x, current_y);
+                current_x += 1;
+                to_echo += char;
+            }
+        }
+        else if (event.keyCode == key_codes.BACKSPACE && to_echo.length > 0) {
+            current_x -= 1;
+            printc(' ', current_x, current_y);
+            to_echo = to_echo.slice(0, -1);
+        }
+        else if (event.keyCode == key_codes.SPACE && current_x < max_x) {
+            printc(' ', current_x, current_y);
+            current_x += 1;
+            to_echo += ' ';
+        }
     }
-    Greeter.prototype.start = function () {
-        this.timerToken = setInterval(function () { document.getElementById(Math.floor(Math.random() * 80).toString() + "," + Math.floor(Math.random() * 25).toString()).className = make_color_pair(Math.floor(Math.random() * 8), Math.floor(Math.random() * 8)); }, 0);
-    };
-    Greeter.prototype.stop = function () {
-        clearTimeout(this.timerToken);
-    };
-    return Greeter;
-}());
+    window.addEventListener("keypress", key_listener, false);
+    window.addEventListener("keydown", key_listener, false);
+}
 window.onload = function () {
     // Add listeners for keyboard events so we know when keys are pressed.
     window.addEventListener("keydown", function (event) {
         // Suppress behavior of tab, space, and arrow keys to stop them from moving around the keyboard.
-        if ([9, 32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+        if ([key_codes.TAB, key_codes.SPACE, key_codes.DOWN_ARROW, key_codes.LEFT_ARROW, key_codes.RIGHT_ARROW, key_codes.UP_ARROW].indexOf(event.keyCode) > -1) {
             event.preventDefault();
         }
         keys[event.keyCode] = true;
@@ -122,9 +156,14 @@ window.onload = function () {
     window.addEventListener("keyup", function (event) {
         keys[event.keyCode] = false;
     }, false);
-    var el = document.getElementById('5,7');
-    var greeter = new Greeter(el);
-    greeter.start();
-    //set_chr(0, 0, "a", colors.RED, colors.GREEN);
-    printc("abc\\\\\\fg\\bydef\nhey", 6, 0);
+    printc("Welcome to py   !", 33, 7);
+    var r_color = Math.round(Math.random());
+    var p_color = Math.round(Math.random());
+    var g_color = Math.round(Math.random());
+    printc("R", 33 + "Welcome to py".length, 7, [colors.RED, colors.YELLOW][r_color]);
+    printc("P", 33 + "Welcome to pyR".length, 7, [colors.BLUE, colors.CYAN][p_color]);
+    printc("G", 33 + "Welcome to pyRP".length, 7, [colors.GREEN, colors.MAGENTA][g_color]);
+    printc("Enter your username", 32, 8);
+    echo_text(5, 5, 10, function (text) { return echo_text(0, 10, 15, [r_color, p_color, g_color]); });
 };
+//# sourceMappingURL=app.js.map

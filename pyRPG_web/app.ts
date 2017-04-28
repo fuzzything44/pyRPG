@@ -97,30 +97,57 @@ function clear_screen() {
 // Holds what key states are.
 let keys = [];
 
-class Greeter {
-    timerToken: number;
-    color_add: number;
+enum key_codes {
+    BACKSPACE = 8,
+    TAB = 9,
+    ENTER = 13,
+    SHIFT = 16,
+    ESCAPE = 27,
+    SPACE = 32,
+    LEFT_ARROW = 37,
+    UP_ARROW = 38,
+    RIGHT_ARROW = 39,
+    DOWN_ARROW = 40
+}
+function echo_text(start_x: number, start_y: number, x_len: number, callback) {
+    var to_echo = "";
+    var current_x: number = start_x;
+    var current_y: number = start_y;
+    var max_x: number = start_x + x_len;
 
-    constructor(element: HTMLElement) {
-        document.getElementById("7,9").className = make_color_pair(colors.GREEN + this.color_add, colors.RED + this.color_add);
-        printc("abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-=_+[]{}<>", 0, 9);
+    // Get keypresses and add them to the string.
+    function key_listener(event) {
+        if (event.type == "keypress") {
+            if (event.keyCode == key_codes.ENTER) {
+                window.removeEventListener("keypress", key_listener, false);
+                window.removeEventListener("keydown", key_listener, false);
+                callback(to_echo);
+            }
+            if (current_x < max_x) {
+                let char: string = String.fromCharCode(event.keyCode);
+                printc(char, current_x, current_y);
+                current_x += 1;
+                to_echo += char;
+            }
+        } else if (event.keyCode == key_codes.BACKSPACE && to_echo.length > 0) {
+            current_x -= 1;
+            printc(' ', current_x, current_y);
+            to_echo = to_echo.slice(0, -1);
+        } else if (event.keyCode == key_codes.SPACE && current_x < max_x) { // Handle space separately because it's not a keypress for some reason.
+            printc(' ', current_x, current_y);
+            current_x += 1;
+            to_echo += ' ';
+        }
     }
-
-    start() {
-        this.timerToken = setInterval(function() { document.getElementById(Math.floor(Math.random() * 80).toString() + "," + Math.floor(Math.random() * 25).toString()).className = make_color_pair(Math.floor(Math.random() * 8), Math.floor(Math.random() * 8));}, 0);
-    }
-
-    stop() {
-        clearTimeout(this.timerToken);
-    }
-
+    window.addEventListener("keypress", key_listener, false);
+    window.addEventListener("keydown", key_listener, false);
 }
 
 window.onload = () => {
     // Add listeners for keyboard events so we know when keys are pressed.
     window.addEventListener("keydown", function(event) {
         // Suppress behavior of tab, space, and arrow keys to stop them from moving around the keyboard.
-        if([9, 32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+        if ([key_codes.TAB, key_codes.SPACE, key_codes.DOWN_ARROW, key_codes.LEFT_ARROW, key_codes.RIGHT_ARROW, key_codes.UP_ARROW].indexOf(event.keyCode) > -1) {
             event.preventDefault();
         }
         keys[event.keyCode] = true;
@@ -130,10 +157,14 @@ window.onload = () => {
         keys[event.keyCode] = false;
     }, false);
 
+    printc("Welcome to py   !", 33, 7);
+    let r_color = Math.round(Math.random());
+    let p_color = Math.round(Math.random());
+    let g_color = Math.round(Math.random());
+    printc("R", 33 + "Welcome to py".length, 7, [colors.RED, colors.YELLOW][r_color]);
+    printc("P", 33 + "Welcome to pyR".length, 7, [colors.BLUE, colors.CYAN][p_color]);
+    printc("G", 33 + "Welcome to pyRP".length, 7, [colors.GREEN, colors.MAGENTA][g_color]);
 
-    var el = document.getElementById('5,7');
-    var greeter = new Greeter(el);
-    greeter.start();
-    //set_chr(0, 0, "a", colors.RED, colors.GREEN);
-    printc("abc\\\\\\fg\\bydef\nhey", 6, 0)
+    printc("Enter your username", 32, 8);
+    echo_text(5, 5, 10, (text) => echo_text(0, 10, 15, [r_color, p_color, g_color]));
 };
