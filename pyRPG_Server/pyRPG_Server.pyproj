@@ -192,6 +192,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="spells\__init__.py" />
+    <Compile Include="test_server.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="world.py" />
   </ItemGroup>
   <ItemGroup>

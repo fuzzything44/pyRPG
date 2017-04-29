@@ -164,39 +164,90 @@ function draw_topbar() {
 
 }
 
-function update_topbar(curr_hp: number, max_hp: number, curr_mp: number, max_mp: number, gold: number, level: number, to_level: number,
-    spell: string, item: string, weapon: string, hat: string, shirt: string, pants: string, ring: string) {
-
+function update_hp(curr_hp: number, max_hp: number) {
     let hp_str = curr_hp.toString() + "/" + max_hp.toString(); // Get hp values in a string
     printc(hp_str + Array(18 - hp_str.length).join(' '), 8, 0); // Print hp with trailing whitespace.
 
+}
+
+function update_mp(curr_mp: number, max_mp: number) {
     let mp_str = curr_mp.toString() + "/" + max_mp.toString()
     printc(mp_str + Array(18 - mp_str.length).join(' '), 8, 1); // Print mp with trailing whitespace
 
+}
+
+function update_gold(gold: number) {
     printc(gold.toString() + Array(16 - gold.toString().length).join(' '), 10, 2); // Print gold
-    printc(level.toString() + Array(15 - level.toString().length).join(' '), 11, 3); // Print level
-
-    let next_level = to_level.toString() + " to level";
-    printc(next_level + Array(21 - next_level.length).join(' '), 5, 4);
-
-    // Print spell
-    printc(spell, 26, 1);
-
-    // Print item
-    printc(item, 33, 1);
-
-    // Print equpiment
-    printc(weapon + Array(39 - "Weapon:".length - weapon.length).join(' '), 39 + "Weapon:".length, 0);
-    printc(hat    + Array(39 - "hat:".length    - hat.length   ).join(' '), 39 + "hat:".length   , 1);
-    printc(shirt  + Array(39 - "shirt:".length  - shirt.length ).join(' '), 39 + "shirt:".length , 2);
-    printc(pants  + Array(39 - "pants:".length  - pants.length ).join(' '), 39 + "pants:".length , 3);
-    printc(ring   + Array(39 - "ring:".length   - ring.length  ).join(' '), 39 + "ring:".length  , 4);
 
 }
 
+function update_level(level: number) {
+    printc(level.toString() + Array(15 - level.toString().length).join(' '), 11, 3); // Print level
+
+}
+
+function update_exp(exp: number) {
+    let next_level = exp.toString() + " to level";
+    printc(next_level + Array(21 - next_level.length).join(' '), 5, 4);
+
+}
+
+function update_spell(spell: string) {
+    printc(spell, 26, 1);
+
+}
+
+function update_item(item: string) {
+    printc(item, 33, 1);
+
+}
+
+function update_equip(equip_name: string, equip_type: string) {
+    // Create an array with all functions to call. Then index off that and call it
+    [(name) => printc(name + Array(39 - "Weapon:".length - name.length).join(' '), 39 + "Weapon:".length, 0),
+     (name) => printc(name + Array(39 - "hat:".length -    name.length).join(' '), 39 + "hat:".length, 1),
+     (name) => printc(name + Array(39 - "shirt:".length -  name.length).join(' '), 39 + "shirt:".length, 2),
+     (name) => printc(name + Array(39 - "pants:".length -  name.length).join(' '), 39 + "pants:".length, 3),
+     (name) => printc(name + Array(39 - "ring:".length -   name.length).join(' '), 39 + "ring:".length, 4)
+    ][["weapon", "hat", "shirt", "pants", "ring"].indexOf(equip_type)](equip_name);
+}
+
+
+class background_tile {
+    fgc: colors;
+    bgc: colors;
+    char: string;
+    loc_x: number;
+    loc_y: number;
+    constructor(fgcolor: colors, bgcolor: colors, char: string, x: number, y: number) {
+        this.fgc = fgcolor;
+        this.bgc = bgcolor;
+        this.char = char;
+        this.loc_x = x;
+        this.loc_y = y;
+    }
+
+    print_self() {
+        set_chr(this.loc_x, this.loc_y, this.char, this.fgc, colors.BLACK);
+    }
+
+    print_as_background(fgtile: string, fgcolor: colors) {
+        set_chr(this.loc_x, this.loc_y, fgtile, fgcolor, this.bgc);
+    }
+}
+
+let background: background_tile[][] = [[]];
+
+function draw_background() {
+    for (let y = 0; y < background.length; y++) {
+        for (let x = 0; x < background[0].length; x++) {
+            background[y][x].print_self();
+        }
+    }
+}
 // End helper functions...
 
-let username;
+let username: string;
 function ask_password(user) {
     username = user;
     printc("Enter your password:", 32, 10);
@@ -207,7 +258,9 @@ function server_connect(password) {
     printc(Array(password.length + 1).join(" "), 32, 11);
     printc("Connection refused...", 32, 12);
     draw_topbar();
-    update_topbar(100, 100, 50, 75, 33, 5, 160, "abc\ndef\nghi", "123\n456\n789", "Sword", "Hat", "Suit", "Underwear", "bleh");
+    let sock: WebSocket = new WebSocket("ws://localhost:5000/ws");
+    sock.onmessage = function (event) { set_chr(0, 0, JSON.parse(event.data).m); }
+    window.addEventListener("keydown", () => sock.send("{'m', 'i'}"));
 }
 
 window.onload = () => {

@@ -21,12 +21,12 @@ import select
 
 
 class player(world_object.world_object):
-    def __init__(this, posX, posY, sock, addr, name):
+    def __init__(this, posX, posY, send_pipe, recv_pipe, name):
         super().__init__(posX, posY, "player", world_object.TEAM_PLAYER)
         this.blocks_map_exit = True
         this.attributes.update({    # Multiplayer info
-            "socket" : sock,        # Socket to get data from
-            "address" : addr,       # Where to send data
+            "send_pipe" : send_pipe,# Pipe to get and send data to the websocket
+            "recv_pipe" : recv_pipe,# And the other end
             "name" : name,          # Name they set
 
             "timeout" : 0,          # Time since last message, for timeouts
@@ -79,6 +79,7 @@ class player(world_object.world_object):
             })
 
     def update(this, delta_time):
+        print("YAY!!!")
         if select.select([this.attributes["socket"]], [], [], 0) != ([], [], []):
             try:
                 (inpt, addr) = this.attributes["socket"].recvfrom(65507)

@@ -161,25 +161,62 @@ function draw_topbar() {
     printc("Pants:", 39, 3);
     printc("Ring:", 39, 4);
 }
-function update_topbar(curr_hp, max_hp, curr_mp, max_mp, gold, level, to_level, spell, item, weapon, hat, shirt, pants, ring) {
+function update_hp(curr_hp, max_hp) {
     var hp_str = curr_hp.toString() + "/" + max_hp.toString(); // Get hp values in a string
     printc(hp_str + Array(18 - hp_str.length).join(' '), 8, 0); // Print hp with trailing whitespace.
+}
+function update_mp(curr_mp, max_mp) {
     var mp_str = curr_mp.toString() + "/" + max_mp.toString();
     printc(mp_str + Array(18 - mp_str.length).join(' '), 8, 1); // Print mp with trailing whitespace
+}
+function update_gold(gold) {
     printc(gold.toString() + Array(16 - gold.toString().length).join(' '), 10, 2); // Print gold
+}
+function update_level(level) {
     printc(level.toString() + Array(15 - level.toString().length).join(' '), 11, 3); // Print level
-    var next_level = to_level.toString() + " to level";
+}
+function update_exp(exp) {
+    var next_level = exp.toString() + " to level";
     printc(next_level + Array(21 - next_level.length).join(' '), 5, 4);
-    // Print spell
+}
+function update_spell(spell) {
     printc(spell, 26, 1);
-    // Print item
+}
+function update_item(item) {
     printc(item, 33, 1);
-    // Print equpiment
-    printc(weapon + Array(39 - "Weapon:".length - weapon.length).join(' '), 39 + "Weapon:".length, 0);
-    printc(hat + Array(39 - "hat:".length - hat.length).join(' '), 39 + "hat:".length, 1);
-    printc(shirt + Array(39 - "shirt:".length - shirt.length).join(' '), 39 + "shirt:".length, 2);
-    printc(pants + Array(39 - "pants:".length - pants.length).join(' '), 39 + "pants:".length, 3);
-    printc(ring + Array(39 - "ring:".length - ring.length).join(' '), 39 + "ring:".length, 4);
+}
+function update_equip(equip_name, equip_type) {
+    // Create an array with all functions to call. Then index off that and call it
+    [function (name) { return printc(name + Array(39 - "Weapon:".length - name.length).join(' '), 39 + "Weapon:".length, 0); },
+        function (name) { return printc(name + Array(39 - "hat:".length - name.length).join(' '), 39 + "hat:".length, 1); },
+        function (name) { return printc(name + Array(39 - "shirt:".length - name.length).join(' '), 39 + "shirt:".length, 2); },
+        function (name) { return printc(name + Array(39 - "pants:".length - name.length).join(' '), 39 + "pants:".length, 3); },
+        function (name) { return printc(name + Array(39 - "ring:".length - name.length).join(' '), 39 + "ring:".length, 4); }
+    ][["weapon", "hat", "shirt", "pants", "ring"].indexOf(equip_type)](equip_name);
+}
+var background_tile = (function () {
+    function background_tile(fgcolor, bgcolor, char, x, y) {
+        this.fgc = fgcolor;
+        this.bgc = bgcolor;
+        this.char = char;
+        this.loc_x = x;
+        this.loc_y = y;
+    }
+    background_tile.prototype.print_self = function () {
+        set_chr(this.loc_x, this.loc_y, this.char, this.fgc, colors.BLACK);
+    };
+    background_tile.prototype.print_as_background = function (fgtile, fgcolor) {
+        set_chr(this.loc_x, this.loc_y, fgtile, fgcolor, this.bgc);
+    };
+    return background_tile;
+}());
+var background = [[]];
+function draw_background() {
+    for (var y = 0; y < background.length; y++) {
+        for (var x = 0; x < background[0].length; x++) {
+            background[y][x].print_self();
+        }
+    }
 }
 // End helper functions...
 var username;
@@ -192,7 +229,9 @@ function server_connect(password) {
     printc(Array(password.length + 1).join(" "), 32, 11);
     printc("Connection refused...", 32, 12);
     draw_topbar();
-    update_topbar(100, 100, 50, 75, 33, 5, 160, "abc\ndef\nghi", "123\n456\n789", "Sword", "Hat", "Suit", "Underwear", "bleh");
+    var sock = new WebSocket("ws://localhost:5000/ws");
+    sock.onmessage = function (event) { set_chr(0, 0, JSON.parse(event.data).m); };
+    window.addEventListener("keydown", function () { return sock.send("{'m', 'i'}"); });
 }
 window.onload = function () {
     // Add listeners for keyboard events so we know when keys are pressed.
