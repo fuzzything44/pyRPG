@@ -1,4 +1,5 @@
-﻿enum colors {
+﻿// Helper values and functions! Yay!
+enum colors {
     WHITE   = 0,
     BLACK   = 1,
     RED     = 2,
@@ -109,6 +110,7 @@ enum key_codes {
     RIGHT_ARROW = 39,
     DOWN_ARROW = 40
 }
+
 function echo_text(start_x: number, start_y: number, x_len: number, callback) {
     var to_echo = "";
     var current_x: number = start_x;
@@ -143,6 +145,71 @@ function echo_text(start_x: number, start_y: number, x_len: number, callback) {
     window.addEventListener("keydown", key_listener, false);
 }
 
+function draw_topbar() {
+    // Draw HP/MP/Gold/Level/EXP
+    printc("HP:\nMP:\nGold:\nLevel\n? to level", 5, 0);
+    // Draw spellbox, itembox
+    printc("#####  #####", 25, 0);
+    printc("#   #  #   #", 25, 1);
+    printc("#   #  #   #", 25, 2);
+    printc("#   #  #   #", 25, 3);
+    printc("#####  #####", 25, 4);
+
+    // Draw equipment
+    printc("Weapon:", 39, 0);
+    printc("Hat:", 39, 1);
+    printc("Shirt:", 39, 2);
+    printc("Pants:", 39, 3);
+    printc("Ring:", 39, 4);
+
+}
+
+function update_topbar(curr_hp: number, max_hp: number, curr_mp: number, max_mp: number, gold: number, level: number, to_level: number,
+    spell: string, item: string, weapon: string, hat: string, shirt: string, pants: string, ring: string) {
+
+    let hp_str = curr_hp.toString() + "/" + max_hp.toString(); // Get hp values in a string
+    printc(hp_str + Array(18 - hp_str.length).join(' '), 8, 0); // Print hp with trailing whitespace.
+
+    let mp_str = curr_mp.toString() + "/" + max_mp.toString()
+    printc(mp_str + Array(18 - mp_str.length).join(' '), 8, 1); // Print mp with trailing whitespace
+
+    printc(gold.toString() + Array(16 - gold.toString().length).join(' '), 10, 2); // Print gold
+    printc(level.toString() + Array(15 - level.toString().length).join(' '), 11, 3); // Print level
+
+    let next_level = to_level.toString() + " to level";
+    printc(next_level + Array(21 - next_level.length).join(' '), 5, 4);
+
+    // Print spell
+    printc(spell, 26, 1);
+
+    // Print item
+    printc(item, 33, 1);
+
+    // Print equpiment
+    printc(weapon + Array(39 - "Weapon:".length - weapon.length).join(' '), 39 + "Weapon:".length, 0);
+    printc(hat    + Array(39 - "hat:".length    - hat.length   ).join(' '), 39 + "hat:".length   , 1);
+    printc(shirt  + Array(39 - "shirt:".length  - shirt.length ).join(' '), 39 + "shirt:".length , 2);
+    printc(pants  + Array(39 - "pants:".length  - pants.length ).join(' '), 39 + "pants:".length , 3);
+    printc(ring   + Array(39 - "ring:".length   - ring.length  ).join(' '), 39 + "ring:".length  , 4);
+
+}
+
+// End helper functions...
+
+let username;
+function ask_password(user) {
+    username = user;
+    printc("Enter your password:", 32, 10);
+    echo_text(32, 11, 32, server_connect);
+}
+
+function server_connect(password) {
+    printc(Array(password.length + 1).join(" "), 32, 11);
+    printc("Connection refused...", 32, 12);
+    draw_topbar();
+    update_topbar(100, 100, 50, 75, 33, 5, 160, "abc\ndef\nghi", "123\n456\n789", "Sword", "Hat", "Suit", "Underwear", "bleh");
+}
+
 window.onload = () => {
     // Add listeners for keyboard events so we know when keys are pressed.
     window.addEventListener("keydown", function(event) {
@@ -162,9 +229,9 @@ window.onload = () => {
     let p_color = Math.round(Math.random());
     let g_color = Math.round(Math.random());
     printc("R", 33 + "Welcome to py".length, 7, [colors.RED, colors.YELLOW][r_color]);
-    printc("P", 33 + "Welcome to pyR".length, 7, [colors.BLUE, colors.CYAN][p_color]);
-    printc("G", 33 + "Welcome to pyRP".length, 7, [colors.GREEN, colors.MAGENTA][g_color]);
+    printc("P", 33 + "Welcome to pyR".length, 7, [colors.GREEN, colors.CYAN][p_color]);
+    printc("G", 33 + "Welcome to pyRP".length, 7, [colors.BLUE, colors.MAGENTA][g_color]);
 
     printc("Enter your username", 32, 8);
-    echo_text(5, 5, 10, (text) => echo_text(0, 10, 15, [r_color, p_color, g_color]));
+    echo_text(32, 9, 24, ask_password);
 };
