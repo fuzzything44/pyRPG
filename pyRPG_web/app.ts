@@ -26,7 +26,7 @@ function make_color_pair(fgcolor: colors, bgcolor: colors): string {
     return "f" + color_to_chr(fgcolor) + " b" + color_to_chr(bgcolor);
 }
 
-function set_chr(x: number, y: number, set_to: string, fgcolor: colors = colors.WHITE, bgcolor: colors = colors.BLACK) {
+function set_chr(x: number, y: number, set_to: string, fgcolor: colors, bgcolor: colors) {
     let elem: HTMLElement = document.getElementById(x.toString() + "," + y.toString())
     if (elem != null) { // Make sure we got an actual element
         if (set_to == " ") {
@@ -254,15 +254,54 @@ function ask_password(user) {
     echo_text(32, 11, 32, server_connect);
 }
 
+let sock: WebSocket;
 function server_connect(password) {
-    printc(Array(password.length + 1).join(" "), 32, 11);
-    printc("Connection refused...", 32, 12);
+    clear_screen();
     draw_topbar();
-    let sock: WebSocket = new WebSocket("ws://localhost:5000/ws");
-    sock.onmessage = function (event) { set_chr(0, 0, JSON.parse(event.data).m); }
-    window.addEventListener("keydown", () => sock.send("{'m', 'i'}"));
+    sock = new WebSocket("ws://localhost:5000/ws");
+    sock.onmessage = get_data;
+    window.setInterval(send_keys, 16);
 }
 
+function get_data(event) {
+    let data: string = event.data;
+    set_chr(0, 0, 'a', colors.RED, colors.GREEN);
+}
+
+function send_keys() {
+    // When updating we want to send keyboard state
+    set_chr(0, 1, 'a', Math.round(Math.random() * 6), colors.BLACK);
+    let data: boolean[] = [
+        !!keys[key_codes.UP_ARROW]    || !!keys['W'.charCodeAt(0)],
+        !!keys[key_codes.LEFT_ARROW]  || !!keys['A'.charCodeAt(0)],
+        !!keys[key_codes.DOWN_ARROW]  || !!keys['S'.charCodeAt(0)],
+        !!keys[key_codes.RIGHT_ARROW] || !!keys['D'.charCodeAt(0)],
+
+        !!keys['I'.charCodeAt(0)],
+        !!keys['J'.charCodeAt(0)],
+        !!keys['K'.charCodeAt(0)],
+        !!keys['L'.charCodeAt(0)],
+
+        !!keys[key_codes.SHIFT],
+        !!keys[key_codes.SPACE],
+        !!keys[key_codes.ENTER],
+
+        !!keys[key_codes.UP_ARROW]   || !!keys['Q'.charCodeAt(0)],
+        !!keys[key_codes.DOWN_ARROW] || !!keys['E'.charCodeAt(0)],
+
+        !!keys['E'.charCodeAt(0)],
+
+        !!keys['U'.charCodeAt(0)],
+        !!keys['O'.charCodeAt(0)],
+
+        !!keys['V'.charCodeAt(0)],
+        !!keys[key_codes.ESCAPE],
+
+    ];
+
+    sock.send(JSON.stringify({ t : "k", d : data }));
+    
+}
 window.onload = () => {
     // Add listeners for keyboard events so we know when keys are pressed.
     window.addEventListener("keydown", function(event) {

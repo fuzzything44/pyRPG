@@ -45,22 +45,18 @@ def load(name):
         print(ex)
 
 def save_player(plr):
-    temp_send = plr.attributes["send_pipe"] # Save pipe because it can't be serialized. Maybe. At least it doesn't need to
-    temp_recv = plr.attributes["recv_pipe"]
+    temp_pipe = plr.attributes["pipe"] # Save pipe because it can't be serialized. Maybe. At least it doesn't need to
 
     try:
         with open("res/saves/" + plr.attributes["name"] + ".plr", "wb") as handle:
-            plr.attributes["send_pipe"] = None
-            plr.attributes["recv_pipe"] = None
+            plr.attributes["pipe"] = None
             plr.attributes["timeout"] = 0
             plr.attributes["keys"] = bytearray(display.NUM_KEYS)
             pickle.dump(plr, handle)
-            plr.attributes["send_pipe"] = temp_send
-            plr.attributes["recv_pipe"] = temp_recv
+            plr.attributes["send_pipe"] = temp_pipe
     except Exception as ex:
         print("Could not save player named " + plr.attributes["name"], ": ", ex)
-        plr.attributes["send_pipe"] = temp_send
-        plr.attributes["recv_pipe"] = temp_recv
+        plr.attributes["pipe"] = temp_pipe
 
 def load_player(name):
     if name == "default":

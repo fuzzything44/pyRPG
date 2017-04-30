@@ -22,22 +22,21 @@ def port():
 # Handles socket connections.
 class sockethandler(tornado.websocket.WebSocketHandler):
     def __init__(self, application, request, **kwargs):
-        (self.send_pipe, self.receive_pipe) = mp.Pipe() # Player socket is connected to.
+        (self.svr_pipe, self.plr_pipe) = mp.Pipe() # Player socket is connected to.
         self.plr_name = None
         return super().__init__(application, request, **kwargs)
 
     def open(self):
-        pass
+        self.set_nodelay(True)
         
     def on_message(self, message):
         if self.plr_name is None: # No player set, so must be username
             plr = world.load_player(message)
             if plr is None:
-                plr = Player.player.player(50, 10, self.receive_pipe, self.send_pipe, message)
+                plr = Player.player.player(25, 10, self.plr_pipe, message)
                 world.save_player(plr)
             else:
-                plr.attributes["send_pipe"] = self.receive_pipe
-                plr.attributes["recv_pipe"] = self.send_pipe
+                plr.attributes["pipe"] = self.plr_pipe
             plr.X = plr.attributes["respawnX"]
             plr.Y = plr.attributes["respawnY"]
             global map_queue
@@ -45,7 +44,10 @@ class sockethandler(tornado.websocket.WebSocketHandler):
             self.plr_name = message
             # Now that we have the player
         else: # Player set, so some actual data. TODO: do stuff with the data.
-            pass
+            self.svr_pipe.send(message)
+            while self.svr_pipe.poll():
+                self.write_message(self.svr_pipe.recv())
+            
 
     def on_close(self):
         print('connection closed')
@@ -108,26 +110,6 @@ def map_manager(request_queue):
                 maps[name] = [get, send]    # Add map to list
 
         mp.active_children() # End any zombie processes. Just in case.
-
-# Accepts connections, manages IPC, manages input
-def connector(queue):
-        #    (data, addr) = serversocket.recvfrom(65507) # Receive the data.
-        #    plr_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)   # Socket player connects to.
-        #    plr = world.load_player(data.decode('utf-8'))
-        #    if plr is None:
-        #        plr = Player.player.player(25, 7, plr_sock, addr, data.decode('utf-8'))  # New player object for request.
-        #        print("[SV] New player connected")
-        #        world.save_player(plr)
-        #    else:
-        #        plr.attributes["socket"] = plr_sock
-        #        plr.attributes["address"] = addr
-        #        print("[SV] Returning player connected")
-        #    plr.X = plr.attributes["respawnX"]
-        #    plr.Y = plr.attributes["respawnY"]
-        #    move_requests.append((plr.attributes["respawnMap"], plr))
-
-        # Go through map queue input.
-        pass
 
 
 if __name__ == "__main__":

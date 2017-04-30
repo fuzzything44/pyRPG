@@ -48,11 +48,9 @@ KEY_NEXTSPELL   = 15
 
 KEY_INVENTORY   = 16
 KEY_ESC  = 17
-# Not actually a key but packed with them. What map they think they're in.
-KEY_MAPID = 18
 
 # How many keys there are.
-NUM_KEYS = 19
+NUM_KEYS = 18
 
 def chr_to_color(chr): # Gets the color corresponding to the given character
       if chr == 'r':

@@ -32,14 +32,11 @@ def run_map(map_name, get, send):
 
                 if message[0] == "add": # We're adding a player
                     if message[1].type == "player":
-                        message[1].attributes["current_map"] += 1 # Count how many maps a player's been in.
+                        message[1].attributes["pipe"].send("help me why is this failing".encode("utf-8"))#bytearray([1]) + world.send_data) # Send map data
                         message[1].attributes["sidebar"] = ""
-                        if message[1].attributes["current_map"] > 255: # Reset once we get past a byte
-                            message[1].attributes["current_map"] = 1
-    
                         message[1].attributes["current_menu"] = None # Clear menu if it somehow kept through this...
                         world.players.append(message[1])
-                        print("[" + map_name + "] Player added to map")
+                        print("[" + map_name + "] Player added to map", message[1].attributes["name"])
                     else:
                         world.objects.append(message[1])
                 if message[0] == "end": # Forcibly end map
@@ -78,6 +75,7 @@ def run_map(map_name, get, send):
             # Delete objects that need to be deleted.
             for obj in set(world.to_del): # Set to remove duplicates
                 world.objects.remove(obj)
+
     
             # Remove players that left
             for plr in set(world.to_del_plr):
@@ -113,9 +111,9 @@ def run_map(map_name, get, send):
             # Send update to all players
             for plr in world.players:
                 if plr.attributes["using_inv"]:
-                    plr.attributes["socket"].sendto(plr.attributes["inv_data"], plr.attributes["address"])
+                    pass # TODO: what now?
                 else:
-                    plr.attributes["socket"].sendto(plr.map_data() + send_data + plr.extra_data(), plr.attributes["address"])
+                    plr.attributes["pipe"].send(bytes(send_data + plr.extra_data()))
                 
             if not continue_loop: # Nothing blocking.
                 send.put(("end", ))

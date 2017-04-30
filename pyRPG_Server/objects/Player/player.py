@@ -1,5 +1,6 @@
 import array
 import copy
+import json
 import time
 
 import display
@@ -21,12 +22,11 @@ import select
 
 
 class player(world_object.world_object):
-    def __init__(this, posX, posY, send_pipe, recv_pipe, name):
+    def __init__(this, posX, posY, pipe, name):
         super().__init__(posX, posY, "player", world_object.TEAM_PLAYER)
         this.blocks_map_exit = True
         this.attributes.update({    # Multiplayer info
-            "send_pipe" : send_pipe,# Pipe to get and send data to the websocket
-            "recv_pipe" : recv_pipe,# And the other end
+            "pipe" : pipe,          # Pipe to get and send data to the websocket
             "name" : name,          # Name they set
 
             "timeout" : 0,          # Time since last message, for timeouts
@@ -79,30 +79,20 @@ class player(world_object.world_object):
             })
 
     def update(this, delta_time):
-        print("YAY!!!")
-        if select.select([this.attributes["socket"]], [], [], 0) != ([], [], []):
-            try:
-                (inpt, addr) = this.attributes["socket"].recvfrom(65507)
-                if inpt[0] == 0:
-                    this.attributes["keys"] = bytearray(inpt)[1:] # Clear header byte
-                elif inpt[0] == 1:
-                    pass # Inventory stuff... TODO: Actually add checking if there's stuff here.
-                while select.select([this.attributes["socket"]], [], [], 0) != ([], [], []):
-                    this.attributes["socket"].recvfrom(65507)
-                this.attributes["timeout"] = 0
-            except ConnectionResetError as ex:
-                print("Connection lost")
-                this.attributes["socket"].close()
-                world.to_del_plr.append(this)
-                return
+        if this.attributes["pipe"].poll():
+            message = json.loads(this.attributes["pipe"].recv())
+            if message['t'] == 'k':
+                this.attributes["keys"] = bytearray(message['d'])
+            elif inpt[0] == 1:
+                pass # Inventory stuff... TODO: Actually add checking if there's stuff here.
+            this.attributes["timeout"] = 0
         else:
             this.attributes["timeout"] += delta_time
+            print(this.attributes["timeout"])
             if this.attributes["timeout"] > 1000:
                 print("Timeout")
-                this.attributes["socket"].close()
                 world.to_del_plr.append(this)
                 return
-
         if this.attributes["esc_menu"] is not None:
             opt = this.attributes["esc_menu"].update()
 
@@ -132,7 +122,6 @@ class player(world_object.world_object):
                         this.attributes["esc_menu_type"] = "sorder1"
                     elif opt == 4:
                         this.attributes["esc_menu"] = None
-                        this.attributes["socket"].close()
                         world.to_del_plr.append(this)
                         return
                 elif this.attributes["esc_menu_type"] == "inv": # Let them choose what item to set
@@ -329,19 +318,7 @@ class player(world_object.world_object):
         elif this.attributes["sincehit"] < 225:
             return display.RED
         return display.WHITE
-    
-    def map_data(this):
-        if this.attributes["keys"][display.KEY_MAPID] != this.attributes["current_map"]:
-            # Send map data to player
-            data = bytearray(2)
-            data[0] = 1
-            data[1] = this.attributes["current_map"]
-            map_data = world.send_data
-            data += struct.pack("!I", len(map_data))
-            data += map_data
-            return data
-        else:
-            return bytearray(1)
+
 
 
     # All extra data to be sent. So HP/MP, equip stuff, sidebar stuff.
