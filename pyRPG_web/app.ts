@@ -95,8 +95,6 @@ function clear_screen() {
     }
 }
 
-// Holds what key states are.
-let keys = [];
 
 enum key_codes {
     BACKSPACE = 8,
@@ -228,14 +226,36 @@ class background_tile {
     }
 
     print_self() {
-        set_chr(this.loc_x, this.loc_y, this.char, this.fgc, colors.BLACK);
+        set_chr(this.loc_x, this.loc_y + 5, this.char, this.fgc, colors.BLACK);
     }
 
     print_as_background(fgtile: string, fgcolor: colors) {
-        set_chr(this.loc_x, this.loc_y, fgtile, fgcolor, this.bgc);
+        set_chr(this.loc_x, this.loc_y + 5, fgtile, fgcolor, this.bgc);
     }
 }
 
+class tile {
+    color: colors;
+    char: string;
+    loc_x: number;
+    loc_y: number;
+
+    constructor(color: colors, char: string, x: number, y: number) {
+        this.color = color;
+        this.char = char;
+        this.loc_x = x;
+        this.loc_y = y;
+    }
+
+    print_self() {
+        background[this.loc_x][this.loc_y].print_as_background(this.char, this.color);
+    }
+
+    clear_self() {
+        background[this.loc_x][this.loc_y].print_self();
+    }
+
+}
 let background: background_tile[][] = [[]];
 
 function draw_background() {
@@ -260,60 +280,49 @@ function server_connect(password) {
     draw_topbar();
     sock = new WebSocket("ws://localhost:5000/ws");
     sock.onmessage = get_data;
-    window.setInterval(send_keys, 16);
+    printc("{\"type\":\"map\", \"data\": [{\"fgc\": 4, \"bgc\": 5, \"chr\": \"a\"}]}", 0, 2);
+    get_data({data: "{\"type\":\"map\", \"data\": [{\"fgc\": 5, \"bgc\": 4, \"chr\": \"c\"}]}"});
 }
 
+let to_clear: tile[] = [];
 function get_data(event) {
-    let data: string = event.data;
+    let data = JSON.parse(event.data);
+    // A leading 0 means a regular update
+    if (data.type == "update") {
+        // Clear old tiles
+        for (let i: number = 0; i < to_clear.length; i++) {
+            to_clear[i].clear_self();
+        }
+        to_clear = [];
+
+        // And print new ones. TODO: print them!
+    } else if (data.type == "map") {
+        for (let y: number = 0; y < SCREEN_Y; y++) {
+            for (let x: number = 0; x < SCREEN_X; x++) {
+                background[x][y] = new background_tile(data.data[y * SCREEN_X + x].fgc, data.data[y * SCREEN_X + x].bgc, data.data[y * SCREEN_X + x].chr, x, y);
+                draw_background();
+
+            }
+        }
+        draw_background();
+    }
     set_chr(0, 0, 'a', colors.RED, colors.GREEN);
 }
 
 function send_keys() {
     // When updating we want to send keyboard state
     set_chr(0, 1, 'a', Math.round(Math.random() * 6), colors.BLACK);
-    let data: boolean[] = [
-        !!keys[key_codes.UP_ARROW]    || !!keys['W'.charCodeAt(0)],
-        !!keys[key_codes.LEFT_ARROW]  || !!keys['A'.charCodeAt(0)],
-        !!keys[key_codes.DOWN_ARROW]  || !!keys['S'.charCodeAt(0)],
-        !!keys[key_codes.RIGHT_ARROW] || !!keys['D'.charCodeAt(0)],
-
-        !!keys['I'.charCodeAt(0)],
-        !!keys['J'.charCodeAt(0)],
-        !!keys['K'.charCodeAt(0)],
-        !!keys['L'.charCodeAt(0)],
-
-        !!keys[key_codes.SHIFT],
-        !!keys[key_codes.SPACE],
-        !!keys[key_codes.ENTER],
-
-        !!keys[key_codes.UP_ARROW]   || !!keys['Q'.charCodeAt(0)],
-        !!keys[key_codes.DOWN_ARROW] || !!keys['E'.charCodeAt(0)],
-
-        !!keys['E'.charCodeAt(0)],
-
-        !!keys['U'.charCodeAt(0)],
-        !!keys['O'.charCodeAt(0)],
-
-        !!keys['V'.charCodeAt(0)],
-        !!keys[key_codes.ESCAPE],
-
-    ];
-
+    let data: number = 0;
     sock.send(JSON.stringify({ t : "k", d : data }));
-    
+
 }
 window.onload = () => {
-    // Add listeners for keyboard events so we know when keys are pressed.
+    // Add listeners for keyboard events to stop random annoying scrolling
     window.addEventListener("keydown", function(event) {
         // Suppress behavior of tab, space, and arrow keys to stop them from moving around the keyboard.
         if ([key_codes.TAB, key_codes.SPACE, key_codes.DOWN_ARROW, key_codes.LEFT_ARROW, key_codes.RIGHT_ARROW, key_codes.UP_ARROW].indexOf(event.keyCode) > -1) {
             event.preventDefault();
         }
-        keys[event.keyCode] = true;
-    }, false);
-
-    window.addEventListener("keyup", function(event) {
-        keys[event.keyCode] = false;
     }, false);
 
     printc("Welcome to py   !", 33, 7);

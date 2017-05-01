@@ -1,4 +1,5 @@
 import pickle
+import JSON
 
 import display
 
@@ -10,7 +11,7 @@ WORLD_Y = 20    # Max Y size
 
 map = [[ WORLD_NOTHING for y in range(WORLD_Y)] for x in range(WORLD_X)]
 
-send_data = bytearray("\0\1 " * (WORLD_X * WORLD_Y), "utf-8")
+send_data = ""
 
 players = []
 
@@ -79,8 +80,8 @@ def save(name):
         print( "Could not save.", ex)
 
 def make_send_data():
-    ret = ""
+    send_data = []
     for y in range(WORLD_Y):
         for x in range(WORLD_X):
-            ret += chr(map[x][y][0]) + chr(map[x][y][1]) + map[x][y][2]
-    return bytearray(ret, "utf-8")
+            data.append({"fgc" : map[x][y][0], "bgc" : map[x][y][1], "chr": map[x][y][2]})
+    return JSON.dumps({"type" : "map", "data" : send_data})
