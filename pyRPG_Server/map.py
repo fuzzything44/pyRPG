@@ -8,11 +8,11 @@ import setuptools
 def run_map(map_name, get, send):
     try:
         world.load(map_name.split(';')[0]) # Only load everything before first ;
-    
+
         print("[" + map_name + "] Map started")
         start_time = time.clock()
         since_start = 0
-    
+
         loop_count = 0
         while True:
             loop_count += 1
@@ -32,30 +32,28 @@ def run_map(map_name, get, send):
 
                 if message[0] == "add": # We're adding a player
                     if message[1].type == "player":
-                        message[1].attributes["pipe"].send("help me why is this failing".encode("utf-8"))#bytearray([1]) + world.send_data) # Send map data
                         message[1].attributes["sidebar"] = ""
                         message[1].attributes["current_menu"] = None # Clear menu if it somehow kept through this...
+                        message[1].attributes["pipe"].send(world.send_data)
                         world.players.append(message[1])
                         print("[" + map_name + "] Player added to map", message[1].attributes["name"])
                     else:
                         world.objects.append(message[1])
                 if message[0] == "end": # Forcibly end map
                     print("[" + map_name + "] Map forcibly ended.")
-                    for plr in world.players:
-                        plr.attributes["socket"].close()
                     return
-    
+
             world.to_del.clear()
             world.to_del_plr.clear()
-    
+
             continue_loop = False
             # Update objects
             obj_update_list = world.players + world.objects
 
-            
+
             for index in range(len(obj_update_list)):
                 obj = obj_update_list[index]
-    
+
                 # Update it
                 obj.update(delta_time)
 
@@ -64,7 +62,7 @@ def run_map(map_name, get, send):
                         if coll.X == obj.X and coll.Y == obj.Y:
                             obj.collide(coll) # Call collisions
                             coll.collide(obj)
-    
+
                 #Check if out of bounds
                 if world.out_of_bounds(obj.X, obj.Y):
                     world.to_del.append(obj)
@@ -76,12 +74,12 @@ def run_map(map_name, get, send):
             for obj in set(world.to_del): # Set to remove duplicates
                 world.objects.remove(obj)
 
-    
+
             # Remove players that left
             for plr in set(world.to_del_plr):
                 world.save_player(plr)
                 world.players.remove(plr)
-    
+
             # Handle move requests.
             for req in world.move_requests:
                 send.put(("mov", req)) # Send request
@@ -92,6 +90,8 @@ def run_map(map_name, get, send):
             # We need (#objects + # players) things to send.
             # Each thing needs an X coord, Y coord, char, and color
             # We devote 1 byte to each, meaning each is 4 bytes
+
+            # TODO: Pretty much all of this needs rewriting.
             send_data = bytearray(1)
 
             if len(world.objects) > 200:
@@ -107,14 +107,14 @@ def run_map(map_name, get, send):
                     send_data += bytearray([obj.X, obj.Y])
                     send_data += bytearray(obj.char(), 'utf-8')
                     send_data += bytearray([obj.color()])
-    
+
             # Send update to all players
             for plr in world.players:
                 if plr.attributes["using_inv"]:
                     pass # TODO: what now?
                 else:
                     plr.attributes["pipe"].send(bytes(send_data + plr.extra_data()))
-                
+
             if not continue_loop: # Nothing blocking.
                 send.put(("end", ))
                 print("[" + map_name + "] Ending map")
@@ -130,6 +130,3 @@ def run_map(map_name, get, send):
         while get.get() != ("end",): # Wait for acknowledge of end.
             pass
         return
-
-
-    

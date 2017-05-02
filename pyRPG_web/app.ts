@@ -280,8 +280,9 @@ function server_connect(password) {
     draw_topbar();
     sock = new WebSocket("ws://localhost:5000/ws");
     sock.onmessage = get_data;
-    printc("{\"type\":\"map\", \"data\": [{\"fgc\": 4, \"bgc\": 5, \"chr\": \"a\"}]}", 0, 2);
     get_data({data: "{\"type\":\"map\", \"data\": [{\"fgc\": 5, \"bgc\": 4, \"chr\": \"c\"}]}"});
+    get_data({data: "{\"type\":\"map\", \"data\": [{\"fgc\": 5, \"bgc\": 4, \"chr\": \"c\"}]}"});
+
 }
 
 let to_clear: tile[] = [];
@@ -295,7 +296,12 @@ function get_data(event) {
         }
         to_clear = [];
 
-        // And print new ones. TODO: print them!
+        // And print new ones.
+        for (let i: number = 0; i < data.tiles.length; i++) {
+            let print_tile: tile = new tile(data.tiles[i].color, data.tiles[i].chr, data.tiles[i].x, data.tiles[i].y);
+            to_clear.push(print_tile);
+            print_tile.print_self();
+        }
     } else if (data.type == "map") {
         for (let y: number = 0; y < SCREEN_Y; y++) {
             for (let x: number = 0; x < SCREEN_X; x++) {
