@@ -259,9 +259,9 @@ class tile {
 let background: background_tile[][] = [[]];
 
 function draw_background() {
-    for (let y = 0; y < background.length; y++) {
-        for (let x = 0; x < background[0].length; x++) {
-            background[y][x].print_self();
+    for (let x = 0; x < background.length; x++) {
+        for (let y = 0; y < background[x].length; y++) {
+            background[x][y].print_self();
         }
     }
 }
@@ -280,9 +280,8 @@ function server_connect(password) {
     draw_topbar();
     sock = new WebSocket("ws://localhost:5000/ws");
     sock.onmessage = get_data;
-    get_data({data: "{\"type\":\"map\", \"data\": [{\"fgc\": 5, \"bgc\": 4, \"chr\": \"c\"}]}"});
-    get_data({data: "{\"type\":\"map\", \"data\": [{\"fgc\": 5, \"bgc\": 4, \"chr\": \"c\"}]}"});
-
+    sock.onopen = function(event) { sock.send(username); };
+    window.addEventListener("keydown", send_keys);
 }
 
 let to_clear: tile[] = [];
@@ -303,11 +302,11 @@ function get_data(event) {
             print_tile.print_self();
         }
     } else if (data.type == "map") {
-        for (let y: number = 0; y < SCREEN_Y; y++) {
-            for (let x: number = 0; x < SCREEN_X; x++) {
-                background[x][y] = new background_tile(data.data[y * SCREEN_X + x].fgc, data.data[y * SCREEN_X + x].bgc, data.data[y * SCREEN_X + x].chr, x, y);
-                draw_background();
-
+        for (let x: number = 0; x < 50; x++) {
+            for (let y: number = 0; y < SCREEN_Y - 5; y++) {
+                let bgtile: background_tile = new background_tile(data.data[y * 50 + x].fgc, data.data[y * 50 + x].bgc, data.data[y * 50 + x].chr, x, y);
+                bgtile.print_self();
+                background[x][y] = bgtile;
             }
         }
         draw_background();
@@ -315,11 +314,11 @@ function get_data(event) {
     set_chr(0, 0, 'a', colors.RED, colors.GREEN);
 }
 
-function send_keys() {
+function send_keys(event) {
     // When updating we want to send keyboard state
     set_chr(0, 1, 'a', Math.round(Math.random() * 6), colors.BLACK);
     let data: number = 0;
-    sock.send(JSON.stringify({ t : "k", d : data }));
+    sock.send(JSON.stringify({ type : "key", d : data }));
 
 }
 window.onload = () => {
@@ -330,6 +329,15 @@ window.onload = () => {
             event.preventDefault();
         }
     }, false);
+
+    // Init background.
+    background = [];
+    for (let x = 0; x < 50; x++) {
+        background.push([]);
+        for (let y = 0; y < SCREEN_Y - 5; y++) {
+            background[x].push(new background_tile(colors.WHITE, colors.BLACK, ' ', x, y));
+        }
+    }
 
     printc("Welcome to py   !", 33, 7);
     let r_color = Math.round(Math.random());

@@ -28,14 +28,16 @@ class sockethandler(tornado.websocket.WebSocketHandler):
 
     def open(self):
         self.set_nodelay(True)
-        
+
     def on_message(self, message):
         if self.plr_name is None: # No player set, so must be username
             plr = world.load_player(message)
             if plr is None:
+                print("[SV] New player connected", message)
                 plr = Player.player.player(25, 10, self.plr_pipe, message)
                 world.save_player(plr)
             else:
+                print("[SV] Returning player connected", message)
                 plr.attributes["pipe"] = self.plr_pipe
             plr.X = plr.attributes["respawnX"]
             plr.Y = plr.attributes["respawnY"]
@@ -44,14 +46,14 @@ class sockethandler(tornado.websocket.WebSocketHandler):
             self.plr_name = message
             # Now that we have the player
         else: # Player set, so some actual data. TODO: do stuff with the data.
+            print("Got some sick data brah", message)
             self.svr_pipe.send(message)
             while self.svr_pipe.poll():
                 self.write_message(self.svr_pipe.recv())
-            
+
 
     def on_close(self):
-        print('connection closed')
-
+        print('Connection closed', self.plr_name)
 
     def check_origin(self, origin):
         return True
@@ -73,25 +75,26 @@ def map_manager(request_queue):
         if not request_queue.empty():
             cmd = request_queue.get()
             if cmd[0] == "add": # Add player command
+                print("Move request", cmd[1])
                 move_requests.append(cmd[1])
             elif cmd[0] == "del":
                 if cmd[1] in maps:
-                    maps[cmd[1]][1].put(("end,"))
+                    maps[cmd[1]].send(("end,"))
                     del maps[cmd[1]]
                     print("[SV] " + cmd[1] + " deleted")
                 else:
                     print("[SV] " + cmd[1] + " failed to delete: could not find map.")
 
-        for mapname, data in maps.items():
-            while not data[0].empty():
-                cmd = data[0].get() # Get command from map.
+        for mapname, pipe in maps.items():
+            while pipe.poll():
+                cmd = pipe.recv()   # Get command from map.
                 if cmd[0] == "end": # Close map command
                     to_close.append(mapname) # Remove map, should have returned anyways.
                 elif cmd[0] == "mov": # Move player command
                     move_requests.append(cmd[1]) # Add move request.
 
         for mapname in to_close: # Remove closed maps.
-            maps[mapname][1].put(("end",)) # Send acknowledge of close
+            maps[mapname].send(("end",)) # Send acknowledge of close
             del maps[mapname]
             print("[SV] " + mapname + " deleted")
 
@@ -99,15 +102,16 @@ def map_manager(request_queue):
         for req in move_requests:
             print("[SV] Handling move request...")
             if req[0] in maps:          # Map currently exists
-                maps[req[0]][1].put(("add", req[1]))
+                print("Map exists")
+                maps[req[0]].send(("add", req[1]))
             else:                       # Map doesn't exist, add map
+                print("Adding map")
                 name = req[0]
-                get = mp.Queue()
-                send = mp.Queue()
-                proc = mp.Process(target=spawn_map.run_map, args=(name, send, get)) # Create map process
-                send.put(("add", req[1]))
+                (svr_pipe, map_pipe) = mp.Pipe()
+                proc = mp.Process(target=spawn_map.run_map, args=(name, map_pipe)) # Create map process
+                svr_pipe.send(("add", req[1]))
                 proc.start()
-                maps[name] = [get, send]    # Add map to list
+                maps[name] = svr_pipe    # Add map to list
 
         mp.active_children() # End any zombie processes. Just in case.
 

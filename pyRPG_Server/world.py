@@ -1,5 +1,5 @@
 import pickle
-import JSON
+import json as JSON
 
 import display
 
@@ -83,5 +83,5 @@ def make_send_data():
     send_data = []
     for y in range(WORLD_Y):
         for x in range(WORLD_X):
-            data.append({"fgc" : map[x][y][0], "bgc" : map[x][y][1], "chr": map[x][y][2]})
+            send_data.append({"fgc" : map[x][y][0], "bgc" : map[x][y][1], "chr": map[x][y][2]})
     return JSON.dumps({"type" : "map", "data" : send_data})

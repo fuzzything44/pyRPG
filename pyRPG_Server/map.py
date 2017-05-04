@@ -5,7 +5,7 @@ import world
 import setuptools
 
 # Runs the map with the given name and given queues
-def run_map(map_name, get, send):
+def run_map(map_name, pipe):
     try:
         world.load(map_name.split(';')[0]) # Only load everything before first ;
 
@@ -27,14 +27,18 @@ def run_map(map_name, get, send):
             print(delta_time, " ", end="\r")
 
             # Check queue for new messages.
-            if not get.empty():
-                message = get.get()
+            if pipe.poll():
+                message = pipe.recv()
 
                 if message[0] == "add": # We're adding a player
                     if message[1].type == "player":
                         message[1].attributes["sidebar"] = ""
                         message[1].attributes["current_menu"] = None # Clear menu if it somehow kept through this...
+                        print(message[1].attributes["pipe"])
+                        while message[1].attributes["pipe"].poll():
+                            print(message[1].attributes["pipe"].recv())
                         message[1].attributes["pipe"].send(world.send_data)
+                        print("Sent data")
                         world.players.append(message[1])
                         print("[" + map_name + "] Player added to map", message[1].attributes["name"])
                     else:
@@ -82,7 +86,7 @@ def run_map(map_name, get, send):
 
             # Handle move requests.
             for req in world.move_requests:
-                send.put(("mov", req)) # Send request
+                pipe.send(("mov", req)) # Send request
             world.move_requests.clear()
 
             # Send data to players.
@@ -92,41 +96,30 @@ def run_map(map_name, get, send):
             # We devote 1 byte to each, meaning each is 4 bytes
 
             # TODO: Pretty much all of this needs rewriting.
-            send_data = bytearray(1)
+            send_data = {"type" : "update", "tiles" : []}
 
-            if len(world.objects) > 200:
-                send_data[0] = 200 + len(world.players)
-                for index in range(201):
-                    obj = world.objects[index]
-                    send_data += bytearray([obj.X, obj.Y])
-                    send_data += bytearray(obj.char(), 'utf-8')
-                    send_data += bytearray([obj.color()])
-            else:
-                send_data[0] = len(world.objects) + len(world.players)
-                for obj in world.objects + world.players: # Loop through objects, get data.
-                    send_data += bytearray([obj.X, obj.Y])
-                    send_data += bytearray(obj.char(), 'utf-8')
-                    send_data += bytearray([obj.color()])
+            for obj in world.objects + world.players:
+                send_data["tiles"].append({"color" : obj.color(), "chr" : obj.char(), "x": obj.X, "y": obj.Y})
 
             # Send update to all players
             for plr in world.players:
                 if plr.attributes["using_inv"]:
                     pass # TODO: what now?
                 else:
-                    plr.attributes["pipe"].send(bytes(send_data + plr.extra_data()))
+                    plr.attributes["pipe"].send(JSON.dumps(send_data))
 
             if not continue_loop: # Nothing blocking.
-                send.put(("end", ))
+                pipe.send(("end", ))
                 print("[" + map_name + "] Ending map")
-                while get.get() != ("end",): # Wait for acknowledge of end.
+                while pipe.recv() != ("end",): # Wait for acknowledge of end.
                     pass
                 return
 
 
     except Exception as ex:
-        send.put(("end", ))
+        pipe.send(("end", ))
         print("[" + map_name + "] Ending map due to error!")
         print("[" + map_name + "]", traceback.format_exc())
-        while get.get() != ("end",): # Wait for acknowledge of end.
+        while pipe.recv() != ("end",): # Wait for acknowledge of end.
             pass
         return

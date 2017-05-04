@@ -223,9 +223,9 @@ var tile = (function () {
 }());
 var background = [[]];
 function draw_background() {
-    for (var y = 0; y < background.length; y++) {
-        for (var x = 0; x < background[0].length; x++) {
-            background[y][x].print_self();
+    for (var x = 0; x < background.length; x++) {
+        for (var y = 0; y < background[x].length; y++) {
+            background[x][y].print_self();
         }
     }
 }
@@ -242,8 +242,8 @@ function server_connect(password) {
     draw_topbar();
     sock = new WebSocket("ws://localhost:5000/ws");
     sock.onmessage = get_data;
-    printc("{\"type\":\"map\", \"data\": [{\"fgc\": 4, \"bgc\": 5, \"chr\": \"a\"}]}", 0, 2);
-    get_data({ data: "{\"type\":\"map\", \"data\": [{\"fgc\": 5, \"bgc\": 4, \"chr\": \"c\"}]}" });
+    sock.onopen = function (event) { sock.send(username); };
+    window.addEventListener("keydown", send_keys);
 }
 var to_clear = [];
 function get_data(event) {
@@ -255,24 +255,30 @@ function get_data(event) {
             to_clear[i].clear_self();
         }
         to_clear = [];
-        // And print new ones. TODO: print them!
+        // And print new ones.
+        for (var i = 0; i < data.tiles.length; i++) {
+            var print_tile = new tile(data.tiles[i].color, data.tiles[i].chr, data.tiles[i].x, data.tiles[i].y);
+            to_clear.push(print_tile);
+            print_tile.print_self();
+        }
     }
     else if (data.type == "map") {
-        for (var y = 0; y < SCREEN_Y; y++) {
-            for (var x = 0; x < SCREEN_X; x++) {
-                background[x][y] = new background_tile(data.data[y * SCREEN_X + x].fgc, data.data[y * SCREEN_X + x].bgc, data.data[y * SCREEN_X + x].chr, x, y);
-                draw_background();
+        for (var x = 0; x < 50; x++) {
+            for (var y = 0; y < SCREEN_Y - 5; y++) {
+                var bgtile = new background_tile(data.data[y * 50 + x].fgc, data.data[y * 50 + x].bgc, data.data[y * 50 + x].chr, x, y);
+                bgtile.print_self();
+                background[x][y] = bgtile;
             }
         }
         draw_background();
     }
     set_chr(0, 0, 'a', colors.RED, colors.GREEN);
 }
-function send_keys() {
+function send_keys(event) {
     // When updating we want to send keyboard state
     set_chr(0, 1, 'a', Math.round(Math.random() * 6), colors.BLACK);
     var data = 0;
-    sock.send(JSON.stringify({ t: "k", d: data }));
+    sock.send(JSON.stringify({ type: "key", d: data }));
 }
 window.onload = function () {
     // Add listeners for keyboard events to stop random annoying scrolling
@@ -282,6 +288,14 @@ window.onload = function () {
             event.preventDefault();
         }
     }, false);
+    // Init background.
+    background = [];
+    for (var x = 0; x < 50; x++) {
+        background.push([]);
+        for (var y = 0; y < SCREEN_Y - 5; y++) {
+            background[x].push(new background_tile(colors.WHITE, colors.BLACK, ' ', x, y));
+        }
+    }
     printc("Welcome to py   !", 33, 7);
     var r_color = Math.round(Math.random());
     var p_color = Math.round(Math.random());

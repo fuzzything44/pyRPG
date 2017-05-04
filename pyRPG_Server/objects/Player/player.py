@@ -81,9 +81,9 @@ class player(world_object.world_object):
     def update(this, delta_time):
         if this.attributes["pipe"].poll():
             message = json.loads(this.attributes["pipe"].recv())
-            if message.type == 'keydown':
+            if message["type"] == 'keydown':
                 pass # TODO: Find what key went down, set it.
-            elif message.type == 'keyup':
+            elif message["type"]== 'keyup':
                 pass # TODO: Find what key went up, set it.
             elif inpt[0] == 1:
                 pass # Inventory stuff... TODO: Actually add checking if there's stuff here.
