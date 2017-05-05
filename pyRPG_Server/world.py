@@ -54,14 +54,13 @@ def save_player(plr):
             plr.attributes["timeout"] = 0
             plr.attributes["keys"] = bytearray(display.NUM_KEYS)
             pickle.dump(plr, handle)
-            plr.attributes["send_pipe"] = temp_pipe
+            plr.attributes["pipe"] = temp_pipe
     except Exception as ex:
         print("Could not save player named " + plr.attributes["name"], ": ", ex)
         plr.attributes["pipe"] = temp_pipe
 
 def load_player(name):
-    if name == "default":
-        print("default!")
+    if name == "":
         return None
     try:
         with open("res/saves/" + name + ".plr", "rb") as handle:

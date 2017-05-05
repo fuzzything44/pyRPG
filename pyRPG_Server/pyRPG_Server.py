@@ -24,10 +24,12 @@ class sockethandler(tornado.websocket.WebSocketHandler):
     def __init__(self, application, request, **kwargs):
         (self.svr_pipe, self.plr_pipe) = mp.Pipe() # Player socket is connected to.
         self.plr_name = None
+        self.timeout = None
         return super().__init__(application, request, **kwargs)
 
     def open(self):
         self.set_nodelay(True)
+        self.timeout = tornado.ioloop.IOLoop.instance().add_timeout(0, self.update_client)
 
     def on_message(self, message):
         if self.plr_name is None: # No player set, so must be username
@@ -48,12 +50,17 @@ class sockethandler(tornado.websocket.WebSocketHandler):
         else: # Player set, so some actual data. TODO: do stuff with the data.
             print("Got some sick data brah", message)
             self.svr_pipe.send(message)
-            while self.svr_pipe.poll():
-                self.write_message(self.svr_pipe.recv())
 
+    def update_client(self):
+        # Get info from pipe, send it.
+        while self.svr_pipe.poll():
+            self.write_message(self.svr_pipe.recv())
+        # Reset timeout
+        self.timeout = tornado.ioloop.IOLoop.instance().add_timeout(tornado.ioloop.IOLoop.instance().time() + 1, self.update_client)
 
     def on_close(self):
         print('Connection closed', self.plr_name)
+        tornado.ioloop.IOLoop.instance().remove_timeout(self.timeout)
 
     def check_origin(self, origin):
         return True
@@ -109,6 +116,7 @@ def map_manager(request_queue):
                 name = req[0]
                 (svr_pipe, map_pipe) = mp.Pipe()
                 proc = mp.Process(target=spawn_map.run_map, args=(name, map_pipe)) # Create map process
+                import pickle
                 svr_pipe.send(("add", req[1]))
                 proc.start()
                 maps[name] = svr_pipe    # Add map to list

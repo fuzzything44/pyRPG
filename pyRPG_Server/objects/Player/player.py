@@ -85,12 +85,11 @@ class player(world_object.world_object):
                 pass # TODO: Find what key went down, set it.
             elif message["type"]== 'keyup':
                 pass # TODO: Find what key went up, set it.
-            elif inpt[0] == 1:
+            elif message["type"] == "inv":
                 pass # Inventory stuff... TODO: Actually add checking if there's stuff here.
             this.attributes["timeout"] = 0
         else:
             this.attributes["timeout"] += delta_time
-            print(this.attributes["timeout"])
             if this.attributes["timeout"] > 1000:
                 print("Timeout")
                 world.to_del_plr.append(this)

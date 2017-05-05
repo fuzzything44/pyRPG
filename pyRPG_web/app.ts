@@ -315,12 +315,47 @@ function get_data(event) {
 }
 
 function send_keys(event) {
-    // When updating we want to send keyboard state
-    set_chr(0, 1, 'a', Math.round(Math.random() * 6), colors.BLACK);
-    let data: number = 0;
-    sock.send(JSON.stringify({ type : "key", d : data }));
+    // When updating we want to send what key is now down
+    // We just send keydown and the value corresponding to the key
+    let KEY_MOV_UP      = 0
+    let KEY_MOV_LEFT    = 1
+    let KEY_MOV_DOWN    = 2
+    let KEY_MOV_RIGHT   = 3
+
+    let KEY_ATK_UP      = 4
+    let KEY_ATK_LEFT    = 5
+    let KEY_ATK_DOWN    = 6
+    let KEY_ATK_RIGHT   = 7
+
+    let KEY_ITEM        = 8
+    let KEY_SPELL       = 9
+    let KEY_ENTER       = 10
+
+    let KEY_UP          = 11
+    let KEY_DOWN        = 12
+
+    let KEY_INTERACT    = 13
+
+    let KEY_LASTSPELL   = 14
+    let KEY_NEXTSPELL   = 15
+
+    let KEY_INVENTORY   = 16
+    let KEY_ESC         = 17
+
+    let keycode_to_send_val = function(keycode: number): number {
+        return 0; // TODO: Actually write this function. Not really sure how without a bunch of annoying ifs though
+    }
+
+    if (!event.repeat) {
+        if (event.type == "keydown") {
+            sock.send(JSON.stringify({ type : "keydown", d : keycode_to_send_val(event.keyCode) }));
+        } else if (event.type == "keyup") {
+            sock.send(JSON.stringify({ type : "keyup", d : keycode_to_send_val(event.keyCode) }));
+        }
+    }
 
 }
+
 window.onload = () => {
     // Add listeners for keyboard events to stop random annoying scrolling
     window.addEventListener("keydown", function(event) {
