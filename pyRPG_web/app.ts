@@ -282,6 +282,9 @@ function server_connect(password) {
     sock.onmessage = get_data;
     sock.onopen = function(event) { sock.send(username); };
     window.addEventListener("keydown", send_keys);
+    window.addEventListener("keyup", send_keys);
+
+    window.setInterval(() => sock.send("{\"type\":\"ping\"}"), 1000); // Message every second so server knows we're still connected
 }
 
 let to_clear: tile[] = [];
@@ -311,7 +314,6 @@ function get_data(event) {
         }
         draw_background();
     }
-    set_chr(0, 0, 'a', colors.RED, colors.GREEN);
 }
 
 function send_keys(event) {
@@ -342,8 +344,40 @@ function send_keys(event) {
     let KEY_INVENTORY   = 16
     let KEY_ESC         = 17
 
-    let keycode_to_send_val = function(keycode: number): number {
-        return 0; // TODO: Actually write this function. Not really sure how without a bunch of annoying ifs though
+    let keycode_to_send_val = function (keycode: number): number {
+        let keycodes_arr: number[] = [];
+        keycodes_arr['W'.charCodeAt(0)] = KEY_MOV_UP;
+        keycodes_arr['A'.charCodeAt(0)] = KEY_MOV_LEFT;
+        keycodes_arr['S'.charCodeAt(0)] = KEY_MOV_DOWN;
+        keycodes_arr['D'.charCodeAt(0)] = KEY_MOV_RIGHT;
+
+        keycodes_arr['I'.charCodeAt(0)] = KEY_ATK_UP;
+        keycodes_arr['J'.charCodeAt(0)] = KEY_ATK_LEFT;
+        keycodes_arr['K'.charCodeAt(0)] = KEY_ATK_DOWN;
+        keycodes_arr['L'.charCodeAt(0)] = KEY_ATK_RIGHT;
+
+        keycodes_arr[key_codes.SHIFT]   = KEY_ITEM;
+        keycodes_arr[key_codes.SPACE]   = KEY_SPELL;
+        keycodes_arr[key_codes.ENTER]   = KEY_ENTER;
+
+        keycodes_arr[key_codes.UP_ARROW]    = KEY_UP;
+        keycodes_arr[key_codes.DOWN_ARROW]  = KEY_DOWN;
+        keycodes_arr['Q'.charCodeAt(0)]     = KEY_UP;
+        keycodes_arr['E'.charCodeAt(0)]     = KEY_DOWN;
+
+        keycodes_arr['E'.charCodeAt(0)] = KEY_INTERACT;
+
+        keycodes_arr['U'.charCodeAt(0)] = KEY_LASTSPELL;
+        keycodes_arr['O'.charCodeAt(0)] = KEY_NEXTSPELL;
+
+        keycodes_arr['V'.charCodeAt(0)] = KEY_INVENTORY;
+
+        keycodes_arr[key_codes.ESCAPE] = KEY_ESC;
+
+        if (keycodes_arr[keycode] == null) {
+            throw new RangeError("Unknown key. This error is expected behavior so feel free to ignore it."); // Some random keycode. Throw an error so no packet is send. 
+        }
+        return keycodes_arr[keycode];
     }
 
     if (!event.repeat) {

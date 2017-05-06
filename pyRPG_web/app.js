@@ -244,6 +244,8 @@ function server_connect(password) {
     sock.onmessage = get_data;
     sock.onopen = function (event) { sock.send(username); };
     window.addEventListener("keydown", send_keys);
+    window.addEventListener("keyup", send_keys);
+    window.setInterval(function () { return sock.send("{\"type\":\"ping\"}"); }, 1000); // Message every second so server knows we're still connected
 }
 var to_clear = [];
 function get_data(event) {
@@ -272,13 +274,63 @@ function get_data(event) {
         }
         draw_background();
     }
-    set_chr(0, 0, 'a', colors.RED, colors.GREEN);
 }
 function send_keys(event) {
-    // When updating we want to send keyboard state
-    set_chr(0, 1, 'a', Math.round(Math.random() * 6), colors.BLACK);
-    var data = 0;
-    sock.send(JSON.stringify({ type: "key", d: data }));
+    // When updating we want to send what key is now down
+    // We just send keydown and the value corresponding to the key
+    var KEY_MOV_UP = 0;
+    var KEY_MOV_LEFT = 1;
+    var KEY_MOV_DOWN = 2;
+    var KEY_MOV_RIGHT = 3;
+    var KEY_ATK_UP = 4;
+    var KEY_ATK_LEFT = 5;
+    var KEY_ATK_DOWN = 6;
+    var KEY_ATK_RIGHT = 7;
+    var KEY_ITEM = 8;
+    var KEY_SPELL = 9;
+    var KEY_ENTER = 10;
+    var KEY_UP = 11;
+    var KEY_DOWN = 12;
+    var KEY_INTERACT = 13;
+    var KEY_LASTSPELL = 14;
+    var KEY_NEXTSPELL = 15;
+    var KEY_INVENTORY = 16;
+    var KEY_ESC = 17;
+    var keycode_to_send_val = function (keycode) {
+        var keycodes_arr = [];
+        keycodes_arr['W'.charCodeAt(0)] = KEY_MOV_UP;
+        keycodes_arr['A'.charCodeAt(0)] = KEY_MOV_LEFT;
+        keycodes_arr['S'.charCodeAt(0)] = KEY_MOV_DOWN;
+        keycodes_arr['D'.charCodeAt(0)] = KEY_MOV_RIGHT;
+        keycodes_arr['I'.charCodeAt(0)] = KEY_ATK_UP;
+        keycodes_arr['J'.charCodeAt(0)] = KEY_ATK_LEFT;
+        keycodes_arr['K'.charCodeAt(0)] = KEY_ATK_DOWN;
+        keycodes_arr['L'.charCodeAt(0)] = KEY_ATK_RIGHT;
+        keycodes_arr[key_codes.SHIFT] = KEY_ITEM;
+        keycodes_arr[key_codes.SPACE] = KEY_SPELL;
+        keycodes_arr[key_codes.ENTER] = KEY_ENTER;
+        keycodes_arr[key_codes.UP_ARROW] = KEY_UP;
+        keycodes_arr[key_codes.DOWN_ARROW] = KEY_DOWN;
+        keycodes_arr['Q'.charCodeAt(0)] = KEY_UP;
+        keycodes_arr['E'.charCodeAt(0)] = KEY_DOWN;
+        keycodes_arr['E'.charCodeAt(0)] = KEY_INTERACT;
+        keycodes_arr['U'.charCodeAt(0)] = KEY_LASTSPELL;
+        keycodes_arr['O'.charCodeAt(0)] = KEY_NEXTSPELL;
+        keycodes_arr['V'.charCodeAt(0)] = KEY_INVENTORY;
+        keycodes_arr[key_codes.ESCAPE] = KEY_ESC;
+        if (keycodes_arr[keycode] == null) {
+            throw new RangeError("Unknown key. This error is expected behavior so feel free to ignore it."); // Some random keycode. Throw an error so no packet is send. 
+        }
+        return keycodes_arr[keycode];
+    };
+    if (!event.repeat) {
+        if (event.type == "keydown") {
+            sock.send(JSON.stringify({ type: "keydown", d: keycode_to_send_val(event.keyCode) }));
+        }
+        else if (event.type == "keyup") {
+            sock.send(JSON.stringify({ type: "keyup", d: keycode_to_send_val(event.keyCode) }));
+        }
+    }
 }
 window.onload = function () {
     // Add listeners for keyboard events to stop random annoying scrolling
@@ -306,3 +358,4 @@ window.onload = function () {
     printc("Enter your username", 32, 8);
     echo_text(32, 9, 24, ask_password);
 };
+//# sourceMappingURL=app.js.map

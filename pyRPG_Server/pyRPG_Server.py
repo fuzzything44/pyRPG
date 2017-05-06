@@ -55,8 +55,8 @@ class sockethandler(tornado.websocket.WebSocketHandler):
         # Get info from pipe, send it.
         while self.svr_pipe.poll():
             self.write_message(self.svr_pipe.recv())
-        # Reset timeout
-        self.timeout = tornado.ioloop.IOLoop.instance().add_timeout(tornado.ioloop.IOLoop.instance().time() + 1, self.update_client)
+        # Reset timeout. Runs every 5ms
+        self.timeout = tornado.ioloop.IOLoop.instance().add_timeout(tornado.ioloop.IOLoop.instance().time() + 0.005, self.update_client) 
 
     def on_close(self):
         print('Connection closed', self.plr_name)

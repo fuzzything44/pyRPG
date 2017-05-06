@@ -82,15 +82,15 @@ class player(world_object.world_object):
         if this.attributes["pipe"].poll():
             message = json.loads(this.attributes["pipe"].recv())
             if message["type"] == 'keydown':
-                pass # TODO: Find what key went down, set it.
+                this.attributes["keys"][message["d"]] = True
             elif message["type"]== 'keyup':
-                pass # TODO: Find what key went up, set it.
+                this.attributes["keys"][message["d"]] = False
             elif message["type"] == "inv":
                 pass # Inventory stuff... TODO: Actually add checking if there's stuff here.
             this.attributes["timeout"] = 0
         else:
             this.attributes["timeout"] += delta_time
-            if this.attributes["timeout"] > 1000:
+            if this.attributes["timeout"] > 1000 * 10: # No ping in last 10s
                 print("Timeout")
                 world.to_del_plr.append(this)
                 return

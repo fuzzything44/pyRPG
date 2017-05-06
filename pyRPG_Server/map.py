@@ -29,15 +29,12 @@ def run_map(map_name, pipe):
 
             # Check queue for new messages.
             if pipe.poll():
-                print("Ooh, new message!")
                 message = pipe.recv()
-
                 if message[0] == "add": # We're adding a player
                     if message[1].type == "player":
                         message[1].attributes["sidebar"] = ""
                         message[1].attributes["current_menu"] = None # Clear menu if it somehow kept through this...
                         message[1].attributes["pipe"].send(world.send_data)
-                        print("Sent data")
                         world.players.append(message[1])
                         print("[" + map_name + "] Player", message[1].attributes["name"], "added to map")
                     else:
