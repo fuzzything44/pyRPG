@@ -15,9 +15,9 @@ class save_station(world_object.world_object):
                 if plr.X == plr.attributes["respawnX"] and plr.Y == plr.attributes["respawnY"] and plr.attributes["respawnMap"] == world.world_name:
                     plr.attributes["sidebar"] += "Respawn Location set\n"
                 else:
-                    plr.attributes["sidebar"] += "Press E to set respawn\n"
+                    plr.attributes["sidebar"] += "Press R to set respawn\n"
 
-                if plr.attributes["keys"][display.KEY_E] and plr.attributes["current_menu"] is None and plr.attributes["esc_menu"] is None: # They pressed E
+                if plr.attributes["keys"][display.KEY_INTERACT] and plr.attributes["current_menu"] is None and plr.attributes["esc_menu"] is None: # They pressed E
                     plr.attributes["respawnMap"] = world.world_name
                     plr.attributes["respawnX"] = plr.X
                     plr.attributes["respawnY"] = plr.Y

@@ -36,6 +36,8 @@ function set_chr(x, y, set_to, fgcolor, bgcolor) {
         // Maybe throw error here?
     }
 }
+// Prints given text at given x,y location with given foreground and background colors.
+// Returns number of lines printed.
 function printc(text, x, y, start_color, start_bgcolor) {
     if (start_color === void 0) { start_color = colors.WHITE; }
     if (start_bgcolor === void 0) { start_bgcolor = colors.BLACK; }
@@ -86,6 +88,7 @@ function printc(text, x, y, start_color, start_bgcolor) {
             }
         }
     }
+    return curr_y - y + 1;
 }
 function clear_screen() {
     for (var x = 0; x < SCREEN_X; x++) {
@@ -190,15 +193,20 @@ function update_equip(equip_name, equip_type) {
         function (name) { return printc(name + Array(39 - "ring:".length - name.length).join(' '), 39 + "ring:".length, 4); }
     ][["weapon", "hat", "shirt", "pants", "ring"].indexOf(equip_type)](equip_name);
 }
+var old_sidebar = "";
+var lines_to_clear = 0;
 function update_sidebar(sidebar) {
-    // Clear old sidebar
-    for (var x = 50; x < SCREEN_X; x++) {
-        for (var y = 5; y < SCREEN_Y; y++) {
-            set_chr(x, y, ' ', colors.WHITE, colors.BLACK);
+    if (old_sidebar != sidebar) {
+        // Clear old sidebar
+        for (var x = 50; x < SCREEN_X; x++) {
+            for (var y = 5; y < 5 + lines_to_clear; y++) {
+                set_chr(x, y, ' ', colors.WHITE, colors.BLACK);
+            }
         }
+        // Draw new one.
+        lines_to_clear = printc(sidebar, 50, 5);
+        old_sidebar = sidebar;
     }
-    // Draw new one.
-    printc(sidebar, 50, 5);
 }
 var background_tile = (function () {
     function background_tile(fgcolor, bgcolor, char, x, y) {
@@ -275,7 +283,6 @@ function get_data(event) {
         }
     }
     else if (data.type == "update_extra") {
-        set_chr(0, 0, 'a', 1, 0);
         update_hp(data.HP, data.maxHP);
         update_mp(data.MP, data.maxMP);
         update_gold(data.gold);
@@ -284,7 +291,6 @@ function get_data(event) {
         update_spell(data.spell);
         update_item(data.item);
         update_sidebar(data.sidebar);
-        set_chr(0, 0, 'a', 2, 0);
     }
     else if (data.type == "map") {
         for (var x = 0; x < 50; x++) {
@@ -294,7 +300,6 @@ function get_data(event) {
                 background[x][y] = bgtile;
             }
         }
-        draw_background();
     }
 }
 function send_keys(event) {
@@ -380,3 +385,4 @@ window.onload = function () {
     printc("Enter your username", 32, 8);
     echo_text(32, 9, 24, ask_password);
 };
+//# sourceMappingURL=app.js.map

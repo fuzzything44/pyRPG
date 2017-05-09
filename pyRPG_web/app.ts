@@ -41,6 +41,8 @@ function set_chr(x: number, y: number, set_to: string, fgcolor: colors, bgcolor:
     }
 }
 
+// Prints given text at given x,y location with given foreground and background colors.
+// Returns number of lines printed.
 function printc(text: String, x: number, y: number, start_color: colors = colors.WHITE, start_bgcolor: colors = colors.BLACK) {
     let color: colors = start_color;
     let bgcolor: colors = start_bgcolor;
@@ -77,6 +79,7 @@ function printc(text: String, x: number, y: number, start_color: colors = colors
             if (chr == "\n") {
                 curr_y += 1
                 curr_x = x;
+
             } else if (chr == "\\") {
                 escaped = true;
             } else {
@@ -85,6 +88,7 @@ function printc(text: String, x: number, y: number, start_color: colors = colors
             }
         }
     }
+    return curr_y - y + 1
 }
 
 function clear_screen() {
@@ -210,15 +214,20 @@ function update_equip(equip_name: string, equip_type: string) {
     ][["weapon", "hat", "shirt", "pants", "ring"].indexOf(equip_type)](equip_name);
 }
 
+let old_sidebar = "";
+let lines_to_clear = 0;
 function update_sidebar(sidebar: string) {
-    // Clear old sidebar
-    for (let x = 50; x < SCREEN_X; x++) {
-        for (let y = 5; y < SCREEN_Y; y++) {
-            set_chr(x, y, ' ', colors.WHITE, colors.BLACK);
+    if (old_sidebar != sidebar) {
+        // Clear old sidebar
+        for (let x = 50; x < SCREEN_X; x++) {
+            for (let y = 5; y < 5 + lines_to_clear; y++) {
+                set_chr(x, y, ' ', colors.WHITE, colors.BLACK);
+            }
         }
+        // Draw new one.
+        lines_to_clear = printc(sidebar, 50, 5);
+        old_sidebar = sidebar
     }
-    // Draw new one.
-    printc(sidebar, 50, 5);
 }
 
 class background_tile {
@@ -315,7 +324,6 @@ function get_data(event) {
             print_tile.print_self();
         }
     } else if (data.type == "update_extra") {
-        set_chr(0, 0, 'a', 1, 0);
         update_hp(data.HP, data.maxHP);
         update_mp(data.MP, data.maxMP);
         update_gold(data.gold);
@@ -324,7 +332,6 @@ function get_data(event) {
         update_spell(data.spell);
         update_item(data.item);
         update_sidebar(data.sidebar);
-        set_chr(0, 0, 'a', 2, 0);
     } else if (data.type == "map") {
         for (let x: number = 0; x < 50; x++) {
             for (let y: number = 0; y < SCREEN_Y - 5; y++) {
@@ -333,7 +340,6 @@ function get_data(event) {
                 background[x][y] = bgtile;
             }
         }
-        draw_background();
     }
 }
 
