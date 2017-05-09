@@ -157,7 +157,6 @@ class menu:
 
     def __init__(this, text, player, *opt_list):
         """Starts a menu.
-
     Arguments:
     text: A string containing the introduction text to the menu
     *opt_list: A list of strings as options to display.

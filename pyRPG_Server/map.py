@@ -5,6 +5,26 @@ import world
 import setuptools
 
 import json as JSON
+
+
+def handle_messages(map_name, pipe):
+    # Check queue for new messages.
+    if pipe.poll():
+        message = pipe.recv()
+        if message[0] == "add": # We're adding a player
+            if message[1].type == "player":
+                message[1].attributes["sidebar"] = ""
+                message[1].attributes["current_menu"] = None # Clear menu if it somehow kept through this...
+                message[1].attributes["pipe"].send(world.send_data)
+                world.players.append(message[1])
+                print("[" + map_name + "] Player", message[1].attributes["name"], "added to map")
+            else:
+                world.objects.append(message[1])
+        if message[0] == "end": # Forcibly end map
+            print("[" + map_name + "] Map forcibly ended.")
+            return True
+    return False
+
 # Runs the map with the given name and given queues
 def run_map(map_name, pipe):
     try:
@@ -14,9 +34,11 @@ def run_map(map_name, pipe):
         start_time = time.clock()
         since_start = 0
 
-        loop_count = 0
+        time_until_messages = 0 # How many ms before we send out messages again. Let's not overload the client
+        # We handle messages before entering the loop to avoid a race condition as
+        #  the map is started before any message is sent (as not to overflow pipe's buffer)
+        handle_messages(map_name, pipe)
         while True:
-            loop_count += 1
             # Calculate delta time
             delta_time = int((time.clock() - start_time) * 1000) - since_start
             if delta_time > 100:
@@ -24,24 +46,11 @@ def run_map(map_name, pipe):
                 delta_time = 100
             delta_time = max(0, delta_time) # Don't have ticks with negative time!
             since_start += delta_time
-
+            time_until_messages -= delta_time
             print(delta_time, " ", end="\r")
 
-            # Check queue for new messages.
-            if pipe.poll():
-                message = pipe.recv()
-                if message[0] == "add": # We're adding a player
-                    if message[1].type == "player":
-                        message[1].attributes["sidebar"] = ""
-                        message[1].attributes["current_menu"] = None # Clear menu if it somehow kept through this...
-                        message[1].attributes["pipe"].send(world.send_data)
-                        world.players.append(message[1])
-                        print("[" + map_name + "] Player", message[1].attributes["name"], "added to map")
-                    else:
-                        world.objects.append(message[1])
-                if message[0] == "end": # Forcibly end map
-                    print("[" + map_name + "] Map forcibly ended.")
-                    return
+            if handle_messages(map_name, pipe):
+                return
 
             world.to_del.clear()
             world.to_del_plr.clear()
@@ -85,24 +94,21 @@ def run_map(map_name, pipe):
                 pipe.send(("mov", req)) # Send request
             world.move_requests.clear()
 
-            # Send data to players.
-            # Start with map data - either a 0 byte or a 1 byte with map len and map after.
-            # We need (#objects + # players) things to send.
-            # Each thing needs an X coord, Y coord, char, and color
-            # We devote 1 byte to each, meaning each is 4 bytes
+            if time_until_messages <= 0:
+                # Send data to players.
+                send_data = {"type" : "update", "tiles" : []}
 
-            # TODO: Pretty much all of this needs rewriting.
-            send_data = {"type" : "update", "tiles" : []}
+                for obj in world.objects + world.players:
+                    send_data["tiles"].append({"color" : obj.color(), "chr" : obj.char(), "x": obj.X, "y": obj.Y})
 
-            for obj in world.objects + world.players:
-                send_data["tiles"].append({"color" : obj.color(), "chr" : obj.char(), "x": obj.X, "y": obj.Y})
-
-            # Send update to all players
-            for plr in world.players:
-                if plr.attributes["using_inv"]:
-                    pass # TODO: what now?
-                else:
-                    plr.attributes["pipe"].send(JSON.dumps(send_data))
+                # Send update to all players
+                for plr in world.players:
+                    if plr.attributes["using_inv"]:
+                        pass # TODO: what now?
+                    else:
+                        plr.attributes["pipe"].send(JSON.dumps(send_data))
+                    plr.send_extra_data()
+                time_until_messages = 16 # Reset time
 
             if not continue_loop: # Nothing blocking.
                 pipe.send(("end", ))

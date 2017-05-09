@@ -210,6 +210,16 @@ function update_equip(equip_name: string, equip_type: string) {
     ][["weapon", "hat", "shirt", "pants", "ring"].indexOf(equip_type)](equip_name);
 }
 
+function update_sidebar(sidebar: string) {
+    // Clear old sidebar
+    for (let x = 50; x < SCREEN_X; x++) {
+        for (let y = 5; y < SCREEN_Y; y++) {
+            set_chr(x, y, ' ', colors.WHITE, colors.BLACK);
+        }
+    }
+    // Draw new one.
+    printc(sidebar, 50, 5);
+}
 
 class background_tile {
     fgc: colors;
@@ -304,6 +314,17 @@ function get_data(event) {
             to_clear.push(print_tile);
             print_tile.print_self();
         }
+    } else if (data.type == "update_extra") {
+        set_chr(0, 0, 'a', 1, 0);
+        update_hp(data.HP, data.maxHP);
+        update_mp(data.MP, data.maxMP);
+        update_gold(data.gold);
+        update_level(data.level);
+        update_exp(data.exp);
+        update_spell(data.spell);
+        update_item(data.item);
+        update_sidebar(data.sidebar);
+        set_chr(0, 0, 'a', 2, 0);
     } else if (data.type == "map") {
         for (let x: number = 0; x < 50; x++) {
             for (let y: number = 0; y < SCREEN_Y - 5; y++) {
@@ -365,7 +386,7 @@ function send_keys(event) {
         keycodes_arr['Q'.charCodeAt(0)]     = KEY_UP;
         keycodes_arr['E'.charCodeAt(0)]     = KEY_DOWN;
 
-        keycodes_arr['E'.charCodeAt(0)] = KEY_INTERACT;
+        keycodes_arr['R'.charCodeAt(0)] = KEY_INTERACT;
 
         keycodes_arr['U'.charCodeAt(0)] = KEY_LASTSPELL;
         keycodes_arr['O'.charCodeAt(0)] = KEY_NEXTSPELL;
@@ -375,7 +396,7 @@ function send_keys(event) {
         keycodes_arr[key_codes.ESCAPE] = KEY_ESC;
 
         if (keycodes_arr[keycode] == null) {
-            throw new RangeError("Unknown key. This error is expected behavior so feel free to ignore it."); // Some random keycode. Throw an error so no packet is send. 
+            throw new RangeError("Unknown key. This error is expected behavior so feel free to ignore it."); // Some random keycode. Throw an error so no packet is send.
         }
         return keycodes_arr[keycode];
     }

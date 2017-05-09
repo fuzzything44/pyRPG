@@ -48,7 +48,6 @@ class sockethandler(tornado.websocket.WebSocketHandler):
             self.plr_name = message
             # Now that we have the player
         else: # Player set, so some actual data. TODO: do stuff with the data.
-            print("Got some sick data brah", message)
             self.svr_pipe.send(message)
 
     def update_client(self):
@@ -56,7 +55,7 @@ class sockethandler(tornado.websocket.WebSocketHandler):
         while self.svr_pipe.poll():
             self.write_message(self.svr_pipe.recv())
         # Reset timeout. Runs every 5ms
-        self.timeout = tornado.ioloop.IOLoop.instance().add_timeout(tornado.ioloop.IOLoop.instance().time() + 0.005, self.update_client) 
+        self.timeout = tornado.ioloop.IOLoop.instance().add_timeout(tornado.ioloop.IOLoop.instance().time() + 0.005, self.update_client)
 
     def on_close(self):
         print('Connection closed', self.plr_name)
@@ -109,17 +108,19 @@ def map_manager(request_queue):
         for req in move_requests:
             print("[SV] Handling move request...")
             if req[0] in maps:          # Map currently exists
-                print("Map exists")
+                print("[SV] Map exists")
                 maps[req[0]].send(("add", req[1]))
             else:                       # Map doesn't exist, add map
-                print("Adding map")
+                print("[SV] Adding map")
                 name = req[0]
                 (svr_pipe, map_pipe) = mp.Pipe()
                 proc = mp.Process(target=spawn_map.run_map, args=(name, map_pipe)) # Create map process
-                import pickle
-                svr_pipe.send(("add", req[1]))
+                # Start map process before sending player to be added because we can get stupidly large
+                #  player objects that block the pipe, meaning it gets stuck here and does nothing until
+                #  server restart.
                 proc.start()
-                maps[name] = svr_pipe    # Add map to list
+                svr_pipe.send(("add", req[1]))
+                maps[name] = svr_pipe    # Add map to list of running maps
 
         mp.active_children() # End any zombie processes. Just in case.
 

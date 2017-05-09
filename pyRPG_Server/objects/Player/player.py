@@ -79,6 +79,7 @@ class player(world_object.world_object):
             })
 
     def update(this, delta_time):
+        this.attributes["sidebar"] = ""
         if this.attributes["pipe"].poll():
             message = json.loads(this.attributes["pipe"].recv())
             if message["type"] == 'keydown':
@@ -322,45 +323,27 @@ class player(world_object.world_object):
             return display.RED
         return display.WHITE
 
+    def send_extra_data(this):
+        to_send = {"type" : "update_extra"}
+        to_send["HP"] = this.attributes["HP"]
+        to_send["maxHP"] = this.attributes["maxHP"]
 
+        to_send["MP"] = this.attributes["MP"]
+        to_send["maxMP"] = this.attributes["maxMP"]
 
-    # All extra data to be sent. So HP/MP, equip stuff, sidebar stuff.
-    def extra_data(this):
-        if this.attributes["HP"] < 0:
-            this.attributes["HP"] = 0
-        hp = struct.pack("!I", int(this.attributes["HP"])) + struct.pack("!I", int(this.attributes["maxHP"]))
-        mp = struct.pack("!I", int(this.attributes["MP"])) + struct.pack("!I", int(this.attributes["maxMP"]))
-        level = struct.pack("!I", this.attributes["level"])
-        exp = struct.pack("!I", exp_req(this.attributes["level"]) - this.attributes["EXP"])
-        gold = struct.pack("!I", this.attributes["money"])
-        spell_image = bytearray(this.attributes["spells"][this.attributes["spell"]].image, 'utf-8')
-        spell_len = struct.pack("!I", len(spell_image))
+        to_send["gold"] = this.attributes["money"]
+        to_send["level"] = this.attributes["level"]
+        to_send["exp"] = exp_req(this.attributes["level"]) - this.attributes["EXP"]
 
-        item_image = bytearray(this.attributes["consumable"].attributes["icon"], 'utf-8')
-        item_len = struct.pack("!I", len(item_image))
-
-        equip_info = bytes()
-        for type in ["weapon", "hat", "shirt", "pants", "ring"]:
-            type_info   = bytearray(this.attributes[type].name, 'utf-8')
-            type_len    = struct.pack("!I", len(type_info))
-            equip_info += type_len + type_info
-
-
-        # So we need an int for length and then all the data.
-        sidebar_data = None
+        to_send["spell"] = this.attributes["spells"][this.attributes["spell"]].image
+        to_send["item"] = this.attributes["consumable"].attributes["icon"]
         if this.attributes["esc_menu"] is not None:
-            sidebar_data = bytearray(this.attributes["esc_menu"].disp(), 'utf-8')
-        elif this.attributes["current_menu"] is None:
-            sidebar_data = bytearray(this.attributes["sidebar"], 'utf-8')
+            to_send["sidebar"] = this.attributes["esc_menu"].disp()
+        elif this.attributes["current_menu"] is not None:
+            to_send["sidebar"] = this.attributes["current_menu"].disp()
         else:
-            sidebar_data = bytearray(this.attributes["current_menu"].disp(), 'utf-8')
-        sidebar_len  = struct.pack("!I", len(sidebar_data))
-        # Sidebar stuff is sent, so now we zero it out.
-        this.attributes["sidebar"] = ""
-
-
-        return hp + mp + level + exp + gold + spell_len + spell_image + item_len + item_image + equip_info + sidebar_len + sidebar_data
-
+            to_send["sidebar"] = this.attributes["sidebar"]
+        this.attributes["pipe"].send(json.dumps(to_send))
 def exp_req(lvl): # Weird exponential/polynomial EXP requirement.
   return int(2 * 1.4 ** lvl + lvl ** 3 + lvl + 1)
 
