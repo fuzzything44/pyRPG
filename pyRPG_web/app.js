@@ -291,6 +291,11 @@ function get_data(event) {
         update_spell(data.spell);
         update_item(data.item);
         update_sidebar(data.sidebar);
+        update_equip(data.weapon, "weapon");
+        update_equip(data.hat, "hat");
+        update_equip(data.shirt, "shirt");
+        update_equip(data.pants, "pants");
+        update_equip(data.ring, "ring");
     }
     else if (data.type == "map") {
         for (var x = 0; x < 50; x++) {

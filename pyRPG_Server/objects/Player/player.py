@@ -337,6 +337,13 @@ class player(world_object.world_object):
 
         to_send["spell"] = this.attributes["spells"][this.attributes["spell"]].image
         to_send["item"] = this.attributes["consumable"].attributes["icon"]
+
+        to_send["weapon"] = this.attributes["weapon"].name
+        to_send["hat"]    = this.attributes["hat"].name
+        to_send["shirt"]  = this.attributes["shirt"].name
+        to_send["pants"]  = this.attributes["pants"].name
+        to_send["ring"]   = this.attributes["ring"].name
+
         if this.attributes["esc_menu"] is not None:
             to_send["sidebar"] = this.attributes["esc_menu"].disp()
         elif this.attributes["current_menu"] is not None:
