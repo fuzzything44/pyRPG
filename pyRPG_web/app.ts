@@ -147,7 +147,7 @@ function echo_text(start_x: number, start_y: number, x_len: number, callback) {
     window.addEventListener("keydown", key_listener, false);
 }
 
-function draw_topbar() {
+function print_topbar() {
     // Draw HP/MP/Gold/Level/EXP
     printc("HP:\nMP:\nGold:\nLevel\n? to level", 5, 0);
     // Draw spellbox, itembox
@@ -277,11 +277,56 @@ class tile {
 }
 let background: background_tile[][] = [[]];
 
-function draw_background() {
+function print_background() {
     for (let x = 0; x < background.length; x++) {
         for (let y = 0; y < background[x].length; y++) {
             background[x][y].print_self();
         }
+    }
+}
+
+function print_inventory(type: string) {
+    clear_screen();
+    print_topbar();
+
+    // Draw borders and column info stuff.
+    if (type == "weapon") {
+        printc("Inventory: \\fyWeapons(1)\\fw Hats(2) Shirts(3) Pants(4) Rings(5) Consumables(6)", 0, 5)
+    } else if (type == 'hat') {
+        printc("Inventory: Weapons(1) \\fyHats(2)\\fw Shirts(3) Pants(4) Rings(5) Consumables(6)", 0, 5)
+    } else if (type == 'shirt') {
+        printc("Inventory: Weapons(1) Hats(2) \\fyShirts(3)\\fw Pants(4) Rings(5) Consumables(6)", 0, 5)
+    } else if (type == 'pants') {
+        printc("Inventory: Weapons(1) Hats(2) Shirts(3) \\fyPants(4)\\fw Rings(5) Consumables(6)", 0, 5)
+    } else if (type == 'ring') {
+        printc("Inventory: Weapons(1) Hats(2) Shirts(3) Pants(4) \\fyRings(5)\\fw Consumables(6)", 0, 5)
+    } else if (type == 'consumable') {
+        printc("Inventory: Weapons(1) Hats(2) Shirts(3) Pants(4) Rings(5) \\fyConsumables(6)\\fw", 0, 5)
+    }
+    printc("Name/Description                                  Value          Amount", 0, 6)
+    printc("--------------------------------------------------------------------------------", 0, 7) // I could make this string easier, but it's nice to just see length of it
+    // Display one item per 2 lines, max of 10 on a page
+    for (let i = 0; i < 10; i++) {
+        if (i < inv_data[type].length) {
+            let item = inv_data[type][i];
+            printc(item.name  , 1, 2*i + 8);
+            printc(item.value.toString() , 50, 2*i + 8);
+            printc(item.amount.toString(), 65, 2*i + 8);
+
+            printc(item.desc, 2, 2*i + 9);
+        }
+    }
+    printc(">", 0, 8); // Print cursor
+}
+
+function inv_key_manager(event) {
+    if (event.keyCode == key_codes.ESCAPE) { // Exit from inventory
+        window.removeEventListener('keydown', inv_key_manager);
+        print_background();
+        in_inv = false;
+        sock.send(JSON.stringify({type: "inv", data: "exit"}));
+    } else if (event.keyCode >= '1'.charCodeAt(0) && event.keyCode <= '6'.charCodeAt(0)) {
+        print_inventory(["weapon", "hat", "shirt", "pants", "ring", "consumable"][event.keyCode - '1'.charCodeAt(0)]);
     }
 }
 // End helper functions...
@@ -296,7 +341,7 @@ function ask_password(user) {
 let sock: WebSocket;
 function server_connect(password) {
     clear_screen();
-    draw_topbar();
+    print_topbar();
     sock = new WebSocket("ws://localhost:5000/ws");
     sock.onmessage = get_data;
     sock.onopen = function(event) { sock.send(username); };
@@ -307,10 +352,12 @@ function server_connect(password) {
 }
 
 let to_clear: tile[] = [];
+let inv_data = {}
+let in_inv = false;
 function get_data(event) {
     let data = JSON.parse(event.data);
     // A leading 0 means a regular update
-    if (data.type == "update") {
+    if (data.type == "update" && !in_inv) {
         // Clear old tiles
         for (let i: number = 0; i < to_clear.length; i++) {
             to_clear[i].clear_self();
@@ -343,10 +390,17 @@ function get_data(event) {
         for (let x: number = 0; x < 50; x++) {
             for (let y: number = 0; y < SCREEN_Y - 5; y++) {
                 let bgtile: background_tile = new background_tile(data.data[y * 50 + x].fgc, data.data[y * 50 + x].bgc, data.data[y * 50 + x].chr, x, y);
-                bgtile.print_self();
                 background[x][y] = bgtile;
             }
         }
+        if (!in_inv) {
+            print_background();
+        }
+    } else if (data.type == "inv") {
+        inv_data = data; // Save data for later
+        in_inv = true;
+        print_inventory("weapon");
+        window.addEventListener("keydown", inv_key_manager);
     }
 }
 
@@ -414,12 +468,16 @@ function send_keys(event) {
         return keycodes_arr[keycode];
     }
 
-    if (!event.repeat) {
-        if (event.type == "keydown") {
-            sock.send(JSON.stringify({ type : "keydown", d : keycode_to_send_val(event.keyCode) }));
-        } else if (event.type == "keyup") {
-            sock.send(JSON.stringify({ type : "keyup", d : keycode_to_send_val(event.keyCode) }));
+    try {
+        if (!event.repeat) {
+            if (event.type == "keydown") {
+                sock.send(JSON.stringify({ type : "keydown", d : keycode_to_send_val(event.keyCode) }));
+            } else if (event.type == "keyup") {
+                sock.send(JSON.stringify({ type : "keyup", d : keycode_to_send_val(event.keyCode) }));
+            }
         }
+    } catch (e) {
+        // Pass. It's all good, we just can't send a packet.
     }
 
 }

@@ -25,26 +25,11 @@ class item:
         this.type = type
         if "disp_data" not in this.attributes: # They gave no default display data. Make it.
             disp_str = ""   # Go through all default modifiers and add them to the string.
-            str_len = 0     # Current number of characters in item name on this line
-            maxlen = 25     # Max allowed per line
-            str_len += len(this.name) # Add length of name.
 
             if this.type == "weapon":
                 # It's a weapon, so we need to show range and damage
-                range_str= " Range " + str(this.attributes["range"]) + " " # Add range
-                if str_len + len(range_str) > maxlen:   # Too long right now
-                    disp_str += "\n  "                   # Add new line
-                    str_len = 1                         # 1 because space is a char.
-                disp_str += range_str
-                str_len += len(range_str)
-
-                damage_str= "Damage " + str(this.attributes["damage"]) + " " # Add damage
-                if str_len + len(damage_str) > maxlen:   # Too long right now
-                    disp_str += "\n  "                   # Add new line
-                    str_len = 1                         # 1 because space is a char.
-                disp_str += damage_str
-                str_len += len(damage_str)
-
+                disp_str += " Range " + str(this.attributes["range"]) + " " # Add range
+                disp_str += "Damage " + str(this.attributes["damage"]) + " " # Add damage
             mod_types = ["maxHP_mod", "maxMP_mod", "mov_spd_mod", "atk_spd_mod", "magic_mod", "str_mod", "luck_mod"]
             mod_colors = 'rbgwcmy'
 
@@ -55,28 +40,24 @@ class item:
                     if this.attributes[mod] >= 0:
                         mod_str += '+'
                     mod_str += str(this.attributes[mod]) + ')'
-                    if str_len + len(mod_str) > maxlen:
-                        disp_str += "\n  "
-                        str_len = 1
                     disp_str += mod_str
-                    str_len += len(mod_str)
             this.attributes["disp_data"] = disp_str + '\\fw'
     def __lt__(self, other):
         return self.name < other
-    
+
     def ___le__(self, other):
         return self.name <= other
-    
+
     def __eq__(self, other):
         "For objects to be equal, they need same name, attributes, type, and value."
         return (self.name == other.name) and (self.attributes == other.attributes) and (self.type == other.type) and (self.value == other.value)
-    
+
     def __ne__(self, other):
         return self.name != other
-    
+
     def __gt__(self, other):
         return self.name > other
-    
+
     def __ge__(self, other):
         return self.name >= other
 

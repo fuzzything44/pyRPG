@@ -99,7 +99,8 @@ def run_map(map_name, pipe):
                 send_data = {"type" : "update", "tiles" : []}
 
                 for obj in world.objects + world.players:
-                    send_data["tiles"].append({"color" : obj.color(), "chr" : obj.char(), "x": obj.X, "y": obj.Y})
+                    if obj.char() != '\0':
+                        send_data["tiles"].append({"color" : obj.color(), "chr" : obj.char(), "x": obj.X, "y": obj.Y})
 
                 # Send update to all players
                 for plr in world.players:

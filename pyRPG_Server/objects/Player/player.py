@@ -43,7 +43,6 @@ class player(world_object.world_object):
             "can_spell_cycle" : True, # Can we change the current spell? (So last update UO weren't down)
 
             "using_inv" : False,    # Are they using their inventory now? If so we send different stuff.
-            "inv_data" : bytearray(0), # Inventory data to send
             "maxHP" : 100.0,
             "HP" : 100.0,
             "maxMP" : 50,
@@ -87,7 +86,11 @@ class player(world_object.world_object):
             elif message["type"]== 'keyup':
                 this.attributes["keys"][message["d"]] = False
             elif message["type"] == "inv":
-                pass # Inventory stuff... TODO: Actually add checking if there's stuff here.
+                if message["data"] == "exit":
+                    # Just exit inv without doing anything
+                    this.attributes["using_inv"] = False
+                else: #
+                    pass # TODO: Actually add checking if there's stuff here.
             this.attributes["timeout"] = 0
         else:
             this.attributes["timeout"] += delta_time
@@ -193,18 +196,8 @@ class player(world_object.world_object):
 
         if this.attributes["keys"][display.KEY_INVENTORY]:
             this.attributes["using_inv"] = True
-            data = bytearray([2]) # Header byte
-            for itm in this.attributes["items"]:
-                itm_data  = bytearray()
-                itm_data += bytearray(itm.type, 'utf-8') + bytearray(1) # Put a null byte after so split works.
-                itm_data += bytearray(itm.name + itm.attributes["disp_data"], 'utf-8')
-                if itm == this.attributes[itm.type]: # If equipped
-                    itm_data += bytearray(" \\fg(Equipped)\\fw", 'utf-8')
-                itm_data += bytearray(1) + bytearray(itm.description, 'utf-8') + bytearray(1)
-                itm_data += struct.pack("!I", itm.amount)
-                itm_data += struct.pack("!I", itm.value)
-                data += struct.pack("!I", len(itm_data)) + itm_data
-            this.attributes["inv_data"] = data
+            this.attributes["keys"] = bytearray(display.NUM_KEYS)
+            this.send_inventory()
         # Check HP diff for flash on hit stuff
         if this.attributes["HP"] < this.attributes["lastHP"]:
             this.attributes["sincehit"] = 0
@@ -294,22 +287,27 @@ class player(world_object.world_object):
             del this.attributes["effects"][eff_name]
         del eff_del_list
 
-        this.attributes["lastHP"] = this.attributes["HP"] # Reset lastHP, done after effect updating.
+        # Reset lastHP, done after effect updating so damaging effects don't force you red.
+        this.attributes["lastHP"] = this.attributes["HP"]
 
         if this.attributes["sidebar"].count('\n') == sidebar_len:
             this.attributes["sidebar"] += " No effects\n"
 
         if this.attributes["HP"] <= 0: # Dead
+            # Remove all effects in case they were on fire for 100hrs or something.
+            # Repeatedly dying to that wouldn't be fun.
+            # I guess this also adds a slight death penalty if you had a useful effect up.
             for eff_name, eff in this.attributes["effects"].items():
                 eff.uneffect(this)
             this.attributes["effects"].clear()
 
-            this.attributes["HP"] = this.attributes["maxHP"]                    # Recover HP
+            this.attributes["HP"] = this.attributes["maxHP"]                    # Recover HP, MP
+            this.attributes["MP"] = this.attributes["maxMP"]
             this.X = this.attributes["respawnX"]                                # Return to last saved place
             this.Y = this.attributes["respawnY"]
             world.move_requests.append((this.attributes["respawnMap"], this))   # At last saved map...
             world.to_del_plr.append(this)                                       # Exit from this map.
-            print("Player died")
+            print("Player died", this.attributes["name"])
 
     def char(this):
         return 'P'
@@ -325,18 +323,18 @@ class player(world_object.world_object):
 
     def send_extra_data(this):
         to_send = {"type" : "update_extra"}
-        to_send["HP"] = this.attributes["HP"]
-        to_send["maxHP"] = this.attributes["maxHP"]
+        to_send["HP"]    = int(this.attributes["HP"])
+        to_send["maxHP"] = int(this.attributes["maxHP"])
 
-        to_send["MP"] = this.attributes["MP"]
-        to_send["maxMP"] = this.attributes["maxMP"]
+        to_send["MP"]    = int(this.attributes["MP"])
+        to_send["maxMP"] = int(this.attributes["maxMP"])
 
-        to_send["gold"] = this.attributes["money"]
+        to_send["gold"]  = this.attributes["money"]
         to_send["level"] = this.attributes["level"]
-        to_send["exp"] = exp_req(this.attributes["level"]) - this.attributes["EXP"]
+        to_send["exp"]   = exp_req(this.attributes["level"]) - this.attributes["EXP"]
 
         to_send["spell"] = this.attributes["spells"][this.attributes["spell"]].image
-        to_send["item"] = this.attributes["consumable"].attributes["icon"]
+        to_send["item"]  = this.attributes["consumable"].attributes["icon"]
 
         to_send["weapon"] = this.attributes["weapon"].name
         to_send["hat"]    = this.attributes["hat"].name
@@ -351,6 +349,18 @@ class player(world_object.world_object):
         else:
             to_send["sidebar"] = this.attributes["sidebar"]
         this.attributes["pipe"].send(json.dumps(to_send))
+
+    def send_inventory(this):
+        # We send the json of this object. So why not just break data up into they types already?
+        to_send = {"type" : "inv", "weapon": [], "hat": [], "shirt" : [], "pants" : [], "ring" : [], "consumable" : []}
+
+        for itm in this.attributes["items"]:
+            # Add item to the list of it's type. Include name (with extra display stuff), desc, amount value.
+            to_send[itm.type].append(
+                {"name" : itm.name + itm.attributes["disp_data"] + ("(Equipped)" if this.attributes[itm.type] == itm else "")
+                , "amount" : itm.amount, "value" : itm.value, "desc" : itm.description});
+        this.attributes["pipe"].send(json.dumps(to_send))
+
 def exp_req(lvl): # Weird exponential/polynomial EXP requirement.
   return int(2 * 1.4 ** lvl + lvl ** 3 + lvl + 1)
 
