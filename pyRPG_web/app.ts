@@ -285,6 +285,19 @@ function print_background() {
     }
 }
 
+function draw_item_page(type: string, start: number) {
+    // Display one item per 2 lines, max of 8 on a page
+    for (let i = 0; i < 10; i++) {
+        if (start + i < inv_data[type].length) {
+            let item = inv_data[type][start + i];
+            printc(item.name  , 1, 2*i + 8);
+            printc(item.value.toString() , 50, 2*i + 8);
+            printc(item.amount.toString(), 65, 2*i + 8);
+
+            printc(item.desc, 2, 2*i + 9);
+        }
+    }
+}
 function print_inventory(type: string) {
     clear_screen();
     print_topbar();
@@ -305,21 +318,23 @@ function print_inventory(type: string) {
     }
     printc("Name/Description                                  Value          Amount", 0, 6)
     printc("--------------------------------------------------------------------------------", 0, 7) // I could make this string easier, but it's nice to just see length of it
-    // Display one item per 2 lines, max of 10 on a page
-    for (let i = 0; i < 10; i++) {
-        if (i < inv_data[type].length) {
-            let item = inv_data[type][i];
-            printc(item.name  , 1, 2*i + 8);
-            printc(item.value.toString() , 50, 2*i + 8);
-            printc(item.amount.toString(), 65, 2*i + 8);
 
-            printc(item.desc, 2, 2*i + 9);
-        }
-    }
+    draw_item_page(type, 0)
     printc(">", 0, 8); // Print cursor
+    inv_index = 0;
+    inv_type = type;
 }
 
 function inv_key_manager(event) {
+    let num_items = 8;
+    function clear_item_page() {
+        for (let x = 0; x < SCREEN_X; x++) {
+            for (let y = 8; y < SCREEN_Y; y++) {
+                set_chr(x, y, ' ', colors.WHITE, colors.BLACK);
+            }
+        }
+    }
+
     if (event.keyCode == key_codes.ESCAPE) { // Exit from inventory
         window.removeEventListener('keydown', inv_key_manager);
         print_background();
@@ -327,6 +342,46 @@ function inv_key_manager(event) {
         sock.send(JSON.stringify({type: "inv", data: "exit"}));
     } else if (event.keyCode >= '1'.charCodeAt(0) && event.keyCode <= '6'.charCodeAt(0)) {
         print_inventory(["weapon", "hat", "shirt", "pants", "ring", "consumable"][event.keyCode - '1'.charCodeAt(0)]);
+    } else if (event.keyCode == 'W'.charCodeAt(0) || event.keyCode == key_codes.UP_ARROW) { // Go up
+        // Check if at top of screen
+        if (inv_index % num_items) { // Not at top, so just go up.
+            printc(' ', 0, (inv_index-- % num_items) * 2 + 8);
+            printc('>', 0, (inv_index   % num_items) * 2 + 8)
+        } else {
+            if (inv_index) { // Not at first item. So go to previous page
+
+            } else { // first item, so go to end.
+                clear_item_page();
+                if (inv_data[inv_type].length % num_items) {
+                    // Draw last page of menu. However many items are there.
+                    draw_item_page(inv_type, inv_data[inv_type].length - (inv_data[inv_type].length % num_items));
+                    printc('>', 0, (inv_data[inv_type].length % num_items) * 2 + 6);
+                } else {
+                    // Number of total items is a multiple of how many fit
+                    // So we need to draw the page before that because blank pages are bad.
+                    draw_item_page(inv_type, inv_data[inv_type].length - num_items);
+                    printc('>', 0, num_items * 2 + 6); // Draw cursor at end.
+                }
+                inv_index = inv_data[inv_type].length - 1; // Set index to be the last.
+            }
+        }
+    } else if (event.keyCode == "S".charCodeAt(0) || event.keyCode == key_codes.DOWN_ARROW) { // Go down
+        printc(' ', 0, (inv_index++ % num_items) * 2 + 8);
+        if (inv_index != inv_data[inv_type].length) { // Not at the end.
+            if (inv_index % num_items) { // We weren't at bottom, so keep page
+                printc('>', 0, (inv_index % num_items) * 2 + 8);
+            } else { // We were at bottom, so print next page.
+
+            }
+        } else { // We were at the last.
+            // Wrap around to start of menu.
+            clear_item_page();
+            draw_item_page(inv_type, 0);
+            printc('>', 0, 8);
+            inv_index = 0;
+        }
+    } else if (event.keyCode == key_codes.ENTER) { // Item selected
+
     }
 }
 // End helper functions...
@@ -353,6 +408,8 @@ function server_connect(password) {
 
 let to_clear: tile[] = [];
 let inv_data = {}
+let inv_index = 0;
+let inv_type = "weapon";
 let in_inv = false;
 function get_data(event) {
     let data = JSON.parse(event.data);

@@ -247,6 +247,18 @@ function print_background() {
         }
     }
 }
+function draw_item_page(type, start) {
+    // Display one item per 2 lines, max of 8 on a page
+    for (var i = 0; i < 10; i++) {
+        if (start + i < inv_data[type].length) {
+            var item = inv_data[type][start + i];
+            printc(item.name, 1, 2 * i + 8);
+            printc(item.value.toString(), 50, 2 * i + 8);
+            printc(item.amount.toString(), 65, 2 * i + 8);
+            printc(item.desc, 2, 2 * i + 9);
+        }
+    }
+}
 function print_inventory(type) {
     clear_screen();
     print_topbar();
@@ -271,19 +283,20 @@ function print_inventory(type) {
     }
     printc("Name/Description                                  Value          Amount", 0, 6);
     printc("--------------------------------------------------------------------------------", 0, 7); // I could make this string easier, but it's nice to just see length of it
-    // Display one item per 2 lines, max of 10 on a page
-    for (var i = 0; i < 10; i++) {
-        if (i < inv_data[type].length) {
-            var item = inv_data[type][i];
-            printc(item.name, 1, 2 * i + 8);
-            printc(item.value.toString(), 50, 2 * i + 8);
-            printc(item.amount.toString(), 65, 2 * i + 8);
-            printc(item.desc, 2, 2 * i + 9);
-        }
-    }
+    draw_item_page(type, 0);
     printc(">", 0, 8); // Print cursor
+    inv_index = 0;
+    inv_type = type;
 }
 function inv_key_manager(event) {
+    var num_items = 8;
+    function clear_item_page() {
+        for (var x = 0; x < SCREEN_X; x++) {
+            for (var y = 8; y < SCREEN_Y; y++) {
+                set_chr(x, y, ' ', colors.WHITE, colors.BLACK);
+            }
+        }
+    }
     if (event.keyCode == key_codes.ESCAPE) {
         window.removeEventListener('keydown', inv_key_manager);
         print_background();
@@ -292,6 +305,51 @@ function inv_key_manager(event) {
     }
     else if (event.keyCode >= '1'.charCodeAt(0) && event.keyCode <= '6'.charCodeAt(0)) {
         print_inventory(["weapon", "hat", "shirt", "pants", "ring", "consumable"][event.keyCode - '1'.charCodeAt(0)]);
+    }
+    else if (event.keyCode == 'W'.charCodeAt(0) || event.keyCode == key_codes.UP_ARROW) {
+        // Check if at top of screen
+        if (inv_index % num_items) {
+            printc(' ', 0, (inv_index-- % num_items) * 2 + 8);
+            printc('>', 0, (inv_index % num_items) * 2 + 8);
+        }
+        else {
+            if (inv_index) {
+            }
+            else {
+                clear_item_page();
+                if (inv_data[inv_type].length % num_items) {
+                    // Draw last page of menu. However many items are there.
+                    draw_item_page(inv_type, inv_data[inv_type].length - (inv_data[inv_type].length % num_items));
+                    printc('>', 0, (inv_data[inv_type].length % num_items) * 2 + 6);
+                }
+                else {
+                    // Number of total items is a multiple of how many fit
+                    // So we need to draw the page before that because blank pages are bad.
+                    draw_item_page(inv_type, inv_data[inv_type].length - num_items);
+                    printc('>', 0, num_items * 2 + 6); // Draw cursor at end.
+                }
+                inv_index = inv_data[inv_type].length - 1; // Set index to be the last.
+            }
+        }
+    }
+    else if (event.keyCode == "S".charCodeAt(0) || event.keyCode == key_codes.DOWN_ARROW) {
+        printc(' ', 0, (inv_index++ % num_items) * 2 + 8);
+        if (inv_index != inv_data[inv_type].length) {
+            if (inv_index % num_items) {
+                printc('>', 0, (inv_index % num_items) * 2 + 8);
+            }
+            else {
+            }
+        }
+        else {
+            // Wrap around to start of menu.
+            clear_item_page();
+            draw_item_page(inv_type, 0);
+            printc('>', 0, 8);
+            inv_index = 0;
+        }
+    }
+    else if (event.keyCode == key_codes.ENTER) {
     }
 }
 // End helper functions...
@@ -314,6 +372,8 @@ function server_connect(password) {
 }
 var to_clear = [];
 var inv_data = {};
+var inv_index = 0;
+var inv_type = "weapon";
 var in_inv = false;
 function get_data(event) {
     var data = JSON.parse(event.data);

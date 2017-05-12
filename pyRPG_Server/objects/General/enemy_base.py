@@ -87,14 +87,16 @@ class enemy_base(world_object.world_object):
         # Where we are in the priority list
         priority_index = 0
         for drop in this.attributes["items"]:
-            print("Rolling drop...", drop)
+            print("[" + world.world_name + "] Rolling drop for", drop_priority[priority_index].attributes["name"], "drop=", drop, end="")
             # Roll die, see if it drops
             if random.randrange(0, 100) < (drop[1] * (1.0 + drop_priority[priority_index].attributes["luck"] / 100)):
                 drops[priority_index].append(drop[0]) # They got the item!
+                print("(Success)")
+            else:
+                print("(Failure)")
             priority_index += 1
             if priority_index >= len(drop_priority):
                 priority_index = 0
 
         for ind in range(len(drop_priority)): # For all players that damaged...
             world.objects.append(lootbag.lootbag(this.X, this.Y, drop_priority[ind], drops[ind])) # Give drops
-

@@ -1,6 +1,7 @@
 import time
 import traceback
 
+import display
 import world
 import setuptools
 
@@ -28,8 +29,10 @@ def handle_messages(map_name, pipe):
 # Runs the map with the given name and given queues
 def run_map(map_name, pipe):
     try:
+        display.init_logger(map_name)
+        display.end_logger()
         world.load(map_name.split(';')[0]) # Only load everything before first ;
-
+        world.world_name = map_name
         print("[" + map_name + "] Map started")
         start_time = time.clock()
         since_start = 0

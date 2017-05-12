@@ -1,4 +1,4 @@
-    # Color definitions
+# Color definitions
 WHITE = 0
 BLACK = 1
 RED = 2
@@ -89,6 +89,23 @@ def add_newlines(st, maxlen = 29):
 
   return ret
 
+logger = None
+world_name = "unknown"
+def init_logger(name):
+    global logger, world_name
+    world_name = name
+    logger = open('temp.txt', 'a')
+    logger.write("Logger started...\n")
+
+def end_logger():
+    logger.close()
+
+def log(data):
+    global logger, world_name
+    if logger is None:
+        pass
+    else:
+        print("[" + world_name + "]", data)
 
 class menu:
     def update(this):
