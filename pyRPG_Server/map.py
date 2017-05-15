@@ -30,10 +30,9 @@ def handle_messages(map_name, pipe):
 def run_map(map_name, pipe):
     try:
         display.init_logger(map_name)
-        display.end_logger()
         world.load(map_name.split(';')[0]) # Only load everything before first ;
         world.world_name = map_name
-        print("[" + map_name + "] Map started")
+        display.log("Map started")
         start_time = time.clock()
         since_start = 0
 
@@ -45,7 +44,7 @@ def run_map(map_name, pipe):
             # Calculate delta time
             delta_time = int((time.clock() - start_time) * 1000) - since_start
             if delta_time > 100:
-                print("Capped tick at", delta_time, "ms.", len(world.objects) + len(world.players), "objects total")
+                display.log("Capped tick at", delta_time, "ms.", len(world.objects) + len(world.players), "objects total")
                 delta_time = 100
             delta_time = max(0, delta_time) # Don't have ticks with negative time!
             since_start += delta_time
@@ -53,6 +52,7 @@ def run_map(map_name, pipe):
             print(delta_time, " ", end="\r")
 
             if handle_messages(map_name, pipe):
+                display.end_logger()
                 return
 
             world.to_del.clear()
@@ -107,16 +107,19 @@ def run_map(map_name, pipe):
 
                 # Send update to all players
                 for plr in world.players:
-                    if plr.attributes["using_inv"]:
-                        pass # TODO: what now?
-                    else:
-                        plr.attributes["pipe"].send(JSON.dumps(send_data))
-                    plr.send_extra_data()
+                    try:
+                        if plr.attributes["using_inv"]:
+                            pass # TODO: what now?
+                        else:
+                            plr.attributes["pipe"].send(JSON.dumps(send_data))
+                            plr.send_extra_data()
+                    except Exception as ex:
+                        pass
                 time_until_messages = 16 # Reset time
 
             if not continue_loop: # Nothing blocking.
                 pipe.send(("end", ))
-                print("[" + map_name + "] Ending map")
+                display.log("Ending map")
                 while pipe.recv() != ("end",): # Wait for acknowledge of end.
                     pass
                 return
@@ -124,8 +127,9 @@ def run_map(map_name, pipe):
 
     except Exception as ex:
         pipe.send(("end", ))
-        print("[" + map_name + "] Ending map due to error!")
-        print("[" + map_name + "]", traceback.format_exc())
+        display.log("Ending map due to error!")
+        display.log(str(traceback.format_exc()))
+        display.end_logger()
         while pipe.recv() != ("end",): # Wait for acknowledge of end.
             pass
         return

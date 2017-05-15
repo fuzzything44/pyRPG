@@ -80,7 +80,11 @@ class player(world_object.world_object):
     def update(this, delta_time):
         this.attributes["sidebar"] = ""
         if this.attributes["pipe"].poll():
-            message = json.loads(this.attributes["pipe"].recv())
+            try:
+                message = json.loads(this.attributes["pipe"].recv())
+            except Exception as ex:
+                world.to_del_plr.append(this)
+                return
             if message["type"] == 'keydown':
                 this.attributes["keys"][message["d"]] = True
             elif message["type"]== 'keyup':

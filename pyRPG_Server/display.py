@@ -1,3 +1,6 @@
+from time import gmtime, strftime
+
+
 # Color definitions
 WHITE = 0
 BLACK = 1
@@ -89,6 +92,7 @@ def add_newlines(st, maxlen = 29):
 
   return ret
 
+
 logger = None
 world_name = "unknown"
 def init_logger(name):
@@ -98,6 +102,7 @@ def init_logger(name):
     logger.write("Logger started...\n")
 
 def end_logger():
+    global logger
     logger.close()
 
 def log(data):
@@ -105,7 +110,7 @@ def log(data):
     if logger is None:
         pass
     else:
-        print("[" + world_name + "]", data)
+        print("[" + world_name + "]{" + strftime("%Y-%m-%d %H:%M:%S", gmtime()) + "}", data)
 
 class menu:
     def update(this):
