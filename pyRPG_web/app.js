@@ -117,31 +117,25 @@ function echo_text(start_x, start_y, x_len, callback) {
     var max_x = start_x + x_len;
     // Get keypresses and add them to the string.
     function key_listener(event) {
-        if (event.type == "keypress") {
-            if (event.keyCode == key_codes.ENTER) {
-                window.removeEventListener("keypress", key_listener, false);
-                window.removeEventListener("keydown", key_listener, false);
-                callback(to_echo);
-            }
+        var key_pressed = event.key;
+        if (key_pressed.length == 1) {
             if (current_x < max_x) {
-                var char = String.fromCharCode(event.keyCode);
-                printc(char, current_x, current_y);
+                printc(key_pressed, current_x, current_y);
                 current_x += 1;
-                to_echo += char;
+                to_echo += key_pressed;
             }
         }
-        else if (event.keyCode == key_codes.BACKSPACE && to_echo.length > 0) {
+        else if (key_pressed == 'Backspace' && current_x > start_x) {
             current_x -= 1;
             printc(' ', current_x, current_y);
             to_echo = to_echo.slice(0, -1);
         }
-        else if (event.keyCode == key_codes.SPACE && current_x < max_x) {
-            printc(' ', current_x, current_y);
-            current_x += 1;
-            to_echo += ' ';
+        else if (key_pressed == "Enter") {
+            window.removeEventListener("keydown", key_listener, false);
+            callback(to_echo);
         }
     }
-    window.addEventListener("keypress", key_listener, false);
+    //window.addEventListener("keypress", key_listener, false);
     window.addEventListener("keydown", key_listener, false);
 }
 function print_topbar() {
@@ -490,7 +484,8 @@ window.onload = function () {
     // Add listeners for keyboard events to stop random annoying scrolling
     window.addEventListener("keydown", function (event) {
         // Suppress behavior of tab, space, and arrow keys to stop them from moving around the keyboard.
-        if ([key_codes.TAB, key_codes.SPACE, key_codes.DOWN_ARROW, key_codes.LEFT_ARROW, key_codes.RIGHT_ARROW, key_codes.UP_ARROW].indexOf(event.keyCode) > -1) {
+        //  Also backspace so we don't go to previous pages on not Chrome.
+        if ([key_codes.TAB, key_codes.SPACE, key_codes.DOWN_ARROW, key_codes.LEFT_ARROW, key_codes.RIGHT_ARROW, key_codes.UP_ARROW, key_codes.BACKSPACE].indexOf(event.keyCode) > -1) {
             event.preventDefault();
         }
     }, false);
