@@ -8,22 +8,22 @@ import setuptools
 import json as JSON
 
 
-def handle_messages(map_name, pipe):
-    # Check queue for new messages.
-    if pipe.poll():
-        message = pipe.recv()
-        if message[0] == "add": # We're adding a player
-            if message[1].type == "player":
-                message[1].attributes["sidebar"] = ""
-                message[1].attributes["current_menu"] = None # Clear menu if it somehow kept through this...
-                message[1].attributes["pipe"].send(world.send_data)
-                world.players.append(message[1])
-                print("[" + map_name + "] Player", message[1].attributes["name"], "added to map")
-            else:
-                world.objects.append(message[1])
-        if message[0] == "end": # Forcibly end map
-            print("[" + map_name + "] Map forcibly ended.")
-            return True
+def handle_messages(pipe):
+    # Assume we have a message at this point
+    # We check in the caller to avoid a potential race condition.
+    message = pipe.recv()
+    if message[0] == "add": # We're adding a player
+        if message[1].type == "player":
+            message[1].attributes["sidebar"] = ""
+            message[1].attributes["current_menu"] = None # Clear menu if it somehow kept through this...
+            message[1].attributes["pipe"].send(world.send_data)
+            world.players.append(message[1])
+            display.log("Player " + message[1].attributes["name"] + " added to map")
+        else:
+            world.objects.append(message[1])
+    if message[0] == "end": # Forcibly end map
+        display.log("Map forcibly ended.")
+        return True
     return False
 
 # Runs the map with the given name and given queues
@@ -39,7 +39,7 @@ def run_map(map_name, pipe):
         time_until_messages = 0 # How many ms before we send out messages again. Let's not overload the client
         # We handle messages before entering the loop to avoid a race condition as
         #  the map is started before any message is sent (as not to overflow pipe's buffer)
-        handle_messages(map_name, pipe)
+        handle_messages(pipe)
         while True:
             # Calculate delta time
             delta_time = int((time.clock() - start_time) * 1000) - since_start
@@ -51,9 +51,11 @@ def run_map(map_name, pipe):
             time_until_messages -= delta_time
             print(delta_time, " ", end="\r")
 
-            if handle_messages(map_name, pipe):
-                display.end_logger()
-                return
+            # If there are messages, handle them.
+            if (pipe.poll()):
+                if handle_messages(pipe):
+                    display.end_logger()
+                    return
 
             world.to_del.clear()
             world.to_del_plr.clear()
@@ -120,6 +122,7 @@ def run_map(map_name, pipe):
             if not continue_loop: # Nothing blocking.
                 pipe.send(("end", ))
                 display.log("Ending map")
+                display.end_logger()
                 while pipe.recv() != ("end",): # Wait for acknowledge of end.
                     pass
                 return

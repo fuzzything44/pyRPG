@@ -99,7 +99,7 @@ class player(world_object.world_object):
         else:
             this.attributes["timeout"] += delta_time
             if this.attributes["timeout"] > 1000 * 10: # No ping in last 10s
-                print("Timeout")
+                display.log("Timeout: " + this.attributes["name"])
                 world.to_del_plr.append(this)
                 return
         if this.attributes["esc_menu"] is not None:
@@ -311,7 +311,7 @@ class player(world_object.world_object):
             this.Y = this.attributes["respawnY"]
             world.move_requests.append((this.attributes["respawnMap"], this))   # At last saved map...
             world.to_del_plr.append(this)                                       # Exit from this map.
-            print("Player died", this.attributes["name"])
+            display.log("Player died" + this.attributes["name"])
 
     def char(this):
         return 'P'

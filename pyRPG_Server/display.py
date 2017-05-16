@@ -98,11 +98,12 @@ world_name = "unknown"
 def init_logger(name):
     global logger, world_name
     world_name = name
-    logger = open('temp.txt', 'a')
-    logger.write("Logger started...\n")
+    logger = open("logs/" + world_name + '.logfile', 'a')
+    log("Logger started...")
 
 def end_logger():
     global logger
+    log("Ending logger\n")
     logger.close()
 
 def log(data):
@@ -110,6 +111,7 @@ def log(data):
     if logger is None:
         pass
     else:
+        logger.write("[" + world_name + "]{" + strftime("%Y-%m-%d %H:%M:%S", gmtime()) + "}" + str(data) + "\n")
         print("[" + world_name + "]{" + strftime("%Y-%m-%d %H:%M:%S", gmtime()) + "}", data)
 
 class menu:
