@@ -26,16 +26,15 @@ function make_color_pair(fgcolor: colors, bgcolor: colors): string {
     return "f" + color_to_chr(fgcolor) + " b" + color_to_chr(bgcolor);
 }
 
+function set_chr_from_elem(elem: HTMLElement, set_to: string, fgcolor: colors, bgcolor: colors) {
+    if (set_to == ' ') { set_to = "&nbsp;" } // Fix spaces to not break everything
+    elem.innerHTML = set_to;
+    elem.className = make_color_pair(fgcolor, bgcolor);
+}
 function set_chr(x: number, y: number, set_to: string, fgcolor: colors, bgcolor: colors) {
     let elem: HTMLElement = document.getElementById(x.toString() + "," + y.toString())
     if (elem != null) { // Make sure we got an actual element
-        if (set_to == " ") {
-            set_to = "&nbsp;";
-        }
-        // So set chr
-        elem.innerHTML = set_to; // make sure set_to is only 1 character
-        // And bgcolor
-        elem.className = make_color_pair(fgcolor, bgcolor);
+        set_chr_from_elem(elem, set_to, fgcolor, bgcolor);
     } else {
         // Maybe throw error here?
     }
@@ -198,14 +197,13 @@ function update_item(item: string) {
 
 }
 
+var old_equips = {"weapon" : "", "hat" : "", "shirt" : "", "pants" : "", "ring" : ""};
 function update_equip(equip_name: string, equip_type: string) {
-    // Create an array with all functions to call. Then index off that and call it
-    [(name) => printc(name + Array(39 - "Weapon:".length - name.length).join(' '), 39 + "Weapon:".length, 0),
-     (name) => printc(name + Array(39 - "hat:".length -    name.length).join(' '), 39 + "hat:".length, 1),
-     (name) => printc(name + Array(39 - "shirt:".length -  name.length).join(' '), 39 + "shirt:".length, 2),
-     (name) => printc(name + Array(39 - "pants:".length -  name.length).join(' '), 39 + "pants:".length, 3),
-     (name) => printc(name + Array(39 - "ring:".length -   name.length).join(' '), 39 + "ring:".length, 4)
-    ][["weapon", "hat", "shirt", "pants", "ring"].indexOf(equip_type)](equip_name);
+    // If name changed...
+    if (old_equips[equip_type] != equip_name) {
+        // Print name with whitespace at end to fully overwrite previous
+        printc(equip_name + Array(Math.max(0, equip_name.length - old_equips[equip_type].length)).join(' '), 40 + equip_type.length, ["weapon", "hat", "shirt", "pants", "ring"].indexOf(equip_type));
+    }
 }
 
 let old_sidebar = "";
@@ -230,20 +228,22 @@ class background_tile {
     char: string;
     loc_x: number;
     loc_y: number;
+    html_elem: HTMLElement;
     constructor(fgcolor: colors, bgcolor: colors, char: string, x: number, y: number) {
         this.fgc = fgcolor;
         this.bgc = bgcolor;
         this.char = char;
         this.loc_x = x;
         this.loc_y = y;
+        this.html_elem = document.getElementById(x.toString() + "," + (y + 5).toString());
     }
 
     print_self() {
-        set_chr(this.loc_x, this.loc_y + 5, this.char, this.fgc, colors.BLACK);
+        set_chr_from_elem(this.html_elem, this.char, this.fgc, colors.BLACK);
     }
 
     print_as_background(fgtile: string, fgcolor: colors) {
-        set_chr(this.loc_x, this.loc_y + 5, fgtile, fgcolor, this.bgc);
+        set_chr_from_elem(this.html_elem, fgtile, fgcolor, this.bgc);
     }
 }
 
@@ -296,7 +296,7 @@ function print_inventory(type: string) {
     clear_screen();
     print_topbar();
 
-    // Draw borders and column info stuff.
+    // Draw borders and column info stuff. Probably a better way to do this but whatever. Doesn't get called much.
     if (type == "weapon") {
         printc("Inventory: \\fyWeapons(1)\\fw Hats(2) Shirts(3) Pants(4) Rings(5) Consumables(6)", 0, 5)
     } else if (type == 'hat') {
@@ -312,9 +312,12 @@ function print_inventory(type: string) {
     }
     printc("Name/Description                                  Value          Amount", 0, 6)
     printc("--------------------------------------------------------------------------------", 0, 7) // I could make this string easier, but it's nice to just see length of it
-
-    draw_item_page(type, 0)
-    printc(">", 0, 8); // Print cursor
+    if (inv_data[type].length == 0) {
+        printc("There's nothing here...", 0, 8);
+    } else {
+        draw_item_page(type, 0)
+        printc(">", 0, 8); // Print cursor
+    }
     inv_index = 0;
     inv_type = type;
 }
@@ -337,13 +340,14 @@ function inv_key_manager(event) {
     } else if (event.keyCode >= '1'.charCodeAt(0) && event.keyCode <= '6'.charCodeAt(0)) {
         print_inventory(["weapon", "hat", "shirt", "pants", "ring", "consumable"][event.keyCode - '1'.charCodeAt(0)]);
     } else if (event.keyCode == 'W'.charCodeAt(0) || event.keyCode == key_codes.UP_ARROW) { // Go up
+        printc(' ', 0, (inv_index % num_items) * 2 + 8); // Remove previous cursor
         // Check if at top of screen
-        if (inv_index % num_items) { // Not at top, so just go up.
-            printc(' ', 0, (inv_index-- % num_items) * 2 + 8);
-            printc('>', 0, (inv_index   % num_items) * 2 + 8)
+        if (inv_index % num_items) { // Not at top, so print normally
+            printc('>', 0, (--inv_index   % num_items) * 2 + 8)
         } else {
-            if (inv_index) { // Not at first item. So go to previous page
-
+            if (inv_index--) { // Not at first item. So go to previous page
+                draw_item_page(inv_type, inv_index);
+                printc('>', 0, (inv_index % num_items) * 2 + 8)
             } else { // first item, so go to end.
                 clear_item_page();
                 if (inv_data[inv_type].length % num_items) {
@@ -365,7 +369,8 @@ function inv_key_manager(event) {
             if (inv_index % num_items) { // We weren't at bottom, so keep page
                 printc('>', 0, (inv_index % num_items) * 2 + 8);
             } else { // We were at bottom, so print next page.
-
+                draw_item_page(inv_type, inv_index);
+                printc('>', 0, (inv_index % num_items) * 2 + 8);
             }
         } else { // We were at the last.
             // Wrap around to start of menu.
@@ -374,8 +379,9 @@ function inv_key_manager(event) {
             printc('>', 0, 8);
             inv_index = 0;
         }
-    } else if (event.keyCode == key_codes.ENTER) { // Item selected
-
+    } else if (event.keyCode == key_codes.ENTER && inv_data[inv_type].length) { // Item selected
+        window.removeEventListener('keydown', inv_key_manager);
+        sock.send(JSON.stringify({ type: "inv", data: inv_data[inv_type][inv_index].index }));
     }
 }
 // End helper functions...
@@ -388,16 +394,28 @@ function ask_password(user) {
 }
 
 let sock: WebSocket;
+let ping_int;
 function server_connect(password) {
     clear_screen();
     print_topbar();
     sock = new WebSocket("ws://localhost:5000/ws");
     sock.onmessage = get_data;
-    sock.onopen = function(event) { sock.send(username); };
+    sock.onopen = function (event) { sock.send(username); };
     window.addEventListener("keydown", send_keys);
     window.addEventListener("keyup", send_keys);
 
-    window.setInterval(() => sock.send("{\"type\":\"ping\"}"), 1000); // Message every second so server knows we're still connected
+    ping_int = window.setInterval(function () {
+        try {
+            sock.send("{\"type\":\"ping\"}");
+        } catch (e) {
+            clear_screen();
+            window.removeEventListener('keydown', send_keys);
+            window.removeEventListener('keyup', send_keys);
+            window.clearInterval(ping_int);
+            printc("Error: " + e.message, 0, 10);
+        }
+
+    }, 1000); // Message every second so server knows we're still connected
 }
 
 let to_clear: tile[] = [];
@@ -450,7 +468,7 @@ function get_data(event) {
     } else if (data.type == "inv") {
         inv_data = data; // Save data for later
         in_inv = true;
-        print_inventory("weapon");
+        print_inventory(inv_type);
         window.addEventListener("keydown", inv_key_manager);
     }
 }
@@ -522,13 +540,13 @@ function send_keys(event) {
     try {
         if (!event.repeat) {
             if (event.type == "keydown") {
-                sock.send(JSON.stringify({ type : "keydown", d : keycode_to_send_val(event.keyCode) }));
+                sock.send(JSON.stringify({ type: "keydown", d: keycode_to_send_val(event.keyCode) }));
             } else if (event.type == "keyup") {
-                sock.send(JSON.stringify({ type : "keyup", d : keycode_to_send_val(event.keyCode) }));
+                sock.send(JSON.stringify({ type: "keyup", d: keycode_to_send_val(event.keyCode) }));
             }
         }
     } catch (e) {
-        // Pass. It's all good, we just can't send a packet.
+        // Let the error go. We don't care as if connection is lost it'll be caught by our ping
     }
 
 }

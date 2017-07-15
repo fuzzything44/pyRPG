@@ -79,29 +79,35 @@ class player(world_object.world_object):
 
     def update(this, delta_time):
         this.attributes["sidebar"] = ""
-        if this.attributes["pipe"].poll():
-            try:
+        try:
+            if this.attributes["pipe"].poll():
                 message = json.loads(this.attributes["pipe"].recv())
-            except Exception as ex:
-                world.to_del_plr.append(this)
-                return
-            if message["type"] == 'keydown':
-                this.attributes["keys"][message["d"]] = True
-            elif message["type"]== 'keyup':
-                this.attributes["keys"][message["d"]] = False
-            elif message["type"] == "inv":
-                if message["data"] == "exit":
-                    # Just exit inv without doing anything
-                    this.attributes["using_inv"] = False
-                else: #
-                    pass # TODO: Actually add checking if there's stuff here.
-            this.attributes["timeout"] = 0
-        else:
-            this.attributes["timeout"] += delta_time
-            if this.attributes["timeout"] > 1000 * 10: # No ping in last 10s
-                display.log("Timeout: " + this.attributes["name"])
-                world.to_del_plr.append(this)
-                return
+                if message["type"] == 'keydown':
+                    this.attributes["keys"][message["d"]] = True
+                elif message["type"]== 'keyup':
+                    this.attributes["keys"][message["d"]] = False
+                elif message["type"] == "inv":
+                    if message["data"] == "exit":
+                        # Just exit inv without doing anything
+                        this.attributes["using_inv"] = False
+                    else: # Equip the item!
+                        to_equip = this.attributes["items"][message["data"]]
+                        print(to_equip)
+                        this.attributes[to_equip.type].unequip(this)  # Unequip other item
+                        this.attributes[to_equip.type] = to_equip     # Put in equipped slot
+                        to_equip.equip(this)                          # Equip
+
+                        this.send_inventory()
+                this.attributes["timeout"] = 0
+            else:
+                this.attributes["timeout"] += delta_time
+                if this.attributes["timeout"] > 1000 * 10: # No ping in last 10s
+                    display.log("Timeout: " + this.attributes["name"])
+                    world.to_del_plr.append(this)
+                    return
+        except Exception as ex:
+            world.to_del_plr.append(this)    
+            return
         if this.attributes["esc_menu"] is not None:
             opt = this.attributes["esc_menu"].update()
 
@@ -110,10 +116,10 @@ class player(world_object.world_object):
                     if opt == 0:
                         this.attributes["esc_menu"] = None
                     elif opt == 1:
-                        # TODO: remove this once full screen inventory works
-                        this.attributes["esc_menu"] = display.menu("Inventory\nMax HP: \\frRed\n\\fwMax MP: \\fbBlue\n\\fwMovement Speed: \\fgGreen\n\\fwAttack Speed: White\nMagic Power: \\fcCyan\n\\fwStrength: \\fmMagenta\n\\fwLuck: \\fyYellow\\fw", this, "Back", "Set Consumable", "Set Weapon", "Set Hat", "Set Shirt", "Set Pants", "Set Ring")
-                        this.attributes["esc_menu"].is_esc_menu = True
-                        this.attributes["esc_menu_type"] = "inv"
+                        this.attributes["esc_menu"] = None
+                        this.attributes["using_inv"] = True
+                        this.attributes["keys"] = bytearray(display.NUM_KEYS)
+                        this.send_inventory()
                     elif opt == 2:
                         options = [] # All options to go in the menu.
                         spell_list = this.attributes["spells"] # The spell corresponding to the option
@@ -134,26 +140,6 @@ class player(world_object.world_object):
                         this.attributes["esc_menu"] = None
                         world.to_del_plr.append(this)
                         return
-                elif this.attributes["esc_menu_type"] == "inv": # Let them choose what item to set
-                    # TODO: remove once full screen inventory works
-                    if opt == 0:
-                        this.attributes["esc_menu"] = display.menu("Options:", this, "Close Menu", "Inventory", "Spells", "Switch Spell Order","Exit Server")
-                        this.attributes["esc_menu"].is_esc_menu = True
-                        this.attributes["esc_menu_type"] = "main"
-                    else:
-                        # What type of item they are setting
-                        set_type = ["consumable", "weapon", "hat", "shirt", "pants", "ring"][opt - 1]
-                        this.attributes["set_name"] = set_type
-                        options = [] # All options to go in the menu.
-                        items = [] # The item corresponding to the option
-                        for itm in this.attributes["items"]:
-                            if itm.type == set_type:
-                                options.append(itm.name +"(" + str(itm.amount) + ")" + itm.attributes["disp_data"])
-                                items.append(itm)
-                        this.attributes["esc_menu"] = display.menu("Set to what?", this, "Back", *options)
-                        this.attributes["esc_menu"].is_esc_menu = True
-                        this.attributes["esc_menu_type"] = "set"
-                        this.attributes["set_list"] = items
                 elif this.attributes["esc_menu_type"] == "set": # Let them set an item
                     if opt != 0:
                         itm = this.attributes["set_list"][opt - 1]                  # Find chosen item
@@ -198,6 +184,7 @@ class player(world_object.world_object):
             this.attributes["esc_menu"].is_esc_menu = True
             this.attributes["esc_menu_type"] = "main"
 
+        # Inventory screen
         if this.attributes["keys"][display.KEY_INVENTORY]:
             this.attributes["using_inv"] = True
             this.attributes["keys"] = bytearray(display.NUM_KEYS)
@@ -358,11 +345,12 @@ class player(world_object.world_object):
         # We send the json of this object. So why not just break data up into they types already?
         to_send = {"type" : "inv", "weapon": [], "hat": [], "shirt" : [], "pants" : [], "ring" : [], "consumable" : []}
 
-        for itm in this.attributes["items"]:
+        for index in range(len(this.attributes["items"])):
+            itm = this.attributes["items"][index]
             # Add item to the list of it's type. Include name (with extra display stuff), desc, amount value.
             to_send[itm.type].append(
                 {"name" : itm.name + itm.attributes["disp_data"] + ("(Equipped)" if this.attributes[itm.type] == itm else "")
-                , "amount" : itm.amount, "value" : itm.value, "desc" : itm.description});
+                , "amount" : itm.amount, "value" : itm.value, "desc" : itm.description, "index" : index});
         this.attributes["pipe"].send(json.dumps(to_send))
 
 def exp_req(lvl): # Weird exponential/polynomial EXP requirement.

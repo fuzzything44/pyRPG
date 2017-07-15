@@ -44,7 +44,7 @@ def run_map(map_name, pipe):
             # Calculate delta time
             delta_time = int((time.clock() - start_time) * 1000) - since_start
             if delta_time > 100:
-                display.log("Capped tick at", delta_time, "ms.", len(world.objects) + len(world.players), "objects total")
+                display.log("Capped tick at " + str(delta_time) + "ms. " + str(len(world.objects)) + "objects, "+ str(len(world.players)) + " players total")
                 delta_time = 100
             delta_time = max(0, delta_time) # Don't have ticks with negative time!
             since_start += delta_time

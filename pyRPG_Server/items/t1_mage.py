@@ -6,7 +6,7 @@ class t1_mage_hat(item.item):
 
 class t1_mage_pants(item.item):
     def __init__(this, quantity = 1):
-        super().__init__("Pants of Power", "pants", 5, "These pants are only slightly\n sentient.", quantity, {"maxMP_mod" : 15})
+        super().__init__("Pants of Power", "pants", 5, "These pants are only slightly sentient.", quantity, {"maxMP_mod" : 15})
 
 class t1_mage_ring(item.item):
     def __init__(this, quantity = 1):
