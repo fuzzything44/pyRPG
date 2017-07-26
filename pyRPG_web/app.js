@@ -300,6 +300,8 @@ function inv_key_manager(event) {
     if (event.keyCode == key_codes.ESCAPE) {
         window.removeEventListener('keydown', inv_key_manager);
         print_background();
+        old_sidebar = ""; // Forces refresh of sidebar
+        lines_to_clear = 25; // Full refresh
         in_inv = false;
         sock.send(JSON.stringify({ type: "inv", data: "exit" }));
     }

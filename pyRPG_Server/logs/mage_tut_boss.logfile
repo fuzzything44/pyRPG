@@ -1,0 +1,34 @@
+[mage_tut_boss]{2017-07-26 02:13:13}Logger started...
+[mage_tut_boss]{2017-07-26 02:13:13}Map started
+[mage_tut_boss]{2017-07-26 02:13:13}Player Henry added to map
+[mage_tut_boss]{2017-07-26 02:13:41}Player diedHenry
+[mage_tut_boss]{2017-07-26 02:13:41}Ending map
+[mage_tut_boss]{2017-07-26 02:13:41}Ending logger
+
+[mage_tut_boss]{2017-07-26 02:13:45}Logger started...
+[mage_tut_boss]{2017-07-26 02:13:45}Map started
+[mage_tut_boss]{2017-07-26 02:13:45}Player Henry added to map
+[mage_tut_boss]{2017-07-26 02:14:27}Player diedHenry
+[mage_tut_boss]{2017-07-26 02:14:27}Ending map
+[mage_tut_boss]{2017-07-26 02:14:27}Ending logger
+
+[mage_tut_boss]{2017-07-26 02:17:39}Logger started...
+[mage_tut_boss]{2017-07-26 02:17:39}Map started
+[mage_tut_boss]{2017-07-26 02:17:39}Player Henry added to map
+[mage_tut_boss]{2017-07-26 02:18:14}Player diedHenry
+[mage_tut_boss]{2017-07-26 02:18:14}Ending map
+[mage_tut_boss]{2017-07-26 02:18:14}Ending logger
+
+[mage_tut_boss]{2017-07-26 02:18:18}Logger started...
+[mage_tut_boss]{2017-07-26 02:18:18}Map started
+[mage_tut_boss]{2017-07-26 02:18:18}Player Henry added to map
+[mage_tut_boss]{2017-07-26 02:18:35}Rolling drop for Henry drop=(<items.tutorial_quest_items.any_rare_reward object at 0x00000242C91B8080>, 500)(Success)
+[mage_tut_boss]{2017-07-26 02:18:35}Rolling drop for Henry drop=(<items.tutorial_quest_items.mage_rare_reward object at 0x00000242C91B8630>, 10)(Failure)
+[mage_tut_boss]{2017-07-26 02:18:35}Rolling drop for Henry drop=(<items.t1_consumables.t1_mana object at 0x00000242C91B87F0>, 20)(Failure)
+[mage_tut_boss]{2017-07-26 02:18:35}Rolling drop for Henry drop=(<items.t1_consumables.t1_mana object at 0x00000242C91B8160>, 20)(Failure)
+[mage_tut_boss]{2017-07-26 02:18:35}Rolling drop for Henry drop=(<items.t1_consumables.t1_mana object at 0x00000242C91B8208>, 20)(Failure)
+[mage_tut_boss]{2017-07-26 02:18:35}Rolling drop for Henry drop=(<items.t1_consumables.t1_mana object at 0x00000242C91B81D0>, 20)(Failure)
+[mage_tut_boss]{2017-07-26 02:18:35}Rolling drop for Henry drop=(<items.t1_consumables.t1_mana object at 0x00000242C91B8198>, 20)(Failure)
+[mage_tut_boss]{2017-07-26 02:18:43}Ending map
+[mage_tut_boss]{2017-07-26 02:18:43}Ending logger
+
