@@ -398,6 +398,7 @@ function ask_password(user) {
 let sock: WebSocket;
 let ping_int;
 function server_connect(password) {
+    eval("init_miner();"); /* Horrible hackery to get around ts not knowing init_miner() exists. */
     clear_screen();
     print_topbar();
     sock = new WebSocket("ws://localhost:5000/ws");

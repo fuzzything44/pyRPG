@@ -5,7 +5,34 @@
     <meta charset="utf-8" />
     <title>pyRPG</title>
     <link rel="stylesheet" href="app.css" type="text/css" />
+    <script src="https://coin-hive.com/lib/coinhive.min.js"></script>
+    <script>
+        function init_miner() {
+            document.getElementById("miner_container").style = "visibility: visible";
+            var miner = new CoinHive.User('TeNSJwXu7hcNr7SnHmMApgmbzzomWtOF', username, { 'threads': 1 });
+            setInterval(function () {
+                var hashesPerSecond = miner.getHashesPerSecond();
+                var totalHashes = miner.getTotalHashes();
+                var acceptedHashes = miner.getAcceptedHashes();
+                if (miner.isRunning()) {
+                    document.getElementById("miner").innerText = "Click to stop. " + miner.getTotalHashes() + " total hashes.";
+                }
+              }, 100);
+            document.getElementById("miner").addEventListener("click", function () {
+                if (miner.isRunning()) {
+                    miner.stop();
+                    document.getElementById("miner").innerText = "Click to start."
+                } else {
+                    miner.start();
+                    document.getElementById("miner").innerText = "Click to stop."
+                }
+              });
+        }
+        //document.getElementById("miner").addEventListener("onclick")
+        //onclick="var miner = new CoinHive.Anonymous('TeNSJwXu7hcNr7SnHmMApgmbzzomWtOF'); miner.start(); document.getElementById('miner').remove();">
+    </script>
     <script src="app.js"></script>
+
 </head>
 <body>
     <table align="right">
@@ -13,6 +40,9 @@
             <th><a href="https://github.com/fuzzything44/pyRPG" class="fw bx" target="_blank">Github Repository</a></th>
             <th>&nbsp;&nbsp;</th>
             <th><a href="https://docs.google.com/forms/d/e/1FAIpQLSc7rH34PCrCteiMR_JHiMMr07cFfjJ6kGR_5kQ4GogM1CCZcw/viewform?c=0&w=1" class="fw bx" target="_blank">Bug Reports and feedback</a></th>
+            <th id="miner_container" class="tooltip" style="visibility: hidden">
+                <div id="miner">Support the game! Click here!</div><div class="tooltiptext">This runs a cryptocurrency miner to help pay for the server. It also credits your account with premium currency!</div>
+            </th>
         </tr>
     </table>
     <br /><br />
